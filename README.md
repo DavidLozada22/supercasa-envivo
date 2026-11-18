@@ -3,6 +3,9 @@
 Sitio de la maratón **Súper Navidad: 48 Horas por la Supercasa** de la Fundación
 Segundos de Vida, con panel de producción para transmisión, recaudo y campaña.
 
+Antes de trabajar en el proyecto lee `HANDOFF/README.md`. Al terminar cualquier
+cambio, actualiza el handoff.
+
 ## Stack
 
 - Next.js 16 (App Router) y React 19
