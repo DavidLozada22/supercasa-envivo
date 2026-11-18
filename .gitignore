@@ -1,0 +1,11 @@
+node_modules
+.next
+.data
+.env*.local
+.vercel
+.DS_Store
+next-env.d.ts
+
+HANDOFF/PANEL-ACCESOS.md
+HANDOFF/secretos/
+.env*

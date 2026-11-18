@@ -1,0 +1,197 @@
+import type { PublicConfig } from "@/lib/types";
+import { Lock } from "lucide-react";
+import CopyHandler from "./CopyHandler";
+import StreamPlayer from "./StreamPlayer";
+import Tracker from "./Tracker";
+
+export default function LandingMarkup({ config }: { config: PublicConfig }) {
+  return (
+    <>
+      <CopyHandler />
+      <div className="landing-root">
+<div className="bg-pattern" aria-hidden="true"></div>
+
+  <div className="top-bar">
+    Ayúdanos a terminar <a href="#donar">LA SUPERCASA</a> • Más de 13 años regalando amor, esperanza y calidad de vida
+  </div>
+
+  <header>
+    <div className="nav-container">
+      <div className="brand-logo-text">Fundación <span>Segundos</span> de Vida</div>
+      <div className="nav-actions">
+        <div className="live-pill">
+          <span className="pulse-dot"></span> En Vivo • 48 Horas
+        </div>
+        <a href="#donar" className="nav-donate-btn">Donar Ahora</a>
+      </div>
+    </div>
+  </header>
+
+  <main className="container">
+    
+    <section className="hero-showcase">
+      <div className="hero-mascot left">
+        <img src="/bombero.png" alt="Súper Calvito Bombero" />
+      </div>
+
+      <div className="hero-header">
+        <div className="kicker">#SuperNavidad48H • #PonteLaCapa</div>
+        <h1>Ningún niño debería luchar solo.</h1>
+        <p className="hero-sub">
+          Acompáñanos durante <strong>48 horas continuas</strong> en esta maratón solidaria por <strong>La Supercasa</strong>. Cada aporte transforma pequeños gestos en grandes oportunidades llenas de alegría.
+        </p>
+      </div>
+
+      <div className="hero-mascot right">
+        <img src="/doctora.png" alt="Súper Calvito Doctora" />
+      </div>
+    </section>
+
+    <StreamPlayer stream={config.stream} />
+
+
+    <Tracker initialRaised={config.totals.raised} initialGoal={config.totals.goal} />
+
+    
+    <section className="squad-section" aria-label="Escuadrón Súper Calvitos">
+      <span className="squad-badge">Nuestros Pequeños Héroes</span>
+      <h2>Los sueños que construimos juntos en La Supercasa</h2>
+      <p>Cada donación impulsa los sueños de nuestros Súper Calvitos y les brinda un hogar lleno de cuidado, juego y esperanza.</p>
+
+      <div className="squad-grid">
+        <div className="squad-card">
+          <img src="/bombero.png" alt="Quiero ser bombero" />
+        </div>
+        <div className="squad-card">
+          <img src="/doctora.png" alt="Quiero ser doctora" />
+        </div>
+        <div className="squad-card">
+          <img src="/piloto.png" alt="Quiero ser piloto" />
+        </div>
+        <div className="squad-card">
+          <img src="/policia.png" alt="Quiero ser policía" />
+        </div>
+        <div className="squad-card">
+          <img src="/chef.png" alt="Quiero ser chef" />
+        </div>
+        <div className="squad-card">
+          <img src="/constructor.png" alt="Quiero ser constructor" />
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="donar">
+      <div className="section-title">
+        <h2>¿Cómo puedes sumarte hoy?</h2>
+        <p>Elige tu medio favorito para aportar a la construcción de La Supercasa. Todo suma para nuestros pequeños guerreros y sus familias.</p>
+      </div>
+
+      <div className="cards-grid">
+        
+        <div className="card">
+          <div className="card-top">
+            <span className="card-tag tag-breb">Transferencia Inmediata</span>
+            <h3>Llave Bre-B</h3>
+            <p className="card-desc">Envía tu aporte al instante desde la app de cualquier banco en Colombia usando nuestra llave oficial:</p>
+            <div className="dato-box">
+              <span>Llave oficial Bre-B:</span>
+              <span className="dato-destacado">@lasupercasa</span>
+              <small>A nombre de: Fundación Segundos de Vida</small>
+            </div>
+          </div>
+          <button className="btn-pill btn-magenta" data-copy="@lasupercasa">Copiar Llave @lasupercasa</button>
+        </div>
+
+        
+        <div className="card">
+          <div className="card-top">
+            <span className="card-tag tag-banco">Cuenta Oficial</span>
+            <h3>Bancolombia</h3>
+            <p className="card-desc">Realiza tu transferencia o consignación directa a la cuenta de ahorros de la Fundación:</p>
+            <div className="dato-box">
+              <span>Cuenta de Ahorros Bancolombia:</span>
+              <span className="dato-destacado">186-000090-54</span>
+              <small>Fundación Segundos de Vida • NIT 900.649.809-2</small>
+            </div>
+          </div>
+          <button className="btn-pill" data-copy="18600009054">Copiar Número de Cuenta</button>
+        </div>
+
+        
+        <div className="card">
+          <div className="card-top">
+            <span className="card-tag tag-web">Tarjetas / PSE / Internacional</span>
+            <h3>Donación en Línea</h3>
+            <p className="card-desc">Aporta desde cualquier lugar del mundo con tarjeta débito, crédito o PSE a través de nuestro portal:</p>
+            <div className="dato-box">
+              <span>Portal oficial de la Fundación:</span>
+              <span className="dato-destacado dato-url">supercasa.segundosdevida.com</span>
+              <small>Ingresa y haz clic en el botón de Donaciones</small>
+            </div>
+          </div>
+          <a href="https://supercasa.segundosdevida.com/" target="_blank" rel="noopener" className="btn-pill">Ir a supercasa.segundosdevida.com &raquo;</a>
+        </div>
+      </div>
+    </section>
+
+    
+    <section className="sponsors-section">
+      <h4>Aliados y Patrocinadores que se ponen la capa</h4>
+      <div className="sponsor-list">
+        <div className="sponsor-item">TerraFerme</div>
+        <div className="sponsor-item">HivraTech</div>
+        <div className="sponsor-item">ServImagenes</div>
+        <div className="sponsor-item">Intesi</div>
+      </div>
+    </section>
+
+    
+    <section className="social-wrapper">
+      <div className="social-group">
+        <div className="social-group-title">Redes Fundación Segundos de Vida</div>
+        <div className="social-bar">
+          <a className="social-link" href="https://instagram.com/segundosdevidafundacion" target="_blank" rel="noopener">Instagram @segundosdevidafundacion</a>
+          <a className="social-link" href="https://youtube.com/@segundosdevidafsv" target="_blank" rel="noopener">YouTube @segundosdevidafsv</a>
+          <a className="social-link" href="https://www.facebook.com/share/1EPQyRAsbk/" target="_blank" rel="noopener">Facebook Oficial</a>
+        </div>
+      </div>
+
+      <div className="social-group">
+        <div className="social-group-title">Producción y Comunidad Kavanah</div>
+        <div className="social-bar">
+          <a className="social-link social-link-kavanah" href="https://www.tiktok.com/@kavanah35" target="_blank" rel="noopener">TikTok @kavanah35</a>
+          <a className="social-link social-link-kavanah" href="https://www.instagram.com/kavanahpl35" target="_blank" rel="noopener">Instagram @kavanahpl35</a>
+          <a className="social-link social-link-kavanah" href="https://www.youtube.com/@KavanahPL35" target="_blank" rel="noopener">YouTube @KavanahPL35</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div className="footer-hashtags">#SuperNavidad48H &nbsp;•&nbsp; #PonteLaCapa &nbsp;•&nbsp; #48HorasPorLaSupercasa &nbsp;•&nbsp; #SegundosDeVida</div>
+    <p>Fundación Segundos de Vida • NIT 900.649.809-2 • Niños hoy. Héroes siempre.</p>
+    <p className="mt-8 text-center text-xs text-white/30">
+      © {new Date().getFullYear()} Fundación Segundos de Vida. All Rights Reserved. | Built by{" "}
+      <a
+        href="https://svgvisual.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold text-[#E6009E] transition hover:brightness-110"
+      >
+        SVG
+      </a>
+    </p>
+    <a
+      href="/admin"
+      aria-label="Panel de producción"
+      title="Panel de producción"
+      className="mx-auto mt-4 flex h-9 w-9 items-center justify-center rounded-full text-white/20 transition hover:bg-white/10 hover:text-[#B5F43D]"
+    >
+      <Lock className="h-4 w-4" strokeWidth={1.75} />
+    </a>
+  </footer>
+      </div>
+    </>
+  );
+}
