@@ -4,18 +4,16 @@ import { cookies } from "next/headers";
 export const SESSION_COOKIE = "sc_admin";
 const SESSION_HOURS = 12;
 
+export type Session = {
+  username: string;
+};
+
 function secret(): string {
   return (
     process.env.ADMIN_SESSION_SECRET ||
     process.env.ADMIN_PASSWORD ||
     "dev-secret-supercasa-envivo"
   );
-}
-
-function adminPassword(): string | null {
-  if (process.env.ADMIN_PASSWORD) return process.env.ADMIN_PASSWORD;
-  if (process.env.NODE_ENV !== "production") return "supercasa2026";
-  return null;
 }
 
 function safeEqual(a: string, b: string): boolean {
@@ -25,33 +23,38 @@ function safeEqual(a: string, b: string): boolean {
   return crypto.timingSafeEqual(left, right);
 }
 
-export function verifyPassword(candidate: string): boolean {
-  const expected = adminPassword();
-  if (!expected) return false;
-  return safeEqual(candidate, expected);
-}
-
 function sign(payload: string): string {
   return crypto.createHmac("sha256", secret()).update(payload).digest("hex");
 }
 
-export function createSessionValue(): string {
+export function createSessionValue(username: string): string {
   const expires = String(Date.now() + SESSION_HOURS * 60 * 60 * 1000);
-  return `${expires}.${sign(expires)}`;
+  const clean = username.replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40);
+  const payload = `${expires}.${clean}`;
+  return `${payload}.${sign(payload)}`;
 }
 
-export function isValidSession(value: string | undefined): boolean {
-  if (!value) return false;
-  const [expires, signature] = value.split(".");
-  if (!expires || !signature) return false;
-  if (!/^\d+$/.test(expires)) return false;
-  if (Number(expires) < Date.now()) return false;
-  return safeEqual(signature, sign(expires));
+export function readSession(value: string | undefined): Session | null {
+  if (!value) return null;
+  const parts = value.split(".");
+  if (parts.length !== 3) return null;
+  const [expires, username, signature] = parts;
+  if (!/^\d+$/.test(expires)) return null;
+  if (Number(expires) < Date.now()) return null;
+  if (!username) return null;
+
+  const payload = `${expires}.${username}`;
+  if (!safeEqual(signature, sign(payload))) return null;
+  return { username };
+}
+
+export async function getSession(): Promise<Session | null> {
+  const store = await cookies();
+  return readSession(store.get(SESSION_COOKIE)?.value);
 }
 
 export async function isAuthenticated(): Promise<boolean> {
-  const store = await cookies();
-  return isValidSession(store.get(SESSION_COOKIE)?.value);
+  return Boolean(await getSession());
 }
 
 export const sessionCookieOptions = {

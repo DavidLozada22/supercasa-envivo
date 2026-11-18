@@ -5,6 +5,7 @@ import { DEFAULT_EMBED_URL } from "./youtube";
 export const DEFAULT_CONFIG: AppConfig = {
   stream: {
     youtubeUrl: "https://www.youtube.com/@KavanahPL35/live",
+    videoId: "",
     embedUrl:
       DEFAULT_EMBED_URL,
     rtmpUrl: "rtmp://a.rtmp.youtube.com/live2",
@@ -48,6 +49,7 @@ export function normalizeConfig(raw: unknown): AppConfig {
   return {
     stream: {
       youtubeUrl: asString(stream.youtubeUrl, DEFAULT_CONFIG.stream.youtubeUrl),
+      videoId: asString(stream.videoId, ""),
       embedUrl: asString(stream.embedUrl, DEFAULT_CONFIG.stream.embedUrl),
       rtmpUrl: asString(stream.rtmpUrl, DEFAULT_CONFIG.stream.rtmpUrl),
       streamKey: asString(stream.streamKey, ""),
@@ -90,6 +92,7 @@ export function toPublicConfig(config: AppConfig): PublicConfig {
   return {
     stream: {
       youtubeUrl: config.stream.youtubeUrl,
+      videoId: config.stream.videoId,
       embedUrl: config.stream.embedUrl,
       backupUrl: config.stream.backupUrl,
     },

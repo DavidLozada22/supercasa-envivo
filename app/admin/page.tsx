@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import AdminDashboard from "@/components/admin/AdminDashboard";
-import { isAuthenticated } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { getConfig } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,8 @@ export const metadata = {
 };
 
 export default async function AdminPage() {
-  if (!(await isAuthenticated())) redirect("/admin/login");
+  const session = await getSession();
+  if (!session) redirect("/admin/login");
   const config = await getConfig();
-  return <AdminDashboard initialConfig={config} />;
+  return <AdminDashboard initialConfig={config} user={session.username} />;
 }

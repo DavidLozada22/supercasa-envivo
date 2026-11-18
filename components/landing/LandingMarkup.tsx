@@ -1,4 +1,5 @@
 import type { PublicConfig } from "@/lib/types";
+import { Lock } from "lucide-react";
 import CopyHandler from "./CopyHandler";
 import StreamPlayer from "./StreamPlayer";
 import Tracker from "./Tracker";
@@ -181,6 +182,14 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
         SVG
       </a>
     </p>
+    <a
+      href="/admin"
+      aria-label="Panel de producción"
+      title="Panel de producción"
+      className="mx-auto mt-4 flex h-9 w-9 items-center justify-center rounded-full text-white/20 transition hover:bg-white/10 hover:text-[#B5F43D]"
+    >
+      <Lock className="h-4 w-4" strokeWidth={1.75} />
+    </a>
   </footer>
       </div>
     </>

@@ -1,5 +1,6 @@
 export type StreamConfig = {
   youtubeUrl: string;
+  videoId: string;
   embedUrl: string;
   rtmpUrl: string;
   streamKey: string;
@@ -33,7 +34,7 @@ export type AppConfig = {
 };
 
 export type PublicConfig = {
-  stream: Pick<StreamConfig, "youtubeUrl" | "embedUrl" | "backupUrl">;
+  stream: Pick<StreamConfig, "youtubeUrl" | "videoId" | "embedUrl" | "backupUrl">;
   totals: Totals;
   campaign: CampaignConfig;
   meta: Pick<MetaConfig, "pixelId">;

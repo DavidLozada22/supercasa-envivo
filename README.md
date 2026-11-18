@@ -27,21 +27,41 @@ La configuración se guarda en `.data/config.json` cuando no hay Blob conectado.
 
 Cuatro secciones:
 
-1. **Transmisión**: enlace del directo y de respaldo, más servidor RTMP y clave
-   para OBS. La clave es privada: nunca se envía al sitio público.
+1. **Transmisión**: enlace del directo, ID del video, servidor RTMP y clave para
+   OBS. La clave es privada: nunca se envía al sitio público.
 2. **Recaudo**: monto recaudado, meta y avance. La landing consulta `/api/live`
    cada cinco segundos.
 3. **Campaña**: nombre, hashtags y ventana de la maratón.
 4. **Meta Ads**: pixel, cuenta publicitaria y métricas de los últimos 30 días.
 
+La audiencia nunca sale a YouTube: el reproductor usa la IFrame API con
+`controls: 0` y máscaras sobre el título y el logo, más una capa que bloquea los
+clics. Los controles (play, mute, pantalla completa) son propios.
+
+El QR del bloque de streaming apunta a `/donar`, la página interna con las tres
+opciones de pago. Se genera en el servidor con el host de la petición.
+
+## Usuarios
+
+Los usuarios viven en la variable `ADMIN_USERS` (JSON con salt y hash scrypt).
+Para crear una entrada:
+
+```bash
+node scripts/hash-password.mjs nelson "Nelson"
+```
+
+En desarrollo, si `ADMIN_USERS` está vacío, existe el usuario `nelson` con la
+clave `supercasa2026`. En producción no hay usuarios por defecto.
+
 ## Variables de entorno
 
 | Variable | Uso |
 | --- | --- |
-| `ADMIN_PASSWORD` | Clave del panel. Obligatoria en producción. |
+| `ADMIN_USERS` | JSON con los usuarios del panel (salt y hash scrypt). Obligatoria en producción. |
 | `ADMIN_SESSION_SECRET` | Firma de la cookie de sesión. |
 | `BLOB_READ_WRITE_TOKEN` | Almacenamiento de la configuración. Se conecta desde Vercel Marketplace. |
 | `META_ACCESS_TOKEN` | Token de la Marketing API para leer métricas. |
+| `NEXT_PUBLIC_SITE_URL` | Dominio público para el QR. Opcional. |
 
 ## Despliegue
 

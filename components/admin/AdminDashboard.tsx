@@ -21,7 +21,7 @@ import {
   Youtube,
 } from "lucide-react";
 import type { AppConfig } from "@/lib/types";
-import { youtubeEmbedUrl } from "@/lib/youtube";
+import { youtubeEmbedUrl, youtubeVideoId } from "@/lib/youtube";
 
 type MetaMetrics = {
   connected: boolean;
@@ -100,7 +100,13 @@ function CopyButton({
   );
 }
 
-export default function AdminDashboard({ initialConfig }: { initialConfig: AppConfig }) {
+export default function AdminDashboard({
+  initialConfig,
+  user,
+}: {
+  initialConfig: AppConfig;
+  user: string;
+}) {
   const router = useRouter();
   const [config, setConfig] = useState<AppConfig>(initialConfig);
   const [tab, setTab] = useState<TabId>("stream");
@@ -234,6 +240,15 @@ export default function AdminDashboard({ initialConfig }: { initialConfig: AppCo
         </div>
 
         <div className="space-y-2">
+          <div className="mb-3 flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-3">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E6009E] text-xs font-extrabold uppercase text-white">
+              {user.slice(0, 2)}
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-bold text-white">{user}</p>
+              <p className="text-[11px] text-white/45">Sesión activa</p>
+            </div>
+          </div>
           <a
             href="/"
             target="_blank"
@@ -347,6 +362,7 @@ export default function AdminDashboard({ initialConfig }: { initialConfig: AppCo
                           stream: {
                             ...current.stream,
                             youtubeUrl: value,
+                            videoId: youtubeVideoId(value),
                             embedUrl: youtubeEmbedUrl(value),
                           },
                         }));
@@ -356,6 +372,23 @@ export default function AdminDashboard({ initialConfig }: { initialConfig: AppCo
                   </Field>
 
                   <div className="grid gap-4 md:grid-cols-2">
+                    <Field
+                      label="ID del video"
+                      hint="Once caracteres. Es lo que permite enmascarar el reproductor y controlar la reproducción."
+                    >
+                      <input
+                        className={`${inputClass} font-mono text-xs`}
+                        value={config.stream.videoId}
+                        onChange={(event) =>
+                          setConfig((current) => ({
+                            ...current,
+                            stream: { ...current.stream, videoId: event.target.value.trim() },
+                          }))
+                        }
+                        placeholder="dQw4w9WgXcQ"
+                      />
+                    </Field>
+
                     <Field
                       label="URL embebida"
                       hint="Se calcula a partir del enlace del directo. Solo cámbiala si usas un canal fijo."
@@ -371,20 +404,20 @@ export default function AdminDashboard({ initialConfig }: { initialConfig: AppCo
                         }
                       />
                     </Field>
-
-                    <Field label="Enlace de respaldo" hint="Botón alterno para abrir el canal en YouTube.">
-                      <input
-                        className={inputClass}
-                        value={config.stream.backupUrl}
-                        onChange={(event) =>
-                          setConfig((current) => ({
-                            ...current,
-                            stream: { ...current.stream, backupUrl: event.target.value },
-                          }))
-                        }
-                      />
-                    </Field>
                   </div>
+
+                  <Field label="Enlace de respaldo" hint="Uso interno. No se muestra a la audiencia.">
+                    <input
+                      className={inputClass}
+                      value={config.stream.backupUrl}
+                      onChange={(event) =>
+                        setConfig((current) => ({
+                          ...current,
+                          stream: { ...current.stream, backupUrl: event.target.value },
+                        }))
+                      }
+                    />
+                  </Field>
                 </div>
               </section>
 
