@@ -7,7 +7,7 @@ const LOCAL_DIR = path.join(process.cwd(), ".data");
 const LOCAL_FILE = path.join(LOCAL_DIR, "config.json");
 
 function hasBlob(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_OIDC_TOKEN);
 }
 
 async function readFromBlob(): Promise<AppConfig | null> {
