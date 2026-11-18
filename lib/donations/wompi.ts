@@ -67,6 +67,11 @@ export function simulationAllowed(): boolean {
   return wompiConfig().mode === "mock" && process.env.VERCEL_ENV !== "production";
 }
 
+/** Los pagos con tarjeta se pueden ofrecer si hay llaves o si el flujo simulado aplica. */
+export function paymentsAvailable(): boolean {
+  return wompiConfig().mode !== "mock" || simulationAllowed();
+}
+
 const sha256 = (value: string) => createHash("sha256").update(value).digest("hex");
 
 export function integritySignature(

@@ -2,13 +2,21 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import CopyHandler from "@/components/landing/CopyHandler";
 import DonationForm from "@/components/donations/DonationForm";
+import { getConfig } from "@/lib/config";
+import { progress } from "@/lib/donations/service";
+import { paymentsAvailable } from "@/lib/donations/wompi";
 
 export const metadata = {
   title: "Opciones de pago | Súper Navidad por La Supercasa",
   description: "Llave Bre-B, cuenta Bancolombia y donación en línea para La Supercasa.",
 };
 
-export default function DonatePage() {
+export const dynamic = "force-dynamic";
+
+export default async function DonatePage() {
+  const [config, online] = await Promise.all([getConfig(), progress()]);
+  const raised = config.totals.raised + online.raisedCop;
+
   return (
     <div className="landing-root">
       <div className="bg-pattern" aria-hidden="true" />
@@ -42,7 +50,11 @@ export default function DonatePage() {
               Wompi y llega directo a la Fundación.
             </p>
           </div>
-          <DonationForm />
+          <DonationForm
+            available={paymentsAvailable()}
+            raised={raised}
+            goal={config.totals.goal}
+          />
         </section>
 
         <section id="donar" style={{ marginTop: "56px" }}>

@@ -21,6 +21,11 @@ export default function DonationThanks({ reference }: { reference: string }) {
   const [donation, setDonation] = useState<Donation | null>(null);
   const [missing, setMissing] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -134,6 +139,19 @@ export default function DonationThanks({ reference }: { reference: string }) {
           </Link>
         ) : null}
       </div>
+
+      {approved && origin ? (
+        <a
+          href={`https://wa.me/?text=${encodeURIComponent(
+            `Me uní a La Supercasa y ya puse mi pieza. Entra al live y dona: ${origin}`,
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-flex justify-center rounded-full bg-[#E6009E] px-5 py-2.5 text-sm font-bold text-white"
+        >
+          Compartir por WhatsApp
+        </a>
+      ) : null}
 
       {failed ? <span className="sr-only">{donation.status}</span> : null}
     </div>

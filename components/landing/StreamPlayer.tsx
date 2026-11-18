@@ -25,7 +25,7 @@ export default function StreamPlayer({ stream }: { stream: PublicConfig["stream"
             Supercasa.
           </p>
           <Link href="/donar" className="stream-donate-btn">
-            Ver opciones de pago
+            Donar ahora
           </Link>
         </div>
       </div>

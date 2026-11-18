@@ -50,7 +50,15 @@ function loadWidget(): Promise<void> {
   return widgetLoading;
 }
 
-export default function DonationForm() {
+export default function DonationForm({
+  available,
+  raised,
+  goal,
+}: {
+  available: boolean;
+  raised: number;
+  goal: number;
+}) {
   const router = useRouter();
   const [pieceId, setPieceId] = useState("ventana");
   const [custom, setCustom] = useState("");
@@ -63,6 +71,7 @@ export default function DonationForm() {
 
   const piece = PIECES.find((item) => item.id === pieceId) ?? PIECES[0];
   const amount = piece.amount > 0 ? piece.amount : Math.floor(Number(custom) || 0);
+  const pct = goal > 0 ? Math.min(100, (raised / goal) * 100) : 0;
 
   const pay = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -147,6 +156,29 @@ export default function DonationForm() {
       onSubmit={pay}
       className="mx-auto w-full max-w-3xl rounded-3xl border border-[#0F2354]/10 bg-white p-6 shadow-[0_18px_40px_rgba(15,35,84,0.10)] md:p-8"
     >
+      <div className="mb-7">
+        <div className="flex items-center justify-between text-xs font-bold text-[#0F2354]">
+          <span>Recaudado hasta ahora</span>
+          <span>{pct.toLocaleString("es-CO", { maximumFractionDigits: 1 })}%</span>
+        </div>
+        <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-[#E6009E] to-[#FF6B2B]"
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+        <p className="mt-1.5 text-[11px] text-slate-500">
+          {cop.format(raised)} de {cop.format(goal)}
+        </p>
+      </div>
+
+      {!available ? (
+        <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-800">
+          Los pagos con tarjeta están en configuración. Mientras tanto, usa la llave Bre-B o la
+          cuenta Bancolombia que están más abajo.
+        </div>
+      ) : null}
+
       <fieldset>
         <legend className="text-sm font-extrabold uppercase tracking-[0.14em] text-[#E6009E]">
           1. Elige tu aporte
@@ -187,6 +219,7 @@ export default function DonationForm() {
               type="number"
               min={MIN_AMOUNT}
               step={1000}
+              inputMode="numeric"
               value={custom}
               onChange={(event) => setCustom(event.target.value)}
               placeholder="50000"
@@ -249,7 +282,10 @@ export default function DonationForm() {
       </fieldset>
 
       {error ? (
-        <p className="mt-4 flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+        <p
+          role="alert"
+          className="mt-4 flex items-start gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700"
+        >
           <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
           {error}
         </p>
@@ -257,7 +293,7 @@ export default function DonationForm() {
 
       <button
         type="submit"
-        disabled={loading}
+        disabled={loading || !available}
         className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#E6009E] px-6 py-4 text-base font-extrabold text-white transition hover:bg-[#B8007E] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading ? (
@@ -265,7 +301,11 @@ export default function DonationForm() {
         ) : (
           <CreditCard className="h-5 w-5" strokeWidth={2} />
         )}
-        {loading ? "Abriendo el pago" : `Aportar ${amount > 0 ? cop.format(amount) : ""}`}
+        {!available
+          ? "Pagos en línea próximamente"
+          : loading
+            ? "Abriendo el pago"
+            : `Aportar ${amount > 0 ? cop.format(amount) : ""}`}
       </button>
 
       <p className="mt-3 flex items-center justify-center gap-2 text-center text-[11px] text-slate-400">

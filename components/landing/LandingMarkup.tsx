@@ -1,6 +1,7 @@
 import type { PublicConfig } from "@/lib/types";
 import { Lock } from "lucide-react";
 import CopyHandler from "./CopyHandler";
+import StickyDonate from "./StickyDonate";
 import StreamPlayer from "./StreamPlayer";
 import Tracker from "./Tracker";
 
@@ -8,11 +9,11 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
   return (
     <>
       <CopyHandler />
-      <div className="landing-root">
+      <div className="landing-root pb-24 md:pb-0">
 <div className="bg-pattern" aria-hidden="true"></div>
 
   <div className="top-bar">
-    Ayúdanos a terminar <a href="#donar">LA SUPERCASA</a> • Más de 13 años regalando amor, esperanza y calidad de vida
+    Ayúdanos a terminar <a href="/donar">LA SUPERCASA</a> • Más de 13 años regalando amor, esperanza y calidad de vida
   </div>
 
   <header>
@@ -22,7 +23,7 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
         <div className="live-pill">
           <span className="pulse-dot"></span> En Vivo • 48 Horas
         </div>
-        <a href="#donar" className="nav-donate-btn">Donar Ahora</a>
+        <a href="/donar" className="nav-donate-btn">Donar Ahora</a>
       </div>
     </div>
   </header>
@@ -191,6 +192,7 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
       <Lock className="h-4 w-4" strokeWidth={1.75} />
     </a>
   </footer>
+      <StickyDonate />
       </div>
     </>
   );
