@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import CopyHandler from "@/components/landing/CopyHandler";
+import DonationForm from "@/components/donations/DonationForm";
 
 export const metadata = {
   title: "Opciones de pago | Súper Navidad por La Supercasa",
@@ -33,12 +34,23 @@ export default function DonatePage() {
       </header>
 
       <main className="container">
-        <section id="donar" style={{ marginTop: "48px" }}>
+        <section style={{ marginTop: "48px" }}>
           <div className="section-title">
-            <h2>¿Cómo puedes sumarte hoy?</h2>
+            <h2>Haz tu aporte ahora</h2>
             <p>
-              Elige tu medio favorito para aportar a la construcción de La Supercasa. Todo suma para
-              nuestros pequeños guerreros y sus familias.
+              Elige una pieza de La Supercasa y paga con tarjeta, PSE o Nequi. El pago lo procesa
+              Wompi y llega directo a la Fundación.
+            </p>
+          </div>
+          <DonationForm />
+        </section>
+
+        <section id="donar" style={{ marginTop: "56px" }}>
+          <div className="section-title">
+            <h2>O paga por transferencia</h2>
+            <p>
+              Si prefieres tu banco de siempre, usa la llave Bre-B o la cuenta de ahorros de la
+              Fundación.
             </p>
           </div>
 

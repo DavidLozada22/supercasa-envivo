@@ -6,5 +6,6 @@ node_modules
 .DS_Store
 next-env.d.ts
 
-HANDOFF/
+HANDOFF/PANEL-ACCESOS.md
+HANDOFF/secretos/
 .env*
