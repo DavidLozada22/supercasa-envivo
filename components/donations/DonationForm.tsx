@@ -21,7 +21,7 @@ type WidgetResult = {
 declare global {
   interface Window {
     WidgetCheckout?: new (config: Record<string, unknown>) => {
-      open(callback: (result: WidgetResult) => void): void;
+      open(cb: (result: WidgetResult) => void): void;
     };
   }
 }

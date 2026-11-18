@@ -58,3 +58,24 @@ Evaluación con las 10 heurísticas de Nielsen sobre el flujo live a donación.
 - ¿El monto sugerido de $100.000 es el correcto para la audiencia?
 - Roles: hoy los cuatro usuarios son administradores. Falta un rol de solo
   lectura para probar permisos.
+
+## Versión 2: home de Sebastián con live integrado
+
+```mermaid
+flowchart TD
+  A[Link en redes] --> B[Home: hero con live y QR]
+  B --> C{Donar}
+  C -->|Botón Donar ahora| D[/donar]
+  C -->|QR con otro celular| D
+  C -->|CTA fijo en celular| D
+  D --> E[Pieza]
+  E --> F[Datos y consentimiento]
+  F --> G[Resumen con comisión de Wompi]
+  G --> H[Widget de Wompi]
+  H -->|Aprobado| I[/donar/gracias]
+  D --> J[Transferencia Bre-B o Bancolombia]
+  B --> K[Historia, obra, transparencia, empresas]
+```
+
+El home ya no muestra el wizard completo: muestra las piezas y lleva a `/donar`.
+Así el QR cae directo en la acción y la página no se alarga de más.

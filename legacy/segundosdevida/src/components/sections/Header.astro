@@ -1,0 +1,93 @@
+---
+import t from '../../i18n/es';
+import { logo } from '../../config/characters';
+---
+
+<a class="skip" href="#main">{t.nav.skip}</a>
+<header class="header">
+  <div class="wrap header__inner">
+    <a class="logo" href="#inicio" aria-label="La SUPERCASA, Fundación Segundos de Vida. Ir al inicio">
+      <span class="logo__fsv">
+        <img src={logo.src} width={logo.width} height={logo.height} alt="" />
+      </span>
+      <strong>La SUPERCASA</strong>
+    </a>
+    <a class="btn btn--primary header__cta" href="#donar">{t.nav.cta}</a>
+  </div>
+</header>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 1rem;
+    top: -100px;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--ink);
+    color: var(--white);
+    border-radius: 12px;
+  }
+  .skip:focus {
+    top: 1rem;
+  }
+  .header {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    background: rgb(110 193 240 / 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 3px solid var(--ink);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 68px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .logo__fsv {
+    display: flex;
+    padding: 6px 10px;
+    border: 2.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--white);
+  }
+  .logo__fsv img {
+    display: block;
+    width: 150px;
+    height: auto;
+  }
+  .logo strong {
+    font-size: 1.2rem;
+    white-space: nowrap;
+  }
+  .header__cta {
+    min-height: 44px;
+    padding: 0.45rem 1.1rem;
+    font-size: 1rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 0 var(--ink);
+  }
+  @media (max-width: 560px) {
+    .logo strong {
+      display: none;
+    }
+  }
+  @media (max-width: 400px) {
+    .logo__fsv img {
+      width: 128px;
+    }
+    .header__cta {
+      padding-inline: 0.8rem;
+      font-size: 0.95rem;
+    }
+  }
+</style>

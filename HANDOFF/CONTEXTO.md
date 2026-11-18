@@ -10,8 +10,8 @@ en Bogotá. Meta de referencia: $250.000.000 COP.
 
 | Ruta | Para quién | Qué hace |
 | --- | --- | --- |
-| `/` | Audiencia | Landing con el live enmascarado, avance de la obra y accesos a donación |
-| `/donar` | Donantes | Formulario Wompi y opciones de transferencia (Bre-B, Bancolombia, portal) |
+| `/` | Audiencia | Home de Sebastián con el live enmascarado y el QR en el hero |
+| `/donar` | Donantes | Flujo de donación estilo campaña, comisión cubierta y transferencias |
 | `/donar/gracias` | Donantes | Estado del aporte en tiempo real |
 | `/admin` | Producción | Transmisión, recaudo, campaña y Meta Ads |
 | `/admin/login` | Producción | Acceso por usuario y clave |
@@ -37,6 +37,7 @@ lib/                  configuración, sesión, usuarios, Meta, donaciones
 supabase/migrations/  esquema de donaciones
 scripts/              utilidades (hash de claves)
 HANDOFF/              este contexto
+legacy/segundosdevida fuente original de Sebastián, solo referencia
 ```
 
 ## Origen

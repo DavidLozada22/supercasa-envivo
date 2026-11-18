@@ -9,3 +9,6 @@ next-env.d.ts
 HANDOFF/PANEL-ACCESOS.md
 HANDOFF/secretos/
 .env*
+
+legacy/**/dist
+legacy/**/.astro

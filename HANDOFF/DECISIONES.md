@@ -54,3 +54,27 @@ base manual.
 
 El meta tag entregado es `facebook-domain-verification`, que se inyecta en el
 `<head>`. No es un pixel. El pixel sigue pendiente.
+
+## 10. El sistema visual de Sebastián es el canónico
+
+Su sitio tiene el logo real, Baloo 2, los calvitos originales con tags, la casa
+por fases y una jerarquía más fuerte. Se adoptó completo como sitio público.
+La landing anterior se retiró. El live y el QR se revistieron con su sistema,
+no al revés.
+
+Su código fuente quedó vendorizado en `legacy/segundosdevida/` como referencia
+viva. El HTML y CSS compilados se extrajeron a `components/campaign/` y
+`app/campaign.css`, con las secciones dinámicas reemplazadas por componentes
+nuestros.
+
+## 11. El aportante cubre la comisión de Wompi
+
+Wompi cobra 2,65% + $700 + IVA por transacción. `lib/donations/pricing.ts`
+calcula el bruto para que a la Fundación le llegue la pieza exacta. El formulario
+muestra el desglose y cobra el total.
+
+## 12. Fechas separadas
+
+La campaña de donaciones cierra el 30 de noviembre. El evento en vivo va del
+viernes 20 a las 6:00 p. m. al domingo 22 a las 6:00 p. m. El reproductor tiene
+tres estados: antes, en vivo y después.

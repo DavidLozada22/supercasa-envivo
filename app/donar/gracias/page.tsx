@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import DonationThanks from "@/components/donations/DonationThanks";
 
 export const metadata = {
-  title: "Tu aporte | Súper Navidad por La Supercasa",
+  title: "Tu aporte | La SUPERCASA",
 };
 
 export default async function ThanksPage({
@@ -14,20 +14,19 @@ export default async function ThanksPage({
   if (!ref) redirect("/donar");
 
   return (
-    <div className="landing-root">
-      <div className="bg-pattern" aria-hidden="true" />
-      <main className="container" style={{ paddingTop: 56, paddingBottom: 56 }}>
-        <DonationThanks reference={ref} />
+    <div className="sv-root">
+      <main className="section">
+        <div className="wrap">
+          <DonationThanks reference={ref} />
+        </div>
       </main>
-      <footer>
-        <p className="mt-8 text-center text-xs text-white/30">
-          © {new Date().getFullYear()} Fundación Segundos de Vida. All Rights Reserved. | Built by{" "}
-          <a
-            href="https://svgvisual.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-[#E6009E] transition hover:brightness-110"
-          >
+      <footer className="footer" data-astro-cid-scinlfmn>
+        <p className="wrap small copy" data-astro-cid-scinlfmn>
+          © 2026 Fundación Segundos de Vida · Evento producido por Kavanah
+        </p>
+        <p className="wrap small copy" data-astro-cid-scinlfmn>
+          © 2026 Fundación Segundos de Vida. All Rights Reserved. | Built by{" "}
+          <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" data-astro-cid-scinlfmn>
             SVG
           </a>
         </p>

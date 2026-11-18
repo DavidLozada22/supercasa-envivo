@@ -1,0 +1,204 @@
+---
+import { campaign } from '../../config/campaign';
+import { houseRender } from '../../config/characters';
+import { houseFrames, frameSrc, frameSrcset } from '../../config/house';
+
+const sizes = '(min-width: 900px) 620px, calc(100vw - 64px)';
+import t from '../../i18n/es';
+---
+
+<section class="section works" id="obra" aria-labelledby="works-title">
+  <div class="wrap works__grid">
+    <div data-reveal>
+      <p class="eyebrow">{t.works.eyebrow}</p>
+      <h2 id="works-title">{t.works.title}</h2>
+      <p class="lead">{t.works.body}</p>
+      <p class="address">📍 {campaign.address}</p>
+      <h3 class="where-title">{t.works.whereTitle}</h3>
+      <ul class="where">
+        {
+          t.works.where.map((w) => (
+            <li>
+              <span aria-hidden="true">{w.icon}</span>
+              <p>
+                <strong>{w.title}.</strong> {w.text}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- "Hoy" usa la fase 0 %; puede reemplazarse por una foto real de la obra. -->
+    <figure class="compare card" data-compare data-reveal>
+      <div class="compare__frame">
+        <img
+          class="compare__after"
+          src={frameSrc(100)}
+          srcset={frameSrcset(100)}
+          sizes={sizes}
+          width={houseFrames.width}
+          height={houseFrames.height}
+          alt={houseRender.alt}
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="compare__before" data-compare-before>
+          <img
+            src={frameSrc(0)}
+            srcset={frameSrcset(0)}
+            sizes={sizes}
+            width={houseFrames.width}
+            height={houseFrames.height}
+            alt={t.works.beforeNote}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <span class="compare__line" data-compare-line aria-hidden="true"></span>
+        <span class="tag tag--before">{t.works.before}</span>
+        <span class="tag tag--after">{t.works.after}</span>
+      </div>
+      <label class="visually-hidden" for="compare-range">{t.works.sliderLabel}</label>
+      <input id="compare-range" class="compare__range" type="range" min="0" max="100" value="50" data-compare-range />
+      <figcaption>{t.works.beforeNote} · {t.works.afterNote}</figcaption>
+    </figure>
+  </div>
+
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((el) => {
+    const range = el.querySelector<HTMLInputElement>('[data-compare-range]')!;
+    const before = el.querySelector<HTMLElement>('[data-compare-before]')!;
+    const line = el.querySelector<HTMLElement>('[data-compare-line]')!;
+    const update = () => {
+      const v = Number(range.value);
+      before.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+      line.style.left = `${v}%`;
+    };
+    range.addEventListener('input', update);
+    update();
+  });
+</script>
+
+<style>
+  .works {
+    background: var(--sky-light);
+  }
+  .works__grid {
+    display: grid;
+    gap: 2rem 3rem;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .works__grid {
+      grid-template-columns: 0.9fr 1.1fr;
+    }
+  }
+  .lead {
+    font-size: 1.2rem;
+  }
+  .address {
+    font-weight: 700;
+  }
+  .where-title {
+    margin: 1.4rem 0 0.6rem;
+  }
+  .where {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .where li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+  .where li > span {
+    flex: none;
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  .where p {
+    margin: 0;
+  }
+  .compare {
+    margin: 0;
+    padding: 1rem;
+  }
+  .compare__frame {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #bfe6fa, #fff);
+  }
+  .compare__after {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .compare__before {
+    position: absolute;
+    inset: 0;
+  }
+  .compare__before img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .compare__line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    margin-left: -2px;
+    background: var(--ink);
+    pointer-events: none;
+  }
+  .compare__line::after {
+    content: '⇆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--ink);
+    border-radius: 50%;
+    background: var(--yellow);
+    font-weight: 800;
+  }
+  .tag {
+    position: absolute;
+    top: 10px;
+    padding: 0.1rem 0.7rem;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: var(--white);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+  .tag--before {
+    left: 10px;
+  }
+  .tag--after {
+    right: 10px;
+    background: var(--yellow);
+  }
+  .compare__range {
+    width: 100%;
+    margin: 1rem 0 0.3rem;
+    accent-color: var(--red-strong);
+    min-height: 32px;
+  }
+  figcaption {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+</style>

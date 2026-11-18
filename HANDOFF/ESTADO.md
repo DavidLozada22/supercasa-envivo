@@ -1,45 +1,35 @@
 # Estado
 
-Actualizado: 18 de noviembre de 2026.
+Actualizado: 18 de noviembre de 2026, noche.
 
 ## Hecho
 
-- Producción desplegada y verificada en `https://supercasa.svgvisual.com`.
-- Landing migrada a Next.js con el diseño original.
-- Reproductor de YouTube enmascarado con controles propios.
-- QR en el bloque de streaming hacia `/donar`.
-- Página `/donar` con formulario Wompi y opciones de transferencia.
-- Página `/donar/gracias` con estado del aporte.
-- API de donaciones: crear, consultar, webhook de Wompi, progreso.
-- Panel `/admin` con transmisión, recaudo, campaña y Meta Ads.
-- Revisión heurística del flujo live a donación: barra fija en celular, CTA
-  directo, aviso cuando Wompi no está configurado y contexto de avance.
-- Cuatro usuarios del panel con hash scrypt.
-- Verificación de dominio de Meta en el head.
-- Blob privado conectado en Vercel y variables cargadas.
-- Workflow de despliegue con token de la cuenta dueña.
+- Sitio público basado en el diseño de Sebastián: header, hero, calvitos, casa,
+  historia, obra, transparencia, empresas, footer y legales.
+- Live enmascarado y QR integrados en el hero, con estados antes, en vivo y después.
+- `/donar` con flujo propio: piezas, datos, consentimiento, comisión de Wompi
+  cubierta por el aportante y transferencias Bre-B / Bancolombia.
+- `/donar/gracias` con estado en vivo del aporte y compartir por WhatsApp.
+- Aliados (TerraFerme, HivraTech, ServImagenes, Intesi) visibles en el footer.
+- Redes de la Fundación y de Producción Kavanah separadas.
+- Motor de donaciones con Wompi: firma, webhook, progreso y simulación fuera de producción.
+- CTA fijo de donación en celular.
+- Fuente original de Sebastián vendorizada en `legacy/segundosdevida/`.
 
 ## Pendiente
 
-- Llaves de Wompi del entorno de producción. Sin ellas el pago en línea queda
-  apagado en producción.
-- `DATABASE_URL` de Supabase para persistir donaciones y recaudo en línea.
-- Pixel de Meta (el meta tag entregado es de verificación de dominio).
-- ID del video del directo en el panel para activar los controles.
-- Plan Padrino (cobro mensual) y panel de donaciones dentro de `/admin`.
-- Rol de solo lectura para probar permisos con cada usuario.
-- Pruebas de extremo a extremo con las llaves reales de Wompi.
+- Cargar las llaves de Wompi en Vercel (test y producción).
+- Crear la base Neon y cargar `DATABASE_URL`.
+- Descarga del QR en PNG desde `/admin` para OBS.
+- Conectar el pixel de Meta (el meta tag actual es de verificación de dominio).
+- Plan Padrino (mensual) y Carnet de Héroe.
+- Revisar el sitio en celular real y ajustar el hero (el live queda angosto en 375px).
+- Definir el ID del video del directo en el panel.
 
-## Riesgos conocidos
+## Notas
 
-- Sin Postgres, las donaciones viven en memoria y se pierden entre instancias.
-- Sin llaves de Wompi, `/donar` responde "pagos en línea en configuración" y deja
-  solo las transferencias. Es el comportamiento esperado en producción.
-- El modo simulado está bloqueado en producción, a propósito.
-- Las previews de Vercel piden autenticación; el dominio de producción no.
-
-## Responsables
-
-- Wompi: Juan (acceso de desarrollador pendiente).
-- Repositorio y cuenta Vercel: David Lozada.
-- Contenido y campaña: Kavanah.
+- Los emojis del copy original de Sebastián se conservaron por decisión del
+  cliente. La regla general del proyecto los evita; aquí manda el diseño de campaña.
+- El modo simulado solo funciona fuera de producción.
+- La rama de trabajo es `feat/campaign-visual-merge`; producción sigue con la
+  versión anterior hasta que se apruebe.

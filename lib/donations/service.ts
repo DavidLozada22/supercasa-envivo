@@ -1,5 +1,6 @@
 import { randomBytes } from "node:crypto";
 import { findPiece, MAX_AMOUNT, MIN_AMOUNT } from "./catalog";
+import { feeFor } from "./pricing";
 import {
   approvedTotal,
   getDonation,
@@ -31,6 +32,9 @@ export class DonationError extends Error {
 
 export type Checkout = {
   reference: string;
+  amountCop: number;
+  fee: number;
+  total: number;
   amountInCents: number;
   currency: "COP";
   publicKey: string;
@@ -102,7 +106,8 @@ export async function createDonation(body: unknown): Promise<Checkout> {
   }
 
   const reference = `SC-${Date.now()}-${randomBytes(3).toString("hex")}`;
-  const amountInCents = order.amountCop * 100;
+  const { fee, total } = feeFor(order.amountCop);
+  const amountInCents = total * 100;
 
   await insertDonation({
     reference,
@@ -111,7 +116,7 @@ export async function createDonation(body: unknown): Promise<Checkout> {
     pieceId: order.pieceId,
     amountCop: order.amountCop,
     currency: "COP",
-    chargeAmount: order.amountCop,
+    chargeAmount: total,
     donorName: order.donorName,
     donorEmail: order.donorEmail,
     donorPhone: order.donorPhone,
@@ -119,6 +124,9 @@ export async function createDonation(body: unknown): Promise<Checkout> {
 
   return {
     reference,
+    amountCop: order.amountCop,
+    fee,
+    total,
     amountInCents,
     currency: "COP",
     publicKey: config.publicKey,

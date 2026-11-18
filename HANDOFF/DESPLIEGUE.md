@@ -55,3 +55,10 @@ prueba en `supercasa.svgvisual.com`.
 - Panel: `HANDOFF/PANEL-ACCESOS.md` (ignorado por git).
 - Vercel: KeePassXC, `KAVANAH/VERCEL TOKEN DAVID LOZADA`.
 - Nunca imprimir un secreto en el chat ni en un commit.
+
+## Fechas de la campaña
+
+- Donaciones abiertas hasta el 30 de noviembre de 2026.
+- Evento en vivo: viernes 20 de noviembre, 6:00 p. m., a domingo 22, 6:00 p. m.
+- El reproductor cambia de estado según esas fechas. `NEXT_PUBLIC_LIVE_PREVIEW=1`
+  fuerza el estado en vivo solo en local.
