@@ -47,3 +47,9 @@ Actualizado: 18 de noviembre de 2026.
 - El certificado y la preferencia de muro se guardan en la tabla de donaciones.
 
 - Una sola ruta pública de donación: `/donar`. Se retiraron los enlaces al portal externo.
+
+- QR de donaciones descargable en PNG y SVG desde el panel, protegido por sesión.
+- La pestaña Campaña se reemplazó por Calendario fijo en hora de Bogotá.
+- `META_ACCESS_TOKEN` cargado en Vercel y en local. El token responde en `/me`
+  pero no tiene lectura de cuentas publicitarias (`/me/adaccounts` devuelve 403).
+  Falta el ID de cuenta publicitaria y un token con `ads_read` para las métricas.
