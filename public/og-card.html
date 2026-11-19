@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #dfeffb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: linear-gradient(180deg, #6ec1f0 0%, #9ad8f8 100%);
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        gap: 26px;
+        padding: 38px 46px;
+      }
+      .cloud {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.55);
+        filter: blur(1px);
+      }
+      .c1 { width: 180px; height: 70px; top: -20px; left: 8%; }
+      .c2 { width: 240px; height: 90px; top: 24px; right: 4%; }
+      .c3 { width: 150px; height: 60px; bottom: 60px; left: 40%; background: rgba(255,255,255,0.35); }
+
+      .left { position: relative; z-index: 2; display: flex; flex-direction: column; }
+      .logos { display: flex; align-items: center; gap: 12px; }
+      .chip { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 14px; background: #fff; box-shadow: 0 4px 0 rgba(29,43,79,0.18); }
+      .chip img { display: block; height: 38px; width: auto; }
+      .chip.small img { height: 26px; }
+      .x { color: #1d2b4f; font-weight: 800; opacity: 0.45; font-size: 20px; }
+
+      .eyebrow {
+        margin: 26px 0 0;
+        display: inline-block;
+        align-self: flex-start;
+        padding: 7px 14px;
+        border: 2.5px solid #1d2b4f;
+        border-radius: 999px;
+        background: #ffd400;
+        color: #1d2b4f;
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 14px 0 10px;
+        font-family: "Baloo 2", sans-serif;
+        font-size: 50px;
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+        color: #1d2b4f;
+        max-width: none;
+      }
+      h1 em { font-style: normal; color: #c62828; }
+      .lead {
+        margin: 0;
+        max-width: 34ch;
+        font-size: 20px;
+        line-height: 1.35;
+        font-weight: 600;
+        color: #24365e;
+      }
+      .cta-row { margin-top: auto; display: flex; align-items: center; gap: 16px; }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 24px;
+        border: 3px solid #1d2b4f;
+        border-radius: 999px;
+        background: #c62828;
+        color: #fff;
+        font-size: 21px;
+        font-weight: 800;
+        box-shadow: 0 6px 0 #1d2b4f;
+      }
+      .url { font-size: 15px; font-weight: 700; color: #1d2b4f; opacity: 0.8; }
+      .date { margin-top: 12px; font-size: 15px; font-weight: 700; color: #24365e; }
+
+      .right { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; }
+      .house {
+        width: 100%;
+        border: 6px solid #1d2b4f;
+        border-radius: 26px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 16px 0 rgba(29,43,79,0.16);
+        transform: rotate(-2deg);
+      }
+      .house img { display: block; width: 100%; height: auto; }
+      .stamp {
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        padding: 9px 16px;
+        border: 2.5px solid #1d2b4f;
+        border-radius: 999px;
+        background: #ffd400;
+        color: #1d2b4f;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <span class="cloud c1"></span>
+      <span class="cloud c2"></span>
+      <span class="cloud c3"></span>
+
+      <div class="left">
+        <div class="logos">
+          <span class="chip"><img src="/img/logo-fsv-official.png" alt="Fundación Segundos de Vida" /></span>
+          <span class="x">×</span>
+          <span class="chip small"><img src="/img/logo-kavanah.png" alt="Kavanah" /></span>
+        </div>
+
+        <span class="eyebrow">Maratón 48 horas · 20 al 22 de noviembre</span>
+        <h1>Ponte la capa<br />por <em>La Supercasa</em></h1>
+        <p class="lead">Cada aporte levanta una pared. Dona y acompáñanos en la transmisión en vivo.</p>
+
+        <div class="cta-row">
+          <span class="cta">Dona ahora</span>
+          <span class="url">supercasa.svgvisual.com</span>
+        </div>
+        <p class="date">Viernes 20, 6:00 p. m., a domingo 22, 6:00 p. m. · Hora Bogotá</p>
+      </div>
+
+      <div class="right">
+        <div class="house">
+          <img src="/img/casa/supercasa-100-1400.webp" alt="La Supercasa terminada" />
+        </div>
+        <span class="stamp">Faltan 48 horas</span>
+      </div>
+    </div>
+  </body>
+</html>

@@ -194,3 +194,11 @@
 /* Acceso discreto al panel desde los headers públicos */
 .sv-root .admin-shortcut { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex: none; border-radius: 50%; color: var(--ink); opacity: .55; text-decoration: none; transition: opacity .15s ease, background .15s ease; }
 .sv-root .admin-shortcut:hover, .sv-root .admin-shortcut:focus-visible { opacity: 1; background: rgba(29, 43, 79, .09); }
+
+/* Organizadores en el pie */
+.sv-root .org-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 1.6rem 0 0.4rem; border-top: 1px solid rgba(255,255,255,.12); margin-top: 1.2rem; }
+.sv-root .org-logos__label { margin: 0; font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+.sv-root .org-logos__row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.sv-root .org-logos__chip { display: inline-flex; align-items: center; padding: 7px 12px; border-radius: 12px; background: #fff; }
+.sv-root .org-logos__chip img { display: block; height: 30px; width: auto; }
+.sv-root .org-logos__chip:last-child img { height: 22px; }

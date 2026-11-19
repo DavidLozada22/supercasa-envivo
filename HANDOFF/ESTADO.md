@@ -75,3 +75,9 @@ Actualizado: 18 de noviembre de 2026.
   el aviso de YouTube "This video is unavailable".
 - Nota en el panel: YouTube cierra cada transmisión a las 12 horas; para 48
   horas se programan cuatro bloques y se actualiza el ID en cada reinicio.
+
+- Placeholder del live con los logos de la Fundación y Kavanah; se muestra
+  antes del evento, al terminar o si YouTube devuelve error. Corregido el estado
+  previo que mostraba el aviso de video no disponible.
+- Nuevo logo oficial de la Fundación en el pie (bloque "Organizan") junto a
+  Kavanah, y nueva imagen OG 1200x630 con ambos logos y CTA.

@@ -15,11 +15,25 @@ export default function StreamPlayer({ stream }: { stream: PublicConfig["stream"
   return (
     <section className="stream-wrapper" aria-label="Transmisión en vivo">
       <div className="stream-frame">
-        <Player
-          videoId={stream.videoId}
-          embedUrl={stream.embedUrl}
-          title="Súper Navidad: 48 Horas por la Supercasa"
-        />
+        {state === "live" ? (
+          <Player
+            videoId={stream.videoId}
+            embedUrl={stream.embedUrl}
+            title="Súper Navidad: 48 Horas por la Supercasa"
+          />
+        ) : state === "before" ? (
+          <StreamPlaceholder
+            title="La transmisión empieza el viernes 20 de noviembre"
+            message="A las 6:00 p. m., hora de Bogotá. Vuelve en ese momento para acompañarnos."
+            note="Mientras tanto puedes donar y seguir el avance de la casa."
+          />
+        ) : (
+          <StreamPlaceholder
+            title="Gracias por acompañarnos"
+            message="La maratón de 48 horas terminó. La campaña sigue abierta hasta el 30 de noviembre."
+            note="Puedes seguir donando desde esta misma página."
+          />
+        )}
       </div>
 
       <div className="stream-donate">
