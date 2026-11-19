@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { HeartHandshake } from "lucide-react";
 import { PIECES } from "@/lib/donations/pieces";
 
 const A = { "data-astro-cid-erlevsxa": "" } as const;
@@ -11,23 +10,55 @@ const cop = new Intl.NumberFormat("es-CO", {
 
 export default function DonatePreview() {
   return (
-    <div className="flow card donate-preview" {...A}>
-      <div className="donate-preview__head">
-        <p className="eyebrow" {...A}>Pon tu pieza</p>
-        <h3>Elige la pieza que quieres poner</h3>
-        <p>Cada aporte se ve en la casa. Elige la tuya y págala en un minuto.</p>
-      </div>
+    <div className="flow card" {...A}>
+      <ol className="stepper" aria-label="Pasos" {...A}>
+        <li className="is-current" {...A}>
+          <span className="stepper__n" {...A}>1</span>
+          Tu pieza
+        </li>
+        <li {...A}>
+          <span className="stepper__n" {...A}>2</span>
+          Tus datos
+        </li>
+        <li {...A}>
+          <span className="stepper__n" {...A}>3</span>
+          Confirma
+        </li>
+      </ol>
+
+      <fieldset className="frequency" {...A}>
+        <legend {...A}>¿Cómo quieres ayudar?</legend>
+
+        <label className="pill pill--big" {...A}>
+          <input type="radio" name="home-frequency" value="once" defaultChecked {...A} />
+          <span {...A}>🎁 Donación única</span>
+        </label>
+
+        <label className="pill pill--big is-disabled" {...A}>
+          <input type="radio" name="home-frequency" value="monthly" disabled {...A} />
+          <span {...A}>
+            💛 Plan Padrino mensual
+            <small {...A}>Muy pronto: cada mes pones una pieza más.</small>
+          </span>
+        </label>
+      </fieldset>
 
       <fieldset className="pieces" {...A}>
         <legend className="visually-hidden" {...A}>Tu pieza</legend>
         {PIECES.map((piece) => (
-          <Link
+          <label
             key={piece.id}
-            href="/donar"
             className={`piece${piece.id === "ventana" ? " piece--rec" : ""}`}
-            aria-label={`${piece.label}${piece.price > 0 ? `, ${cop.format(piece.price)}` : ""}`}
+            data-piece={piece.id}
             {...A}
           >
+            <input
+              type="radio"
+              name="home-piece"
+              value={piece.id}
+              defaultChecked={piece.id === "ventana"}
+              {...A}
+            />
             <span className="piece__icon" aria-hidden="true" {...A}>{piece.icon}</span>
             <span className="piece__label" {...A}>{piece.label}</span>
             <span className="piece__price" {...A}>
@@ -36,23 +67,15 @@ export default function DonatePreview() {
             {piece.badge ? (
               <span className="piece__badge piece__badge--once" {...A}>{piece.badge}</span>
             ) : null}
-          </Link>
+          </label>
         ))}
       </fieldset>
 
-      <div className="donate-preview__actions">
-        <Link href="/donar" className="btn btn--primary btn--xl">
-          <HeartHandshake className="h-5 w-5" strokeWidth={2} />
-          Elegir mi pieza
+      <div className="actions" {...A}>
+        <Link href="/donar" className="btn btn--primary btn--xl" {...A}>
+          Continuar
         </Link>
-        <a href="#transferencia" className="btn btn--white">
-          Pagar por transferencia
-        </a>
       </div>
-
-      <p className="donate-preview__note">
-        El Plan Padrino mensual sigue bloqueado mientras conectamos los cobros recurrentes.
-      </p>
     </div>
   );
 }

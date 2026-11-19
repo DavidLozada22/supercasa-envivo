@@ -4,6 +4,7 @@ import CopyHandler from "./CopyHandler";
 import StickyDonate from "./StickyDonate";
 import StreamPlayer from "./StreamPlayer";
 import SponsorsSection from "@/components/campaign/SponsorsSection";
+import ReminderForm from "@/components/campaign/ReminderForm";
 import HouseProgress from "./HouseProgress";
 
 export default function LandingMarkup({ config, raised }: { config: PublicConfig; raised?: number }) {
@@ -55,6 +56,10 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
 
 
     <HouseProgress initialRaised={raised ?? config.totals.raised} initialGoal={config.totals.goal} />
+
+    <div className="reminder-section">
+      <ReminderForm />
+    </div>
 
     
     <section className="squad-section" aria-label="Escuadrón Súper Calvitos">

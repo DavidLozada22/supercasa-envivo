@@ -65,13 +65,6 @@
 .sv-root .donate-progress p { margin: 0; font-size: .78rem; color: var(--ink-soft); }
 .sv-root .donate-block { margin: 0; padding: 0; border: 0; }
 .sv-root .donate-block legend { margin-bottom: 12px; font-size: 1.05rem; font-weight: 800; }
-.sv-root .pieces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.sv-root .piece { display: block; padding: 14px 16px; border: 3px solid rgba(29,43,79,.18); border-radius: 16px; background: #fff; color: var(--ink); font-family: inherit; text-align: left; cursor: pointer; transition: border-color .15s ease, background .15s ease, transform .15s ease; }
-.sv-root .piece:hover { border-color: rgba(29,43,79,.45); transform: translateY(-1px); }
-.sv-root .piece.is-selected { border-color: var(--ink); background: var(--yellow-soft); box-shadow: 0 4px 0 var(--ink); }
-.sv-root .piece__label { display: block; font-weight: 800; font-size: 1rem; }
-.sv-root .piece__desc { display: block; margin: 3px 0 7px; font-size: .78rem; line-height: 1.35; color: var(--ink-soft); }
-.sv-root .piece__price { display: block; font-weight: 800; color: var(--red-text); }
 .sv-root .donate-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .sv-root .donate-field { display: block; }
 .sv-root .donate-field > span { display: block; margin-bottom: 5px; font-size: .82rem; font-weight: 700; }
@@ -98,7 +91,6 @@
 .sv-root .transfer-card .btn { margin-top: 10px; justify-content: center; }
 
 @media (max-width: 860px) {
-  .sv-root .pieces,
   .sv-root .transfer-grid { grid-template-columns: 1fr; }
   .sv-root .donate-grid { grid-template-columns: 1fr; }
 }
@@ -294,3 +286,29 @@
 .sv-root .donate-preview__head p { margin: 0; color: var(--ink-soft); }
 .sv-root .donate-preview__actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.4rem; }
 .sv-root .donate-preview__note { margin: 1rem 0 0; font-size: .8rem; color: var(--ink-soft); }
+
+/* Topbar del evento, sobre el header */
+.sv-root .live-topbar { background: var(--red-strong); color: #fff; border-bottom: 3px solid var(--ink); }
+.sv-root .live-topbar__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .7rem 1.2rem; max-width: 1160px; margin: 0 auto; padding: .8rem clamp(16px, 4vw, 40px); }
+.sv-root .live-topbar__copy { min-width: 0; }
+.sv-root .live-topbar__text { display: flex; align-items: center; gap: .55rem; margin: 0; font-size: clamp(.9rem, 1.6vw, 1.05rem); font-weight: 800; line-height: 1.3; }
+.sv-root .live-topbar__dot { width: 10px; height: 10px; flex: none; border-radius: 50%; background: var(--yellow); animation: svLive 1.6s infinite; }
+.sv-root .live-topbar__sub { margin: .25rem 0 0; font-size: .8rem; line-height: 1.4; color: rgba(255, 255, 255, .85); }
+.sv-root .live-topbar__actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.sv-root .live-topbar .btn, .sv-root .live-topbar__donate { min-height: 44px; padding: .55rem 1.1rem; font-size: .9rem; font-weight: 800; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+.sv-root .live-topbar__donate { border: 2px solid var(--ink); background: var(--yellow); color: var(--ink); box-shadow: 0 4px 0 var(--ink); }
+.sv-root .live-topbar__donate:hover { background: #ffe45c; }
+
+/* Caption del organizador en el hero */
+.sv-root .hero__organizer { max-width: 36ch; margin: .9rem 0 0; padding: .7rem .9rem; border-left: 5px solid var(--yellow); background: rgba(255, 255, 255, .55); font-size: .9rem; line-height: 1.45; color: var(--ink); }
+.sv-root .hero__organizer strong { color: var(--red-text); }
+
+@media (max-width: 640px) {
+  .sv-root .live-topbar__inner { align-items: flex-start; }
+  .sv-root .live-topbar__actions { width: 100%; }
+  .sv-root .live-topbar__actions .btn, .sv-root .live-topbar__donate { flex: 1; }
+}
+
+/* El paso 1 del home usa exactamente los estilos originales */
+.sv-root .flow .pieces { margin-top: .2rem; }
+.sv-root a.piece { color: var(--ink); }

@@ -212,6 +212,9 @@ export default function AdminDashboard({
             <a href="/admin/casa" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
               Avance de la casa
             </a>
+            <a href="/admin/recordatorios" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
+              Recordatorios
+            </a>
           </div>
         </div>
 

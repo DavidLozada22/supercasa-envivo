@@ -10,14 +10,30 @@ export default function LiveRibbon() {
   const live = now >= START;
 
   return (
-    <Link href="/envivo" className="live-ribbon">
-      <span className="live-ribbon__dot" />
-      <span className="live-ribbon__text">
-        {live
-          ? "Estamos en vivo · 48 horas por La Supercasa"
-          : "La transmisión empieza el viernes 20 a las 6:00 p. m., hora de Bogotá."}
-      </span>
-      <span className="live-ribbon__cta">Entrar al live</span>
-    </Link>
+    <div className="live-topbar">
+      <div className="live-topbar__inner">
+        <div className="live-topbar__copy">
+          <p className="live-topbar__text">
+            <span className="live-topbar__dot" aria-hidden="true" />
+            {live
+              ? "Estamos en vivo · 48 horas por La Supercasa"
+              : "La transmisión empieza el viernes 20 de noviembre a las 6:00 p. m., hora de Bogotá"}
+          </p>
+          <p className="live-topbar__sub">
+            Evento de <strong>Familia Kavanah</strong> a beneficio de la{" "}
+            <strong>Fundación Segundos de Vida</strong> para construir La Supercasa.
+          </p>
+        </div>
+
+        <div className="live-topbar__actions">
+          <Link href="/envivo" className="btn btn--white">
+            Entrar al live
+          </Link>
+          <Link href="/donar" className="live-topbar__donate">
+            Donar
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

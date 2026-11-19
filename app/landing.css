@@ -1231,3 +1231,6 @@
   .landing-root .stream-placeholder__logo img { height: 32px; }
   .landing-root .stream-placeholder__logo--kavanah img { height: 40px; }
 }
+
+/* Recordatorio del live */
+.landing-root .reminder-section { max-width: 1000px; margin: 2.2rem auto 0; padding: 0 4px; }

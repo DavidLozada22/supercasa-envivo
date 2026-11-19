@@ -136,3 +136,10 @@ Actualizado: 18 de noviembre de 2026.
   UTM y se reinició el contador de visitas.
 - El home muestra "Pon tu pieza" con el mismo layout de piezas del sitio
   original. El Plan Padrino mensual sigue bloqueado y pendiente.
+
+- Corregido "Elige la pieza" del home: se eliminaron los estilos propios que
+  rompían el layout y quedó exactamente el grid original de Sebastián
+  (auto-fill de 230px, icono a la izquierda, badge y estado amarillo).
+- Recordatorios del live: formulario "Avísame cuando empiece" en `/envivo`,
+  tabla `reminders` en Neon, panel en `/admin/recordatorios` con lista, CSV y
+  envío por Resend. Requiere `RESEND_API_KEY` y dominio verificado para enviar.
