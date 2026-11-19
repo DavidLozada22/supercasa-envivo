@@ -194,7 +194,7 @@ export default function SiteHeader({ current }: { current?: SiteSection }) {
               <span className="site-menu__cross" aria-hidden="true">×</span>
               <img
                 className="site-menu__kavanah"
-                src="/img/kavanah-horizontal-gold.png"
+                src="/img/kavanah-horizontal-white.png"
                 alt="Kavanah"
               />
             </div>

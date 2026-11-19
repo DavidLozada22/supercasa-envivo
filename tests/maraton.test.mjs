@@ -36,7 +36,7 @@ test('el menu de celular tiene accesos grandes y los logos', () => {
   assert.ok(header.includes('id="site-menu"'));
   assert.ok(header.includes('site-menu__donate'));
   assert.ok(header.includes('/img/logo-fsv-official.png'));
-  assert.ok(header.includes('kavanah-horizontal-gold.png'));
+  assert.ok(header.includes('kavanah-horizontal-white.png'));
   assert.ok(header.includes('Escape'));
 });
 test('la demostración administrativa está protegida y no inicia pagos', () => {

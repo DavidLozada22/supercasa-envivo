@@ -166,3 +166,10 @@ Actualizado: 18 de noviembre de 2026.
 - La campaña incluye un mini visor del live (solo cuando está en vivo) con CTA
   grande a `/envivo`. Para revisarlo en local hay que compilar con
   `NEXT_PUBLIC_HEADER_LIVE=1`.
+
+- El topbar, el header y el menú usan siempre la tipografía y los colores de la
+  landing de la transmisión (Plus Jakarta Sans, texto #334155, botones blancos y
+  Donar fucsia), sin heredar la tipografía Baloo 2 de la campaña. Se ve igual en
+  `/` y en `/envivo`.
+- En el menú móvil el logo de Kavanah usa la versión blanca del elefante y se
+  dimensiona por ancho para no deformarse.

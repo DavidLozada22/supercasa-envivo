@@ -422,9 +422,48 @@ header.site-header { background: #b5f43d; padding: 10px clamp(16px, 3vw, 24px); 
 .site-menu__event p { margin: 0; font-size: .82rem; line-height: 1.5; color: #c3d0ea; }
 .site-menu__event-title { font-size: .78rem !important; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #b5f43d !important; }
 .site-menu__event-note { margin-top: .2rem !important; color: #9fb0d0 !important; }
-.site-menu__kavanah { height: 34px; }
+.site-menu__kavanah { height: 26px; }
 
 /* Logos apilados en el pie del menú móvil para que se lean */
 .site-menu__logos { flex-direction: column; align-items: flex-start; gap: 10px; }
 .site-menu__cross { display: none; }
-.site-menu__kavanah { height: 30px; flex: none; }
+.site-menu__kavanah { height: 26px; flex: none; }
+
+/* El chrome del sitio (topbar, header y menú) no hereda la tipografía de la página:
+   usa siempre la de la landing de la transmisión. */
+.site-topbar,
+.site-topbar *,
+header.site-header,
+header.site-header *,
+.site-menu,
+.site-menu * {
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.site-topbar { font-size: 1rem; line-height: 1.6; }
+header.site-header { font-size: 1rem; line-height: 1.6; }
+.site-menu { font-size: 1rem; line-height: 1.5; }
+
+/* Neutraliza el color de enlace que impone el contenedor de la campaña */
+header.site-header a.site-btn { color: var(--ink); }
+header.site-header a.site-btn:hover { color: var(--ink); }
+header.site-header a.site-donate { color: #fff; }
+header.site-header a.site-donate:hover { color: #fff; }
+header.site-header a.site-header__brand { color: var(--ink); }
+.site-topbar a { color: #fff; }
+.site-menu a.site-menu__link { color: #fff; }
+.site-menu a.site-menu__link:hover { color: #b5f43d; }
+.site-menu a.site-menu__link--soft { color: #fff; }
+.site-menu a.site-menu__donate { color: #0f2354; }
+.site-menu a.site-menu__brand { color: inherit; }
+
+/* Color de texto idéntico al de la landing de la transmisión */
+header.site-header,
+header.site-header a.site-btn,
+header.site-header a.site-header__brand,
+header.site-header .site-admin { color: #334155; }
+header.site-header a.site-btn:hover { color: #334155; }
+
+/* Kavanah en el menú: ancho fijo para conservar la proporción del logo */
+.site-menu img.site-menu__kavanah { width: 250px; height: auto; max-width: 100%; flex: none; }
