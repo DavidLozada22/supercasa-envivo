@@ -1,14 +1,14 @@
 # Pendientes de la campaña
 
-## 1. Enlace de afiliado SDVE
+## 1. Enlace de afiliado SDV
 
-- Enlace listo para compartir: `https://supercasa.svgvisual.com/ref/SDVE`
-  (también sirve `https://supercasa.svgvisual.com/envivo?ref=SDVE`).
+- Enlace listo para compartir: `https://supercasa.svgvisual.com/ref/SDV`
+  (también sirve `https://supercasa.svgvisual.com/envivo?ref=SDV`).
 - Guarda el referido 90 días en el navegador y lo adjunta al aporte.
 - Métrica: panel, pestaña **Campañas**. Ahí se ven visitas y aportes agrupados
-  por código. El código `SDVE` ya está como botón rápido en el generador.
+  por código. El código `SDV` ya está como botón rápido en el generador.
 - Pendiente: un resumen exportable por código (CSV) y comparación entre códigos
-  (SDVE, Instagram, Meta, WhatsApp) con tasa de conversión.
+  (SDV, Instagram, Meta, WhatsApp) con tasa de conversión.
 
 ## 2. Recordatorios y CRM
 

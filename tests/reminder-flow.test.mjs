@@ -21,10 +21,10 @@ test('quien dona puede quedar en la lista de recordatorios', () => {
   assert.ok(store.includes('insert into reminders'));
 });
 
-test('el panel tiene el código SDVE listo para copiar', () => {
+test('el panel tiene el código SDV listo para copiar', () => {
   const tools = readFileSync('components/admin/CampaignTools.tsx', 'utf8');
-  assert.ok(tools.includes('"SDVE"'));
+  assert.ok(tools.includes('"SDV"'));
   const docs = readFileSync('HANDOFF/PENDIENTES.md', 'utf8');
-  assert.ok(docs.includes('ref/SDVE'));
+  assert.ok(docs.includes('ref/SDV'));
   assert.ok(docs.includes('CRM'));
 });

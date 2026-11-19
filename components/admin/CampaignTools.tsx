@@ -22,6 +22,7 @@ export default function CampaignTools() {
   const [report, setReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copiedSdv, setCopiedSdv] = useState(false);
 
   const cleanRef = ref
     .trim()
@@ -47,6 +48,18 @@ export default function CampaignTools() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const sdvUrl = "https://supercasa.svgvisual.com/ref/SDV";
+
+  const copySdv = async () => {
+    try {
+      await navigator.clipboard.writeText(sdvUrl);
+      setCopiedSdv(true);
+      window.setTimeout(() => setCopiedSdv(false), 1800);
+    } catch {
+      // Sin permiso de portapapeles.
+    }
+  };
+
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(url);
@@ -59,6 +72,45 @@ export default function CampaignTools() {
 
   return (
     <div className="space-y-5">
+      <section className="rounded-2xl border-2 border-[#0F2354] bg-white p-6 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#E6009E]">
+              Para compartir con la Fundación
+            </p>
+            <h2 className="mt-1 text-lg font-extrabold text-[#0F2354]">Enlace SDV</h2>
+            <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-600">
+              Este es el enlace del equipo de la Fundación Segundos de Vida. Todo lo que llegue por
+              él queda marcado con el código SDV en los resultados. Úsalo en historias de Instagram,
+              WhatsApp y las redes de la Fundación.
+            </p>
+          </div>
+          <span className="rounded-full bg-[#E6009E]/10 px-3 py-1 text-xs font-extrabold text-[#B8007E]">
+            SDV
+          </span>
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-slate-50 p-3">
+          <code className="min-w-0 flex-1 break-all text-sm font-semibold text-[#0F2354]">{sdvUrl}</code>
+          <button
+            type="button"
+            onClick={copySdv}
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg border-2 border-[#0F2354] bg-[#E6009E] px-4 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
+          >
+            {copiedSdv ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+            {copiedSdv ? "Copiado" : "Copiar enlace"}
+          </button>
+          <a
+            href={sdvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-[#0F2354] hover:bg-slate-100"
+          >
+            <ExternalLink className="h-4 w-4" /> Abrir
+          </a>
+        </div>
+      </section>
+
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-base font-bold text-[#0F2354]">Enlace de afiliado</h2>
         <p className="mt-1 text-sm text-slate-500">
@@ -80,7 +132,7 @@ export default function CampaignTools() {
             Solo letras, números, punto, guion y guion bajo.
           </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {["SDVE", "instagram", "meta", "whatsapp"].map((code) => (
+            {["SDV", "instagram", "meta", "whatsapp"].map((code) => (
               <button
                 key={code}
                 type="button"
@@ -96,7 +148,7 @@ export default function CampaignTools() {
             ))}
           </div>
           <p className="mt-2 text-xs text-slate-500">
-            SDVE es el código para el equipo de la Fundación Segundos de Vida.
+            SDV es el código para el equipo de la Fundación Segundos de Vida.
           </p>
         </div>
 

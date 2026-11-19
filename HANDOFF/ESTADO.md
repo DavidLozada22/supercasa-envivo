@@ -220,6 +220,6 @@ Actualizado: 18 de noviembre de 2026.
 - El header y el menú móvil tienen "Avísame", que lleva a `/envivo#avisame`.
 - El formulario de donación permite dejar el correo en la lista de recordatorios;
   el aporte se guarda y se inserta en `reminders` con origen `donacion`.
-- El panel de campañas tiene botones rápidos de código, incluido `SDVE`.
-- Nuevo `HANDOFF/PENDIENTES.md` con enlace SDVE, CRM, diseño de correos, flujo de
+- El panel de campañas tiene botones rápidos de código, incluido `SDV`.
+- Nuevo `HANDOFF/PENDIENTES.md` con enlace SDV, CRM, diseño de correos, flujo de
   inscripción y notificaciones durante la transmisión.
