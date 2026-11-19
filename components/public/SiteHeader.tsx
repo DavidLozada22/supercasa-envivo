@@ -86,7 +86,7 @@ export default function SiteHeader({
       <header className="site-header">
         <div className="site-header__inner">
           <Link className="site-header__brand" href="/" aria-label="La Supercasa, inicio">
-            <img src="/img/logo-fsv.png" width="188" height="39" alt="Fundación Segundos de Vida" />
+            <img src="/img/logo-fsv-official.png" width="404" height="84" alt="Fundación Segundos de Vida" />
           </Link>
 
           <nav className="site-header__nav" aria-label="Navegación principal">
@@ -145,7 +145,7 @@ export default function SiteHeader({
         <div className="site-menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Menú">
           <div className="site-menu__top">
             <Link className="site-menu__brand" href="/" aria-label="La Supercasa, inicio">
-              <img src="/img/logo-fsv.png" width="188" height="39" alt="Fundación Segundos de Vida" />
+              <img src="/img/logo-fsv-official.png" width="404" height="84" alt="Fundación Segundos de Vida" />
             </Link>
             <button
               type="button"

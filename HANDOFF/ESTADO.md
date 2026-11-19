@@ -189,3 +189,15 @@ Actualizado: 18 de noviembre de 2026.
   "Apoya a SVG". Se usa en home, maratón, donaciones, gracias y legales.
 - Las redes de la Fundación y de Kavanah salieron del pie y viven dentro de la
   página (`SocialSection`), en el home y en donaciones.
+
+- Video promo en el hero, reemplazando la imagen de la casa: 720p para
+  escritorio (8.3 MB) y 540p para celular (5.5 MB), póster JPG y subtítulos
+  WebVTT en español. Arranca silenciado por la política de autoplay, con botón
+  "Activar sonido", captions visibles y pausa fuera de pantalla.
+- En `/envivo`, la pantalla de espera tiene "Mira de qué se trata · 1:35" que
+  reproduce el promo con sonido dentro del mismo marco.
+- El logo del header es el oficial (`logo-fsv-official.png`) a 38 px, 34 px y
+  30 px. Se quitó la versión anterior `logo-fsv.png`.
+- El caption de organizadores del hero se eliminó porque repetía el topbar.
+- La columna derecha del hero quedó alineada con la etiqueta MISIÓN SUPERCASA:
+  se quitó el `position: sticky` que la desplazaba 51 px.
