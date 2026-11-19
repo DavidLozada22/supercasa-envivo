@@ -33,7 +33,7 @@ export default function CampaignTools() {
   params.set("utm_campaign", campaign);
   if (content) params.set("utm_content", content);
   if (ref) params.set("ref", ref);
-  const url = `https://supercasa.svgvisual.com/?${params.toString()}`;
+  const url = `https://supercasa.svgvisual.com/envivo?${params.toString()}`;
 
   const load = async (range: string) => {
     setLoading(true);
@@ -67,7 +67,7 @@ export default function CampaignTools() {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="text-base font-bold text-[#0F2354]">Enlaces de campaña</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Usa este enlace en los anuncios de Meta. También puedes compartir
+          Usa este enlace en los anuncios de Meta: abre directo la transmisión. También puedes compartir
           <span className="mx-1 font-mono text-xs">/ref/{ref || "codigo"}</span>.
         </p>
 

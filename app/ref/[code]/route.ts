@@ -8,7 +8,7 @@ export async function GET(
 ) {
   const { code } = await params;
   const clean = code.replace(/[^a-zA-Z0-9._-]/g, "").slice(0, 60) || "ref";
-  const url = new URL("/", request.url);
+  const url = new URL("/envivo", request.url);
   url.searchParams.set("ref", clean);
   const response = NextResponse.redirect(url);
   response.cookies.set("sc_ref", clean, {
