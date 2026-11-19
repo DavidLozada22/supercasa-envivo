@@ -202,3 +202,8 @@
 .sv-root .org-logos__chip { display: inline-flex; align-items: center; padding: 7px 12px; border-radius: 12px; background: #fff; }
 .sv-root .org-logos__chip img { display: block; height: 30px; width: auto; }
 .sv-root .org-logos__chip:last-child img { height: 22px; }
+
+/* Logos sin fondo blanco */
+.sv-root .org-logos__chip { background: transparent; padding: 0; }
+.sv-root .org-logos__chip img { height: 32px; }
+.sv-root .org-logos__chip:last-child img { height: 26px; }

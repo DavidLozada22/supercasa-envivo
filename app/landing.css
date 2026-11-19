@@ -1155,3 +1155,9 @@
 .landing-root .org-logos__chip { display: inline-flex; align-items: center; padding: 7px 12px; border-radius: 12px; background: var(--blanco); }
 .landing-root .org-logos__chip img { display: block; height: 30px; width: auto; }
 .landing-root .org-logos__chip:last-child img { height: 22px; }
+
+.landing-root .org-logos__chip { background: transparent; padding: 0; }
+.landing-root .org-logos__chip img { height: 32px; }
+.landing-root .org-logos__chip:last-child img { height: 26px; }
+.landing-root .stream-placeholder__logos { background: transparent; padding: 0; }
+.landing-root .stream-placeholder__logo--kavanah img { height: 22px; }

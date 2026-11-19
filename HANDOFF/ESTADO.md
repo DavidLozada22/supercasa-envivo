@@ -81,3 +81,7 @@ Actualizado: 18 de noviembre de 2026.
   previo que mostraba el aviso de video no disponible.
 - Nuevo logo oficial de la Fundación en el pie (bloque "Organizan") junto a
   Kavanah, y nueva imagen OG 1200x630 con ambos logos y CTA.
+
+- Logos sin fondos blancos: Kavanah blanco en pie y placeholder, Kavanah negro
+  en la imagen OG; el logo de la Fundación va directo. La versión OG incluye
+  ambos logos y el CTA de la maratón.

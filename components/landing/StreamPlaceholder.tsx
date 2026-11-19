@@ -13,13 +13,13 @@ export default function StreamPlaceholder({
     <div className="stream-placeholder">
       <div className="stream-placeholder__logos">
         <span className="stream-placeholder__logo">
-          <img src="/img/logo-fsv.png" alt="Fundación Segundos de Vida" />
+          <img src="/img/logo-fsv-official.png" alt="Fundación Segundos de Vida" />
         </span>
         <span className="stream-placeholder__cross" aria-hidden="true">
           ×
         </span>
         <span className="stream-placeholder__logo stream-placeholder__logo--kavanah">
-          <img src="/img/logo-kavanah.png" alt="Kavanah" />
+          <img src="/img/logo-kavanah-white.png" alt="Kavanah" />
         </span>
       </div>
 
