@@ -312,3 +312,8 @@
 /* El paso 1 del home usa exactamente los estilos originales */
 .sv-root .flow .pieces { margin-top: .2rem; }
 .sv-root a.piece { color: var(--ink); }
+
+/* Apoyo a SVG en el pie */
+.sv-root .svg-support { color: var(--yellow); font-weight: 800; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.sv-root .svg-support:hover, .sv-root .svg-support:focus-visible { color: #ffe45c; }
+.sv-root .page-footer .svg-support, .sv-root .thanks-box + .svg-support { color: var(--yellow); }

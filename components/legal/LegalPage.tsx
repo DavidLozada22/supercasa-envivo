@@ -17,7 +17,7 @@ export default function LegalPage({ title, children }: { title: string; children
         </div>
       </main>
       <footer className="bg-[#28251f] px-6 py-8">
-        <p className="mt-8 text-center text-xs text-white/60">© {new Date().getFullYear()} Fundación Segundos de Vida. All Rights Reserved. · Evento producido por Kavanah</p>
+        <p className="mt-8 text-center text-xs text-white/60">© {new Date().getFullYear()} Fundación Segundos de Vida · Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support font-semibold text-[#ffedb5] underline underline-offset-2 transition hover:text-white">Apoya a SVG</a></p>
       </footer>
     </div>
   );

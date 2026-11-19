@@ -143,3 +143,7 @@ Actualizado: 18 de noviembre de 2026.
 - Recordatorios del live: formulario "Avísame cuando empiece" en `/envivo`,
   tabla `reminders` en Neon, panel en `/admin/recordatorios` con lista, CSV y
   envío por Resend. Requiere `RESEND_API_KEY` y dominio verificado para enviar.
+
+- El pie de todas las páginas cierra con "Apoya a SVG" enlazado a
+  svgvisual.com, junto a "Evento producido por Kavanah". Se eliminaron las
+  líneas de crédito duplicadas en `/donar` y `/donar/gracias`.

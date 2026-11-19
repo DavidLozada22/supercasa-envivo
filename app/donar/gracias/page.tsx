@@ -23,9 +23,8 @@ export default async function ThanksPage({
       </main>
       <footer className="footer" data-astro-cid-scinlfmn>
         <p className="wrap small copy" data-astro-cid-scinlfmn>
-          © 2026 Fundación Segundos de Vida · Evento producido por Kavanah
+          © 2026 Fundación Segundos de Vida · Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support">Apoya a SVG</a>
         </p>
-        <p className="wrap small copy" data-astro-cid-scinlfmn>© 2026 Fundación Segundos de Vida</p>
       </footer>
     </div>
   );

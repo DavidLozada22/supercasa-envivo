@@ -179,7 +179,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
 
     <div className="footer-hashtags">#SuperNavidad48H &nbsp;•&nbsp; #PonteLaCapa &nbsp;•&nbsp; #48HorasPorLaSupercasa &nbsp;•&nbsp; #SegundosDeVida</div>
     <p>Fundación Segundos de Vida • NIT 900.649.809-2 • Niños hoy. Héroes siempre.</p>
-    <p className="mt-6 text-center text-xs text-white/40">Evento producido por Kavanah</p>
+    <p className="mt-6 text-center text-xs text-white/40">Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support">Apoya a SVG</a></p>
     <a
       href="/admin"
       aria-label="Panel de producción"
