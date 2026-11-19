@@ -98,3 +98,12 @@ Actualizado: 18 de noviembre de 2026.
   la señal.
 - PENDIENTE: fondo musical o cortina para los cortes de transmisión, de modo que
   David tenga tiempo de actualizar la URL de YouTube.
+
+- Estados del live calculados en hora de Bogotá (UTC-5): antes, en vivo y después.
+  Antes muestra fecha, hora y CTA; al iniciar cambia solo, sin cron.
+- El ID del directo se puede resolver automáticamente con YouTube Data API
+  (`YOUTUBE_API_KEY` + `YOUTUBE_CHANNEL_ID`); sin clave usa el ID del panel.
+- Cortina del live con tres variantes aleatorias, sin palabras técnicas, música
+  en `/audio/cortina.mp3` y botón para activarla (el navegador bloquea autoplay).
+- PENDIENTE: crear la clave de YouTube Data API en Google Cloud para que el ID se
+  actualice solo en cada bloque de 12 horas.

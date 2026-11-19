@@ -1161,3 +1161,17 @@
 .landing-root .org-logos__chip:last-child img { height: 44px; }
 .landing-root .stream-placeholder__logos { background: var(--blanco); padding: 10px 16px; }
 .landing-root .stream-placeholder__logo--kavanah img { height: 40px; }
+
+.landing-root .stream-placeholder__cta { display: inline-flex; align-items: center; justify-content: center; margin-top: 12px; padding: 11px 22px; border: 2px solid var(--azul-marino); border-radius: 999px; background: var(--amarillo-pill); box-shadow: 0 4px 0 var(--azul-marino); color: var(--azul-marino); font-size: .9rem; font-weight: 800; text-decoration: none; transition: transform .15s ease, background .15s ease; }
+.landing-root .stream-placeholder__cta:hover { transform: translateY(-1px); background: #ffe45c; }
+.landing-root .cortina-audio { margin-top: 10px; }
+.landing-root .cortina-audio__btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; background: rgba(255,255,255,.08); color: rgba(255,255,255,.8); font-size: .72rem; font-weight: 700; cursor: pointer; }
+.landing-root .cortina-audio__btn:hover { background: rgba(255,255,255,.16); color: #fff; }
+
+@media (max-width: 640px) {
+  .landing-root .stream-placeholder { aspect-ratio: auto; min-height: 440px; padding: 20px 14px; }
+  .landing-root .stream-placeholder__logo img { height: 24px; }
+  .landing-root .stream-placeholder__logo--kavanah img { height: 30px; }
+  .landing-root .stream-placeholder__logos { gap: 8px; padding: 8px 10px; }
+  .landing-root .stream-placeholder h2 { font-size: 1.15rem; }
+}

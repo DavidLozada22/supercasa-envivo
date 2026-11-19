@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Maximize, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import styles from "./masked-player.module.css";
-import StreamPlaceholder from "./StreamPlaceholder";
+import CortinaLive from "./CortinaLive";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
@@ -109,13 +109,7 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   };
 
   if (unavailable) {
-    return (
-      <StreamPlaceholder
-        title="Reconectando la transmisión"
-        message="La señal se cortó. Estamos reconectando; la transmisión continúa en vivo en cuanto YouTube la restablezca."
-        note="Si no vuelve en unos minutos, actualiza la página. Puedes donar mientras tanto."
-      />
-    );
+    return <CortinaLive />;
   }
 
   return (
@@ -195,12 +189,7 @@ export default function Player({
   title: string;
 }) {
   if (!videoId) {
-    return (
-      <StreamPlaceholder
-        title="Estamos preparando la señal"
-        message="Estamos preparando la transmisión. Mientras tanto puedes donar y seguir el avance de la casa."
-      />
-    );
+    return <CortinaLive />;
   }
   return <MaskedPlayer videoId={videoId} title={title} />;
 }

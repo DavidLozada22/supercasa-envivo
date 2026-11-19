@@ -1,13 +1,18 @@
 import { Radio } from "lucide-react";
+import type { ReactNode } from "react";
 
 export default function StreamPlaceholder({
   title,
   message,
   note,
+  cta,
+  extra,
 }: {
   title: string;
   message: string;
   note?: string;
+  cta?: { href: string; label: string };
+  extra?: ReactNode;
 }) {
   return (
     <div className="stream-placeholder">
@@ -31,6 +36,14 @@ export default function StreamPlaceholder({
       <h2>{title}</h2>
       <p className="stream-placeholder__message">{message}</p>
       {note ? <p className="stream-placeholder__note">{note}</p> : null}
+
+      {cta ? (
+        <a className="stream-placeholder__cta" href={cta.href}>
+          {cta.label}
+        </a>
+      ) : null}
+
+      {extra}
     </div>
   );
 }

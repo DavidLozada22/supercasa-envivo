@@ -15,7 +15,7 @@ export default function LiveRibbon() {
       <span className="live-ribbon__text">
         {live
           ? "Estamos en vivo · 48 horas por La Supercasa"
-          : "La transmisión empieza el viernes 20 a las 6:00 p. m."}
+          : "La transmisión empieza el viernes 20 a las 6:00 p. m., hora de Bogotá."}
       </span>
       <span className="live-ribbon__cta">Entrar al live</span>
     </Link>
