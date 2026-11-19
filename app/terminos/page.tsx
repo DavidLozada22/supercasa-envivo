@@ -1,6 +1,9 @@
 import LegalPage from "@/components/legal/LegalPage";
 
-export const metadata = { title: "Términos de donación · La SUPERCASA" };
+export const metadata = {
+  title: "Términos de donación",
+  alternates: { canonical: "/terminos" },
+};
 
 export default function Terminos() {
   return (

@@ -9,9 +9,22 @@ import { paymentsAvailable } from "@/lib/donations/wompi";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Pon tu pieza | La SUPERCASA",
+  title: "Pon tu pieza",
   description:
     "Dona en línea con Wompi o por transferencia. Cada pieza se ve en la casa que construyen los Super Calvitos.",
+  alternates: { canonical: "/donar" },
+  openGraph: {
+    title: "Pon tu pieza · La SUPERCASA",
+    description: "Dona en línea y ayuda a terminar La Supercasa de los Super Calvitos.",
+    url: "/donar",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Dona por La Supercasa" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pon tu pieza · La SUPERCASA",
+    description: "Dona en línea y ayuda a terminar La Supercasa.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default async function DonatePage() {

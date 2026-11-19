@@ -53,3 +53,9 @@ Actualizado: 18 de noviembre de 2026.
 - `META_ACCESS_TOKEN` cargado en Vercel y en local. El token responde en `/me`
   pero no tiene lectura de cuentas publicitarias (`/me/adaccounts` devuelve 403).
   Falta el ID de cuenta publicitaria y un token con `ads_read` para las métricas.
+
+- Base Neon conectada y esquema aplicado (`donations`, `subscriptions`,
+  `payment_events`, `campaign_progress`). `DATABASE_URL` y
+  `NEXT_PUBLIC_SITE_URL` cargados en Vercel para producción y preview.
+- Metadatos SEO, Open Graph, Twitter Card, robots y sitemap añadidos.
+- Favicon SVG y OG image de 1200x630 validados.

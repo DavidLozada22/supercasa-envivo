@@ -1,6 +1,9 @@
 import LegalPage from "@/components/legal/LegalPage";
 
-export const metadata = { title: "Política de tratamiento de datos · La SUPERCASA" };
+export const metadata = {
+  title: "Política de tratamiento de datos",
+  alternates: { canonical: "/politica-de-datos" },
+};
 
 export default function PoliticaDeDatos() {
   return (

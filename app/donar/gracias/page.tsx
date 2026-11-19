@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import DonationThanks from "@/components/donations/DonationThanks";
 
 export const metadata = {
-  title: "Tu aporte | La SUPERCASA",
+  title: "Tu aporte",
+  robots: { index: false, follow: false },
 };
 
 export default async function ThanksPage({

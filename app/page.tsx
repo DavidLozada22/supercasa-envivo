@@ -1,17 +1,27 @@
+import type { Metadata } from "next";
 import CampaignShell from "@/components/campaign/CampaignShell";
 import { getConfig, toPublicConfig } from "@/lib/config";
 import { progress } from "@/lib/donations/service";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "La SUPERCASA · Ponte la Capa con los Super Calvitos",
   description:
     "La casa que los Super Calvitos están construyendo contigo. Dona en línea, mira el avance de la obra y acompáñanos en la transmisión de 48 horas.",
-  verification: {
-    other: {
-      "facebook-domain-verification": "4mmbs2tq6hgyfnhpzuhx289m8tpx95",
-    },
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "La SUPERCASA · Ponte la Capa con los Super Calvitos",
+    description:
+      "La casa que los Super Calvitos están construyendo contigo. Dona en línea y mira el avance de la obra.",
+    url: "/",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "La SUPERCASA" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "La SUPERCASA · Ponte la Capa con los Super Calvitos",
+    description: "La casa que los Super Calvitos están construyendo contigo.",
+    images: ["/og-image.jpg"],
   },
 };
 

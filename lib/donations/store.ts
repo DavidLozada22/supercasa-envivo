@@ -38,7 +38,8 @@ const globalStore = globalThis as unknown as {
 function sql(): Sql | null {
   const url = process.env.DATABASE_URL;
   if (!url) return null;
-  globalStore.__supercasaSql ??= postgres(url, {
+  const clean = url.replace("channel_binding=require&", "").replace("channel_binding=require", "");
+  globalStore.__supercasaSql ??= postgres(clean, {
     ssl: url.includes("localhost") ? false : "require",
     max: 3,
     idle_timeout: 20,
