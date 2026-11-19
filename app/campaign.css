@@ -190,3 +190,7 @@
   .sv-root .wizard-steps li > span { font-size: .8rem; }
   .sv-root .wizard-nav .btn { flex: 1; justify-content: center; }
 }
+
+/* Acceso discreto al panel desde los headers públicos */
+.sv-root .admin-shortcut { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex: none; border-radius: 50%; color: var(--ink); opacity: .55; text-decoration: none; transition: opacity .15s ease, background .15s ease; }
+.sv-root .admin-shortcut:hover, .sv-root .admin-shortcut:focus-visible { opacity: 1; background: rgba(29, 43, 79, .09); }

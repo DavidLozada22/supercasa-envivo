@@ -25,6 +25,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
           <span className="pulse-dot"></span> En Vivo • 48 Horas
         </div>
         <a href="/donar" className="nav-donate-btn">Donar Ahora</a>
+        <a className="nav-admin" href="/admin" aria-label="Panel de administración" title="Panel de administración"><Lock className="h-4 w-4" strokeWidth={1.75} /></a>
       </div>
     </div>
   </header>

@@ -1129,3 +1129,6 @@
 .landing-root .squad-card { display:flex; flex-direction:column; align-items:center; gap:.5rem; }
 .landing-root .squad-card__tag { display:inline-block; padding:.3rem .7rem; border:2px solid var(--azul-marino); border-radius:999px; background:var(--amarillo-pill); font-size:.78rem; font-weight:800; color:var(--azul-marino); }
 @media (max-width:760px) { .landing-root .brand-logo img { height:40px; } .landing-root .nav-link { display:none; } }
+
+.landing-root .nav-admin { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; flex: none; border-radius: 50%; color: var(--azul-marino); opacity: .5; text-decoration: none; transition: opacity .15s ease, background .15s ease; }
+.landing-root .nav-admin:hover, .landing-root .nav-admin:focus-visible { opacity: 1; background: rgba(15, 35, 84, .08); }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Lock } from "lucide-react";
 import CopyHandler from "@/components/landing/CopyHandler";
 import DonationFlow from "@/components/campaign/DonationFlow";
 import { getConfig } from "@/lib/config";
@@ -29,9 +30,14 @@ export default async function DonatePage() {
             </span>
             <strong data-astro-cid-gfykqide>La SUPERCASA</strong>
           </Link>
-          <Link className="btn btn--white header__cta" href="/" data-astro-cid-gfykqide>
-            Volver al inicio
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link className="btn btn--white header__cta" href="/" data-astro-cid-gfykqide>
+              Volver al inicio
+            </Link>
+            <a className="admin-shortcut" href="/admin" aria-label="Panel de administración" title="Panel de administración">
+              <Lock className="h-4 w-4" strokeWidth={1.75} />
+            </a>
+          </div>
         </div>
       </header>
 
