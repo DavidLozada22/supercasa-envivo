@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 /*
- * Genera los PNG 1920x1080 de todas las cortinas.
+ * Genera los PNG 1920x1080 de todas las cortinas y un ZIP con todo.
  * Requiere el servidor de Next corriendo y Google Chrome instalado.
  *
  *   npm run cortinas
  */
 
-import { mkdir, stat } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
+import { mkdir, readdir, stat, unlink } from "node:fs/promises";
 import path from "node:path";
 import puppeteer from "puppeteer-core";
 
@@ -15,8 +16,14 @@ const CHROME =
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const BASE = process.env.RENDER_BASE || "http://localhost:3100";
 const OUT_DIR = path.resolve("public/cortinas");
+const ZIP = path.join(OUT_DIR, "cortinas-supercasa.zip");
 
 await mkdir(OUT_DIR, { recursive: true });
+
+// Limpia PNG viejos para que el ZIP solo tenga las escenas actuales.
+for (const file of await readdir(OUT_DIR)) {
+  if (file.endsWith(".png")) await unlink(path.join(OUT_DIR, file));
+}
 
 const response = await fetch(`${BASE}/api/streaming/scenes`);
 if (!response.ok) {
@@ -67,5 +74,22 @@ for (const scene of scenes) {
 }
 
 await browser.close();
+
+// ZIP con todas las cortinas listas.
+const pngs = (await readdir(OUT_DIR)).filter((file) => file.endsWith(".png")).sort();
+if (pngs.length > 0) {
+  const zipped = spawnSync(
+    "zip",
+    ["-j", "-q", ZIP, ...pngs.map((file) => path.join(OUT_DIR, file))],
+    { stdio: "ignore" },
+  );
+  if (zipped.status === 0) {
+    const info = await stat(ZIP);
+    console.log(`ZIP ${pngs.length} cortinas · ${Math.round(info.size / 1024 / 1024)} MB`);
+  } else {
+    console.warn("No se pudo crear el ZIP. Verifica que el comando zip exista.");
+  }
+}
+
 console.log(`Listas ${scenes.length - failed} de ${scenes.length} cortinas en public/cortinas`);
 process.exit(failed > 0 ? 1 : 0);

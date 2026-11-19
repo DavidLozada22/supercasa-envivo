@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Check, Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Bell, Check, HeartHandshake, Loader2 } from "lucide-react";
 
 export default function ReminderForm() {
   const [email, setEmail] = useState("");
@@ -32,7 +33,7 @@ export default function ReminderForm() {
       const response = await fetch("/api/reminders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, consent, ref }),
+        body: JSON.stringify({ email, name, consent, ref, source: "envivo" }),
       });
       const data = (await response.json()) as { error?: string };
       if (!response.ok) {
@@ -49,12 +50,30 @@ export default function ReminderForm() {
 
   if (done) {
     return (
-      <div className="mx-auto max-w-3xl rounded-3xl border-2 border-[#1d2b4f] bg-white p-6 text-center shadow-[0_6px_0_#1d2b4f]">
-        <Check className="mx-auto h-8 w-8 text-emerald-600" strokeWidth={2} />
-        <p className="mt-2 text-lg font-extrabold text-[#1d2b4f]">Quedaste en la lista</p>
-        <p className="mt-1 text-sm text-slate-600">
-          Te escribiremos cuando abran los bloques importantes, cuando falte poco para la meta y cuando esté por cerrar.
+      <div className="mx-auto max-w-3xl rounded-3xl border-2 border-[#1d2b4f] bg-[#B5F43D]/20 p-6 text-center shadow-[0_6px_0_#1d2b4f]">
+        <Check className="mx-auto h-8 w-8 text-emerald-700" strokeWidth={2} />
+        <p className="mt-2 text-lg font-extrabold text-[#1d2b4f]">
+          Listo{name ? `, ${name}` : ""}. Quedaste en la lista.
         </p>
+        <p className="mx-auto mt-1 max-w-xl text-sm leading-relaxed text-slate-600">
+          Te avisamos cuando abra cada bloque, cuando falte poco para la meta y cuando esté por
+          cerrar. También te recordamos en qué bloque vamos.
+        </p>
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
+          <Link
+            href="/envivo"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#0F2354] px-5 py-2.5 text-sm font-extrabold text-white"
+          >
+            Ver el live
+          </Link>
+          <Link
+            href="/donar"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#E6009E] px-5 py-2.5 text-sm font-extrabold text-white"
+          >
+            <HeartHandshake className="h-4 w-4" strokeWidth={2} />
+            Donar ahora
+          </Link>
+        </div>
       </div>
     );
   }
@@ -69,28 +88,39 @@ export default function ReminderForm() {
           <Bell className="h-5 w-5" strokeWidth={1.75} />
         </span>
         <div>
-          <h3 className="text-lg font-extrabold text-[#1d2b4f]">Recibe los avisos de la maratón</h3>
+          <h3 className="text-lg font-extrabold text-[#1d2b4f]">
+            No te pierdas ningún bloque
+          </h3>
           <p className="text-sm leading-relaxed text-slate-600">
-            Te avisamos cuando empiece cada bloque, cuando falte poco para la meta y cuando esté por cerrar. Sin spam.
+            Déjanos tu correo y te avisamos cuando empiece cada bloque, cuando falte poco para la
+            meta y cuando esté por cerrar. Son pocos correos, sin spam.
           </p>
         </div>
       </div>
 
       <div className="mt-4 grid gap-3 md:grid-cols-2">
-        <input
-          type="email"
-          required
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="tu@correo.com"
-          className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-[#e53935] focus:ring-2 focus:ring-[#e53935]/15"
-        />
-        <input
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-          placeholder="Tu nombre (opcional)"
-          className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-[#e53935] focus:ring-2 focus:ring-[#e53935]/15"
-        />
+        <label className="block">
+          <span className="mb-1 block text-[11px] font-bold text-[#1d2b4f]">Tu nombre</span>
+          <input
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="¿Cómo te llamas?"
+            autoComplete="name"
+            className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-[#e53935] focus:ring-2 focus:ring-[#e53935]/15"
+          />
+        </label>
+        <label className="block">
+          <span className="mb-1 block text-[11px] font-bold text-[#1d2b4f]">Tu correo</span>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="tu@correo.com"
+            autoComplete="email"
+            className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm outline-none focus:border-[#e53935] focus:ring-2 focus:ring-[#e53935]/15"
+          />
+        </label>
       </div>
 
       <label className="mt-3 flex items-start gap-2 text-xs leading-relaxed text-slate-600">
@@ -98,7 +128,7 @@ export default function ReminderForm() {
           type="checkbox"
           checked={consent}
           onChange={(event) => setConsent(event.target.checked)}
-          className="mt-0.5 h-4 w-4"
+          className="mt-0.5 h-4 w-4 accent-[#c62828]"
         />
         Autorizo a la Fundación Segundos de Vida a enviarme correos sobre esta campaña.
       </label>
@@ -109,14 +139,19 @@ export default function ReminderForm() {
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#c62828] px-5 py-2.5 text-sm font-extrabold text-white transition hover:bg-[#a51f1f] disabled:opacity-60"
-      >
-        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Bell className="h-4 w-4" />}
-        {loading ? "Guardando" : "Avísame"}
-      </button>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        <button
+          type="submit"
+          disabled={loading}
+          className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-[#c62828] px-5 py-2.5 text-sm font-extrabold text-white transition hover:bg-[#a51f1f] disabled:opacity-60"
+        >
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Bell className="h-4 w-4" />}
+          {loading ? "Guardando" : "Quiero mis avisos"}
+        </button>
+        <p className="text-[11px] font-semibold text-slate-500">
+          Puedes salir de la lista cuando quieras.
+        </p>
+      </div>
     </form>
   );
 }

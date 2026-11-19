@@ -157,3 +157,50 @@ Los correos salen únicamente de la tabla `reminders` con `consent = true`. No s
 usan correos de donantes ni se compran listas. Cada envío se aprueba en el panel
 y se registra en un historial. El envío va por lotes de 100 con pausa de un
 segundo para respetar el límite de Resend.
+
+
+## 21. La cortina es una pieza de marca, no un cartel
+
+Las 47 cortinas comparten una retícula de 1920x1080 con logos directos, título
+grande, calvito 3D y una franja de donación. El número de bloque es el elemento
+principal. La donación no se esconde en el pie: aparece en todas las piezas y en
+todos los overlays.
+
+## 22. El live pequeño va en 1280x720
+
+El fondo y el marco dejan un área de 1280x720 en la posición 80 x 180. El panel
+derecho ocupa 560 px y lleva QR, Bre-B, cuenta, avance y redes. Así el operador
+puede poner el video pequeño sin calcular medidas.
+
+## 23. Chatbot con guion, no con IA generativa
+
+El chatbot responde desde `lib/chat/knowledge.ts`. No inventa cuentas, precios ni
+horarios, no cuesta por mensaje y funciona sin depender de una API externa el día
+del evento. Si no encuentra la respuesta, ofrece WhatsApp. La captura de nombre y
+correo entra a la misma tabla de recordatorios.
+
+## 24. Dos caminos de donación y comprobante por WhatsApp
+
+`/donar` muestra desde el inicio dos caminos: Wompi y transferencia directa. La
+transferencia explica los tres pasos y ofrece un botón para enviar el
+comprobante. El número sale de `NEXT_PUBLIC_DONATION_WHATSAPP` y usa como
+respaldo el teléfono público de la Fundación.
+
+## 25. El donante también recibe avisos
+
+Cuando Wompi aprueba una donación, se envía un agradecimiento por Resend con la
+casa, un calvito y los logos, y el correo se inscribe en `reminders` con
+`source = 'donacion'`. Un webhook repetido no vuelve a enviar el correo porque
+solo se dispara en la transición a aprobado.
+
+## 26. Recordatorios listos, envío manual
+
+El panel de recordatorios trae 19 mensajes por momento. No se programan solos: se
+revisan y se confirman para no enviar un aviso equivocado en pleno live. Los
+envíos quedan en el historial y se pueden exportar los inscritos en CSV.
+
+## 27. Navegación del panel por grupos
+
+El sidebar agrupa Producción, Recaudo y casa, y Sitio. El inicio muestra un mapa
+con todas las herramientas. Se eliminó la duplicación del sidebar del dashboard y
+los enlaces viejos a `/admin/cortina`.

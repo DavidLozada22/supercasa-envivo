@@ -3,15 +3,12 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import {
-
   Check,
   Copy,
   Eye,
   EyeOff,
-  ExternalLink,
   KeyRound,
   Loader2,
-  LogOut,
   Megaphone,
   QrCode,
   Radio,
@@ -21,7 +18,9 @@ import {
   Wallet,
   Youtube,
 } from "lucide-react";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 import CampaignTools from "@/components/admin/CampaignTools";
+import PanelMap from "@/components/admin/PanelMap";
 import type { AppConfig } from "@/lib/types";
 import { youtubeEmbedUrl, youtubeVideoId } from "@/lib/youtube";
 
@@ -163,93 +162,7 @@ export default function AdminDashboard({
       className="flex min-h-screen bg-[#F4F6FB] text-slate-800"
       style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}
     >
-      <aside className="sticky top-0 hidden h-screen w-[264px] shrink-0 flex-col justify-between bg-[#0F2354] p-6 text-white lg:flex">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B5F43D]">
-            Supercasa en vivo
-          </p>
-          <h2 className="mt-2 text-lg font-extrabold leading-tight">Panel de producción</h2>
-          <p className="mt-1 text-xs text-white/50">Fundación Segundos de Vida</p>
-
-          <nav className="mt-8 space-y-1">
-            {TABS.map((item) => {
-              const Icon = item.icon;
-              const active = tab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setTab(item.id)}
-                  className={`flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition ${
-                    active
-                      ? "bg-white/10 text-white"
-                      : "text-white/60 hover:bg-white/5 hover:text-white"
-                  }`}
-                >
-                  <Icon
-                    className={`h-[18px] w-[18px] ${active ? "text-[#B5F43D]" : ""}`}
-                    strokeWidth={1.75}
-                  />
-                  {item.label}
-                </button>
-              );
-            })}
-          </nav>
-
-          <div className="mt-6 border-t border-white/10 pt-4">
-            <p className="px-3.5 text-[10px] font-bold uppercase tracking-widest text-white/40">
-              Herramientas
-            </p>
-            <a href="/admin/donaciones" className="mt-1 flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
-              Donaciones
-            </a>
-            <a href="/admin/recorrido" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
-              Recorrido
-            </a>
-            <a href="/admin/cortina" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
-              Cortinas del live
-            </a>
-            <a href="/admin/casa" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
-              Avance de la casa
-            </a>
-            <a href="/admin/recordatorios" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
-              Recordatorios
-            </a>
-            <a href="/admin/preview-home" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
-              Vista previa en vivo
-            </a>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <div className="mb-3 flex items-center gap-3 rounded-xl bg-white/5 px-3.5 py-3">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E6009E] text-xs font-extrabold uppercase text-white">
-              {user.slice(0, 2)}
-            </span>
-            <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-white">{user}</p>
-              <p className="text-[11px] text-white/45">Sesión activa</p>
-            </div>
-          </div>
-          <a
-            href="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white"
-          >
-            <ExternalLink className="h-[18px] w-[18px]" strokeWidth={1.75} />
-            Ver sitio
-          </a>
-          <button
-            type="button"
-            onClick={logout}
-            className="flex w-full items-center gap-2 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white"
-          >
-            <LogOut className="h-[18px] w-[18px]" strokeWidth={1.75} />
-            Cerrar sesión
-          </button>
-        </div>
-      </aside>
+      <AdminSidebar user={user} />
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-5 py-4 backdrop-blur md:px-8">
@@ -314,12 +227,13 @@ export default function AdminDashboard({
         </div>
 
         <main className="mx-auto w-full max-w-5xl space-y-5 p-5 md:p-8">
+          <PanelMap />
           <div className="flex flex-wrap gap-2">
             <a href="/admin/recorrido" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
               Ver mapa y demostración del recorrido
             </a>
-            <a href="/admin/cortina" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
-              Ver cortinas del live
+            <a href="/admin/streaming" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
+              Abrir Streaming
             </a>
             <a href="/admin/casa" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
               Ver avance de la casa

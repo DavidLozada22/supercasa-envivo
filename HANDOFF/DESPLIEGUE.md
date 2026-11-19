@@ -39,6 +39,7 @@ Vercel no duplique despliegues ni bloquee envíos.
 | `YOUTUBE_CHANNEL_ID` | Producción, Preview | Canal `UCrdNxBU4cfR0rEHY1OO9tQQ` |
 | `RESEND_API_KEY` | Producción, Preview | Envío de avisos |
 | `RESEND_FROM` | Producción, Preview | Remitente verificado |
+| `NEXT_PUBLIC_DONATION_WHATSAPP` | Opcional | WhatsApp para comprobantes y ayuda |
 
 ## Resend
 
@@ -78,7 +79,14 @@ Los PNG quedan en `/cortinas/<id>.png` y se regeneran con:
 npm run cortinas
 ```
 
-Requiere el servidor en `localhost:3100` y Chrome instalado.
+Requiere el servidor en `localhost:3100` y Chrome instalado. El script también
+crea `public/cortinas/cortinas-supercasa.zip` con las 47 piezas.
+
+El fondo y el marco para live pequeño usan el video en 1280x720 en la posición
+80 x 180. El panel derecho mide 560 px.
+
+El WhatsApp de comprobantes sale de `NEXT_PUBLIC_DONATION_WHATSAPP`. Si no está
+definido, usa el teléfono público de la Fundación `573165246087`.
 
 ## Secretos
 

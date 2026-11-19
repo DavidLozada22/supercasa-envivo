@@ -9,7 +9,7 @@ import {
   Youtube,
 } from "lucide-react";
 
-type Tab = "cortinas" | "bloques" | "overlays" | "control" | "conexiones";
+type Tab = "cortinas" | "control" | "conexiones";
 
 export default function StreamingGuide({ onTab }: { onTab: (tab: Tab) => void }) {
   return (
@@ -34,7 +34,7 @@ export default function StreamingGuide({ onTab }: { onTab: (tab: Tab) => void })
               <Download className="h-4 w-4 text-[#B5F43D]" strokeWidth={2} />
               Descarga el PNG
             </p>
-            <p className="mt-1 text-xs leading-relaxed text-white/65">
+            <p className="mt-1 text-xs leading-relaxed text-white/60">
               Pulsa PNG en cualquier tarjeta. Arrastra el archivo a OBS.
             </p>
           </li>
@@ -47,7 +47,7 @@ export default function StreamingGuide({ onTab }: { onTab: (tab: Tab) => void })
               <MonitorPlay className="h-4 w-4 text-[#FFD400]" strokeWidth={2} />
               O copia la URL
             </p>
-            <p className="mt-1 text-xs leading-relaxed text-white/65">
+            <p className="mt-1 text-xs leading-relaxed text-white/60">
               Pulsa OBS y pega la URL en una fuente de navegador de 1920x1080.
             </p>
           </li>
@@ -60,8 +60,8 @@ export default function StreamingGuide({ onTab }: { onTab: (tab: Tab) => void })
               <SlidersHorizontal className="h-4 w-4 text-[#E6009E]" strokeWidth={2} />
               Cambia el texto
             </p>
-            <p className="mt-1 text-xs leading-relaxed text-white/65">
-              En En control eliges la cortina, escribes y publicas.
+            <p className="mt-1 text-xs leading-relaxed text-white/60">
+              Desde En control eliges la cortina, escribes y publicas.
             </p>
           </li>
         </ol>

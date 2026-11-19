@@ -1,5 +1,6 @@
 import type { PublicConfig } from "@/lib/types";
 import CopyHandler from "./CopyHandler";
+import LiveActions from "./LiveActions";
 import StickyDonate from "./StickyDonate";
 import StreamPlayer from "./StreamPlayer";
 import SponsorsSection from "@/components/campaign/SponsorsSection";
@@ -7,6 +8,7 @@ import ReminderForm from "@/components/campaign/ReminderForm";
 import SiteFooter from "@/components/public/SiteFooter";
 import HouseProgress from "./HouseProgress";
 import SiteHeader from "@/components/public/SiteHeader";
+import HelpWidget from "@/components/public/HelpWidget";
 
 export default function LandingMarkup({ config, raised }: { config: PublicConfig; raised?: number }) {
   return (
@@ -39,9 +41,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
 
     <StreamPlayer stream={config.stream} />
 
-    <div className="live-alerts">
-      <a href="#avisame">Recibe un aviso cuando empiece cada bloque</a>
-    </div>
+    <LiveActions />
 
 
     <HouseProgress initialRaised={raised ?? config.totals.raised} initialGoal={config.totals.goal} />
@@ -159,6 +159,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
   <SiteFooter />
       <StickyDonate />
       </div>
+      <HelpWidget />
     </>
   );
 }

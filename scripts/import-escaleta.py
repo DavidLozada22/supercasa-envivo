@@ -141,12 +141,16 @@ def parse_segments(rows, blocks):
         presenter = row[9] if len(row) > 9 else ""
         presenter = re.sub(r"\bDeivid\b", "Vikingo", presenter)
         presenter = re.sub(r"\bDavid\b", "Vikingo", presenter)
+        segment_name = row[6] if len(row) > 6 else ""
+        if segment_name:
+            segment_name = segment_name[0].upper() + segment_name[1:]
+            segment_name = segment_name.replace("Incio ", "Inicio ")
         segments.append({
             "id": row[0],
             "day": row[1] if len(row) > 1 else "",
             "block": number,
             "duration": duration,
-            "name": row[6] if len(row) > 6 else "",
+            "name": segment_name,
             "execution": row[7] if len(row) > 7 else "",
             "type": row[8] if len(row) > 8 else "",
             "presenter": presenter,
@@ -173,6 +177,18 @@ def parse_segments(rows, blocks):
     return segments
 
 
+
+def clean_text(value):
+    """Normaliza guiones largos y medios para que el panel no muestre em dashes."""
+    if isinstance(value, str):
+        return value.replace("\u2014", "\u00b7").replace("\u2013", "-")
+    if isinstance(value, list):
+        return [clean_text(item) for item in value]
+    if isinstance(value, dict):
+        return {key: clean_text(item) for key, item in value.items()}
+    return value
+
+
 def main():
     if len(sys.argv) < 2:
         print("Falta la ruta del xlsx.")
@@ -189,8 +205,8 @@ def main():
 
     target = Path("lib/program")
     target.mkdir(parents=True, exist_ok=True)
-    (target / "blocks.json").write_text(json.dumps(blocks, ensure_ascii=False, indent=2), encoding="utf8")
-    (target / "segments.json").write_text(json.dumps(segments, ensure_ascii=False, indent=2), encoding="utf8")
+    (target / "blocks.json").write_text(json.dumps(clean_text(blocks), ensure_ascii=False, indent=2), encoding="utf8")
+    (target / "segments.json").write_text(json.dumps(clean_text(segments), ensure_ascii=False, indent=2), encoding="utf8")
 
     print(f"Bloques: {len(blocks)}")
     print(f"Segmentos: {len(segments)}")

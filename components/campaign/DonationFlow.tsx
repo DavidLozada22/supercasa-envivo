@@ -431,10 +431,10 @@ export default function DonationFlow({
 
           <div className="actions" {...A}>
             <button type="button" className="btn btn--ghost" onClick={() => setStep(1)} {...A}>
-              ← elegir otra pieza
+              Volver a elegir la pieza
             </button>
             <button type="button" className="btn btn--primary" onClick={next} {...A}>
-              Ver el impacto de mi pieza →
+              Ver el impacto de mi pieza
             </button>
           </div>
         </div>
@@ -491,14 +491,14 @@ export default function DonationFlow({
 
           <div className="actions" {...A}>
             <button type="button" className="btn btn--ghost" onClick={() => setStep(2)} {...A}>
-              ← cambiar mis datos
+              Volver a mis datos
             </button>
             <button type="submit" className="btn btn--primary btn--xl" disabled={loading || !available} {...A}>
-              {loading ? "Abriendo el pago…" : `💳 Ir a pagar ${cop.format(total)}`}
+              {loading ? "Abriendo el pago…" : `Ir a pagar ${cop.format(total)}`}
             </button>
           </div>
           <p className="secure" {...A}>
-            🔒 Pagas en Wompi, la pasarela de Bancolombia. Nunca vemos los datos de tu tarjeta.
+            Pagas en Wompi, la pasarela de Bancolombia. Nunca vemos los datos de tu tarjeta.
           </p>
         </div>
       ) : null}

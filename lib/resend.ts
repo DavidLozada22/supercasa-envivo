@@ -72,6 +72,91 @@ export async function sendReminderEmail(input: {
   }
 }
 
+export async function sendDonationThanks(input: {
+  to: string;
+  name?: string | null;
+  amountCop: number;
+}): Promise<{ ok: boolean; error?: string }> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return { ok: false, error: "Falta RESEND_API_KEY" };
+
+  const from = process.env.RESEND_FROM || "La Supercasa <hola@supercasa.svgvisual.com>";
+  const name = input.name?.trim();
+  const amount = new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }).format(input.amountCop);
+  const subject = "Gracias por poner tu pieza en La Supercasa";
+  const base = "https://supercasa.svgvisual.com";
+  const share = encodeURIComponent(
+    "Estoy apoyando La Supercasa, la casa de los Súper Calvitos. Mira el avance y súmate: https://supercasa.svgvisual.com/envivo",
+  );
+
+  const html = `
+  <div style="margin:0;padding:24px;background:#fffaf0;font-family:Arial,Helvetica,sans-serif;color:#1d2b4f">
+    <div style="max-width:600px;margin:0 auto;overflow:hidden;border:2px solid #0f2354;border-radius:22px;background:#ffffff">
+      <div style="padding:22px 26px;background:#0f2354;text-align:center">
+        <img src="${base}/img/logo-fsv-official.png" alt="Fundación Segundos de Vida" height="40" style="display:inline-block;height:40px;width:auto;vertical-align:middle" />
+        <span style="display:inline-block;padding:0 10px;color:#ffffff;font-size:18px;font-weight:700;vertical-align:middle">×</span>
+        <img src="${base}/img/kavanah-horizontal-gold.png" alt="Kavanah" height="34" style="display:inline-block;height:34px;width:auto;vertical-align:middle" />
+      </div>
+
+      <div style="padding:28px 28px 8px;text-align:center">
+        <p style="margin:0 0 6px;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#e6009e">Tu pieza ya está en la casa</p>
+        <h1 style="margin:0 0 10px;font-size:27px;line-height:1.15;color:#0f2354">${name ? `Gracias, ${escapeHtml(name)}.` : "Gracias por tu donación."}</h1>
+        <p style="margin:0;font-size:15px;line-height:1.6;color:#334155">
+          Tu aporte de <strong style="color:#0f2354">${amount}</strong> ya es una pieza real de La Supercasa.
+          Cada ventana, cada baño y cada habitación se construye con gestos como el tuyo.
+        </p>
+      </div>
+
+      <div style="padding:18px 28px;text-align:center">
+        <img src="${base}/img/casa/supercasa-100-800.webp" alt="La Supercasa terminada" width="520" style="display:block;width:100%;max-width:520px;height:auto;margin:0 auto;border-radius:16px;border:1px solid #e2e8f0" />
+        <img src="${base}/constructor.png" alt="Súper Calvito constructor" width="150" style="display:block;width:150px;height:auto;margin:-30px auto 0" />
+      </div>
+
+      <div style="padding:0 28px 24px;text-align:center">
+        <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#334155">
+          La maratón termina el 22 de noviembre, pero la campaña sigue abierta hasta el
+          <strong style="color:#0f2354">30 de noviembre</strong>. Todavía puedes invitar a tu familia,
+          a tu empresa o donar en especie.
+        </p>
+        <p style="margin:0 0 18px">
+          <a href="${base}/donar" style="display:inline-block;margin:0 6px 8px 0;padding:13px 22px;border-radius:999px;background:#e6009e;color:#ffffff;font-weight:800;text-decoration:none">Ver el avance</a>
+          <a href="https://wa.me/?text=${share}" style="display:inline-block;margin:0 6px 8px 0;padding:13px 22px;border-radius:999px;background:#0f2354;color:#ffffff;font-weight:800;text-decoration:none">Compartir La Supercasa</a>
+        </p>
+        <p style="margin:0 0 10px;font-size:13px;line-height:1.6;color:#64748b">
+          Si necesitas certificado de donación, responde a este correo con tu nombre y el valor del aporte.
+          También puedes escribir a <a href="mailto:hola@supercasa.svgvisual.com" style="color:#0f2354;font-weight:700">hola@supercasa.svgvisual.com</a>.
+        </p>
+        <p style="margin:0;font-size:12px;line-height:1.5;color:#94a3b8">
+          Evento de Familia Kavanah a beneficio de la Fundación Segundos de Vida.
+          @segundosdevidafundacion · @kavanahpl35
+        </p>
+      </div>
+    </div>
+  </div>`;
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ from, to: [input.to], subject, html }),
+    });
+    if (!response.ok) {
+      const detail = await response.text().catch(() => "");
+      return { ok: false, error: `Resend ${response.status}: ${detail.slice(0, 200)}` };
+    }
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "No se pudo conectar con Resend." };
+  }
+}
+
 export type ResendHealth = {
   keyPresent: boolean;
   from: string;

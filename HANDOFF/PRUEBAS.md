@@ -53,7 +53,7 @@ la restricción en el servidor (pendiente).
 Anotar hallazgos en `ESTADO.md` o abrir un issue. Un cambio cerrado se refleja
 aquí y en `ESTADO.md`.
 
-- 38 comprobaciones en `tests/` (node --test).
+- 45 comprobaciones en `tests/` (node --test).
 - Revisado en 1280 y 390 px: header, menú móvil y mini visor sin desbordamiento.
 - Cuenta regresiva verificada en local: muestra horas restantes y no muestra la
   píldora ni el visor antes del inicio.
@@ -71,3 +71,24 @@ aquí y en `ESTADO.md`.
 - Manual: enviar una prueba de Resend y revisar la bandeja.
 - Manual: abrir `/admin/programa` y confirmar el bloque y el segmento.
 - Manual: revisar la franja de avisos y el formulario en un celular real.
+
+## Segunda ronda de cortinas y panel
+
+- `node --test tests/event-tools.test.mjs` cubre las 47 escenas, la mosca, el
+  fondo/marco de live, el chatbot, los 19 recordatorios, los dos caminos de
+  donación, el correo de agradecimiento y el mapa del panel.
+- Manual: abrir `/admin` y confirmar que el sidebar y el mapa muestran todas las
+  herramientas sin entrar a "Herramientas".
+- Manual: abrir `/admin/recordatorios` y confirmar los tres grupos de mensajes y
+  el botón de confirmación.
+- Manual: abrir `/admin/streaming` en las pestañas Cuentas regresivas, La casa y
+  Pantallas y overlays.
+- Manual: abrir `/donar` y recorrer los dos caminos. Probar el botón de
+  comprobante por WhatsApp.
+- Manual: abrir `/envivo`, revisar el contador sobre el reproductor y el bloque
+  grande de horas debajo.
+- Manual: abrir el chatbot en home, `/envivo` y `/donar`; probar una pregunta,
+  una respuesta sin coincidencia y el formulario de avisos.
+- Manual: publicar `mosca`, `donacion` y `marco-live` en `/pantalla/onair`.
+- Manual: simular una donación aprobada y confirmar el correo de agradecimiento
+  y la fila nueva en recordatorios.

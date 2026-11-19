@@ -8,6 +8,7 @@ import HouseCompare from "@/components/campaign/HouseCompare";
 import HeroLiveOverlay from "@/components/campaign/HeroLiveOverlay";
 import HeroPromo from "@/components/public/HeroPromo";
 import StickyCta from "@/components/campaign/StickyCta";
+import HelpWidget from "@/components/public/HelpWidget";
 
 const formatCOP = (value: number) =>
   "$ " + Math.max(0, Math.round(value)).toLocaleString("es-CO");
@@ -48,6 +49,7 @@ export default function CampaignShell({
 
 <SponsorsSection /><SiteFooter />      
       </div>
+      <HelpWidget />
     </>
   );
 }

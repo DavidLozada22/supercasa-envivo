@@ -1271,3 +1271,203 @@
   transform: translateY(2px);
   box-shadow: 0 2px 0 var(--azul-marino, #0F2354);
 }
+
+/* Estado de la maratón debajo del reproductor */
+.landing-root .live-pulse {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+  max-width: 1100px;
+  margin: 1.4rem auto 0;
+  padding: 18px;
+  border: 3px solid var(--azul-marino);
+  border-radius: 26px;
+  background: var(--azul-marino);
+  color: var(--blanco);
+  box-shadow: 0 14px 0 rgba(15, 35, 84, 0.18);
+}
+.landing-root .live-pulse__main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+}
+.landing-root .live-pulse__tag {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--verde-lima);
+  color: var(--azul-marino);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+.landing-root .live-pulse__tag.is-live {
+  background: var(--magenta);
+  color: var(--blanco);
+}
+.landing-root .live-pulse__tag i {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.landing-root .live-pulse__number {
+  margin: 0;
+  font-family: "Fredoka", ui-rounded, system-ui, sans-serif;
+  font-size: 5.4rem;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+.landing-root .live-pulse__number span {
+  margin-left: 6px;
+  color: var(--verde-lima);
+  font-size: 1.8rem;
+  letter-spacing: 0;
+}
+.landing-root .live-pulse__label {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.landing-root .live-pulse__bar {
+  height: 12px;
+  margin: 8px 0 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+.landing-root .live-pulse__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--amarillo-pill), var(--verde-lima));
+}
+.landing-root .live-pulse__detail {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.landing-root .live-pulse__side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 10px 8px;
+}
+.landing-root .live-pulse__cause {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.landing-root .live-pulse__cause strong {
+  color: var(--verde-lima);
+  font-weight: 800;
+}
+.landing-root .live-pulse__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.landing-root .live-pulse__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--blanco);
+  font-size: 0.86rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.landing-root .live-pulse__btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+}
+.landing-root .live-pulse__btn--primary {
+  border-color: transparent;
+  background: var(--verde-lima);
+  color: var(--azul-marino);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.25);
+}
+.landing-root .live-pulse__btn--primary:hover {
+  background: var(--verde-lima);
+  filter: brightness(1.04);
+}
+.landing-root .live-pulse__fine {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+@media (max-width: 820px) {
+  .landing-root .live-pulse {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+  .landing-root .live-pulse__number {
+    font-size: 4.4rem;
+  }
+}
+
+/* Contador de horas sobre el reproductor */
+.landing-root .live-player-wrap { position: relative; }
+.landing-root .live-player-wrap > .live-hours-pill { position: absolute; top: 14px; left: 14px; z-index: 9; }
+.landing-root .live-hours-pill {
+  display: grid;
+  gap: 4px;
+  width: 270px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  background: rgba(7, 17, 39, 0.92);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.landing-root .live-hours-pill.is-compact { width: 218px; padding: 8px 12px; border-radius: 14px; }
+.landing-root .live-hours-pill__tag {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+.landing-root .live-hours-pill__tag.is-live { background: #e6009e; color: #fff; }
+.landing-root .live-hours-pill__tag i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.landing-root .live-hours-pill__row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.landing-root .live-hours-pill__row strong {
+  font-family: "Fredoka", ui-rounded, system-ui, sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.landing-root .live-hours-pill__row strong small { font-size: 0.8rem; color: rgba(255, 255, 255, 0.55); }
+.landing-root .live-hours-pill__row span { color: var(--verde-lima); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.06em; }
+.landing-root .live-hours-pill__bar { height: 5px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.16); }
+.landing-root .live-hours-pill__bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--amarillo-pill), var(--verde-lima)); }
+.landing-root .stream-placeholder .live-hours-pill { margin-top: 10px; width: 260px; }
+@media (max-width: 600px) {
+  .landing-root .live-player-wrap > .live-hours-pill { top: 8px; left: 8px; }
+  .landing-root .live-hours-pill.is-compact { width: 190px; }
+  .landing-root .stream-placeholder .live-hours-pill { width: 220px; }
+}

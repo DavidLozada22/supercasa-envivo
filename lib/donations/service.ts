@@ -2,8 +2,10 @@ import { randomBytes } from "node:crypto";
 import { findPiece, MAX_AMOUNT, MIN_AMOUNT } from "./catalog";
 import { feeFor } from "./pricing";
 import { normalizeAttribution } from "@/lib/attribution";
+import { sendDonationThanks } from "@/lib/resend";
 import {
   approvedTotal,
+  dbClient,
   getDonation,
   insertDonation,
   logEvent,
@@ -184,6 +186,7 @@ export async function applyTransaction(transaction: WompiTransaction): Promise<D
     });
   }
 
+  const wasApproved = donation.status === "approved";
   const status = STATUS[transaction.status] ?? "error";
   const updated = await transitionDonation(transaction.reference, {
     status,
@@ -193,7 +196,41 @@ export async function applyTransaction(transaction: WompiTransaction): Promise<D
     approvedAt: status === "approved" ? new Date().toISOString() : null,
   });
 
-  return updated ?? (await getDonation(transaction.reference));
+  const result = updated ?? (await getDonation(transaction.reference));
+
+  if (status === "approved" && !wasApproved && result) {
+    await afterApproved(result);
+  }
+
+  return result;
+}
+
+async function afterApproved(donation: Donation): Promise<void> {
+  const email = donation.donorEmail?.trim();
+  if (!email) return;
+
+  try {
+    await sendDonationThanks({
+      to: email,
+      name: donation.donorName,
+      amountCop: donation.amountCop,
+    });
+  } catch {
+    // El correo de agradecimiento no puede frenar la confirmacion del pago.
+  }
+
+  try {
+    const db = dbClient();
+    if (db) {
+      await db`
+        insert into reminders (email, name, consent, source)
+        values (${email}, ${donation.donorName}, true, 'donacion')
+        on conflict (lower(email)) do nothing
+      `;
+    }
+  } catch {
+    // La lista de recordatorios no puede frenar la confirmacion del pago.
+  }
 }
 
 export async function processEvent(event: WompiEvent): Promise<{ ok: boolean; reason?: string }> {

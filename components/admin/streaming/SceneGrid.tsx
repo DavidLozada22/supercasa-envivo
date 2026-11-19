@@ -26,7 +26,7 @@ export default function SceneGrid({ scenes }: { scenes: SceneDef[] }) {
           className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
         >
           <div className="relative aspect-video overflow-hidden bg-[#0B1A3D]">
-            <span className="absolute inset-0 grid place-items-center px-6 text-center text-xs font-semibold text-white/35">
+            <span className="absolute inset-0 grid place-items-center px-6 text-center text-xs font-semibold text-white/30">
               {scene.label}
             </span>
             <img

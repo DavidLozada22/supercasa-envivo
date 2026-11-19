@@ -3,37 +3,59 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   Activity,
+  Building2,
   Clapperboard,
+  Download,
   Layers,
   Loader2,
   RefreshCw,
   SlidersHorizontal,
+  Timer,
 } from "lucide-react";
-import {
-  SCENES,
-  getScene,
-  type SceneDef,
-} from "@/lib/streaming/scenes";
+import { SCENES, getScene, type SceneDef } from "@/lib/streaming/scenes";
 import type { OnAirState } from "@/lib/streaming/types";
 import ConnectionPanel from "./ConnectionPanel";
 import ControlPanel from "./ControlPanel";
+import ProgramStrip from "./ProgramStrip";
 import SceneGrid from "./SceneGrid";
 import StreamingGuide from "./StreamingGuide";
 import type { Health } from "./types";
 
-type TabId = "cortinas" | "bloques" | "overlays" | "control" | "conexiones";
+type TabId =
+  | "cortinas"
+  | "cuentas"
+  | "casa"
+  | "bloques"
+  | "overlays"
+  | "control"
+  | "conexiones";
 
 const TABS: Array<{ id: TabId; label: string; icon: typeof Layers }> = [
   { id: "cortinas", label: "Cortinas", icon: Clapperboard },
+  { id: "cuentas", label: "Cuentas regresivas", icon: Timer },
+  { id: "casa", label: "La casa", icon: Building2 },
   { id: "bloques", label: "Bloques", icon: Layers },
-  { id: "overlays", label: "Overlays", icon: SlidersHorizontal },
+  { id: "overlays", label: "Pantallas y overlays", icon: SlidersHorizontal },
   { id: "control", label: "En control", icon: Activity },
   { id: "conexiones", label: "Conexiones", icon: RefreshCw },
 ];
 
-const generic = SCENES.filter((scene) => scene.kind === "full" && scene.group !== "bloque");
+const isCountdown = (scene: SceneDef) => scene.id.startsWith("empezamos-");
+
+const generic = SCENES.filter(
+  (scene) =>
+    scene.kind === "full" &&
+    scene.group !== "bloque" &&
+    !isCountdown(scene) &&
+    scene.visual !== "house" &&
+    scene.id !== "fondo-live",
+);
+const countdowns = SCENES.filter(isCountdown);
+const houses = SCENES.filter((scene) => scene.visual === "house");
 const blocks = SCENES.filter((scene) => scene.group === "bloque");
-const overlays = SCENES.filter((scene) => scene.kind === "overlay");
+const overlays = SCENES.filter(
+  (scene) => scene.kind === "overlay" || scene.id === "fondo-live",
+);
 
 export default function StreamingConsole() {
   const [tab, setTab] = useState<TabId>("cortinas");
@@ -104,6 +126,8 @@ export default function StreamingConsole() {
         </div>
       </section>
 
+      <ProgramStrip />
+
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
           {TABS.map((item) => {
@@ -127,11 +151,19 @@ export default function StreamingConsole() {
             );
           })}
         </div>
+        <a
+          href="/cortinas/cortinas-supercasa.zip"
+          download
+          className="ml-auto inline-flex items-center gap-2 rounded-xl bg-[#B5F43D] px-3 py-2 text-xs font-extrabold text-[#0F2354] shadow-sm transition hover:brightness-105"
+        >
+          <Download className="h-3.5 w-3.5" strokeWidth={2} />
+          Descargar todas
+        </a>
         <button
           type="button"
           onClick={() => void load()}
           disabled={loading}
-          className="ml-auto inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-[#0F2354] shadow-sm transition hover:border-[#E6009E]/40 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-[#0F2354] shadow-sm transition hover:border-[#E6009E]/40 disabled:opacity-60"
         >
           {loading ? (
             <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={2} />
@@ -153,11 +185,32 @@ export default function StreamingConsole() {
         </div>
       ) : null}
 
+      {tab === "cuentas" ? (
+        <div className="space-y-3">
+          <p className="text-xs leading-relaxed text-slate-600">
+            Seis cuentas regresivas, de 1 minuto a 1 hora. Cada una tiene un calvito distinto y
+            el número gigante para que se lea desde el celular.
+          </p>
+          <SceneGrid scenes={countdowns} />
+        </div>
+      ) : null}
+
+      {tab === "casa" ? (
+        <div className="space-y-3">
+          <p className="text-xs leading-relaxed text-slate-600">
+            La casa paso a paso. Usa las cinco fases para contar el avance o deja{" "}
+            <strong className="font-bold text-[#0F2354]">La casa en vivo</strong> como fuente de
+            OBS: toma el recaudo real y avanza sola.
+          </p>
+          <SceneGrid scenes={houses} />
+        </div>
+      ) : null}
+
       {tab === "bloques" ? (
         <div className="space-y-3">
           <p className="text-xs leading-relaxed text-slate-600">
             Una cortina por bloque de la escaleta. Úsala 30 a 60 segundos antes de entrar al
-            bloque, o durante el cambio de set.
+            bloque, o durante el cambio de set. El número del bloque va en grande.
           </p>
           <SceneGrid scenes={blocks} />
         </div>
@@ -166,8 +219,9 @@ export default function StreamingConsole() {
       {tab === "overlays" ? (
         <div className="space-y-3">
           <p className="text-xs leading-relaxed text-slate-600">
-            Overlays con fondo transparente. En OBS van encima del video. La barra de la meta y
-            el contador se actualizan solos.
+            Overlays con fondo transparente para poner encima del video. Todos llevan logos y
+            llamado a donar. El fondo y el marco para live pequeño piden el video en 1280x720,
+            en la posición 80 x 180.
           </p>
           <SceneGrid scenes={overlays} />
         </div>

@@ -4,6 +4,40 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 19 de noviembre, segunda ronda
+
+- Cortinas rediseñadas a 1920x1080 con textos y logos más grandes. 47 piezas:
+  17 generales, 6 cuentas regresivas (1, 5, 15, 20, media hora y 1 hora), 6 de
+  la casa (0, 25, 50, 75, 100 y avance real), 12 bloques, 5 overlays y el fondo
+  y marco para live pequeño.
+- Los calvitos 3D se intercalan en las cortinas. Los bloques llevan el número
+  gigante, el reto y una franja de donación. Los logos van directos sobre el
+  fondo, sin placa blanca.
+- Overlays con logos y llamado a donar: lower third, barra de la meta, contador,
+  marco en vivo, donación grande con QR y "en vivo con QR". La mosca muestra
+  hora actual y horas restantes.
+- Fondo y marco para live pequeño: el video va en 1280x720 en la posición
+  80 x 180; el panel derecho lleva QR, Bre-B, cuenta, avance y redes.
+- Panel `/admin` con sidebar agrupado y mapa de accesos. Todo se ve desde el
+  inicio: Streaming, Programa, Recordatorios, Avisos, Donaciones, Casa,
+  Recorrido y Vista previa.
+- Panel `/admin/recordatorios` con 19 mensajes listos por momento (antes,
+  durante y después), confirmación de envío, historial y lista de inscritos.
+- Chatbot con guion y memoria del proyecto en home, `/envivo` y `/donar`.
+  Responde causa, horarios, bloques, donación, comprobante, certificado,
+  empresas y especie. Captura nombre y correo para la lista de recordatorios.
+- Contador grande de horas en `/envivo`, píldora sobre el reproductor y mosca
+  para OBS. Muestra horas en vivo, horas restantes y el avance de las 48.
+- `/donar` con dos caminos visibles: pago en línea con Wompi y transferencia
+  directa. La transferencia explica los tres pasos y tiene botón para enviar el
+  comprobante por WhatsApp o correo.
+- Al aprobarse una donación, Resend envía el agradecimiento con la casa, un
+  calvito y los logos, y el donante queda inscrito en recordatorios.
+- La escaleta se normaliza: sin guiones largos, con nombres capitalizados y el
+  error "Incio" corregido. El aviso de duraciones se mantiene.
+- Generador de cortinas con ZIP `cortinas-supercasa.zip` (47 piezas, 41 MB).
+- 45 pruebas en `tests/` (node --test).
+
 ### 19 de noviembre
 
 - Login del panel sin nombres reales en los placeholders y con botón para ver u
@@ -47,7 +81,10 @@ Actualizado: 19 de noviembre de 2026.
 - Confirmar las duraciones reales de la escaleta: el Bloque 04 suma 886 minutos
   para un bloque de 240.
 - Cargar la escaleta definitiva cuando llegue la versión nueva.
-- Revisar en celular real la franja de avisos y el formulario.
+- Revisar en celular real la franja de avisos, el chatbot y el formulario.
+- Confirmar el WhatsApp `+57 316 524 6087` para comprobantes y ayuda. Hoy es el
+  número público de la Fundación y se usa como respaldo configurable con
+  `NEXT_PUBLIC_DONATION_WHATSAPP`.
 
 - Pixel 1108633085373695 configurado en local con consentimiento en páginas
   públicas. La API de Conversiones, deduplicación y eventos de compra siguen
@@ -60,7 +97,7 @@ Actualizado: 19 de noviembre de 2026.
 
 - Cargar llaves de Wompi en Vercel y hacer una compra real mínima.
 - Crear la base Neon y cargar `DATABASE_URL`.
-- Descarga del QR en PNG desde `/admin` para OBS.
+- Descarga del QR en PNG desde `/admin` para OBS: hecho.
 - Pixel de Meta.
 - Plan Padrino y Carnet de Héroe.
 - Revisión en celular real del home y de `/envivo`.
@@ -68,8 +105,8 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Notas
 
-- Rama de trabajo: `feat/campaign-visual-merge`, sin push. Producción sigue con
-  la versión anterior.
+- Rama de trabajo: `main`. Los cambios se publican por GitHub Actions con token.
+  Producción queda en `https://supercasa.svgvisual.com`.
 - Los emojis del copy original se conservaron por decisión del cliente.
 
 - `/donar` usa el formulario original de Sebastián: stepper de 3 pasos, piezas,

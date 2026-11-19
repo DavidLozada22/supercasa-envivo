@@ -31,6 +31,9 @@ export async function POST(request: Request) {
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase().slice(0, 254) : "";
   const name = typeof body.name === "string" ? body.name.trim().slice(0, 80) : "";
   const ref = typeof body.ref === "string" ? body.ref.trim().slice(0, 60) : "";
+  const allowedSources = new Set(["envivo", "chat", "donar", "donacion"]);
+  const source =
+    typeof body.source === "string" && allowedSources.has(body.source) ? body.source : "envivo";
 
   if (!EMAIL.test(email)) {
     return NextResponse.json({ error: "Revisa tu correo." }, { status: 400 });
@@ -50,7 +53,7 @@ export async function POST(request: Request) {
   try {
     const inserted = await db`
       insert into reminders (email, name, consent, source, ref_code)
-      values (${email}, ${name || null}, true, 'envivo', ${ref || null})
+      values (${email}, ${name || null}, true, ${source}, ${ref || null})
       on conflict (lower(email)) do nothing
       returning id
     `;

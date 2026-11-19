@@ -50,14 +50,21 @@ ayuda: el corte técnico se disfraza con el cambio de bloque.
 
 ## Cortinas
 
-Hay 33 piezas en 1920x1080:
+Hay 47 piezas en 1920x1080, agrupadas en siete pestañas del panel:
 
-- 17 cortinas generales: arranque, ya volvemos, ajuste técnico, ya viene,
-  estamos en, donaciones, invitado, cocina, música, historias, legal, creadores,
-  casa, reto, aliados, gracias.
-- 12 cortinas de bloque, una por cada bloque de la escaleta.
-- 4 overlays con fondo transparente: lower third, barra de la meta, contador de
-  48 horas y marco de "en vivo".
+- 14 cortinas generales: ya volvemos, ajuste técnico, ya viene, estamos en,
+  donaciones, invitado, cocina, música, historias, legal, creadores, reto,
+  aliados y gracias.
+- 6 cuentas regresivas: 1 minuto, 5, 15, 20, media hora y 1 hora. Cada una con
+  un calvito distinto y el número gigante.
+- 6 de la casa: 0%, 25%, 50%, 75%, 100% y "La casa en vivo", que toma el
+  recaudo real y avanza sola.
+- 12 cortinas de bloque, con el número en grande, el reto y una franja de
+  donación.
+- 8 overlays con fondo transparente: lower third, barra de la meta, contador de
+  48 horas, marco en vivo, donación grande, en vivo con QR, mosca de horas y
+  marco para live pequeño.
+- 1 fondo para live pequeño.
 
 Cada tarjeta del panel tiene tres salidas:
 
@@ -65,8 +72,13 @@ Cada tarjeta del panel tiene tres salidas:
 2. **OBS**: copia una URL para usarla como fuente de navegador.
 3. **Ver**: abre la cortina a pantalla completa para revisarla.
 
-Las cortinas con texto editable (ya viene, invitado, ya volvemos, entre otras) se
-ajustan desde **En control** y salen por la fuente única de OBS.
+El botón **Descargar todas** baja un ZIP con las 47 piezas. Las cortinas con
+texto editable (ya viene, invitado, ya volvemos, entre otras) se ajustan desde
+**En control** y salen por la fuente única de OBS.
+
+Todos los bloques y overlays llevan logos y llamado a donar. La mosca muestra
+la hora en curso y las horas que faltan. El overlay de donación y el de "en vivo
+con QR" llevan el QR grande y el enlace.
 
 ## Montaje de OBS
 
@@ -83,7 +95,14 @@ ajustan desde **En control** y salen por la fuente única de OBS.
    - Barra de la meta: se actualiza sola cada 20 segundos.
    - Contador 48 horas: se actualiza solo cada segundo.
    - Marco en vivo: esquina superior derecha.
-5. Audio: la música de la cortina va por una fuente de audio separada, no por el
+   - Mosca de horas: esquina superior izquierda.
+   - Donación grande: panel derecho con QR.
+   - En vivo con QR: insignia arriba y QR abajo a la derecha.
+5. **Live pequeño con información**: usar **Fondo para live pequeño** o
+   **Marco para live pequeño**. El video va en 1280x720, en la posición
+   80 x 180. El panel derecho mide 560 px y lleva QR, Bre-B, cuenta, avance y
+   redes. El marco deja el centro transparente para ponerlo encima del video.
+6. Audio: la música de la cortina va por una fuente de audio separada, no por el
    navegador, para que no se corte al cambiar de escena.
 
 ## Protocolo de corte de 12 horas
@@ -106,6 +125,20 @@ Tiempo objetivo: 90 segundos.
 1. Un minuto antes, poner la cortina del bloque que entra.
 2. Al iniciar, publicar **Estamos en** con el nombre del bloque o dejar el video.
 3. Si el bloque es ancla, enviar el aviso desde **Programa > Avisar a inscritos**.
+
+## Página de donar
+
+La página abre con dos caminos visibles:
+
+1. **Pagar en línea**: tarjeta, PSE o Nequi con Wompi.
+2. **Transferir sin tarjeta**: llave Bre-B `@lasupercasa` o cuenta Bancolombia
+   `186-000090-54`.
+
+La transferencia se explica en tres pasos y termina con un botón para enviar el
+comprobante por WhatsApp o por correo. Pide escribir **SUPERCASA y el nombre**
+en la descripción para poder cruzar el pago. El WhatsApp sale de
+`NEXT_PUBLIC_DONATION_WHATSAPP`; si no está definido, usa el teléfono público de
+la Fundación.
 
 ## Avisos por correo
 
@@ -131,9 +164,17 @@ No conviene enviar un correo por cada bloque: doce correos en 48 horas cansan y
 bajan la entregabilidad. Los bloques 01, 05, 07 y 12 son suficientes. Los demás
 se anuncian en el live y en redes.
 
-El panel **Avisos** arma el correo, muestra la vista previa, pide confirmación y
-envía en lotes de 100 con una pausa de un segundo entre lotes. Guarda un
-historial con enviados y fallidos.
+El panel **Recordatorios** trae 19 mensajes listos, agrupados en antes, durante y
+después del live. Cada tarjeta muestra el asunto, el texto y el botón. Se revisa
+y se confirma el envío. No se programan solos: tú decides el momento. El panel
+**Avisos** queda para un mensaje libre con vista previa. Los dos guardan
+historial y envían en lotes de 100 con pausa de un segundo.
+
+Al aprobarse una donación, Resend envía un agradecimiento con la casa, un calvito
+y los logos, y el donante queda inscrito en recordatorios. Al cerrar la maratón,
+el mensaje **Gracias por construir** agradece la asistencia, recuerda que la
+campaña sigue hasta el 30 de noviembre e invita a donar, sumar empresas, donar en
+especie o agendar una visita.
 
 ## Programa interno
 
@@ -151,7 +192,9 @@ git commit -m "Actualiza la escaleta del evento"
 git push
 ```
 
-El importador convierte "Deivid" y "David" en "Vikingo" para el panel.
+El importador convierte "Deivid" y "David" en "Vikingo" para el panel, capitaliza
+los nombres, corrige "Incio" y quita los guiones largos. El panel de Streaming
+también muestra una franja con el bloque en curso y el segmento que viene.
 
 ## Contingencias
 
@@ -170,8 +213,8 @@ El importador convierte "Deivid" y "David" en "Vikingo" para el panel.
 Antes del evento:
 
 - [ ] El canal de YouTube está público y el directo de prueba se ve en el sitio.
-- [ ] El panel abre con los seis usuarios.
-- [ ] Las 33 cortinas están descargadas en el computador de OBS.
+- [ ] El panel abre con los seis usuarios y el mapa de accesos se ve completo.
+- [ ] Las 47 cortinas están descargadas en el computador de OBS.
 - [ ] La fuente **Cortina en vivo** está configurada y cambia al publicar.
 - [ ] El QR de donaciones apunta a `/donar`.
 - [ ] Resend está verificado y se envió una prueba.
@@ -180,6 +223,8 @@ Antes del evento:
 Una hora antes:
 
 - [ ] Probar un corte simulado desde **Streaming > Conexiones**.
+- [ ] Probar el fondo y el marco de live pequeño con el video en 1280x720, en 80 x 180.
+- [ ] Abrir el chatbot y enviar una pregunta de prueba.
 - [ ] Confirmar audio, micrófonos y respaldo de internet.
 - [ ] Enviar el aviso de "1 hora antes" si hay inscritos.
 
@@ -192,7 +237,7 @@ Cada 4 horas:
 Al cierre:
 
 - [ ] Publicar la cortina de gracias.
-- [ ] Enviar el correo de agradecimiento.
+- [ ] Enviar el correo de agradecimiento y el de "la campaña sigue".
 - [ ] Archivar el historial de avisos.
 
 ## Lo que es automático y lo que no
@@ -205,3 +250,23 @@ elegir la cortina, aprobar cada correo y decidir los momentos de aviso.
 
 El corte de 12 horas no se puede evitar por API. Lo que se elimina es la
 actualización manual del enlace en la página.
+
+
+## Chatbot
+
+Vive en el home, en `/envivo` y en `/donar`. Responde con un guion guardado en
+`lib/chat/knowledge.ts`, no con IA generativa. Cubre causa, quién organiza,
+horarios, bloque actual, cómo donar, comprobante, pagos que fallan, avance de la
+casa, certificado, empresas, especie y visitas. Si no encuentra la respuesta,
+ofrece WhatsApp. También captura nombre y correo para la lista de recordatorios.
+
+El aviso proactivo aparece a los 12 segundos: "¿Dudas o el pago no te funciona?".
+Se puede cerrar y no vuelve en la misma sesión.
+
+## Correos que salen solos y correos que se aprueban
+
+Automático: confirmación al inscribirse, agradecimiento al donante aprobado y
+aviso de Resend si el dominio falla.
+
+Manual: los 19 recordatorios del panel, el mensaje libre de Avisos y el cierre
+de campaña. Nada se envía a toda la lista sin confirmación humana.

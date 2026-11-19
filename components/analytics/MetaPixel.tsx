@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { X } from "lucide-react";
 
 const PIXEL_ID = "1108633085373695";
 const CONSENT_KEY = "supercasa_meta_consent";
@@ -74,11 +75,40 @@ export default function MetaPixel() {
 
   if (!publicPage || consent !== null) return null;
   return (
-    <aside aria-label="Preferencias de medición" className="fixed bottom-3 left-3 right-3 z-[100] mx-auto max-w-2xl rounded-2xl border-2 border-[#1d2b4f] bg-white p-3 text-[#1d2b4f] shadow-lg sm:bottom-4 sm:left-4 sm:right-4 sm:p-4">
-      <p className="text-xs leading-relaxed sm:text-sm">¿Nos permites usar el píxel de Meta para medir las visitas y mejorar la difusión? <a href="/politica-de-datos" className="underline">Política de datos</a>.</p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" onClick={() => choose("yes")} className="min-h-[44px] rounded-full bg-[#c62828] px-4 py-1.5 text-sm font-bold text-white hover:bg-[#a51f1f]">Aceptar medición</button>
-        <button type="button" onClick={() => choose("no")} className="min-h-[44px] rounded-full border border-[#1d2b4f] px-4 py-1.5 text-sm font-bold hover:bg-slate-100">Rechazar</button>
+    <aside
+      aria-label="Preferencias de medición"
+      className="fixed bottom-3 left-3 z-[100] w-[calc(100vw-24px)] max-w-[400px] rounded-2xl border-2 border-[#1d2b4f] bg-white p-3 pr-9 text-[#1d2b4f] shadow-lg sm:bottom-4 sm:left-4"
+    >
+      <button
+        type="button"
+        onClick={() => choose("no")}
+        aria-label="Cerrar y rechazar la medición"
+        className="absolute right-1.5 top-1.5 grid h-8 w-8 place-items-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+      >
+        <X className="h-4 w-4" strokeWidth={2} />
+      </button>
+      <p className="text-xs leading-relaxed">
+        ¿Nos permites usar el píxel de Meta para medir las visitas y mejorar la difusión?{" "}
+        <a href="/politica-de-datos" className="underline">
+          Política de datos
+        </a>
+        .
+      </p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => choose("yes")}
+          className="min-h-[40px] rounded-full bg-[#c62828] px-4 py-1.5 text-xs font-bold text-white hover:bg-[#a51f1f]"
+        >
+          Aceptar medición
+        </button>
+        <button
+          type="button"
+          onClick={() => choose("no")}
+          className="min-h-[40px] rounded-full border border-[#1d2b4f] px-4 py-1.5 text-xs font-bold hover:bg-slate-100"
+        >
+          Rechazar
+        </button>
       </div>
     </aside>
   );
