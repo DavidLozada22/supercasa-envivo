@@ -80,7 +80,7 @@ npm run cortinas
 ```
 
 Requiere el servidor en `localhost:3100` y Chrome instalado. El script también
-crea `public/cortinas/cortinas-supercasa.zip` con las 47 piezas.
+crea `public/cortinas/cortinas-supercasa.zip` con las 55 piezas.
 
 El fondo y el marco para live pequeño usan el video en 1280x720 en la posición
 80 x 180. El panel derecho mide 560 px.

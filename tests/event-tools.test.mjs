@@ -28,6 +28,21 @@ test('las cortinas cubren cuentas regresivas, casa, bloques y donacion', () => {
     assert.ok(scenes.includes(`id: "${id}"`), `falta la escena ${id}`);
   }
 
+  for (const id of [
+    'horas-2',
+    'horas-5',
+    'horas-10',
+    'horas-24',
+    'horas-30',
+    'horas-32',
+    'casi-terminamos',
+    'gracias-donaciones',
+  ]) {
+    assert.ok(scenes.includes(`id: "${id}"`), `falta la escena de horas ${id}`);
+  }
+
+  assert.ok(scenes.includes('group: "hora"'));
+
   assert.ok(scenes.includes('countValue: "½"'));
   assert.ok(scenes.includes('houseLive: true'));
   assert.ok(scenes.includes('illustrationCluster'));

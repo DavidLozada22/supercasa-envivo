@@ -66,6 +66,9 @@ test('el panel de streaming esta protegido y tiene las cortinas listas', () => {
     'mosca',
     'fondo-live',
     'marco-live',
+    'horas-24',
+    'casi-terminamos',
+    'gracias-donaciones',
   ]) {
     assert.ok(existsSync(`public/cortinas/${file}.png`), `falta el PNG ${file}`);
   }

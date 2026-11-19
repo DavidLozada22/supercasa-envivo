@@ -161,7 +161,7 @@ segundo para respetar el límite de Resend.
 
 ## 21. La cortina es una pieza de marca, no un cartel
 
-Las 47 cortinas comparten una retícula de 1920x1080 con logos directos, título
+Las 55 cortinas comparten una retícula de 1920x1080 con logos directos, título
 grande, calvito 3D y una franja de donación. El número de bloque es el elemento
 principal. La donación no se esconde en el pie: aparece en todas las piezas y en
 todos los overlays.

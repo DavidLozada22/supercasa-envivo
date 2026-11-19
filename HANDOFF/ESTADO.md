@@ -6,7 +6,7 @@ Actualizado: 19 de noviembre de 2026.
 
 ### 19 de noviembre, segunda ronda
 
-- Cortinas rediseñadas a 1920x1080 con textos y logos más grandes. 47 piezas:
+- Cortinas rediseñadas a 1920x1080 con textos y logos más grandes. 55 piezas:
   17 generales, 6 cuentas regresivas (1, 5, 15, 20, media hora y 1 hora), 6 de
   la casa (0, 25, 50, 75, 100 y avance real), 12 bloques, 5 overlays y el fondo
   y marco para live pequeño.
@@ -35,7 +35,7 @@ Actualizado: 19 de noviembre de 2026.
   calvito y los logos, y el donante queda inscrito en recordatorios.
 - La escaleta se normaliza: sin guiones largos, con nombres capitalizados y el
   error "Incio" corregido. El aviso de duraciones se mantiene.
-- Generador de cortinas con ZIP `cortinas-supercasa.zip` (47 piezas, 41 MB).
+- Generador de cortinas con ZIP `cortinas-supercasa.zip` (55 piezas, 50 MB).
 - 45 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre

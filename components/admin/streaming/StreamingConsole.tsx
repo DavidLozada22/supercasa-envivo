@@ -5,6 +5,7 @@ import {
   Activity,
   Building2,
   Clapperboard,
+  Clock,
   Download,
   Layers,
   Loader2,
@@ -24,6 +25,7 @@ import type { Health } from "./types";
 type TabId =
   | "cortinas"
   | "cuentas"
+  | "horas"
   | "casa"
   | "bloques"
   | "overlays"
@@ -33,6 +35,7 @@ type TabId =
 const TABS: Array<{ id: TabId; label: string; icon: typeof Layers }> = [
   { id: "cortinas", label: "Cortinas", icon: Clapperboard },
   { id: "cuentas", label: "Cuentas regresivas", icon: Timer },
+  { id: "horas", label: "Horas del live", icon: Clock },
   { id: "casa", label: "La casa", icon: Building2 },
   { id: "bloques", label: "Bloques", icon: Layers },
   { id: "overlays", label: "Pantallas y overlays", icon: SlidersHorizontal },
@@ -46,11 +49,13 @@ const generic = SCENES.filter(
   (scene) =>
     scene.kind === "full" &&
     scene.group !== "bloque" &&
+    scene.group !== "hora" &&
     !isCountdown(scene) &&
     scene.visual !== "house" &&
     scene.id !== "fondo-live",
 );
 const countdowns = SCENES.filter(isCountdown);
+const hours = SCENES.filter((scene) => scene.group === "hora");
 const houses = SCENES.filter((scene) => scene.visual === "house");
 const blocks = SCENES.filter((scene) => scene.group === "bloque");
 const overlays = SCENES.filter(
@@ -192,6 +197,17 @@ export default function StreamingConsole() {
             el número gigante para que se lea desde el celular.
           </p>
           <SceneGrid scenes={countdowns} />
+        </div>
+      ) : null}
+
+      {tab === "horas" ? (
+        <div className="space-y-3">
+          <p className="text-xs leading-relaxed text-slate-600">
+            Las horas que van de la maratón, más el cierre y el agradecimiento. Úsalas para
+            celebrar cada tramo y empujar la donación. La mosca y el contador de la página
+            muestran la hora en tiempo real.
+          </p>
+          <SceneGrid scenes={hours} />
         </div>
       ) : null}
 

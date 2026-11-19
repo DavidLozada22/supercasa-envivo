@@ -74,7 +74,7 @@ aquí y en `ESTADO.md`.
 
 ## Segunda ronda de cortinas y panel
 
-- `node --test tests/event-tools.test.mjs` cubre las 47 escenas, la mosca, el
+- `node --test tests/event-tools.test.mjs` cubre las 55 escenas, la mosca, el
   fondo/marco de live, el chatbot, los 19 recordatorios, los dos caminos de
   donación, el correo de agradecimiento y el mapa del panel.
 - Manual: abrir `/admin` y confirmar que el sidebar y el mapa muestran todas las

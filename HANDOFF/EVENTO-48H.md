@@ -50,13 +50,15 @@ ayuda: el corte técnico se disfraza con el cambio de bloque.
 
 ## Cortinas
 
-Hay 47 piezas en 1920x1080, agrupadas en siete pestañas del panel:
+Hay 55 piezas en 1920x1080, agrupadas en ocho pestañas del panel:
 
 - 14 cortinas generales: ya volvemos, ajuste técnico, ya viene, estamos en,
   donaciones, invitado, cocina, música, historias, legal, creadores, reto,
   aliados y gracias.
 - 6 cuentas regresivas: 1 minuto, 5, 15, 20, media hora y 1 hora. Cada una con
   un calvito distinto y el número gigante.
+- 8 de horas y momentos: vamos 2, 5, 10, 24, 30 y 32 horas, "Ya casi
+  terminamos" y "Gracias por tus donaciones".
 - 6 de la casa: 0%, 25%, 50%, 75%, 100% y "La casa en vivo", que toma el
   recaudo real y avanza sola.
 - 12 cortinas de bloque, con el número en grande, el reto y una franja de
@@ -72,7 +74,7 @@ Cada tarjeta del panel tiene tres salidas:
 2. **OBS**: copia una URL para usarla como fuente de navegador.
 3. **Ver**: abre la cortina a pantalla completa para revisarla.
 
-El botón **Descargar todas** baja un ZIP con las 47 piezas. Las cortinas con
+El botón **Descargar todas** baja un ZIP con las 55 piezas. Las cortinas con
 texto editable (ya viene, invitado, ya volvemos, entre otras) se ajustan desde
 **En control** y salen por la fuente única de OBS.
 
@@ -214,7 +216,7 @@ Antes del evento:
 
 - [ ] El canal de YouTube está público y el directo de prueba se ve en el sitio.
 - [ ] El panel abre con los seis usuarios y el mapa de accesos se ve completo.
-- [ ] Las 47 cortinas están descargadas en el computador de OBS.
+- [ ] Las 55 cortinas están descargadas en el computador de OBS.
 - [ ] La fuente **Cortina en vivo** está configurada y cambia al publicar.
 - [ ] El QR de donaciones apunta a `/donar`.
 - [ ] Resend está verificado y se envió una prueba.
