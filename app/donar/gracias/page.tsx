@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import SiteHeader from "@/components/public/SiteHeader";
 import DonationThanks from "@/components/donations/DonationThanks";
 
 export const metadata = {
@@ -16,6 +17,8 @@ export default async function ThanksPage({
 
   return (
     <div className="sv-root">
+      <SiteHeader current="donate" />
+
       <main className="section">
         <div className="wrap">
           <DonationThanks reference={ref} />

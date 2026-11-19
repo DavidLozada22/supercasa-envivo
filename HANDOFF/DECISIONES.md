@@ -116,3 +116,10 @@ donaciones para que todo aporte pase por el mismo flujo.
 
 Pendiente para paridad total: Plan Padrino mensual, carnet, confirmación manual
 de aportes y exportación CSV del panel.
+
+## 16. Un solo header público
+
+Prevalece el header de la landing de la transmisión (fondo lima, logo del
+elefante sin marco, topbar fucsia). La campaña y las demás páginas lo reutilizan
+para no duplicar navegación. El aviso de la maratón vive en el topbar y, cuando
+hay live, se suma una píldora animada "En vivo" en el header.

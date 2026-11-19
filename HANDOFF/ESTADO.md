@@ -147,3 +147,11 @@ Actualizado: 18 de noviembre de 2026.
 - El pie de todas las páginas cierra con "Apoya a SVG" enlazado a
   svgvisual.com, junto a "Evento producido por Kavanah". Se eliminaron las
   líneas de crédito duplicadas en `/donar` y `/donar/gracias`.
+
+- Header público unificado (`components/public/SiteHeader.tsx`) en campaña,
+  maratón, donaciones, gracias y legales: topbar fucsia con el aviso y el
+  caption de Kavanah, header lima con el logo del elefante sin tarjeta blanca,
+  navegación (La campaña / Maratón 48 horas), botón Donar y acceso al panel.
+- Cuando la transmisión está en vivo, el header muestra una píldora "En vivo"
+  animada que enlaza a `/envivo` desde cualquier pantalla. Para revisarla en
+  local: `NEXT_PUBLIC_HEADER_LIVE=1`.

@@ -9,9 +9,22 @@ test('la maratón conserva secciones y personajes originales', () => {
   for (const text of ['Ningún niño debería luchar solo', 'HouseProgress', 'bombero.webp', 'doctora.webp', 'Terraf','@lasupercasa', '18600009054', 'kavanah35']) assert.ok((landing + page + sponsors).toLowerCase().includes(text.toLowerCase()), `Falta ${text}`);
   assert.ok(page.includes('LandingMarkup'));
 });
-test('la cabecera de campaña enlaza a maratón y donación', () => {
-  assert.ok(shell.includes('href="/envivo"'));
-  assert.ok(shell.includes('Ponte la capa'));
+test('el header unico enlaza a campaña, maratón y donación', () => {
+  const header = readFileSync('components/public/SiteHeader.tsx', 'utf8');
+  assert.ok(header.includes('href="/"'));
+  assert.ok(header.includes('href="/envivo"'));
+  assert.ok(header.includes('href="/donar"'));
+  assert.ok(header.includes('La campaña'));
+  assert.ok(header.includes('Maratón 48 horas'));
+});
+
+test('el header avisa cuando hay transmisión en vivo', () => {
+  const header = readFileSync('components/public/SiteHeader.tsx', 'utf8');
+  assert.ok(header.includes('site-live-pill'));
+  assert.ok(header.includes('En vivo'));
+  const css = readFileSync('app/campaign.css', 'utf8');
+  assert.ok(css.includes('siteLivePulse'));
+  assert.ok(css.includes('prefers-reduced-motion'));
 });
 test('la demostración administrativa está protegida y no inicia pagos', () => {
   const demo = readFileSync('app/admin/recorrido/page.tsx', 'utf8');

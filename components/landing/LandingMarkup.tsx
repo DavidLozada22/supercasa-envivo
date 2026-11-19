@@ -1,11 +1,11 @@
 import type { PublicConfig } from "@/lib/types";
-import { Lock } from "lucide-react";
 import CopyHandler from "./CopyHandler";
 import StickyDonate from "./StickyDonate";
 import StreamPlayer from "./StreamPlayer";
 import SponsorsSection from "@/components/campaign/SponsorsSection";
 import ReminderForm from "@/components/campaign/ReminderForm";
 import HouseProgress from "./HouseProgress";
+import SiteHeader from "@/components/public/SiteHeader";
 
 export default function LandingMarkup({ config, raised }: { config: PublicConfig; raised?: number }) {
   return (
@@ -14,23 +14,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
       <div className="landing-root pb-24 md:pb-0">
 <div className="bg-pattern" aria-hidden="true"></div>
 
-  <div className="top-bar">
-    Ayúdanos a terminar <a href="/donar">LA SUPERCASA</a> • Más de 13 años regalando amor, esperanza y calidad de vida
-  </div>
-
-  <header>
-    <div className="nav-container">
-      <a className="brand-logo" href="/"><img src="/img/logo-fsv.png" alt="Fundación Segundos de Vida" /></a>
-      <div className="nav-actions">
-        <a href="/" className="nav-link">La campaña</a>
-        <div className="live-pill">
-          <span className="pulse-dot"></span> En Vivo • 48 Horas
-        </div>
-        <a href="/donar" className="nav-donate-btn">Donar Ahora</a>
-        <a className="nav-admin" href="/admin" aria-label="Panel de administración" title="Panel de administración"><Lock className="h-4 w-4" strokeWidth={1.75} /></a>
-      </div>
-    </div>
-  </header>
+  <SiteHeader current="live" />
 
   <main className="container">
     

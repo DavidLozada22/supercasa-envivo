@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Lock } from "lucide-react";
 import CopyHandler from "@/components/landing/CopyHandler";
 import DonationFlow from "@/components/campaign/DonationFlow";
 import HouseProgress from "@/components/landing/HouseProgress";
+import SiteHeader from "@/components/public/SiteHeader";
 import { getConfig } from "@/lib/config";
 import { progress } from "@/lib/donations/service";
 import { paymentsAvailable } from "@/lib/donations/wompi";
@@ -36,24 +36,7 @@ export default async function DonatePage() {
     <div className="sv-root sv-donate-page">
       <CopyHandler />
 
-      <header className="header" data-astro-cid-gfykqide>
-        <div className="wrap header__inner" data-astro-cid-gfykqide>
-          <Link className="logo" href="/" aria-label="Volver a La SUPERCASA" data-astro-cid-gfykqide>
-            <span className="logo__fsv" data-astro-cid-gfykqide>
-              <img src="/img/logo-fsv.png" width="188" height="39" alt="" data-astro-cid-gfykqide />
-            </span>
-            <strong data-astro-cid-gfykqide>La SUPERCASA</strong>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link className="btn btn--white header__cta" href="/" data-astro-cid-gfykqide>
-              Volver al inicio
-            </Link>
-            <a className="admin-shortcut" href="/admin" aria-label="Panel de administración" title="Panel de administración">
-              <Lock className="h-4 w-4" strokeWidth={1.75} />
-            </a>
-          </div>
-        </div>
-      </header>
+      <SiteHeader current="donate" />
 
       <main>
         <section className="section" id="donar-form">
