@@ -235,3 +235,11 @@
   .sv-root .marathon-nav { width: 100%; justify-content: space-between; }
   .sv-root .marathon-nav .btn { flex: 1; justify-content: center; }
 }
+
+/* Logos más grandes en el pie */
+.sv-root .org-logos__chip img { height: 44px; }
+.sv-root .org-logos__chip:last-child img { height: 52px; }
+@media (max-width: 640px) {
+  .sv-root .org-logos__chip img { height: 30px; }
+  .sv-root .org-logos__chip:last-child img { height: 36px; }
+}

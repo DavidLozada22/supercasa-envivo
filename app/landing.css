@@ -1190,3 +1190,15 @@
 .landing-root .org-logos__cross { color: #fff; font-size: 20px; font-weight: 800; opacity: .9; }
 .landing-root .org-logos__chip img { height: 34px; }
 .landing-root .org-logos__chip:last-child img { height: 40px; }
+
+/* Logos más grandes en placeholder y pie */
+.landing-root .stream-placeholder__logo img { height: 44px; }
+.landing-root .stream-placeholder__logo--kavanah img { height: 52px; }
+.landing-root .org-logos__chip img { height: 44px; }
+.landing-root .org-logos__chip:last-child img { height: 52px; }
+@media (max-width: 640px) {
+  .landing-root .stream-placeholder__logo img { height: 30px; }
+  .landing-root .stream-placeholder__logo--kavanah img { height: 36px; }
+  .landing-root .org-logos__chip img { height: 30px; }
+  .landing-root .org-logos__chip:last-child img { height: 36px; }
+}
