@@ -19,7 +19,7 @@ export default function StreamPlaceholder({
           ×
         </span>
         <span className="stream-placeholder__logo stream-placeholder__logo--kavanah">
-          <img src="/img/logo-kavanah-white.png" alt="Kavanah" />
+          <img src="/img/kavanah-horizontal-white.png" alt="Kavanah" />
         </span>
       </div>
 

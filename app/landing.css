@@ -1158,6 +1158,6 @@
 
 .landing-root .org-logos__chip { background: transparent; padding: 0; }
 .landing-root .org-logos__chip img { height: 32px; }
-.landing-root .org-logos__chip:last-child img { height: 26px; }
+.landing-root .org-logos__chip:last-child img { height: 56px; }
 .landing-root .stream-placeholder__logos { background: transparent; padding: 0; }
-.landing-root .stream-placeholder__logo--kavanah img { height: 22px; }
+.landing-root .stream-placeholder__logo--kavanah img { height: 24px; }

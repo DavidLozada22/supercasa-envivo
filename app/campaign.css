@@ -206,7 +206,7 @@
 /* Logos sin fondo blanco */
 .sv-root .org-logos__chip { background: transparent; padding: 0; }
 .sv-root .org-logos__chip img { height: 32px; }
-.sv-root .org-logos__chip:last-child img { height: 26px; }
+.sv-root .org-logos__chip:last-child img { height: 56px; }
 
 /* Aliados: mismo diseño que la página de la transmisión */
 .sv-root .sponsors-section { max-width: 960px; margin: 3rem auto; padding: 32px 24px; text-align: center; background: var(--white); border: 2px solid #E2E8F0; border-radius: 24px; box-shadow: 0 12px 28px rgba(15, 35, 84, .05); }

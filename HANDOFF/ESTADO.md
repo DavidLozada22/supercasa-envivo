@@ -88,3 +88,6 @@ Actualizado: 18 de noviembre de 2026.
 
 - La sección de aliados del home usa el mismo componente y diseño que la
   página de la transmisión (tarjeta blanca con píldoras amarillas).
+
+- Kavanah usa su logo del elefante: horizontal (assets 10-12) en la imagen OG
+  y el placeholder, vertical (assets 1-3) en el pie. Sin fondos blancos.

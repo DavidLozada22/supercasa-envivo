@@ -167,7 +167,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
       <p className="org-logos__label">Organizan</p>
       <div className="org-logos__row">
         <span className="org-logos__chip"><img src="/img/logo-fsv-official.png" alt="Fundación Segundos de Vida" /></span>
-        <span className="org-logos__chip"><img src="/img/logo-kavanah-white.png" alt="Kavanah" /></span>
+        <span className="org-logos__chip"><img src="/img/kavanah-vertical-white.png" alt="Kavanah" /></span>
       </div>
     </div>
 
