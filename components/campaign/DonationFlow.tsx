@@ -178,6 +178,13 @@ export default function DonationFlow({
     setError("");
     setLoading(true);
 
+    let attribution: unknown = null;
+    try {
+      attribution = JSON.parse(localStorage.getItem("sc_attribution") || "null");
+    } catch {
+      attribution = null;
+    }
+
     try {
       const response = await fetch("/api/donations", {
         method: "POST",
@@ -195,6 +202,7 @@ export default function DonationFlow({
               ? { name: certName, docType, docNumber }
               : undefined,
           },
+          attribution,
         }),
       });
 

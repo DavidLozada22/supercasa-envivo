@@ -65,3 +65,7 @@ Actualizado: 18 de noviembre de 2026.
   al token actual. El token de KeePass es de la API de Conversiones, no de
   lectura de anuncios. Falta generar uno con `ads_read` desde Business Manager
   o Graph API Explorer con acceso a esa cuenta.
+
+- Atribución por UTM y enlaces `/ref/codigo`: visitas en la tabla `visits` y
+  aportes con `attribution` en `donations`. El panel tiene la pestaña Campañas
+  con generador de enlaces y reporte de visitas y aportes por origen.

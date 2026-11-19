@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { findPiece, MAX_AMOUNT, MIN_AMOUNT } from "./catalog";
 import { feeFor } from "./pricing";
+import { normalizeAttribution } from "@/lib/attribution";
 import {
   approvedTotal,
   getDonation,
@@ -50,6 +51,7 @@ type ParsedOrder = {
   donorPhone: string | null;
   showOnWall: boolean;
   certificate: { name: string; docType: string; docNumber: string } | null;
+  attribution: ReturnType<typeof normalizeAttribution>;
 };
 
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,24}$/;
@@ -113,6 +115,7 @@ export function parseOrder(body: unknown): ParsedOrder {
     donorPhone: phone,
     showOnWall: donor.showOnWall === true,
     certificate,
+    attribution: normalizeAttribution(input.attribution),
   };
 }
 
@@ -144,6 +147,7 @@ export async function createDonation(body: unknown): Promise<Checkout> {
     donorPhone: order.donorPhone,
     showOnWall: order.showOnWall,
     certificate: order.certificate,
+    attribution: order.attribution,
   });
 
   return {

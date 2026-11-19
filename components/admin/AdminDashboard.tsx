@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import {
-  BarChart3,
+
   Check,
   Copy,
   Eye,
@@ -15,32 +15,21 @@ import {
   Megaphone,
   QrCode,
   Radio,
-  RefreshCw,
   Save,
+  Target,
   TriangleAlert,
   Wallet,
   Youtube,
 } from "lucide-react";
+import CampaignTools from "@/components/admin/CampaignTools";
 import type { AppConfig } from "@/lib/types";
 import { youtubeEmbedUrl, youtubeVideoId } from "@/lib/youtube";
-
-type MetaMetrics = {
-  connected: boolean;
-  error?: string;
-  spend: number;
-  impressions: number;
-  clicks: number;
-  ctr: number;
-  cpc: number;
-  reach: number;
-  period: string;
-};
 
 const TABS = [
   { id: "stream", label: "Transmisión", icon: Radio },
   { id: "totals", label: "Recaudo", icon: Wallet },
   { id: "calendar", label: "Calendario", icon: Megaphone },
-  { id: "meta", label: "Meta Ads", icon: BarChart3 },
+  { id: "campaigns", label: "Campañas", icon: Target },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
@@ -116,9 +105,6 @@ export default function AdminDashboard({
   const [message, setMessage] = useState("");
   const [copied, setCopied] = useState("");
   const [showKey, setShowKey] = useState(false);
-  const [metrics, setMetrics] = useState<MetaMetrics | null>(null);
-  const [metricsLoading, setMetricsLoading] = useState(false);
-  const [metricRange, setMetricRange] = useState("7");
 
   const copy = async (id: string, value: string) => {
     if (!value) return;
@@ -163,35 +149,6 @@ export default function AdminDashboard({
     }
   };
 
-  const loadMetrics = async (range: string) => {
-    setMetricsLoading(true);
-    try {
-      const response = await fetch(`/api/admin/metrics/meta?range=${range}`, {
-        cache: "no-store",
-      });
-      const data = (await response.json()) as MetaMetrics;
-      setMetrics(data);
-    } catch {
-      setMetrics({
-        connected: false,
-        error: "No se pudo consultar Meta.",
-        spend: 0,
-        impressions: 0,
-        clicks: 0,
-        ctr: 0,
-        cpc: 0,
-        reach: 0,
-        period: range,
-      });
-    } finally {
-      setMetricsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (tab === "meta" && !metrics) void loadMetrics(metricRange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tab]);
 
   const logout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -680,140 +637,7 @@ export default function AdminDashboard({
             </section>
           ) : null}
 
-          {tab === "meta" ? (
-            <>
-              <section className={cardClass}>
-                <div className="mb-5 flex items-start gap-3">
-                  <span className="rounded-xl bg-[#00A8E8]/10 p-2.5 text-[#00A8E8]">
-                    <BarChart3 className="h-5 w-5" strokeWidth={1.75} />
-                  </span>
-                  <div>
-                    <h2 className="text-base font-bold text-[#0F2354]">Meta Ads</h2>
-                    <p className="text-sm text-slate-500">
-                      Pixel del sitio y cuenta publicitaria para leer métricas.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <Field label="Pixel de Facebook" hint="Solo números. Se inyecta en la página pública.">
-                      <input
-                        className={inputClass}
-                        value={config.meta.pixelId}
-                        onChange={(event) =>
-                          setConfig((current) => ({
-                            ...current,
-                            meta: { ...current.meta, pixelId: event.target.value },
-                          }))
-                        }
-                        placeholder="123456789012345"
-                      />
-                    </Field>
-
-                    <Field label="Cuenta publicitaria" hint="Con o sin el prefijo act_.">
-                      <input
-                        className={inputClass}
-                        value={config.meta.adAccountId}
-                        onChange={(event) =>
-                          setConfig((current) => ({
-                            ...current,
-                            meta: { ...current.meta, adAccountId: event.target.value },
-                          }))
-                        }
-                        placeholder="act_1234567890"
-                      />
-                    </Field>
-                  </div>
-
-                  <Field label="ID de campaña" hint="Opcional, para cruzar la campaña en el reporte.">
-                    <input
-                      className={inputClass}
-                      value={config.meta.campaignId}
-                      onChange={(event) =>
-                        setConfig((current) => ({
-                          ...current,
-                          meta: { ...current.meta, campaignId: event.target.value },
-                        }))
-                      }
-                      placeholder="120210000000000000"
-                    />
-                  </Field>
-                </div>
-
-                <p className="mt-5 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-500">
-                  Las métricas se leen con el token de la Marketing API guardado en
-                  <span className="font-mono text-[11px] text-[#0F2354]"> META_ACCESS_TOKEN</span>.
-                  El token nunca pasa por el navegador.
-                </p>
-              </section>
-
-              <section className={cardClass}>
-                <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                  <h2 className="text-base font-bold text-[#0F2354]">Rendimiento</h2>
-                  <div className="flex items-center gap-2">
-                    <select
-                      value={metricRange}
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        setMetricRange(value);
-                        void loadMetrics(value);
-                      }}
-                      className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-[#0F2354] outline-none focus:border-[#E6009E]"
-                    >
-                      <option value="today">Hoy</option>
-                      <option value="7">7 días</option>
-                      <option value="14">14 días</option>
-                      <option value="30">30 días</option>
-                    </select>
-                    <button
-                      type="button"
-                      onClick={() => void loadMetrics(metricRange)}
-                      disabled={metricsLoading}
-                      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-[#0F2354] transition hover:bg-slate-50 disabled:opacity-60"
-                    >
-                      <RefreshCw
-                        className={`h-3.5 w-3.5 ${metricsLoading ? "animate-spin" : ""}`}
-                        strokeWidth={2}
-                      />
-                      Actualizar
-                    </button>
-                  </div>
-                </div>
-
-                {metrics?.error ? (
-                  <div className="mb-4 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-                    <TriangleAlert className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={2} />
-                    <span>{metrics.error}</span>
-                  </div>
-                ) : null}
-
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-                  {[
-                    { label: "Inversión", value: metrics?.connected ? cop.format(metrics.spend) : "—" },
-                    {
-                      label: "Impresiones",
-                      value: metrics?.connected ? num.format(metrics.impressions) : "—",
-                    },
-                    { label: "Clics", value: metrics?.connected ? num.format(metrics.clicks) : "—" },
-                    {
-                      label: "CTR",
-                      value: metrics?.connected ? `${metrics.ctr.toFixed(2)}%` : "—",
-                    },
-                    { label: "CPC", value: metrics?.connected ? cop.format(metrics.cpc) : "—" },
-                    { label: "Alcance", value: metrics?.connected ? num.format(metrics.reach) : "—" },
-                  ].map((item) => (
-                    <div key={item.label} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-                      <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                        {item.label}
-                      </p>
-                      <p className="mt-1 text-lg font-extrabold text-[#0F2354]">{item.value}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </>
-          ) : null}
+          {tab === "campaigns" ? <CampaignTools /> : null}
         </main>
       </div>
     </div>

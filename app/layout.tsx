@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import MetaPixel from "@/components/analytics/MetaPixel";
+import Attribution from "@/components/analytics/Attribution";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -78,7 +79,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}<MetaPixel /></body>
+      <body>{children}<MetaPixel /><Attribution /></body>
     </html>
   );
 }
