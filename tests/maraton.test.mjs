@@ -4,8 +4,9 @@ import { readFileSync } from 'node:fs';
 const page = readFileSync('app/envivo/page.tsx', 'utf8');
 const landing = readFileSync('components/landing/LandingMarkup.tsx', 'utf8');
 const shell = readFileSync('components/campaign/CampaignShell.tsx', 'utf8');
+const sponsors = readFileSync('components/campaign/SponsorsSection.tsx', 'utf8');
 test('la maratón conserva secciones y personajes originales', () => {
-  for (const text of ['Ningún niño debería luchar solo', 'HouseProgress', 'bombero.webp', 'doctora.webp', 'Terraf','@lasupercasa', '18600009054', 'kavanah35']) assert.ok((landing + page).toLowerCase().includes(text.toLowerCase()), `Falta ${text}`);
+  for (const text of ['Ningún niño debería luchar solo', 'HouseProgress', 'bombero.webp', 'doctora.webp', 'Terraf','@lasupercasa', '18600009054', 'kavanah35']) assert.ok((landing + page + sponsors).toLowerCase().includes(text.toLowerCase()), `Falta ${text}`);
   assert.ok(page.includes('LandingMarkup'));
 });
 test('la cabecera de campaña enlaza a maratón y donación', () => {
