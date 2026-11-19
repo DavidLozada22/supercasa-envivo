@@ -120,7 +120,13 @@ export async function recentChannelVideos(count = 5): Promise<string[]> {
 
 export async function simulationVideo(excludeId: string | null): Promise<string> {
   const ids = await recentChannelVideos(5);
-  return ids.find((id) => id && id !== excludeId) ?? "";
+  const pick = ids.find((id) => id && id !== excludeId);
+  if (pick) return pick;
+
+  // Video público de la Fundación para probar el cambio de ID sin depender de
+  // que el canal de Kavanah tenga grabaciones cargadas.
+  const fallback = "RMAXHKK_VqM";
+  return fallback === excludeId ? "" : fallback;
 }
 
 function newToken(): string {
