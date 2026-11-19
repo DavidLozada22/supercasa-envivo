@@ -457,3 +457,44 @@ header.site-header a.site-btn:hover { color: #334155; }
 .site-topbar,
 header.site-header,
 .site-menu { --ink: #1d2b4f; }
+
+/* Pie único del sitio, igual al de la transmisión */
+footer.site-footer { margin-top: 56px; padding: 40px 16px 34px; background: #0f2354; color: #fff; text-align: center; font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: .92rem; line-height: 1.6; }
+.site-footer__inner { max-width: 1000px; margin: 0 auto; }
+.site-footer__orgs { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+.site-footer__label { margin: 0; font-size: .68rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: rgba(255, 255, 255, .55); }
+.site-footer__logos { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.site-footer__fsv { display: block; height: 44px; width: auto; }
+.site-footer__cross { color: #fff; font-size: 18px; font-weight: 800; opacity: .8; }
+.site-footer__kavanah { display: block; height: 44px; width: auto; }
+.site-footer__hashtags { margin: 1.2rem 0 .2rem; color: #b5f43d; font-size: .95rem; font-weight: 700; line-height: 1.6; }
+.site-footer__line { margin: 0; color: rgba(255, 255, 255, .82); font-size: .88rem; }
+.site-footer__legal { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .35rem .7rem; margin: .9rem 0 0; font-size: .78rem; }
+.site-footer__legal span { color: rgba(255, 255, 255, .35); }
+.site-footer__legal a { color: rgba(255, 255, 255, .72); font-weight: 600; text-decoration: none; }
+.site-footer__legal a:hover, .site-footer__legal a:focus-visible { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.site-footer__credit { margin: 1.1rem 0 0; color: rgba(255, 255, 255, .45); font-size: .74rem; }
+.site-footer__credit a { color: rgba(255, 255, 255, .65); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.site-footer__credit a:hover { color: #fff; }
+
+@media (max-width: 899px) {
+  footer.site-footer { padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 560px) {
+  .site-footer__fsv, .site-footer__kavanah { height: 34px; }
+  .site-footer__logos { gap: 8px; }
+  .site-footer__legal { font-size: .74rem; }
+}
+
+/* Redes dentro de la página, ya no en el pie */
+.site-social { width: min(100% - 2 * clamp(16px, 4vw, 40px), 900px); margin: 2.5rem auto 0; }
+.site-social__title { margin: 0 0 1rem; font-size: 1.1rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; text-align: center; color: #334155; }
+.site-social__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.site-social__card { padding: 20px 22px; border: 2px solid #e2e8f0; border-radius: 22px; background: #fff; text-align: center; box-shadow: 0 8px 20px rgba(15, 35, 84, .05); }
+.site-social__card h3 { margin: 0 0 .7rem; font-size: .82rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #0f2354; }
+.site-social__card ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.site-social__card a { display: inline-flex; align-items: center; min-height: 38px; padding: .3rem .9rem; border: 2px solid #e2e8f0; border-radius: 999px; background: #f8fafc; color: #334155; font-size: .8rem; font-weight: 700; text-decoration: none; transition: background .15s ease, border-color .15s ease; }
+.site-social__card a:hover { background: #fff; border-color: #b5f43d; }
+
+/* Título del bloque de redes con tamaño de etiqueta */
+h2.site-social__title { font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; font-size: .95rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: #475569; }

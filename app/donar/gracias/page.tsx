@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import SiteHeader from "@/components/public/SiteHeader";
+import SiteFooter from "@/components/public/SiteFooter";
 import DonationThanks from "@/components/donations/DonationThanks";
 
 export const metadata = {
@@ -26,11 +27,7 @@ export default async function ThanksPage({
           <DonationThanks reference={ref} />
         </div>
       </main>
-      <footer className="footer" data-astro-cid-scinlfmn>
-        <p className="wrap small copy" data-astro-cid-scinlfmn>
-          © 2026 Fundación Segundos de Vida · Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support">Apoya a SVG</a>
-        </p>
-        </footer>
+      <SiteFooter />
       </div>
     </>
   );

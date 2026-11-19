@@ -13,6 +13,7 @@ test("las páginas legales recuperan el contenido original y advierten que es un
   }
   const layout = await readFile("components/legal/LegalPage.tsx", "utf8").catch(() => "");
   assert.match(layout, /[Bb]orrador.*revisión legal/);
-  assert.match(layout, /Evento producido por Kavanah/);
-  assert.match(layout, /getFullYear\(\)/);
+  assert.match(layout, /SiteFooter/);
+  const footer = await readFile('components/public/SiteFooter.tsx', 'utf8');
+  assert.match(footer, /Apoya a SVG/);
 });

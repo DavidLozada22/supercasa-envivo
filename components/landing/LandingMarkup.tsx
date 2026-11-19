@@ -4,6 +4,7 @@ import StickyDonate from "./StickyDonate";
 import StreamPlayer from "./StreamPlayer";
 import SponsorsSection from "@/components/campaign/SponsorsSection";
 import ReminderForm from "@/components/campaign/ReminderForm";
+import SiteFooter from "@/components/public/SiteFooter";
 import HouseProgress from "./HouseProgress";
 import SiteHeader from "@/components/public/SiteHeader";
 
@@ -151,20 +152,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
     </section>
   </main>
 
-  <footer>
-    <div className="org-logos">
-      <p className="org-logos__label">Organizan</p>
-      <div className="org-logos__row">
-        <span className="org-logos__chip"><img src="/img/logo-fsv-official.png" alt="Fundación Segundos de Vida" /></span>
-        <span className="org-logos__cross" aria-hidden="true">×</span>
-        <span className="org-logos__chip"><img src="/img/kavanah-horizontal-gold.png" alt="Kavanah" /></span>
-      </div>
-    </div>
-
-    <div className="footer-hashtags">#SuperNavidad48H &nbsp;•&nbsp; #PonteLaCapa &nbsp;•&nbsp; #48HorasPorLaSupercasa &nbsp;•&nbsp; #SegundosDeVida</div>
-    <p>Fundación Segundos de Vida • NIT 900.649.809-2 • Niños hoy. Héroes siempre.</p>
-    <p className="mt-6 text-center text-xs text-white/40">Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support">Apoya a SVG</a></p>
-  </footer>
+  <SiteFooter />
       <StickyDonate />
       </div>
     </>

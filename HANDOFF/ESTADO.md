@@ -183,3 +183,9 @@ Actualizado: 18 de noviembre de 2026.
 - Nueva ruta de administración `/admin/preview-home`: muestra el home en estado
   en vivo dentro de un marco, con selector de escritorio y celular. Usa
   `/?preview=live` y no altera el estado real del sitio.
+
+- Un solo pie en todo el sitio (`components/public/SiteFooter.tsx`): organizadores,
+  hashtags, línea de la Fundación, enlaces legales, tesorería y crédito con
+  "Apoya a SVG". Se usa en home, maratón, donaciones, gracias y legales.
+- Las redes de la Fundación y de Kavanah salieron del pie y viven dentro de la
+  página (`SocialSection`), en el home y en donaciones.
