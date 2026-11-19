@@ -53,7 +53,21 @@ la restricción en el servidor (pendiente).
 Anotar hallazgos en `ESTADO.md` o abrir un issue. Un cambio cerrado se refleja
 aquí y en `ESTADO.md`.
 
-- 24 comprobaciones en `tests/` (node --test).
+- 38 comprobaciones en `tests/` (node --test).
 - Revisado en 1280 y 390 px: header, menú móvil y mini visor sin desbordamiento.
 - Cuenta regresiva verificada en local: muestra horas restantes y no muestra la
   píldora ni el visor antes del inicio.
+
+## Evento 48 horas
+
+- `node --test tests/live-resolver.test.mjs` cubre sin clave, directo vigente,
+  corte con ID nuevo, sin directo, cuota agotada, error de red y caché.
+- `node --test tests/stream-fallback.test.mjs` comprueba el panel protegido, las
+  cortinas y la fuente de OBS.
+- Manual: entrar con cada usuario y confirmar el nombre en el panel.
+- Manual: abrir `/admin/streaming`, descargar un PNG y copiar una URL de OBS.
+- Manual: publicar "Ya volvemos" y verla en `/pantalla/onair`.
+- Manual: simular un corte y ver el cambio del video en `/envivo` sin recargar.
+- Manual: enviar una prueba de Resend y revisar la bandeja.
+- Manual: abrir `/admin/programa` y confirmar el bloque y el segmento.
+- Manual: revisar la franja de avisos y el formulario en un celular real.

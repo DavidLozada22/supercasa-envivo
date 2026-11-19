@@ -53,7 +53,7 @@ export default function ReminderForm() {
         <Check className="mx-auto h-8 w-8 text-emerald-600" strokeWidth={2} />
         <p className="mt-2 text-lg font-extrabold text-[#1d2b4f]">Quedaste en la lista</p>
         <p className="mt-1 text-sm text-slate-600">
-          Te escribiremos antes de que empiece la transmisión, con el enlace y las formas de donar.
+          Te escribiremos cuando abran los bloques importantes, cuando falte poco para la meta y cuando esté por cerrar.
         </p>
       </div>
     );
@@ -69,9 +69,9 @@ export default function ReminderForm() {
           <Bell className="h-5 w-5" strokeWidth={1.75} />
         </span>
         <div>
-          <h3 className="text-lg font-extrabold text-[#1d2b4f]">Avísame cuando empiece</h3>
+          <h3 className="text-lg font-extrabold text-[#1d2b4f]">Recibe los avisos de la maratón</h3>
           <p className="text-sm leading-relaxed text-slate-600">
-            Te enviamos un correo con el enlace del live y cómo donar. Sin spam.
+            Te avisamos cuando empiece cada bloque, cuando falte poco para la meta y cuando esté por cerrar. Sin spam.
           </p>
         </div>
       </div>

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { KeyRound, Loader2, ShieldCheck, UserRound } from "lucide-react";
+import { Eye, EyeOff, KeyRound, Loader2, ShieldCheck, UserRound } from "lucide-react";
 
 export default function LoginForm() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -82,7 +83,7 @@ export default function LoginForm() {
                 autoCapitalize="none"
                 spellCheck={false}
                 required
-                placeholder="nelson"
+                placeholder="Tu usuario"
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm text-slate-800 outline-none transition focus:border-[#E6009E] focus:bg-white focus:ring-2 focus:ring-[#E6009E]/15"
               />
             </div>
@@ -96,14 +97,27 @@ export default function LoginForm() {
                 strokeWidth={1.75}
               />
               <input
-                type="password"
+                type={visible ? "text" : "password"}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 autoComplete="current-password"
                 required
                 placeholder="••••••••"
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm text-slate-800 outline-none transition focus:border-[#E6009E] focus:bg-white focus:ring-2 focus:ring-[#E6009E]/15"
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-12 text-sm text-slate-800 outline-none transition focus:border-[#E6009E] focus:bg-white focus:ring-2 focus:ring-[#E6009E]/15"
               />
+              <button
+                type="button"
+                onClick={() => setVisible((value) => !value)}
+                aria-label={visible ? "Ocultar la clave" : "Mostrar la clave"}
+                aria-pressed={visible}
+                className="absolute right-1 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-lg text-slate-400 transition hover:bg-slate-100 hover:text-[#0F2354] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E6009E]"
+              >
+                {visible ? (
+                  <EyeOff className="h-4 w-4" strokeWidth={1.75} />
+                ) : (
+                  <Eye className="h-4 w-4" strokeWidth={1.75} />
+                )}
+              </button>
             </div>
           </label>
 

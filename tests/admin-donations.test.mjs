@@ -28,5 +28,5 @@ test('el panel usa sidebar y breadcrumbs', () => {
   assert.ok(shell.includes('current'));
   const nav = readFileSync('components/admin/nav.ts', 'utf8');
   assert.ok(nav.includes('/admin/donaciones'));
-  assert.ok(nav.includes('/admin/cortina'));
+  assert.ok(nav.includes('/admin/streaming'));
 });

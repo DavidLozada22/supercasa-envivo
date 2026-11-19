@@ -1,8 +1,30 @@
 # Estado
 
-Actualizado: 18 de noviembre de 2026.
+Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
+
+### 19 de noviembre
+
+- Login del panel sin nombres reales en los placeholders y con botón para ver u
+  ocultar la clave.
+- Seis usuarios del panel: salvaje, vikingo, sebas, flor, lina y lio, cada uno
+  con su clave entregada por privado. El login tiene límite de intentos.
+- Panel `/admin/streaming`: 33 cortinas de 1920x1080, descarga en PNG, URL para
+  OBS, control de la cortina al aire y estado de las conexiones.
+- Fuente única de OBS con cambio de escena desde el panel. Overlays de lower
+  third, barra de la meta, contador de 48 horas y marco en vivo.
+- Detección automática del directo con YouTube Data API, caché de 25 segundos,
+  historial de cambios, botón de comprobación y simulacro de corte.
+- El reproductor consulta el ID cada 30 segundos y cambia el video sin recargar.
+  Si no hay señal, muestra la cortina.
+- Resend conectado: dominio `supercasa.svgvisual.com` verificado, remitente
+  `hola@supercasa.svgvisual.com` y prueba enviada.
+- Panel `/admin/avisos` con plantillas, vista previa, confirmación, envío por
+  lotes e historial. Solo escribe a quienes dieron consentimiento.
+- Panel `/admin/programa` con los 12 bloques y los 280 segmentos de la escaleta,
+  bloque en curso, lo que viene y aviso de duraciones.
+- Importador `scripts/import-escaleta.py` y generador `scripts/render-cortinas.mjs`.
 
 - Home de campaña con el diseño y el hero original de Sebastián.
 - Franja de live sobre el hero que enlaza a `/envivo`.
@@ -17,6 +39,15 @@ Actualizado: 18 de noviembre de 2026.
 - Handoff actualizado con decisiones y flujo.
 
 ## Pendiente
+
+### Para el evento
+
+- Probar el corte real de las 12 horas en el primer cambio de broadcast.
+- Revisar el panel y las cortinas en el computador de OBS antes de las 6:00 p. m.
+- Confirmar las duraciones reales de la escaleta: el Bloque 04 suma 886 minutos
+  para un bloque de 240.
+- Cargar la escaleta definitiva cuando llegue la versión nueva.
+- Revisar en celular real la franja de avisos y el formulario.
 
 - Pixel 1108633085373695 configurado en local con consentimiento en páginas
   públicas. La API de Conversiones, deduplicación y eventos de compra siguen

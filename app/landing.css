@@ -1240,3 +1240,34 @@
 .landing-root .svg-support:hover, .landing-root .svg-support:focus-visible { color: #fff; }
 
 .landing-root #avisame { scroll-margin-top: 150px; }
+
+/* Aviso de suscripcion debajo del reproductor */
+.landing-root .live-alerts {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 6px;
+}
+.landing-root .live-alerts a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 2px solid var(--azul-marino, #0F2354);
+  border-radius: 999px;
+  background: var(--amarillo-pill, #FFD21E);
+  color: var(--azul-marino, #0F2354);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 4px 0 var(--azul-marino, #0F2354);
+}
+.landing-root .live-alerts a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--azul-marino, #0F2354);
+}
+.landing-root .live-alerts a:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--azul-marino, #0F2354);
+}

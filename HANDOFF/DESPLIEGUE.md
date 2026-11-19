@@ -35,6 +35,24 @@ Vercel no duplique despliegues ni bloquee envíos.
 | `WOMPI_INTEGRITY_SECRET` | Producción | Firma de cada cobro |
 | `WOMPI_EVENTS_SECRET` | Producción | Verificación del webhook |
 | `META_ACCESS_TOKEN` | Producción | Métricas de Meta Ads |
+| `YOUTUBE_API_KEY` | Producción, Preview | Detección del directo |
+| `YOUTUBE_CHANNEL_ID` | Producción, Preview | Canal `UCrdNxBU4cfR0rEHY1OO9tQQ` |
+| `RESEND_API_KEY` | Producción, Preview | Envío de avisos |
+| `RESEND_FROM` | Producción, Preview | Remitente verificado |
+
+## Resend
+
+- Dominio verificado: `supercasa.svgvisual.com`.
+- Remitente: `La Supercasa <hola@supercasa.svgvisual.com>`.
+- Registros en Vercel DNS: DKIM en `resend._domainkey`, MX y SPF en `send`,
+  CNAME en `rsend`.
+- La clave vive en Vercel y en KeePass, entrada
+  `KAVANAH/RESEND SUPERCASA KAVANAH`.
+
+## Usuarios del panel
+
+`ADMIN_USERS` tiene seis entradas: salvaje, vikingo, sebas, flor, lina y lio.
+Las claves se entregan por privado y no se escriben en este archivo.
 
 ## Wompi
 
@@ -51,6 +69,16 @@ El redirect del widget vuelve a `/donar/gracias?ref=...`.
 El team tiene Vercel Authentication activa para previews y para dominios
 `.vercel.app`. Los dominios personalizados no la piden, por eso producción se
 prueba en `supercasa.svgvisual.com`.
+
+## Cortinas
+
+Los PNG quedan en `/cortinas/<id>.png` y se regeneran con:
+
+```bash
+npm run cortinas
+```
+
+Requiere el servidor en `localhost:3100` y Chrome instalado.
 
 ## Secretos
 

@@ -1,42 +1,72 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
-test('el live usa un placeholder con las dos marcas y cortina sin tecnicismos', () => {
-  const placeholder = readFileSync('components/landing/StreamPlaceholder.tsx', 'utf8');
-  assert.ok(placeholder.includes('/img/logo-fsv-official.png'));
-  assert.ok(placeholder.includes('/img/kavanah-horizontal-gold.png'));
-  assert.ok(placeholder.includes('Transmisión especial'));
-  assert.ok(placeholder.includes('stream-placeholder__cta'));
-
+test('el live resuelve el directo y cae a la cortina sin romper la pagina', () => {
   const player = readFileSync('components/landing/StreamPlayer.tsx', 'utf8');
-  assert.ok(player.includes('StreamPlaceholder'));
-  assert.ok(player.includes('liveState'));
+  assert.ok(player.includes('getLiveStatus'));
+  assert.ok(player.includes('LiveStream'));
 
-  const live = readFileSync('lib/live.ts', 'utf8');
-  assert.ok(live.includes('2026-11-20T18:00:00-05:00'));
-  assert.ok(live.includes('2026-11-22T18:00:00-05:00'));
-  assert.ok(live.includes('YOUTUBE_API_KEY'));
+  const live = readFileSync('components/landing/LiveStream.tsx', 'utf8');
+  assert.ok(live.includes('StreamPlaceholder'));
+  assert.ok(live.includes('CortinaLive'));
+  assert.ok(live.includes('/api/live/current'));
 
-  const cortina = readFileSync('components/landing/CortinaLive.tsx', 'utf8');
-  const variants = readFileSync('lib/cortina.ts', 'utf8');
-  assert.ok(variants.includes('En breves momentos continúa la transmisión'));
-  assert.ok(variants.includes('Seguimos apoyando a los Super Calvitos'));
-  assert.ok(cortina.includes('/audio/cortina.mp3'));
-  assert.ok(cortina.includes('CORTINA_VARIANTS'));
-  assert.ok(!variants.toLowerCase().includes('reconex'));
+  const resolver = readFileSync('lib/youtube/live.ts', 'utf8');
+  assert.ok(resolver.includes('YOUTUBE_API_KEY'));
+  assert.ok(resolver.includes('eventType=live'));
+  assert.ok(resolver.includes('quota'));
 
   const masked = readFileSync('components/landing/MaskedPlayer.tsx', 'utf8');
   assert.ok(masked.includes('CortinaLive'));
-  assert.ok(!masked.includes('Reconectando la transmisión'));
+
+  const dates = readFileSync('lib/event.ts', 'utf8');
+  assert.ok(dates.includes('2026-11-20T18:00:00-05:00'));
+  assert.ok(dates.includes('2026-11-22T18:00:00-05:00'));
 });
 
-test('el panel tiene una vista previa de las cortinas', () => {
-  const page = readFileSync('app/admin/cortina/page.tsx', 'utf8');
+test('el panel de streaming esta protegido y tiene las cortinas listas', () => {
+  const page = readFileSync('app/admin/streaming/page.tsx', 'utf8');
   assert.ok(page.includes('isAuthenticated'));
-  assert.ok(page.includes('CortinaPreview'));
-  const preview = readFileSync('components/admin/CortinaPreview.tsx', 'utf8');
-  const variants = readFileSync('lib/cortina.ts', 'utf8');
-  for (const text of ['En breves momentos', 'La maratón no se detiene', 'Seguimos apoyando']) assert.ok(variants.includes(text));
-  assert.ok(preview.includes('/audio/cortina.mp3'));
+  assert.ok(page.includes('StreamingConsole'));
+
+  const grid = readFileSync('components/admin/streaming/SceneGrid.tsx', 'utf8');
+  assert.ok(grid.includes('/cortinas/'));
+  assert.ok(grid.includes('/pantalla/'));
+
+  const scenes = readFileSync('lib/streaming/scenes.ts', 'utf8');
+  for (const text of [
+    'Empezamos en 1 minuto',
+    'Ya volvemos',
+    'Ajuste técnico',
+    'La Gran Gala de los Sueños',
+    'El Gran Cierre',
+    'Copa de Campeones',
+  ]) {
+    assert.ok(scenes.includes(text), `falta la escena ${text}`);
+  }
+
+  assert.ok(scenes.includes('blockScenes'));
+  assert.ok(scenes.includes('BLOCKS'));
+
+  for (const file of [
+    'empezamos-1',
+    'ya-volvemos',
+    'bloque-01',
+    'bloque-12',
+    'lower-third',
+    'meta',
+    'reloj',
+    'en-vivo',
+  ]) {
+    assert.ok(existsSync(`public/cortinas/${file}.png`), `falta el PNG ${file}`);
+  }
+
+  const onair = readFileSync('app/pantalla/onair/page.tsx', 'utf8');
+  assert.ok(onair.includes('state.token'));
+  assert.ok(onair.includes('notFound'));
+
+  const state = readFileSync('app/api/admin/streaming/state/route.ts', 'utf8');
+  assert.ok(state.includes('isAuthenticated'));
+  assert.ok(state.includes('getScene'));
 });

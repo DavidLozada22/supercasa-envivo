@@ -39,6 +39,10 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
 
     <StreamPlayer stream={config.stream} />
 
+    <div className="live-alerts">
+      <a href="#avisame">Recibe un aviso cuando empiece cada bloque</a>
+    </div>
+
 
     <HouseProgress initialRaised={raised ?? config.totals.raised} initialGoal={config.totals.goal} />
 

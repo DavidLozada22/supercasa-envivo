@@ -11,6 +11,7 @@ carpeta. Es parte del trabajo, no un extra.
 3. `DECISIONES.md`: por qué está construido así.
 4. `DESPLIEGUE.md`: Vercel, dominio, variables y secretos.
 5. `PRUEBAS.md`: qué probar y con qué usuarios.
+6. `EVENTO-48H.md`: operación del evento, cortinas, cortes y avisos.
 
 ## Reglas de la carpeta
 

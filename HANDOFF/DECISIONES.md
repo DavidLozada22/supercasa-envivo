@@ -123,3 +123,37 @@ Prevalece el header de la landing de la transmisión (fondo lima, logo del
 elefante sin marco, topbar fucsia). La campaña y las demás páginas lo reutilizan
 para no duplicar navegación. El aviso de la maratón vive en el topbar y, cuando
 hay live, se suma una píldora animada "En vivo" en el header.
+
+## 17. Un solo navegador de OBS para las cortinas
+
+Las cortinas se generan como PNG de 1920x1080 para que Vikingo las arrastre a
+OBS, y además se publican como páginas que pueden usarse como fuente de
+navegador. La fuente única `/pantalla/onair` toma la escena activa del panel y
+la cambia cada dos segundos. Así se evita configurar una fuente por cortina.
+
+Los overlays van con fondo transparente. La barra de la meta y el contador se
+actualizan solos con datos del sitio.
+
+## 18. YouTube con API key, no OAuth
+
+El canal es público, así que la API key basta para leer el directo. OAuth solo
+haría falta para directos no listados o para administrar broadcasts, y agrega
+verificación de Google y tokens que caducan. La API key vive en Vercel y nunca
+se imprime.
+
+El resolutor comprueba primero el último ID con `videos.list` (1 unidad) y solo
+busca con `search.list` (100 unidades) cuando el anterior terminó. El resultado
+se cachea 25 segundos para proteger la cuota.
+
+## 19. El programa interno no es público
+
+La escaleta se importa a `lib/program/` y se renderiza solo en `/admin/programa`.
+No hay ruta pública ni datos de negocio expuestos. Para actualizarla se corre
+`scripts/import-escaleta.py` y se despliega.
+
+## 20. Avisos solo con consentimiento y aprobación humana
+
+Los correos salen únicamente de la tabla `reminders` con `consent = true`. No se
+usan correos de donantes ni se compran listas. Cada envío se aprueba en el panel
+y se registra en un historial. El envío va por lotes de 100 con pausa de un
+segundo para respetar el límite de Resend.

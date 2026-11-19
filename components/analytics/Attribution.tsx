@@ -10,7 +10,7 @@ export default function Attribution() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname?.startsWith("/admin")) return;
+    if (pathname?.startsWith("/admin") || pathname?.startsWith("/pantalla")) return;
 
     const params = new URLSearchParams(window.location.search);
     const incoming: Record<string, string | undefined> = {
