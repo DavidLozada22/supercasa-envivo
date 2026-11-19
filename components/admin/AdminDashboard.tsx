@@ -13,6 +13,7 @@ import {
   Loader2,
   LogOut,
   Megaphone,
+  QrCode,
   Radio,
   RefreshCw,
   Save,
@@ -38,7 +39,7 @@ type MetaMetrics = {
 const TABS = [
   { id: "stream", label: "Transmisión", icon: Radio },
   { id: "totals", label: "Recaudo", icon: Wallet },
-  { id: "campaign", label: "Campaña", icon: Megaphone },
+  { id: "calendar", label: "Calendario", icon: Megaphone },
   { id: "meta", label: "Meta Ads", icon: BarChart3 },
 ] as const;
 
@@ -505,6 +506,48 @@ export default function AdminDashboard({
                   la transmisión.
                 </div>
               </section>
+
+              <section className={cardClass}>
+                <div className="mb-5 flex items-start gap-3">
+                  <span className="rounded-xl bg-[#00A8E8]/10 p-2.5 text-[#00A8E8]">
+                    <QrCode className="h-5 w-5" strokeWidth={1.75} />
+                  </span>
+                  <div>
+                    <h2 className="text-base font-bold text-[#0F2354]">QR de donaciones</h2>
+                    <p className="text-sm text-slate-500">
+                      Descárgalo y ponlo en OBS. Siempre lleva a la página de donaciones.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-5">
+                  <img
+                    src="/api/admin/qr"
+                    alt="Código QR que lleva a la página de donaciones"
+                    className="h-44 w-44 rounded-xl border border-slate-200 bg-white p-2"
+                  />
+                  <div>
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href="/api/admin/qr?download=1"
+                        className="inline-flex items-center gap-2 rounded-xl bg-[#E6009E] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#B8007E]"
+                      >
+                        Descargar PNG
+                      </a>
+                      <a
+                        href="/api/admin/qr?format=svg&download=1"
+                        className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-[#0F2354] transition hover:bg-slate-50"
+                      >
+                        Descargar SVG
+                      </a>
+                    </div>
+                    <p className="mt-3 text-xs leading-relaxed text-slate-500">
+                      1024 px, fondo blanco. Sirve como fuente en OBS. La imagen se genera con la
+                      dirección de este sitio y apunta a <span className="font-mono">/donar</span>.
+                    </p>
+                  </div>
+                </div>
+              </section>
             </>
           ) : null}
 
@@ -595,77 +638,45 @@ export default function AdminDashboard({
             </section>
           ) : null}
 
-          {tab === "campaign" ? (
+          {tab === "calendar" ? (
             <section className={cardClass}>
               <div className="mb-5 flex items-start gap-3">
                 <span className="rounded-xl bg-[#FF6B2B]/10 p-2.5 text-[#FF6B2B]">
                   <Megaphone className="h-5 w-5" strokeWidth={1.75} />
                 </span>
                 <div>
-                  <h2 className="text-base font-bold text-[#0F2354]">Campaña</h2>
+                  <h2 className="text-base font-bold text-[#0F2354]">Calendario de la campaña</h2>
                   <p className="text-sm text-slate-500">
-                    Nombre, hashtags y ventana de la maratón.
+                    Fechas fijas, siempre en hora de Bogotá (GMT-5).
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <Field label="Nombre de la campaña">
-                  <input
-                    className={inputClass}
-                    value={config.campaign.name}
-                    onChange={(event) =>
-                      setConfig((current) => ({
-                        ...current,
-                        campaign: { ...current.campaign, name: event.target.value },
-                      }))
-                    }
-                  />
-                </Field>
-
-                <Field label="Hashtags">
-                  <input
-                    className={inputClass}
-                    value={config.campaign.hashtags}
-                    onChange={(event) =>
-                      setConfig((current) => ({
-                        ...current,
-                        campaign: { ...current.campaign, hashtags: event.target.value },
-                      }))
-                    }
-                  />
-                </Field>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <Field label="Inicio" hint="Formato: 2026-12-24 18:00">
-                    <input
-                      className={inputClass}
-                      value={config.campaign.startsAt}
-                      onChange={(event) =>
-                        setConfig((current) => ({
-                          ...current,
-                          campaign: { ...current.campaign, startsAt: event.target.value },
-                        }))
-                      }
-                      placeholder="2026-12-24 18:00"
-                    />
-                  </Field>
-
-                  <Field label="Cierre" hint="Formato: 2026-12-26 18:00">
-                    <input
-                      className={inputClass}
-                      value={config.campaign.endsAt}
-                      onChange={(event) =>
-                        setConfig((current) => ({
-                          ...current,
-                          campaign: { ...current.campaign, endsAt: event.target.value },
-                        }))
-                      }
-                      placeholder="2026-12-26 18:00"
-                    />
-                  </Field>
+              <dl className="space-y-4">
+                <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                  <dt className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Maratón en vivo
+                  </dt>
+                  <dd className="mt-1 text-sm font-semibold text-[#0F2354]">
+                    Viernes 20 de noviembre, 6:00 p. m., a domingo 22 de noviembre, 6:00 p. m.
+                  </dd>
+                  <dd className="text-xs text-slate-500">48 horas continuas</dd>
                 </div>
-              </div>
+                <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                  <dt className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Cierre de donaciones
+                  </dt>
+                  <dd className="mt-1 text-sm font-semibold text-[#0F2354]">
+                    Lunes 30 de noviembre de 2026, 11:59 p. m.
+                  </dd>
+                  <dd className="text-xs text-slate-500">Después de esa fecha no se reciben aportes en línea</dd>
+                </div>
+              </dl>
+
+              <p className="mt-5 text-xs leading-relaxed text-slate-500">
+                Estos horarios no se editan desde el panel. El contador y los estados del live se
+                calculan automáticamente con estas fechas.
+              </p>
             </section>
           ) : null}
 
