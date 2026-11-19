@@ -18,6 +18,7 @@ import type { OnAirState } from "@/lib/streaming/types";
 import ConnectionPanel from "./ConnectionPanel";
 import ControlPanel from "./ControlPanel";
 import SceneGrid from "./SceneGrid";
+import StreamingGuide from "./StreamingGuide";
 import type { Health } from "./types";
 
 type TabId = "cortinas" | "bloques" | "overlays" | "control" | "conexiones";
@@ -68,6 +69,8 @@ export default function StreamingConsole() {
 
   return (
     <div className="space-y-5">
+      <StreamingGuide onTab={(next) => setTab(next)} />
+
       <section className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-3">
         <div>
           <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
