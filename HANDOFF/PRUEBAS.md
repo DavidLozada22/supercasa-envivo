@@ -52,3 +52,8 @@ la restricción en el servidor (pendiente).
 
 Anotar hallazgos en `ESTADO.md` o abrir un issue. Un cambio cerrado se refleja
 aquí y en `ESTADO.md`.
+
+- 24 comprobaciones en `tests/` (node --test).
+- Revisado en 1280 y 390 px: header, menú móvil y mini visor sin desbordamiento.
+- Cuenta regresiva verificada en local: muestra horas restantes y no muestra la
+  píldora ni el visor antes del inicio.

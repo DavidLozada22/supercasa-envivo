@@ -155,3 +155,14 @@ Actualizado: 18 de noviembre de 2026.
 - Cuando la transmisión está en vivo, el header muestra una píldora "En vivo"
   animada que enlaza a `/envivo` desde cualquier pantalla. Para revisarla en
   local: `NEXT_PUBLIC_HEADER_LIVE=1`.
+
+- Header público con cuenta regresiva real ("Empezamos en vivo en 1 día y 18 h"),
+  que cambia sola a "Estamos en vivo" y muestra la píldora animada al llegar la
+  hora. La navegación usa botones con el estilo de la landing y sin cambio de
+  estilo entre páginas; "La campaña" pasó a "Conoce La Supercasa".
+- En celular el header se reduce a logo, píldora de en vivo y menú hamburguesa.
+  El menú es pantalla completa con accesos grandes, detalle del evento y los
+  logos de la Fundación y Kavanah en el pie.
+- La campaña incluye un mini visor del live (solo cuando está en vivo) con CTA
+  grande a `/envivo`. Para revisarlo en local hay que compilar con
+  `NEXT_PUBLIC_HEADER_LIVE=1`.
