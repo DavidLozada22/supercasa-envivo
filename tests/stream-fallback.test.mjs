@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 test('el live usa un placeholder con las dos marcas y cortina sin tecnicismos', () => {
   const placeholder = readFileSync('components/landing/StreamPlaceholder.tsx', 'utf8');
   assert.ok(placeholder.includes('/img/logo-fsv-official.png'));
-  assert.ok(placeholder.includes('/img/kavanah-horizontal-white.png'));
+  assert.ok(placeholder.includes('/img/kavanah-horizontal-gold.png'));
   assert.ok(placeholder.includes('Transmisión especial'));
   assert.ok(placeholder.includes('stream-placeholder__cta'));
 

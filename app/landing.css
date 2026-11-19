@@ -1183,3 +1183,10 @@
 .landing-root .org-logos__chip { background: transparent; padding: 0; }
 .landing-root .org-logos__chip img { height: 32px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.35)); }
 .landing-root .org-logos__chip:last-child img { height: 34px; }
+
+/* Cruz blanca y logos directos en el pie */
+.landing-root .stream-placeholder__cross { color: #fff; opacity: .9; }
+.landing-root .org-logos { padding-bottom: 70px; }
+.landing-root .org-logos__cross { color: #fff; font-size: 20px; font-weight: 800; opacity: .9; }
+.landing-root .org-logos__chip img { height: 34px; }
+.landing-root .org-logos__chip:last-child img { height: 40px; }
