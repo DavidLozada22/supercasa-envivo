@@ -144,7 +144,7 @@ export default function CampaignTools() {
               <p className="text-sm text-slate-500">Aún no hay visitas con UTM o referido.</p>
             ) : null}
             {report?.visits.length ? (
-              <table className="w-full text-sm">
+              <div className="overflow-x-auto"><table className="w-full text-sm">
                 <thead>
                   <tr className="text-left text-xs uppercase text-slate-500">
                     <th className="py-1">Origen</th>
@@ -163,7 +163,7 @@ export default function CampaignTools() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             ) : null}
           </div>
 
@@ -173,7 +173,7 @@ export default function CampaignTools() {
               <p className="text-sm text-slate-500">Aún no hay aportes atribuidos.</p>
             ) : null}
             {report?.donations.length ? (
-              <table className="w-full text-sm">
+              <div className="overflow-x-auto"><table className="w-full text-sm">
                 <thead>
                   <tr className="text-left text-xs uppercase text-slate-500">
                     <th className="py-1">Origen</th>
@@ -194,7 +194,7 @@ export default function CampaignTools() {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
             ) : null}
           </div>
         </div>

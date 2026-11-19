@@ -74,11 +74,11 @@ export default function MetaPixel() {
 
   if (!publicPage || consent !== null) return null;
   return (
-    <aside aria-label="Preferencias de medición" className="fixed bottom-4 left-4 right-4 z-[100] mx-auto max-w-2xl rounded-2xl border-2 border-[#1d2b4f] bg-white p-4 text-[#1d2b4f] shadow-lg">
-      <p className="text-sm">Con tu permiso usamos el píxel de Meta para medir las visitas y mejorar la difusión de la campaña. <a href="/politica-de-datos" className="underline">Política de datos</a>.</p>
+    <aside aria-label="Preferencias de medición" className="fixed bottom-3 left-3 right-3 z-[100] mx-auto max-w-2xl rounded-2xl border-2 border-[#1d2b4f] bg-white p-3 text-[#1d2b4f] shadow-lg sm:bottom-4 sm:left-4 sm:right-4 sm:p-4">
+      <p className="text-xs leading-relaxed sm:text-sm">¿Nos permites usar el píxel de Meta para medir las visitas y mejorar la difusión? <a href="/politica-de-datos" className="underline">Política de datos</a>.</p>
       <div className="mt-3 flex flex-wrap gap-2">
-        <button type="button" onClick={() => choose("yes")} className="rounded-full bg-[#c62828] px-4 py-2 text-sm font-bold text-white hover:bg-[#a51f1f]">Aceptar medición</button>
-        <button type="button" onClick={() => choose("no")} className="rounded-full border border-[#1d2b4f] px-4 py-2 text-sm font-bold hover:bg-slate-100">Rechazar</button>
+        <button type="button" onClick={() => choose("yes")} className="min-h-[44px] rounded-full bg-[#c62828] px-4 py-1.5 text-sm font-bold text-white hover:bg-[#a51f1f]">Aceptar medición</button>
+        <button type="button" onClick={() => choose("no")} className="min-h-[44px] rounded-full border border-[#1d2b4f] px-4 py-1.5 text-sm font-bold hover:bg-slate-100">Rechazar</button>
       </div>
     </aside>
   );

@@ -1,0 +1,156 @@
+- generic [active] [ref=f10e1]:
+  - generic [ref=f10e2]:
+    - banner [ref=f10e3]:
+      - generic [ref=f10e4]:
+        - link "Volver a La SUPERCASA" [ref=f10e5] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f10e7]:
+          - link "Volver al inicio" [ref=f10e8] [cursor=pointer]:
+            - /url: /
+          - link "Panel de administración" [ref=f10e9] [cursor=pointer]:
+            - /url: /admin
+    - main [ref=f10e13]:
+      - generic [ref=f10e14]:
+        - generic [ref=f10e15]:
+          - paragraph [ref=f10e16]: Pon tu pieza
+          - heading "Elige cómo ayudar" [level=1] [ref=f10e17]
+          - paragraph [ref=f10e18]: "Cada aporte se convierte en una pieza real de la casa: una ventana, un baño, una habitación. Paga con tarjeta, PSE o Nequi, o transfiere desde tu banco."
+        - generic [ref=f10e20]:
+          - list "Pasos" [ref=f10e21]:
+            - listitem [ref=f10e22]:
+              - generic [ref=f10e23]: "1"
+              - text: Tu pieza
+            - listitem [ref=f10e24]:
+              - generic [ref=f10e25]: "2"
+              - text: Tus datos
+            - listitem [ref=f10e26]:
+              - generic [ref=f10e27]: "3"
+              - text: Confirma
+          - paragraph [ref=f10e28]: Los pagos con tarjeta están en configuración. Usa la llave Bre-B o la cuenta Bancolombia que están más abajo en esta página.
+          - generic [ref=f10e29]:
+            - group "¿Cómo quieres ayudar?" [ref=f10e30]:
+              - generic [ref=f10e32]:
+                - radio "🎁 Donación única" [checked] [ref=f10e33] [cursor=pointer]
+                - generic [ref=f10e34] [cursor=pointer]: 🎁 Donación única
+              - generic [ref=f10e35]:
+                - 'radio "💛 Plan Padrino mensual Muy pronto: cada mes pones una pieza más." [disabled] [ref=f10e36] [cursor=pointer]'
+                - generic [ref=f10e37] [cursor=pointer]:
+                  - text: 💛 Plan Padrino mensual
+                  - generic [ref=f10e38]: "Muy pronto: cada mes pones una pieza más."
+            - group "Tu pieza" [ref=f10e39]:
+              - generic [ref=f10e41] [cursor=pointer]:
+                - radio "La ventana de un cuarto $ 100.000 ⭐ Calvito la recomienda" [checked] [ref=f10e42]
+                - text: 🪟
+                - generic [ref=f10e43]: La ventana de un cuarto
+                - strong [ref=f10e45]: $ 100.000
+                - generic [ref=f10e46]: ⭐ Calvito la recomienda
+              - generic [ref=f10e47] [cursor=pointer]:
+                - radio "Un baño completo $ 250.000" [ref=f10e48]
+                - text: 🚿
+                - generic [ref=f10e49]: Un baño completo
+                - strong [ref=f10e51]: $ 250.000
+              - generic [ref=f10e52] [cursor=pointer]:
+                - radio "Una habitación equipada $ 1.000.000" [ref=f10e53]
+                - text: 🛏️
+                - generic [ref=f10e54]: Una habitación equipada
+                - strong [ref=f10e56]: $ 1.000.000
+              - generic [ref=f10e57] [cursor=pointer]:
+                - radio "Pintura de una pared $ 50.000" [ref=f10e58]
+                - text: 🎨
+                - generic [ref=f10e59]: Pintura de una pared
+                - strong [ref=f10e61]: $ 50.000
+              - generic [ref=f10e62] [cursor=pointer]:
+                - radio "Material de instalación $ 20.000" [ref=f10e63]
+                - text: 🍲
+                - generic [ref=f10e64]: Material de instalación
+                - strong [ref=f10e66]: $ 20.000
+              - generic [ref=f10e67] [cursor=pointer]:
+                - radio "Lo que tu corazón diga Tú eliges" [ref=f10e68]
+                - text: ✏️
+                - generic [ref=f10e69]: Lo que tu corazón diga
+                - strong [ref=f10e71]: Tú eliges
+            - button "Continuar" [ref=f10e73] [cursor=pointer]
+          - generic [ref=f10e74]:
+            - generic [ref=f10e75]:
+              - generic [ref=f10e76]: Recaudado hasta ahora
+              - strong [ref=f10e77]: 0%
+            - paragraph [ref=f10e79]: $ 0 de $ 250.000.000
+      - generic [ref=f10e81]:
+        - paragraph [ref=f10e82]: Sin tarjeta
+        - heading "Paga por transferencia" [level=2] [ref=f10e83]
+        - generic [ref=f10e84]:
+          - article [ref=f10e85]:
+            - generic [ref=f10e86]: Transferencia inmediata
+            - heading "Llave Bre-B" [level=3] [ref=f10e87]
+            - paragraph [ref=f10e88]: Envía tu aporte desde la app de cualquier banco.
+            - strong [ref=f10e89]: "@lasupercasa"
+            - generic [ref=f10e90]: A nombre de Fundación Segundos de Vida
+            - button "Copiar llave" [ref=f10e91] [cursor=pointer]
+          - article [ref=f10e92]:
+            - generic [ref=f10e93]: Cuenta oficial
+            - heading "Bancolombia" [level=3] [ref=f10e94]
+            - paragraph [ref=f10e95]: Cuenta de ahorros de la Fundación.
+            - strong [ref=f10e96]: 186-000090-54
+            - generic [ref=f10e97]: NIT 900.649.809-2
+            - button "Copiar cuenta" [ref=f10e98] [cursor=pointer]
+          - article [ref=f10e99]:
+            - generic [ref=f10e100]: Tarjetas / PSE
+            - heading "Pago en línea" [level=3] [ref=f10e101]
+            - paragraph [ref=f10e102]: Usa el formulario de esta misma página. Lo procesa Wompi.
+            - strong [ref=f10e103]: Tarjeta, PSE o Nequi
+            - generic [ref=f10e104]: Pago seguro
+            - link "Ir al formulario" [ref=f10e105] [cursor=pointer]:
+              - /url: "#donar-form"
+    - contentinfo [ref=f10e106]:
+      - generic [ref=f10e107]:
+        - generic [ref=f10e108]:
+          - paragraph [ref=f10e109]:
+            - img "Fundación Segundos de Vida" [ref=f10e111]
+            - text: La SUPERCASA
+          - paragraph [ref=f10e112]: Fundación Segundos de Vida · Entidad sin ánimo de lucro · NIT 900.649.809-2
+        - navigation "Legal" [ref=f10e113]:
+          - list [ref=f10e114]:
+            - listitem [ref=f10e115]:
+              - link "Política de tratamiento de datos" [ref=f10e116] [cursor=pointer]:
+                - /url: /politica-de-datos
+            - listitem [ref=f10e117]:
+              - link "Términos de donación" [ref=f10e118] [cursor=pointer]:
+                - /url: /terminos
+        - navigation "Síguenos" [ref=f10e119]:
+          - paragraph [ref=f10e120]: Síguenos
+          - list [ref=f10e121]:
+            - listitem [ref=f10e122]:
+              - link "Instagram" [ref=f10e123] [cursor=pointer]:
+                - /url: https://www.instagram.com/segundosdevidafundacion/
+            - listitem [ref=f10e124]:
+              - link "Facebook" [ref=f10e125] [cursor=pointer]:
+                - /url: https://www.facebook.com/fundsegundosdevida
+            - listitem [ref=f10e126]:
+              - link "TikTok" [ref=f10e127] [cursor=pointer]:
+                - /url: https://www.tiktok.com/@fundacionsegundosdevida
+            - listitem [ref=f10e128]:
+              - link "YouTube" [ref=f10e129] [cursor=pointer]:
+                - /url: https://www.youtube.com/@segundosdevidaFSV
+          - paragraph [ref=f10e130]: Producción y Comunidad Kavanah
+          - list [ref=f10e131]:
+            - listitem [ref=f10e132]:
+              - link "TikTok" [ref=f10e133] [cursor=pointer]:
+                - /url: https://www.tiktok.com/@kavanah35
+            - listitem [ref=f10e134]:
+              - link "Instagram" [ref=f10e135] [cursor=pointer]:
+                - /url: https://www.instagram.com/kavanahpl35
+            - listitem [ref=f10e136]:
+              - link "YouTube" [ref=f10e137] [cursor=pointer]:
+                - /url: https://www.youtube.com/@KavanahPL35
+      - paragraph [ref=f10e138]: © 2026 Fundación Segundos de Vida · Evento producido por Kavanah
+      - paragraph [ref=f10e139]: © 2026 Fundación Segundos de Vida
+  - complementary "Preferencias de medición" [ref=f10e140]:
+    - paragraph [ref=f10e141]:
+      - text: Con tu permiso usamos el píxel de Meta para medir las visitas y mejorar la difusión de la campaña.
+      - link "Política de datos" [ref=f10e142] [cursor=pointer]:
+        - /url: /politica-de-datos
+      - text: .
+    - generic [ref=f10e143]:
+      - button "Aceptar medición" [ref=f10e144]
+      - button "Rechazar" [ref=f10e145]
+  - alert [ref=f10e146]

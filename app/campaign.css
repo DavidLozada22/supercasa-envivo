@@ -225,3 +225,13 @@
 .sv-root .org-logos__cross { color: #fff; font-size: 20px; font-weight: 800; opacity: .9; }
 .sv-root .org-logos__chip img { height: 34px; }
 .sv-root .org-logos__chip:last-child img { height: 40px; }
+
+/* Responsive: cabeceras y navegación en celular */
+@media (max-width: 600px) {
+  .sv-root .header__inner { flex-wrap: wrap; gap: .5rem; padding: .5rem 0; }
+  .sv-root .logo__fsv img { width: 120px; }
+  .sv-root .header__cta { padding: .45rem .75rem; font-size: .8rem; }
+  .sv-root .admin-shortcut { width: 36px; height: 36px; }
+  .sv-root .marathon-nav { width: 100%; justify-content: space-between; }
+  .sv-root .marathon-nav .btn { flex: 1; justify-content: center; }
+}

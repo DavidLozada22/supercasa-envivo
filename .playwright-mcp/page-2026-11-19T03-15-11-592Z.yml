@@ -1,0 +1,156 @@
+- generic [active] [ref=f9e1]:
+  - generic [ref=f9e2]:
+    - generic [ref=f9e3]:
+      - text: Ayúdanos a terminar
+      - link "LA SUPERCASA" [ref=f9e4] [cursor=pointer]:
+        - /url: /donar
+      - text: • Más de 13 años regalando amor, esperanza y calidad de vida
+    - banner [ref=f9e5]:
+      - generic [ref=f9e6]:
+        - link [ref=f9e7] [cursor=pointer]:
+          - /url: /
+          - img "Fundación Segundos de Vida" [ref=f9e8]
+        - generic [ref=f9e9]:
+          - generic [ref=f9e10]: En Vivo • 48 Horas
+          - link "Donar Ahora" [ref=f9e12] [cursor=pointer]:
+            - /url: /donar
+          - link "Panel de administración" [ref=f9e13] [cursor=pointer]:
+            - /url: /admin
+    - main [ref=f9e17]:
+      - generic [ref=f9e19]:
+        - generic [ref=f9e20]: "#SuperNavidad48H • #PonteLaCapa"
+        - heading "Ningún niño debería luchar solo." [level=1] [ref=f9e21]
+        - paragraph [ref=f9e22]:
+          - text: Acompáñanos durante
+          - strong [ref=f9e23]: 48 horas continuas
+          - text: en esta maratón solidaria por
+          - strong [ref=f9e24]: La Supercasa
+          - text: . Cada aporte transforma pequeños gestos en grandes oportunidades llenas de alegría.
+      - region "Transmisión en vivo" [ref=f9e25]:
+        - generic [ref=f9e27]:
+          - generic [ref=f9e28]:
+            - img "Fundación Segundos de Vida" [ref=f9e30]
+            - generic [aria-hidden] [ref=f9e31]: ×
+            - img "Kavanah" [ref=f9e33]
+          - paragraph [ref=f9e41]: Transmisión especial
+          - heading "El viernes 20 empieza la maratón" [level=2] [ref=f9e42]
+          - paragraph [ref=f9e43]: A las 6:00 p. m., hora de Bogotá, arrancan 48 horas por La Supercasa. Guarda este enlace y acompáñanos.
+          - paragraph [ref=f9e44]: Tu aporte construye la casa de los Super Calvitos.
+          - link "Donar ahora" [ref=f9e45] [cursor=pointer]:
+            - /url: /donar
+        - generic [ref=f9e47]:
+          - paragraph [ref=f9e48]: Aporta desde tu celular
+          - heading "Escanea el QR y elige cómo donar" [level=3] [ref=f9e49]
+          - paragraph [ref=f9e50]: Llave Bre-B, cuenta Bancolombia o tarjeta. Cada aporte avanza la construcción de La Supercasa.
+          - link "Donar ahora" [ref=f9e51] [cursor=pointer]:
+            - /url: /donar
+      - region "Avance de La Supercasa" [ref=f9e52]:
+        - generic [ref=f9e53]:
+          - img "La Supercasa con 0% de avance" [ref=f9e54]
+          - generic [ref=f9e55]: La Supercasa hoy
+        - generic [ref=f9e56]:
+          - paragraph [ref=f9e57]: Avance de la obra
+          - paragraph [ref=f9e58]: $ 0
+          - paragraph [ref=f9e59]: de $ 250.000.000 · 0%
+          - progressbar [ref=f9e60]
+          - paragraph [ref=f9e61]: La ilustración cambia cada 5% recaudado. Las cifras se actualizan solas mientras la página está abierta.
+      - region "Escuadrón Súper Calvitos" [ref=f9e62]:
+        - generic [ref=f9e63]: Nuestros Pequeños Héroes
+        - heading "Los sueños que construimos juntos en La Supercasa" [level=2] [ref=f9e64]
+        - paragraph [ref=f9e65]: Cada donación impulsa los sueños de nuestros Súper Calvitos y les brinda un hogar lleno de cuidado, juego y esperanza.
+        - generic [ref=f9e66]:
+          - generic [ref=f9e67]: Quiero ser bombero
+          - generic [ref=f9e69]: Quiero ser doctora
+          - generic [ref=f9e71]: Quiero ser piloto
+          - generic [ref=f9e73]: Quiero ser policía
+          - generic [ref=f9e75]: Quiero ser chef
+          - generic [ref=f9e77]: Quiero ser constructor
+      - generic [ref=f9e79]:
+        - generic [ref=f9e80]:
+          - heading "¿Cómo puedes sumarte hoy?" [level=2] [ref=f9e81]
+          - paragraph [ref=f9e82]: Elige tu medio favorito para aportar a la construcción de La Supercasa. Todo suma para nuestros pequeños guerreros y sus familias.
+        - generic [ref=f9e83]:
+          - generic [ref=f9e84]:
+            - generic [ref=f9e85]:
+              - generic [ref=f9e86]: Transferencia Inmediata
+              - heading "Llave Bre-B" [level=3] [ref=f9e87]
+              - paragraph [ref=f9e88]: "Envía tu aporte al instante desde la app de cualquier banco en Colombia usando nuestra llave oficial:"
+              - generic [ref=f9e89]:
+                - generic [ref=f9e90]: "Llave oficial Bre-B:"
+                - generic [ref=f9e91]: "@lasupercasa"
+                - generic [ref=f9e92]: "A nombre de: Fundación Segundos de Vida"
+            - button "Copiar Llave @lasupercasa" [ref=f9e93] [cursor=pointer]
+          - generic [ref=f9e94]:
+            - generic [ref=f9e95]:
+              - generic [ref=f9e96]: Cuenta Oficial
+              - heading "Bancolombia" [level=3] [ref=f9e97]
+              - paragraph [ref=f9e98]: "Realiza tu transferencia o consignación directa a la cuenta de ahorros de la Fundación:"
+              - generic [ref=f9e99]:
+                - generic [ref=f9e100]: "Cuenta de Ahorros Bancolombia:"
+                - generic [ref=f9e101]: 186-000090-54
+                - generic [ref=f9e102]: Fundación Segundos de Vida • NIT 900.649.809-2
+            - button "Copiar Número de Cuenta" [ref=f9e103] [cursor=pointer]
+          - generic [ref=f9e104]:
+            - generic [ref=f9e105]:
+              - generic [ref=f9e106]: Tarjetas / PSE / Internacional
+              - heading "Donación en Línea" [level=3] [ref=f9e107]
+              - paragraph [ref=f9e108]: "Aporta con tarjeta débito, crédito o PSE en el formulario seguro de esta misma página:"
+              - generic [ref=f9e109]:
+                - generic [ref=f9e110]: "Pago procesado por Wompi:"
+                - generic [ref=f9e111]: Tarjeta, PSE o Nequi
+                - generic [ref=f9e112]: La Fundación recibe tu aporte directamente
+            - link "Donar en línea »" [ref=f9e113] [cursor=pointer]:
+              - /url: /donar
+      - region "Aliados y patrocinadores" [ref=f9e114]:
+        - heading "Aliados y Patrocinadores que se ponen la capa" [level=4] [ref=f9e115]
+        - generic [ref=f9e116]:
+          - generic [ref=f9e117]: TerraFerme
+          - generic [ref=f9e118]: HivraTech
+          - generic [ref=f9e119]: ServImagenes
+          - generic [ref=f9e120]: Intesi
+      - generic [ref=f9e121]:
+        - generic [ref=f9e122]:
+          - generic [ref=f9e123]: Redes Fundación Segundos de Vida
+          - generic [ref=f9e124]:
+            - link "Instagram @segundosdevidafundacion" [ref=f9e125] [cursor=pointer]:
+              - /url: https://instagram.com/segundosdevidafundacion
+            - link "YouTube @segundosdevidafsv" [ref=f9e126] [cursor=pointer]:
+              - /url: https://youtube.com/@segundosdevidafsv
+            - link "Facebook Oficial" [ref=f9e127] [cursor=pointer]:
+              - /url: https://www.facebook.com/share/1EPQyRAsbk/
+        - generic [ref=f9e128]:
+          - generic [ref=f9e129]: Producción y Comunidad Kavanah
+          - generic [ref=f9e130]:
+            - link "TikTok @kavanah35" [ref=f9e131] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@kavanah35
+            - link "Instagram @kavanahpl35" [ref=f9e132] [cursor=pointer]:
+              - /url: https://www.instagram.com/kavanahpl35
+            - link "YouTube @KavanahPL35" [ref=f9e133] [cursor=pointer]:
+              - /url: https://www.youtube.com/@KavanahPL35
+    - contentinfo [ref=f9e134]:
+      - generic [ref=f9e135]:
+        - paragraph [ref=f9e136]: Organizan
+        - generic [ref=f9e137]:
+          - img "Fundación Segundos de Vida" [ref=f9e139]
+          - img "Kavanah" [ref=f9e141]
+      - generic [ref=f9e142]: "#SuperNavidad48H • #PonteLaCapa • #48HorasPorLaSupercasa • #SegundosDeVida"
+      - paragraph [ref=f9e143]: Fundación Segundos de Vida • NIT 900.649.809-2 • Niños hoy. Héroes siempre.
+      - paragraph [ref=f9e144]: Evento producido por Kavanah
+      - link "Panel de producción" [ref=f9e145] [cursor=pointer]:
+        - /url: /admin
+    - generic [ref=f9e150]:
+      - generic [ref=f9e151]:
+        - paragraph [ref=f9e152]: Cada aporte levanta una pared
+        - paragraph [ref=f9e153]: Meta $ 250.000.000
+      - link "Donar" [ref=f9e154] [cursor=pointer]:
+        - /url: /donar
+  - complementary "Preferencias de medición" [ref=f9e160]:
+    - paragraph [ref=f9e161]:
+      - text: Con tu permiso usamos el píxel de Meta para medir las visitas y mejorar la difusión de la campaña.
+      - link "Política de datos" [ref=f9e162] [cursor=pointer]:
+        - /url: /politica-de-datos
+      - text: .
+    - generic [ref=f9e163]:
+      - button "Aceptar medición" [ref=f9e164]
+      - button "Rechazar" [ref=f9e165]
+  - alert [ref=f9e166]
