@@ -59,3 +59,9 @@ Actualizado: 18 de noviembre de 2026.
   `NEXT_PUBLIC_SITE_URL` cargados en Vercel para producción y preview.
 - Metadatos SEO, Open Graph, Twitter Card, robots y sitemap añadidos.
 - Favicon SVG y OG image de 1200x630 validados.
+
+- ID de cuenta publicitaria configurado: `act_1137196345721751`.
+- Meta responde que la cuenta no ha concedido `ads_read` ni `ads_management`
+  al token actual. El token de KeePass es de la API de Conversiones, no de
+  lectura de anuncios. Falta generar uno con `ads_read` desde Business Manager
+  o Graph API Explorer con acceso a esa cuenta.
