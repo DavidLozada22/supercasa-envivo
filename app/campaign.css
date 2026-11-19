@@ -261,3 +261,11 @@
 .cortina-eq.is-playing i:nth-child(4) { animation-delay: .45s; }
 @keyframes eq { 0%, 100% { height: 5px; } 50% { height: 18px; } }
 @media (prefers-reduced-motion: reduce) { .cortina-eq.is-playing i { animation: none; height: 12px; } }
+
+/* Handle arrastrable de la comparación */
+.compare__line[data-astro-cid-maqz3d7x]::after { display: none; }
+.compare__handle { position: absolute; top: 50%; z-index: 5; display: grid; place-items: center; width: 52px; height: 52px; margin-top: -26px; margin-left: -26px; border: 3px solid var(--ink); border-radius: 50%; background: var(--yellow); color: var(--ink); font-size: 20px; font-weight: 800; cursor: ew-resize; touch-action: none; box-shadow: 0 4px 0 rgba(29, 43, 79, .25); user-select: none; }
+.compare__handle:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+@media (max-width: 600px) {
+  .compare__handle { width: 46px; height: 46px; margin-top: -23px; margin-left: -23px; }
+}
