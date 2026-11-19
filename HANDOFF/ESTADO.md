@@ -95,7 +95,8 @@ Actualizado: 19 de noviembre de 2026.
   opciones internacionales y Plan Padrino. No afirmar equivalencia funcional.
 - La tarifa Wompi debe confirmarse con la Fundación antes de cobrar.
 
-- Cargar llaves de Wompi en Vercel y hacer una compra real mínima.
+- Cargar llaves de Wompi en Vercel y hacer una compra real mínima. Hoy
+  producción muestra "Wompi en activación" y prioriza Bre-B y transferencia.
 - Crear la base Neon y cargar `DATABASE_URL`.
 - Descarga del QR en PNG desde `/admin` para OBS: hecho.
 - Pixel de Meta.

@@ -88,6 +88,11 @@ El fondo y el marco para live pequeño usan el video en 1280x720 en la posición
 El WhatsApp de comprobantes sale de `NEXT_PUBLIC_DONATION_WHATSAPP`. Si no está
 definido, usa el teléfono público de la Fundación `573165246087`.
 
+Sin llaves de Wompi, `/donar` prioriza la transferencia, muestra el aviso de
+"Wompi en activación" y ofrece Bre-B o Bancolombia como camino principal.
+Cuando se carguen las llaves, el formulario vuelve a quedar primero sin cambiar
+el código.
+
 ## Secretos
 
 - Panel: `HANDOFF/PANEL-ACCESOS.md` (ignorado por git).

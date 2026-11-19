@@ -41,6 +41,7 @@ export const metadata = {
 export default async function DonatePage() {
   const [config, online] = await Promise.all([getConfig(), progress()]);
   const raised = config.totals.raised + online.raisedCop;
+  const payments = paymentsAvailable();
 
   return (
     <>
@@ -62,18 +63,28 @@ export default async function DonatePage() {
             </div>
 
             <div className="wrap donate-paths">
-              <a href="#pago-en-linea" className="donate-path donate-path--primary">
+              <a
+                href={payments ? "#pago-en-linea" : "#transferencia"}
+                className={`donate-path${payments ? " donate-path--primary" : ""}`}
+              >
                 <span className="donate-path__icon" aria-hidden="true">
                   <CreditCard size={22} strokeWidth={2} />
                 </span>
                 <span className="donate-path__copy">
                   <strong>Pagar en línea</strong>
-                  <small>Tarjeta, PSE o Nequi con Wompi. Es lo más rápido.</small>
+                  <small>
+                    {payments
+                      ? "Tarjeta, PSE o Nequi con Wompi. Es lo más rápido."
+                      : "Wompi está en activación. Mientras tanto, usa Bre-B o transferencia."}
+                  </small>
                 </span>
                 <ArrowRight className="donate-path__arrow" size={20} strokeWidth={2} aria-hidden="true" />
               </a>
 
-              <a href="#transferencia" className="donate-path">
+              <a
+                href="#transferencia"
+                className={`donate-path${!payments ? " donate-path--primary" : ""}`}
+              >
                 <span className="donate-path__icon" aria-hidden="true">
                   <Landmark size={22} strokeWidth={2} />
                 </span>
@@ -100,7 +111,7 @@ export default async function DonatePage() {
               </div>
 
               <DonationFlow
-                available={paymentsAvailable()}
+                available={payments}
                 raised={raised}
                 goal={config.totals.goal}
               />
@@ -174,16 +185,36 @@ export default async function DonatePage() {
                   </button>
                 </article>
 
-                <article className="card transfer-card">
-                  <span className="transfer-card__tag">Tarjetas / PSE</span>
-                  <h3>Pago en línea</h3>
-                  <p>Usa el formulario de esta misma página. Lo procesa Wompi.</p>
-                  <strong className="transfer-card__value">Tarjeta, PSE o Nequi</strong>
-                  <small>Pago seguro</small>
-                  <a className="btn btn--white" href="#pago-en-linea">
-                    Ir al formulario
-                  </a>
-                </article>
+                {payments ? (
+                  <article className="card transfer-card">
+                    <span className="transfer-card__tag">Tarjetas / PSE</span>
+                    <h3>Pago en línea</h3>
+                    <p>Usa el formulario de esta misma página. Lo procesa Wompi.</p>
+                    <strong className="transfer-card__value">Tarjeta, PSE o Nequi</strong>
+                    <small>Pago seguro</small>
+                    <a className="btn btn--white" href="#pago-en-linea">
+                      Ir al formulario
+                    </a>
+                  </article>
+                ) : (
+                  <article className="card transfer-card">
+                    <span className="transfer-card__tag">También suma</span>
+                    <h3>Donación en especie</h3>
+                    <p>Materiales para la casa, muebles o insumos para los niños.</p>
+                    <strong className="transfer-card__value">Lo que puedas aportar</strong>
+                    <small>Coordinamos la entrega</small>
+                    <a
+                      className="btn btn--white"
+                      href={whatsappLink(
+                        "Hola, quiero donar en especie a La Supercasa. Les cuento qué tengo disponible:",
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Ofrecer materiales
+                    </a>
+                  </article>
+                )}
               </div>
 
               <div className="receipt-cta">
