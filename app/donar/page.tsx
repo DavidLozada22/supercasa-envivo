@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Lock } from "lucide-react";
 import CopyHandler from "@/components/landing/CopyHandler";
 import DonationFlow from "@/components/campaign/DonationFlow";
+import HouseProgress from "@/components/landing/HouseProgress";
 import { getConfig } from "@/lib/config";
 import { progress } from "@/lib/donations/service";
 import { paymentsAvailable } from "@/lib/donations/wompi";
@@ -63,6 +64,10 @@ export default async function DonatePage() {
               Cada aporte se convierte en una pieza real de la casa: una ventana, un baño, una
               habitación. Paga con tarjeta, PSE o Nequi, o transfiere desde tu banco.
             </p>
+          </div>
+
+          <div className="wrap" style={{ marginBottom: 28 }}>
+            <HouseProgress initialRaised={raised} initialGoal={config.totals.goal} />
           </div>
 
           <div className="wrap">

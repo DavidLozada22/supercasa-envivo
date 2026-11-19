@@ -107,3 +107,11 @@ Actualizado: 18 de noviembre de 2026.
   en `/audio/cortina.mp3` y botón para activarla (el navegador bloquea autoplay).
 - PENDIENTE: crear la clave de YouTube Data API en Google Cloud para que el ID se
   actualice solo en cada bloque de 12 horas.
+
+- Corregida la comparación "Hoy / Así quedará": la imagen de hoy cubría todo y
+  el control no tenía comportamiento. Ahora es un componente cliente que revela
+  la casa terminada al deslizar.
+- `/donar` muestra el render de la casa por fases, con las cifras en vivo.
+- Los logos del placeholder suben a 64/80 px en escritorio y 40/48 en celular.
+- La cortina usa `/audio/cortina.mp3` (36 s) en loop, con botón de reproducción
+  en `/admin/cortina` y duración visible.

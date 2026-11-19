@@ -1202,3 +1202,17 @@
   .landing-root .org-logos__chip img { height: 30px; }
   .landing-root .org-logos__chip:last-child img { height: 36px; }
 }
+
+/* Logos más grandes en las cortinas del live */
+.landing-root .stream-placeholder__logo img { height: 64px; }
+.landing-root .stream-placeholder__logo--kavanah img { height: 80px; }
+@media (max-width: 820px) {
+  .landing-root .stream-placeholder__logos { flex-direction: column; gap: 6px; }
+  .landing-root .stream-placeholder__cross { display: none; }
+  .landing-root .stream-placeholder__logo img { height: 44px; }
+  .landing-root .stream-placeholder__logo--kavanah img { height: 52px; }
+}
+@media (max-width: 640px) {
+  .landing-root .stream-placeholder__logo img { height: 40px; }
+  .landing-root .stream-placeholder__logo--kavanah img { height: 48px; }
+}
