@@ -50,6 +50,7 @@ export default function HouseProgress({
     <section className={styles.section} aria-label="Avance de La Supercasa">
       <div className={styles.frame}>
         <img
+          key={frame}
           src={file}
           width={1400}
           height={1042}

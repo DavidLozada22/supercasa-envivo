@@ -20,5 +20,6 @@ test('la vista previa muestra la música en loop', () => {
   const preview = readFileSync('components/admin/CortinaPreview.tsx', 'utf8');
   assert.ok(preview.includes('Reproducir cortina'));
   assert.ok(preview.includes('loop'));
-  assert.ok(preview.includes('en loop'));
+  assert.ok(preview.includes('loop'));
+  assert.ok(preview.includes('cortina-play'));
 });

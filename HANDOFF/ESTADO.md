@@ -115,3 +115,11 @@ Actualizado: 18 de noviembre de 2026.
 - Los logos del placeholder suben a 64/80 px en escritorio y 40/48 en celular.
 - La cortina usa `/audio/cortina.mp3` (36 s) en loop, con botón de reproducción
   en `/admin/cortina` y duración visible.
+
+- La vista previa de cortinas ahora es un reproductor por cortina: play/pause
+  individual, barra de control, duración y ecualizador animado. Una sola suena.
+- Título de la cortina más grande y logos reducidos (48/60 escritorio, 32/40
+  celular) para recuperar jerarquía.
+- El render de la casa en donaciones hace un fundido con zoom al cambiar de fase.
+- PENDIENTE 3D: generar un GLB (TRELLIS de Microsoft, Meshy, Spline o Blender) e
+  integrarlo con un visor Three.js; hoy la transición es 2D por fases.

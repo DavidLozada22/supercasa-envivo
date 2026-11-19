@@ -1216,3 +1216,18 @@
   .landing-root .stream-placeholder__logo img { height: 40px; }
   .landing-root .stream-placeholder__logo--kavanah img { height: 48px; }
 }
+
+/* Jerarquía final de la cortina: título grande y logos contenidos */
+.landing-root .stream-placeholder h2 { font-size: clamp(1.9rem, 4.8vw, 3.2rem); max-width: 24ch; }
+.landing-root .stream-placeholder__message { font-size: clamp(.85rem, 1.6vw, 1rem); }
+.landing-root .stream-placeholder__logo img { height: 48px; }
+.landing-root .stream-placeholder__logo--kavanah img { height: 60px; }
+@media (max-width: 820px) {
+  .landing-root .stream-placeholder__logo img { height: 40px; }
+  .landing-root .stream-placeholder__logo--kavanah img { height: 50px; }
+}
+@media (max-width: 640px) {
+  .landing-root .stream-placeholder { min-height: 500px; }
+  .landing-root .stream-placeholder__logo img { height: 32px; }
+  .landing-root .stream-placeholder__logo--kavanah img { height: 40px; }
+}

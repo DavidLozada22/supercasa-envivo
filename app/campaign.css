@@ -243,3 +243,21 @@
   .sv-root .org-logos__chip img { height: 30px; }
   .sv-root .org-logos__chip:last-child img { height: 36px; }
 }
+
+/* Reproductor de cortinas en el panel */
+.cortina-list { display: grid; gap: 2rem; }
+.cortina-card { display: grid; }
+.cortina-card .stream-placeholder { border-radius: 18px 18px 0 0; }
+.cortina-controls { display: flex; align-items: center; gap: .7rem; padding: .65rem .9rem; border-radius: 0 0 18px 18px; background: #0b1a3d; color: #fff; }
+.cortina-play { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex: none; border: 2px solid #0f2354; border-radius: 50%; background: #ffd400; color: #0f2354; cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.cortina-play:hover { transform: scale(1.05); background: #ffe45c; }
+.cortina-label { font-size: .82rem; font-weight: 800; letter-spacing: .04em; }
+.cortina-time { margin-left: auto; font-size: .75rem; color: rgba(255,255,255,.65); font-variant-numeric: tabular-nums; }
+.cortina-eq { display: inline-flex; align-items: flex-end; gap: 3px; height: 18px; }
+.cortina-eq i { display: block; width: 3px; height: 5px; border-radius: 2px; background: #b5f43d; opacity: .35; }
+.cortina-eq.is-playing i { opacity: 1; animation: eq 0.9s ease-in-out infinite; }
+.cortina-eq.is-playing i:nth-child(2) { animation-delay: .15s; }
+.cortina-eq.is-playing i:nth-child(3) { animation-delay: .3s; }
+.cortina-eq.is-playing i:nth-child(4) { animation-delay: .45s; }
+@keyframes eq { 0%, 100% { height: 5px; } 50% { height: 18px; } }
+@media (prefers-reduced-motion: reduce) { .cortina-eq.is-playing i { animation: none; height: 12px; } }
