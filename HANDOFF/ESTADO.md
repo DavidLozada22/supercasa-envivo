@@ -201,3 +201,14 @@ Actualizado: 18 de noviembre de 2026.
 - El caption de organizadores del hero se eliminó porque repetía el topbar.
 - La columna derecha del hero quedó alineada con la etiqueta MISIÓN SUPERCASA:
   se quitó el `position: sticky` que la desplazaba 51 px.
+
+- Los subtítulos del video son propios: píldora fucsia, texto blanco, tipografía
+  Plus Jakarta Sans y sin depender del render nativo (el track queda oculto y se
+  leen los cues con cuechange).
+- El hero tiene un botón central "Activar sonido" con estilo 3D y pulso, además
+  del botón de ampliar que abre el video en un modal con controles nativos.
+- En `/envivo` el promo es una sección grande entre el visor y el bloque de
+  donaciones, con póster, duración y CTA "Ver el video". Abre el mismo modal.
+- El modal muestra los subtítulos debajo del video para no tapar la imagen,
+  pausa el video del hero y garantiza una sola reproducción con audio.
+- Todos los botones del sitio usan la tipografía del header (Plus Jakarta Sans).

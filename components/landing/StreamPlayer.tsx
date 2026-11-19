@@ -4,7 +4,7 @@ import { liveState, resolveLiveVideoId } from "@/lib/live";
 import DonationQR from "./DonationQR";
 import Player from "./MaskedPlayer";
 import StreamPlaceholder from "./StreamPlaceholder";
-import PromoInline from "@/components/public/PromoInline";
+import StreamPromo from "@/components/public/StreamPromo";
 
 export default async function StreamPlayer({
   stream,
@@ -31,7 +31,6 @@ export default async function StreamPlayer({
             message="A las 6:00 p. m., hora de Bogotá, arrancan 48 horas por La Supercasa. Guarda este enlace y acompáñanos."
             note="Tu aporte construye la casa de los Super Calvitos."
             cta={{ href: "/donar", label: "Donar ahora" }}
-            extra={<PromoInline />}
           />
         ) : (
           <StreamPlaceholder
@@ -42,6 +41,8 @@ export default async function StreamPlayer({
           />
         )}
       </div>
+
+      <StreamPromo />
 
       <div className="stream-donate">
         <DonationQR />

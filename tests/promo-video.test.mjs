@@ -19,7 +19,25 @@ test('el video promo vive en el hero y respeta las politicas de autoplay', () =>
   assert.ok(!shell.includes('hero__organizer'));
 
   const live = readFileSync('components/landing/StreamPlayer.tsx', 'utf8');
-  assert.ok(live.includes('PromoInline'));
+  assert.ok(live.includes('StreamPromo'));
+
+  const promo = readFileSync('components/public/StreamPromo.tsx', 'utf8');
+  assert.ok(promo.includes('Ver el video'));
+  assert.ok(promo.includes('VideoModal'));
+
+  const modal = readFileSync('components/public/VideoModal.tsx', 'utf8');
+  assert.ok(modal.includes('controls'));
+  assert.ok(modal.includes('promo-supercasa.es.vtt'));
+
+  const captions = readFileSync('components/public/VideoCaption.tsx', 'utf8');
+  assert.ok(captions.includes('cuechange'));
+  assert.ok(captions.includes('video-caption'));
+
+  const css = readFileSync('app/campaign.css', 'utf8');
+  assert.ok(css.includes('.video-caption { position: absolute'));
+  assert.ok(css.includes('background: rgba(143, 0, 98, .94)'));
+  assert.ok(css.includes('.video-modal__captions'));
+  assert.ok(css.includes('.stream-promo__cta'));
 
   for (const file of [
     'public/video/promo-supercasa.mp4',
