@@ -123,3 +123,6 @@ Actualizado: 18 de noviembre de 2026.
 - El render de la casa en donaciones hace un fundido con zoom al cambiar de fase.
 - PENDIENTE 3D: generar un GLB (TRELLIS de Microsoft, Meshy, Spline o Blender) e
   integrarlo con un visor Three.js; hoy la transición es 2D por fases.
+
+- Nuevo simulador en `/admin/casa`: barra y botones 0-100% para probar el
+  fundido del render sin tocar el recaudo real. Enlace en el panel.

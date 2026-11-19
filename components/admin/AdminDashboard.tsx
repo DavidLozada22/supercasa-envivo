@@ -297,6 +297,9 @@ export default function AdminDashboard({
             <a href="/admin/cortina" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
               Ver cortinas del live
             </a>
+            <a href="/admin/casa" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
+              Ver avance de la casa
+            </a>
           </div>
           {tab === "stream" ? (
             <>
