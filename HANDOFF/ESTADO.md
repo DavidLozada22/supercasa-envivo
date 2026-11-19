@@ -12,7 +12,7 @@ Actualizado: 18 de noviembre de 2026.
 - `/donar` con wizard de 3 pasos, comisión de Wompi cubierta y transferencias.
 - Pago simulado probado de punta a punta hasta `/donar/gracias`.
 - Aliados, redes de la Fundación y de Kavanah, hashtags y crédito SVG.
-- Fuente original de Sebastián en `legacy/segundosdevida/`.
+- Fuente original de Sebastián en `legacy/segundosdevida/`, solo como referencia.
 - Rutas `/politica-de-datos` y `/terminos` recuperadas del sitio original como borradores.
 - Handoff actualizado con decisiones y flujo.
 
@@ -45,3 +45,5 @@ Actualizado: 18 de noviembre de 2026.
   certificado, muro de héroes y resumen con comisión. El Plan Padrino mensual se
   muestra deshabilitado ("muy pronto") porque el backend aún no lo soporta.
 - El certificado y la preferencia de muro se guardan en la tabla de donaciones.
+
+- Una sola ruta pública de donación: `/donar`. Se retiraron los enlaces al portal externo.

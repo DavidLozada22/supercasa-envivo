@@ -125,14 +125,14 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
           <div className="card-top">
             <span className="card-tag tag-web">Tarjetas / PSE / Internacional</span>
             <h3>Donación en Línea</h3>
-            <p className="card-desc">Aporta desde cualquier lugar del mundo con tarjeta débito, crédito o PSE a través de nuestro portal:</p>
+            <p className="card-desc">Aporta con tarjeta débito, crédito o PSE en el formulario seguro de esta misma página:</p>
             <div className="dato-box">
-              <span>Portal oficial de la Fundación:</span>
-              <span className="dato-destacado dato-url">supercasa.segundosdevida.com</span>
-              <small>Ingresa y haz clic en el botón de Donaciones</small>
+              <span>Pago procesado por Wompi:</span>
+              <span className="dato-destacado dato-url">Tarjeta, PSE o Nequi</span>
+              <small>La Fundación recibe tu aporte directamente</small>
             </div>
           </div>
-          <a href="https://supercasa.segundosdevida.com/" target="_blank" rel="noopener" className="btn-pill">Ir a supercasa.segundosdevida.com &raquo;</a>
+          <a href="/donar" className="btn-pill">Donar en línea &raquo;</a>
         </div>
       </div>
     </section>

@@ -36,7 +36,7 @@ export default async function DonatePage() {
       </header>
 
       <main>
-        <section className="section">
+        <section className="section" id="donar-form">
           <div className="wrap donate-page__intro">
             <p className="eyebrow">Pon tu pieza</p>
             <h1>Elige cómo ayudar</h1>
@@ -85,17 +85,12 @@ export default async function DonatePage() {
 
               <article className="card transfer-card">
                 <span className="transfer-card__tag">Tarjetas / PSE</span>
-                <h3>Portal de la Fundación</h3>
-                <p>Donación en línea desde cualquier lugar del mundo.</p>
-                <strong className="transfer-card__value">supercasa.segundosdevida.com</strong>
-                <small>Portal oficial</small>
-                <a
-                  className="btn btn--white"
-                  href="https://supercasa.segundosdevida.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ir al portal
+                <h3>Pago en línea</h3>
+                <p>Usa el formulario de esta misma página. Lo procesa Wompi.</p>
+                <strong className="transfer-card__value">Tarjeta, PSE o Nequi</strong>
+                <small>Pago seguro</small>
+                <a className="btn btn--white" href="#donar-form">
+                  Ir al formulario
                 </a>
               </article>
             </div>

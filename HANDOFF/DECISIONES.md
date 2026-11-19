@@ -105,3 +105,14 @@ en vivo.
 
 El crédito de SVG se retiró por pedido explícito del cliente en este proyecto.
 Queda «Evento producido por Kavanah».
+
+## 15. Un solo sistema de donaciones
+
+El único flujo activo es `/donar` en Next, con el formulario original de
+Sebastián y su lógica de creación de aportes, webhook y progreso. La aplicación
+Astro de `legacy/segundosdevida/` queda como referencia de código, no como
+sistema activo. Se retiraron los enlaces públicos al portal externo de
+donaciones para que todo aporte pase por el mismo flujo.
+
+Pendiente para paridad total: Plan Padrino mensual, carnet, confirmación manual
+de aportes y exportación CSV del panel.

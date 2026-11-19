@@ -9,3 +9,10 @@ test('el formulario conserva el diseño original de Sebastián', () => {
   }
   assert.ok(flow.includes('Plan Padrino mensual'));
 });
+
+test('hay una sola ruta pública de donación', () => {
+  for (const file of ['app/donar/page.tsx', 'components/landing/LandingMarkup.tsx']) {
+    const source = readFileSync(file, 'utf8');
+    assert.ok(!source.includes('supercasa.segundosdevida.com'), `${file} no debe enviar a otro portal de donaciones`);
+  }
+});
