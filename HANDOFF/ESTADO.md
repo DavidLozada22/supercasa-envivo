@@ -173,3 +173,13 @@ Actualizado: 18 de noviembre de 2026.
   `/` y en `/envivo`.
 - En el menú móvil el logo de Kavanah usa la versión blanca del elefante y se
   dimensiona por ancho para no deformarse.
+
+- Cuando la maratón está al aire, el home reemplaza la imagen de la casa en el
+  hero por un visor EN VIVO con CTA a `/envivo`. Se retiró la tarjeta suelta que
+  estaba más abajo.
+- El topbar se limita a 1000 px y se centra igual en todo el sitio. El chrome
+  define su propio `--ink` para que los bordes y sombras de los botones no
+  desaparezcan en las páginas que no usan los tokens de la campaña.
+- Nueva ruta de administración `/admin/preview-home`: muestra el home en estado
+  en vivo dentro de un marco, con selector de escritorio y celular. Usa
+  `/?preview=live` y no altera el estado real del sitio.

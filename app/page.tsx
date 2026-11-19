@@ -27,7 +27,13 @@ export const metadata: Metadata = {
 
 const CAMPAIGN_END = new Date("2026-11-30T23:59:59-05:00");
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ preview?: string }>;
+}) {
+  const { preview } = await searchParams;
+  const forceLive = preview === "live";
   const publicConfig = toPublicConfig(await getConfig());
 
   let online = { raisedCop: 0, donations: 0 };
@@ -53,6 +59,7 @@ export default async function HomePage() {
         goal={goal}
         pct={Math.min(100, rawPct)}
         daysLeft={daysLeft}
+        forceLive={forceLive}
       />
     </>
   );

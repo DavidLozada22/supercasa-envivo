@@ -11,4 +11,5 @@ test('el chrome del header no hereda la tipografía de la campaña', () => {
   assert.ok(css.includes('#334155'));
   assert.ok(css.includes('header.site-header a.site-donate { color: #fff; }'));
   assert.ok(css.includes('.site-menu a.site-menu__link { color: #fff; }'));
+  assert.ok(css.includes('--ink: #1d2b4f;'));
 });

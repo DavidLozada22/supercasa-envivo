@@ -1,6 +1,7 @@
 import {
   BarChart3,
   Bell,
+  Eye,
   HandCoins,
   LayoutDashboard,
   Map,
@@ -14,4 +15,5 @@ export const ADMIN_LINKS = [
   { href: "/admin/cortina", label: "Cortinas del live", icon: Radio },
   { href: "/admin/casa", label: "Avance de la casa", icon: BarChart3 },
   { href: "/admin/recordatorios", label: "Recordatorios", icon: Bell },
+  { href: "/admin/preview-home", label: "Vista previa en vivo", icon: Eye },
 ];

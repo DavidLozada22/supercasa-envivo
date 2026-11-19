@@ -11,10 +11,10 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
   return (
     <>
       <CopyHandler />
+      <SiteHeader current="live" />
+
       <div className="landing-root pb-24 md:pb-0">
 <div className="bg-pattern" aria-hidden="true"></div>
-
-  <SiteHeader current="live" />
 
   <main className="container">
     

@@ -33,10 +33,11 @@ export default async function DonatePage() {
   const raised = config.totals.raised + online.raisedCop;
 
   return (
-    <div className="sv-root sv-donate-page">
-      <CopyHandler />
-
+    <>
       <SiteHeader current="donate" />
+
+      <div className="sv-root sv-donate-page">
+        <CopyHandler />
 
       <main>
         <section className="section" id="donar-form">
@@ -189,7 +190,8 @@ export default async function DonatePage() {
         <p className="wrap small copy" data-astro-cid-scinlfmn>
           © 2026 Fundación Segundos de Vida · Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support">Apoya a SVG</a>
         </p>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    </>
   );
 }

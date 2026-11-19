@@ -22,7 +22,13 @@ function remainingLabel(ms: number): string {
   return `${mins} min`;
 }
 
-export default function SiteHeader({ current }: { current?: SiteSection }) {
+export default function SiteHeader({
+  current,
+  forceLive,
+}: {
+  current?: SiteSection;
+  forceLive?: boolean;
+}) {
   const pathname = usePathname();
   const [now, setNow] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
@@ -50,7 +56,7 @@ export default function SiteHeader({ current }: { current?: SiteSection }) {
     };
   }, [open]);
 
-  const live = PREVIEW || (now !== null && now >= START && now <= END);
+  const live = forceLive || PREVIEW || (now !== null && now >= START && now <= END);
   const before = now !== null && now < START;
   const after = now !== null && now > END;
 

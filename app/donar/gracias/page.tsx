@@ -16,8 +16,10 @@ export default async function ThanksPage({
   if (!ref) redirect("/donar");
 
   return (
-    <div className="sv-root">
+    <>
       <SiteHeader current="donate" />
+
+      <div className="sv-root">
 
       <main className="section">
         <div className="wrap">
@@ -28,7 +30,8 @@ export default async function ThanksPage({
         <p className="wrap small copy" data-astro-cid-scinlfmn>
           © 2026 Fundación Segundos de Vida · Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support">Apoya a SVG</a>
         </p>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    </>
   );
 }
