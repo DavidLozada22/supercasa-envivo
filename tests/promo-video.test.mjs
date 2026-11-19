@@ -24,6 +24,10 @@ test('el video promo vive en el hero y respeta las politicas de autoplay', () =>
   const promo = readFileSync('components/public/StreamPromo.tsx', 'utf8');
   assert.ok(promo.includes('Ver el video'));
   assert.ok(promo.includes('VideoModal'));
+  assert.ok(promo.includes('autoPlay'));
+  assert.ok(promo.includes('muted'));
+  assert.ok(promo.includes('VideoCaption'));
+  assert.ok(promo.includes('videoRef.current?.pause()'));
 
   const modal = readFileSync('components/public/VideoModal.tsx', 'utf8');
   assert.ok(modal.includes('controls'));

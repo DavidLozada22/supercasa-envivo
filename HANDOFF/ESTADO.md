@@ -212,3 +212,7 @@ Actualizado: 18 de noviembre de 2026.
 - El modal muestra los subtítulos debajo del video para no tapar la imagen,
   pausa el video del hero y garantiza una sola reproducción con audio.
 - Todos los botones del sitio usan la tipografía del header (Plus Jakarta Sans).
+
+- La tarjeta del promo en `/envivo` reproduce sola, silenciada y en loop, con
+  subtítulos encima para invitar a abrirla. Usa la versión de 540p para no cargar
+  el archivo grande. Al abrir el modal se pausa, y al cerrarlo se reanuda.

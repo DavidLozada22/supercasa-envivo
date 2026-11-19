@@ -562,11 +562,12 @@ input[type="submit"],
 
 /* Sección grande del promo en la maratón */
 .stream-promo { display: grid; grid-template-columns: 1.02fr .98fr; gap: clamp(18px, 3vw, 34px); align-items: center; max-width: 1000px; margin: 28px auto 0; padding: clamp(18px, 3vw, 30px); border: 3px solid #0f2354; border-radius: 24px; background: #fff; box-shadow: 0 10px 0 rgba(15, 35, 84, .12); }
-.stream-promo__media { position: relative; display: block; padding: 0; border: 3px solid #0f2354; border-radius: 18px; background: #0b1a3d; cursor: pointer; overflow: hidden; }
-.stream-promo__media img { display: block; width: 100%; height: auto; }
-.stream-promo__play { position: absolute; inset: 0; display: grid; place-items: center; margin: auto; width: 72px; height: 72px; border: 3px solid #fff; border-radius: 50%; background: #b8007e; color: #fff; box-shadow: 0 6px 0 rgba(15, 35, 84, .55); transition: transform .15s ease, background .15s ease; }
-.stream-promo__media:hover .stream-promo__play { transform: scale(1.06); background: #8f0062; }
-.stream-promo__badge { position: absolute; left: 10px; top: 10px; padding: .2rem .6rem; border: 2px solid #fff; border-radius: 999px; background: rgba(15, 35, 84, .82); color: #fff; font-size: .72rem; font-weight: 800; letter-spacing: .04em; }
+.stream-promo__media { position: relative; display: block; border: 3px solid #0f2354; border-radius: 18px; background: #0b1a3d; overflow: hidden; }
+.stream-promo__video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.stream-promo__hit { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; }
+.stream-promo__play { display: grid; place-items: center; width: 72px; height: 72px; border: 3px solid #fff; border-radius: 50%; background: #b8007e; color: #fff; box-shadow: 0 6px 0 rgba(15, 35, 84, .55); transition: transform .15s ease, background .15s ease; }
+.stream-promo__hit:hover .stream-promo__play { transform: scale(1.06); background: #8f0062; }
+.stream-promo__badge { position: absolute; left: 10px; top: 10px; z-index: 3; padding: .2rem .6rem; border: 2px solid #fff; border-radius: 999px; background: rgba(15, 35, 84, .82); color: #fff; font-size: .72rem; font-weight: 800; letter-spacing: .04em; }
 .stream-promo__kicker { margin: 0; font-size: .7rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b8007e; }
 .stream-promo__copy h2 { margin: .2rem 0 .5rem; font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; font-size: clamp(1.7rem, 3.2vw, 2.4rem); font-weight: 800; line-height: 1.1; color: #0f2354; }
 .stream-promo__copy p { margin: 0; max-width: 42ch; color: #334155; line-height: 1.55; }
@@ -609,4 +610,12 @@ input[type="submit"],
 .video-caption { position: absolute; left: 50%; bottom: 14px; z-index: 3; width: max-content; max-width: min(92%, 560px); margin: 0; padding: .45rem .9rem; border: 2px solid rgba(255, 255, 255, .55); border-radius: 14px; background: rgba(143, 0, 98, .94); color: #fff; font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; font-size: .92rem; font-weight: 800; line-height: 1.35; letter-spacing: .01em; text-align: center; text-shadow: 0 2px 4px rgba(0, 0, 0, .55); box-shadow: 0 6px 18px rgba(0, 0, 0, .35); transform: translateX(-50%); pointer-events: none; }
 @media (max-width: 560px) {
   .video-caption { font-size: .78rem; padding: .35rem .7rem; bottom: 10px; max-width: 94%; }
+}
+
+
+/* Subtítulos del promo dentro de la tarjeta */
+.stream-promo .video-caption { bottom: 12px; font-size: .82rem; max-width: 90%; }
+@media (max-width: 560px) {
+  .stream-promo .video-caption { bottom: 8px; font-size: .72rem; padding: .3rem .6rem; max-width: 94%; }
+  .stream-promo__play { width: 58px; height: 58px; }
 }
