@@ -69,3 +69,9 @@ Actualizado: 18 de noviembre de 2026.
 - Atribución por UTM y enlaces `/ref/codigo`: visitas en la tabla `visits` y
   aportes con `attribution` en `donations`. El panel tiene la pestaña Campañas
   con generador de enlaces y reporte de visitas y aportes por origen.
+
+- El live muestra un placeholder con los logos de la Fundación y Kavanah cuando
+  la señal no está disponible, antes de la maratón o al terminar. Ya no aparece
+  el aviso de YouTube "This video is unavailable".
+- Nota en el panel: YouTube cierra cada transmisión a las 12 horas; para 48
+  horas se programan cuatro bloques y se actualiza el ID en cada reinicio.

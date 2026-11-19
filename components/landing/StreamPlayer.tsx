@@ -2,8 +2,16 @@ import Link from "next/link";
 import type { PublicConfig } from "@/lib/types";
 import DonationQR from "./DonationQR";
 import Player from "./MaskedPlayer";
+import StreamPlaceholder from "./StreamPlaceholder";
+
+const START = new Date("2026-11-20T18:00:00-05:00");
+const END = new Date("2026-11-22T18:00:00-05:00");
 
 export default function StreamPlayer({ stream }: { stream: PublicConfig["stream"] }) {
+  const now = new Date();
+  const preview = process.env.NEXT_PUBLIC_LIVE_PREVIEW === "1";
+  const state = preview ? "live" : now < START ? "before" : now > END ? "after" : "live";
+
   return (
     <section className="stream-wrapper" aria-label="Transmisión en vivo">
       <div className="stream-frame">

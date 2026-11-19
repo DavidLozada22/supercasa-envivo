@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Maximize, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import styles from "./masked-player.module.css";
+import StreamPlaceholder from "./StreamPlaceholder";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
@@ -14,32 +15,12 @@ declare global {
 
 const PLAYER_ID = "supercasa-yt-player";
 
-function FallbackFrame({ embedUrl }: { embedUrl: string }) {
-  return (
-    <div className={styles.stage}>
-      <iframe
-        src={embedUrl}
-        title="Transmisión en vivo"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowFullScreen
-        className={styles.iframe}
-      />
-      <div className={styles.shield} aria-hidden="true" />
-      <div className={styles.topMask} aria-hidden="true" />
-      <div className={styles.bottomMask} aria-hidden="true" />
-      <div className={styles.fallbackNote}>
-        <span className={styles.dot} />
-        Señal en vivo
-      </div>
-    </div>
-  );
-}
-
 function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   const stageRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [unavailable, setUnavailable] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -69,6 +50,7 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
             setPlaying(event.data === window.YT.PlayerState.PLAYING);
             setMuted(Boolean(event.target.isMuted?.()));
           },
+          onError: () => setUnavailable(true),
         },
       });
     };
@@ -125,6 +107,16 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
     if (document.fullscreenElement) void document.exitFullscreen();
     else void node.requestFullscreen?.();
   };
+
+  if (unavailable) {
+    return (
+      <StreamPlaceholder
+        title="La señal está en pausa"
+        message="Estamos reconectando la transmisión. Vuelve en unos minutos."
+        note="Puedes donar y seguir el avance de la casa mientras tanto."
+      />
+    );
+  }
 
   return (
     <div className={styles.stage} ref={stageRef}>
@@ -202,6 +194,13 @@ export default function Player({
   embedUrl: string;
   title: string;
 }) {
-  if (!videoId) return <FallbackFrame embedUrl={embedUrl} />;
+  if (!videoId) {
+    return (
+      <StreamPlaceholder
+        title="La señal estará disponible pronto"
+        message="Estamos preparando la transmisión. Mientras tanto puedes donar y seguir el avance de la casa."
+      />
+    );
+  }
   return <MaskedPlayer videoId={videoId} title={title} />;
 }

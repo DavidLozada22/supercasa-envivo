@@ -461,6 +461,10 @@ export default function AdminDashboard({
                   En OBS usa <strong>Servicio: YouTube - RTMP</strong>, pega el servidor y la clave, y
                   guarda. Esos dos datos salen de YouTube Studio, en la pantalla de configuración de
                   la transmisión.
+                  <br />
+                  <strong>Duración:</strong> YouTube cierra cada transmisión a las 12 horas. Para
+                  cubrir 48 horas, programa cuatro bloques y actualiza el ID del video en cada
+                  reinicio.
                 </div>
               </section>
 
