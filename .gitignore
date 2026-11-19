@@ -12,3 +12,5 @@ HANDOFF/secretos/
 
 legacy/**/dist
 legacy/**/.astro
+
+.playwright-mcp/
