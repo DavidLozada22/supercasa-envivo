@@ -1238,3 +1238,5 @@
 /* Apoyo a SVG en el pie */
 .landing-root .svg-support { color: rgba(255, 255, 255, .55); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; transition: color .15s ease; }
 .landing-root .svg-support:hover, .landing-root .svg-support:focus-visible { color: #fff; }
+
+.landing-root #avisame { scroll-margin-top: 150px; }

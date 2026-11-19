@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { createDonation, DonationError } from "@/lib/donations/service";
+import { normalizeAttribution } from "@/lib/attribution";
+import { addReminder } from "@/lib/reminders/store";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +31,21 @@ export async function POST(request: Request) {
   }
 
   try {
-    const checkout = await createDonation(await request.json());
+    const body = (await request.json()) as Record<string, unknown>;
+    const checkout = await createDonation(body);
+
+    const donor = (body.donor ?? {}) as Record<string, unknown>;
+    const email = typeof donor.email === "string" ? donor.email.trim().toLowerCase() : "";
+    if (donor.wantsReminders === true && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      const attribution = normalizeAttribution(body.attribution);
+      await addReminder({
+        email,
+        name: typeof donor.name === "string" ? donor.name : null,
+        source: "donacion",
+        ref: attribution.ref ?? null,
+      }).catch(() => undefined);
+    }
+
     return NextResponse.json(checkout, { status: 201 });
   } catch (error) {
     if (error instanceof DonationError) {

@@ -79,6 +79,25 @@ export default function CampaignTools() {
           <p className="mt-2 text-xs text-slate-500">
             Solo letras, números, punto, guion y guion bajo.
           </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {["SDVE", "instagram", "meta", "whatsapp"].map((code) => (
+              <button
+                key={code}
+                type="button"
+                onClick={() => setRef(code)}
+                className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${
+                  cleanRef === code.toLowerCase()
+                    ? "border-[#0F2354] bg-[#0F2354] text-white"
+                    : "border-slate-200 bg-white text-[#0F2354] hover:bg-slate-50"
+                }`}
+              >
+                {code}
+              </button>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-slate-500">
+            SDVE es el código para el equipo de la Fundación Segundos de Vida.
+          </p>
         </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-slate-50 p-3">

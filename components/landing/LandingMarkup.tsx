@@ -42,7 +42,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
 
     <HouseProgress initialRaised={raised ?? config.totals.raised} initialGoal={config.totals.goal} />
 
-    <div className="reminder-section">
+    <div className="reminder-section" id="avisame">
       <ReminderForm />
     </div>
 

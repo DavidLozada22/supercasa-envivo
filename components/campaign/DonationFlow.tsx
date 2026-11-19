@@ -71,6 +71,7 @@ export default function DonationFlow({
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
   const [wall, setWall] = useState(false);
+  const [remind, setRemind] = useState(false);
   const [certificate, setCertificate] = useState(false);
   const [certName, setCertName] = useState("");
   const [docType, setDocType] = useState("CC");
@@ -145,6 +146,7 @@ export default function DonationFlow({
             phone,
             consent,
             showOnWall: wall,
+            wantsReminders: remind,
             certificate: certificate
               ? { name: certName, docType, docNumber }
               : undefined,
@@ -363,6 +365,16 @@ export default function DonationFlow({
           <label className="check" {...A}>
             <input type="checkbox" checked={wall} onChange={(event) => setWall(event.target.checked)} {...A} />
             <span {...A}>Quiero que mi nombre aparezca en el muro de héroes.</span>
+          </label>
+
+          <label className="check" {...A}>
+            <input
+              type="checkbox"
+              checked={remind}
+              onChange={(event) => setRemind(event.target.checked)}
+              {...A}
+            />
+            <span {...A}>Avísame por correo cuando empiece la transmisión.</span>
           </label>
 
           <label className="check" {...A}>

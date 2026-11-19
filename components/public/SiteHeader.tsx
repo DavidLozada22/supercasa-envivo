@@ -104,6 +104,9 @@ export default function SiteHeader({
             >
               Maratón 48 horas
             </Link>
+            <Link href="/envivo#avisame" className="site-btn">
+              Avísame
+            </Link>
           </nav>
 
           <div className="site-header__actions">
@@ -169,6 +172,13 @@ export default function SiteHeader({
               <span>
                 Maratón 48 horas
                 <small>{live ? "Estamos en vivo ahora" : "Viernes 20, 6:00 p. m., hora Bogotá"}</small>
+              </span>
+              <ChevronRight className="h-5 w-5" strokeWidth={2} />
+            </Link>
+            <Link href="/envivo#avisame" className="site-menu__link">
+              <span>
+                Avísame
+                <small>Te escribimos cuando empiece la transmisión</small>
               </span>
               <ChevronRight className="h-5 w-5" strokeWidth={2} />
             </Link>
