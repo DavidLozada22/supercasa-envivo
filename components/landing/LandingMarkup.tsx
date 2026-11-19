@@ -180,14 +180,6 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
     <div className="footer-hashtags">#SuperNavidad48H &nbsp;•&nbsp; #PonteLaCapa &nbsp;•&nbsp; #48HorasPorLaSupercasa &nbsp;•&nbsp; #SegundosDeVida</div>
     <p>Fundación Segundos de Vida • NIT 900.649.809-2 • Niños hoy. Héroes siempre.</p>
     <p className="mt-6 text-center text-xs text-white/40">Evento producido por Kavanah · <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" className="svg-support">Apoya a SVG</a></p>
-    <a
-      href="/admin"
-      aria-label="Panel de producción"
-      title="Panel de producción"
-      className="mx-auto mt-4 flex h-9 w-9 items-center justify-center rounded-full text-white/20 transition hover:bg-white/10 hover:text-[#B5F43D]"
-    >
-      <Lock className="h-4 w-4" strokeWidth={1.75} />
-    </a>
   </footer>
       <StickyDonate />
       </div>
