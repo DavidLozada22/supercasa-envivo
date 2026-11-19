@@ -91,3 +91,10 @@ Actualizado: 18 de noviembre de 2026.
 
 - Kavanah usa su logo del elefante: horizontal (assets 10-12) en la imagen OG
   y el placeholder, vertical (assets 1-3) en el pie. Sin fondos blancos.
+
+- Los logos vuelven a ir sobre tarjeta blanca en el pie y en el placeholder, con
+  la versión dorada de Kavanah para que se lea sobre blanco.
+- El fallback del live dice "Reconectando la transmisión" cuando YouTube corta
+  la señal.
+- PENDIENTE: fondo musical o cortina para los cortes de transmisión, de modo que
+  David tenga tiempo de actualizar la URL de YouTube.

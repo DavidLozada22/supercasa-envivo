@@ -13,4 +13,5 @@ test('el live usa un placeholder con las dos marcas', () => {
   const masked = readFileSync('components/landing/MaskedPlayer.tsx', 'utf8');
   assert.ok(masked.includes('onError'));
   assert.ok(masked.includes('StreamPlaceholder'));
+  assert.ok(masked.includes('Reconectando la transmisión'));
 });

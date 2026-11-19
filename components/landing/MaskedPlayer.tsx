@@ -111,9 +111,9 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   if (unavailable) {
     return (
       <StreamPlaceholder
-        title="La señal está en pausa"
-        message="Estamos reconectando la transmisión. Vuelve en unos minutos."
-        note="Puedes donar y seguir el avance de la casa mientras tanto."
+        title="Reconectando la transmisión"
+        message="La señal se cortó. Estamos reconectando; la transmisión continúa en vivo en cuanto YouTube la restablezca."
+        note="Si no vuelve en unos minutos, actualiza la página. Puedes donar mientras tanto."
       />
     );
   }
@@ -197,7 +197,7 @@ export default function Player({
   if (!videoId) {
     return (
       <StreamPlaceholder
-        title="La señal estará disponible pronto"
+        title="Estamos preparando la señal"
         message="Estamos preparando la transmisión. Mientras tanto puedes donar y seguir el avance de la casa."
       />
     );
