@@ -79,3 +79,24 @@ flowchart TD
 
 El home ya no muestra el wizard completo: muestra las piezas y lleva a `/donar`.
 Así el QR cae directo en la acción y la página no se alarga de más.
+
+
+## Versión 3: home de campaña y live en su propia URL
+
+```mermaid
+flowchart TD
+  A[Link en redes] --> B[/envivo]
+  B --> C[Player + QR + avance]
+  C --> D[/donar]
+  C --> E[Volver a la campaña]
+  F[/ Home de Sebastián] --> B
+  F --> D
+  D --> G[1 Pieza]
+  G --> H[2 Datos]
+  H --> I[3 Confirma con comisión]
+  I --> J[Wompi]
+  J --> K[/donar/gracias]
+```
+
+La franja del home aparece solo hasta el domingo 22. Antes del viernes invita a
+entrar; durante el evento dice "Estamos en vivo".

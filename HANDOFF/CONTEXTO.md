@@ -10,8 +10,9 @@ en Bogotá. Meta de referencia: $250.000.000 COP.
 
 | Ruta | Para quién | Qué hace |
 | --- | --- | --- |
-| `/` | Audiencia | Home de Sebastián con el live enmascarado y el QR en el hero |
-| `/donar` | Donantes | Flujo de donación estilo campaña, comisión cubierta y transferencias |
+| `/` | Audiencia | Home de campaña de Sebastián, con franja al live |
+| `/envivo` | Audiencia | Página del live: player, QR, avance y botón de donar |
+| `/donar` | Donantes | Wizard de 3 pasos, comisión cubierta y transferencias |
 | `/donar/gracias` | Donantes | Estado del aporte en tiempo real |
 | `/admin` | Producción | Transmisión, recaudo, campaña y Meta Ads |
 | `/admin/login` | Producción | Acceso por usuario y clave |

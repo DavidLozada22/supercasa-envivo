@@ -78,3 +78,13 @@ muestra el desglose y cobra el total.
 La campaña de donaciones cierra el 30 de noviembre. El evento en vivo va del
 viernes 20 a las 6:00 p. m. al domingo 22 a las 6:00 p. m. El reproductor tiene
 tres estados: antes, en vivo y después.
+
+## 13. El home es el sitio de campaña y el live tiene URL propia
+
+El home vuelve a ser el de Sebastián, con su hero y la casa. El streaming vive en
+`/envivo`, que es el enlace que se publica en redes. Una franja delgada sobre el
+hero avisa del live y lleva a esa página. Así la portada conserva la narrativa y
+el evento tiene una URL limpia para compartir.
+
+`/donar` deja de ser un formulario plano y pasa a un wizard de 3 pasos: pieza,
+datos, confirmación. El QR apunta ahí.

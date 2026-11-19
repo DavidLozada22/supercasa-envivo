@@ -125,3 +125,39 @@
   .sv-root .sticky-donate { display: block; position: fixed; inset-inline: 0; bottom: 0; z-index: 60; padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); border-top: 3px solid var(--yellow); background: rgba(29, 43, 79, 0.97); }
   .sv-root .sticky-donate .btn { width: 100%; justify-content: center; }
 }
+
+/* Franja de live sobre el home */
+.sv-root .live-ribbon { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 9px 16px; background: var(--red-strong); color: #fff; font-size: .88rem; font-weight: 700; text-decoration: none; transition: background .15s ease; }
+.sv-root .live-ribbon:hover { background: var(--red); }
+.sv-root .live-ribbon__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 0 rgba(255,212,0,.7); animation: svLive 1.6s infinite; }
+.sv-root .live-ribbon__cta { margin-left: 4px; font-weight: 800; text-decoration: underline; }
+
+/* Página del live */
+.sv-root .envivo__head { max-width: 780px; margin: 0 auto 1.4rem; text-align: center; }
+.sv-root .envivo__head h1 { font-size: clamp(2rem, 4.4vw, 3.1rem); }
+.sv-root .envivo__head .lead { color: var(--ink-soft); }
+.sv-root .envivo__stage { max-width: 1040px; margin: 0 auto; }
+.sv-root .envivo__progress { max-width: 760px; margin: 1.5rem auto 0; }
+.sv-root .envivo__progress-head { display: flex; justify-content: space-between; font-weight: 800; font-size: .9rem; }
+.sv-root .envivo__bar { height: 16px; margin: 6px 0 5px; overflow: hidden; border: 3px solid var(--ink); border-radius: 999px; background: #fff; }
+.sv-root .envivo__bar > div { height: 100%; background: var(--green); transition: width .3s ease; }
+.sv-root .envivo__progress p { margin: 0; font-size: .78rem; color: var(--ink-soft); }
+
+/* Wizard de 3 pasos */
+.sv-root .wizard-steps { display: flex; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.sv-root .wizard-steps li { display: flex; flex: 1; align-items: center; gap: 8px; font-size: .82rem; font-weight: 700; color: var(--ink-soft); }
+.sv-root .wizard-steps li > span { display: inline-flex; width: 30px; height: 30px; flex: none; align-items: center; justify-content: center; border: 2px solid currentColor; border-radius: 50%; font-size: .8rem; }
+.sv-root .wizard-steps li.is-current { color: var(--ink); }
+.sv-root .wizard-steps li.is-current > span { border-color: var(--ink); background: var(--yellow); }
+.sv-root .wizard-steps li.is-done > span { border-color: var(--green-text); background: var(--green); color: #fff; }
+.sv-root .wizard-step { display: grid; gap: 16px; }
+.sv-root .wizard-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.sv-root .wizard-summary { display: grid; gap: 8px; padding: 14px 16px; border: 2px solid rgba(29,43,79,.15); border-radius: 14px; background: #fff; }
+.sv-root .wizard-summary > div { display: flex; justify-content: space-between; gap: 14px; font-size: .9rem; }
+.sv-root .wizard-summary span { color: var(--ink-soft); }
+
+@media (max-width: 640px) {
+  .sv-root .wizard-steps li { font-size: 0; }
+  .sv-root .wizard-steps li > span { font-size: .8rem; }
+  .sv-root .wizard-nav .btn { flex: 1; justify-content: center; }
+}

@@ -1,35 +1,29 @@
 # Estado
 
-Actualizado: 18 de noviembre de 2026, noche.
+Actualizado: 18 de noviembre de 2026.
 
 ## Hecho
 
-- Sitio público basado en el diseño de Sebastián: header, hero, calvitos, casa,
-  historia, obra, transparencia, empresas, footer y legales.
-- Live enmascarado y QR integrados en el hero, con estados antes, en vivo y después.
-- `/donar` con flujo propio: piezas, datos, consentimiento, comisión de Wompi
-  cubierta por el aportante y transferencias Bre-B / Bancolombia.
-- `/donar/gracias` con estado en vivo del aporte y compartir por WhatsApp.
-- Aliados (TerraFerme, HivraTech, ServImagenes, Intesi) visibles en el footer.
-- Redes de la Fundación y de Producción Kavanah separadas.
-- Motor de donaciones con Wompi: firma, webhook, progreso y simulación fuera de producción.
-- CTA fijo de donación en celular.
-- Fuente original de Sebastián vendorizada en `legacy/segundosdevida/`.
+- Home de campaña con el diseño y el hero original de Sebastián.
+- Franja de live sobre el hero que enlaza a `/envivo`.
+- `/envivo` con player enmascarado, QR, avance y CTA de donación.
+- `/donar` con wizard de 3 pasos, comisión de Wompi cubierta y transferencias.
+- Pago simulado probado de punta a punta hasta `/donar/gracias`.
+- Aliados, redes de la Fundación y de Kavanah, hashtags y crédito SVG.
+- Fuente original de Sebastián en `legacy/segundosdevida/`.
+- Handoff actualizado con decisiones y flujo.
 
 ## Pendiente
 
-- Cargar las llaves de Wompi en Vercel (test y producción).
+- Cargar llaves de Wompi en Vercel y hacer una compra real mínima.
 - Crear la base Neon y cargar `DATABASE_URL`.
 - Descarga del QR en PNG desde `/admin` para OBS.
-- Conectar el pixel de Meta (el meta tag actual es de verificación de dominio).
-- Plan Padrino (mensual) y Carnet de Héroe.
-- Revisar el sitio en celular real y ajustar el hero (el live queda angosto en 375px).
-- Definir el ID del video del directo en el panel.
+- Pixel de Meta.
+- Plan Padrino y Carnet de Héroe.
+- Revisión en celular real del home y de `/envivo`.
 
 ## Notas
 
-- Los emojis del copy original de Sebastián se conservaron por decisión del
-  cliente. La regla general del proyecto los evita; aquí manda el diseño de campaña.
-- El modo simulado solo funciona fuera de producción.
-- La rama de trabajo es `feat/campaign-visual-merge`; producción sigue con la
-  versión anterior hasta que se apruebe.
+- Rama de trabajo: `feat/campaign-visual-merge`, sin push. Producción sigue con
+  la versión anterior.
+- Los emojis del copy original se conservaron por decisión del cliente.
