@@ -14,6 +14,8 @@ export type Donation = {
   donorName: string | null;
   donorEmail: string;
   donorPhone: string | null;
+  showOnWall: boolean;
+  certificate: unknown | null;
   providerTransactionId: string | null;
   paymentMethod: string | null;
   statusMessage: string | null;
@@ -61,6 +63,8 @@ function toDonation(row: Record<string, unknown>): Donation {
     donorName: row.donor_name ? String(row.donor_name) : null,
     donorEmail: String(row.donor_email ?? ""),
     donorPhone: row.donor_phone ? String(row.donor_phone) : null,
+    showOnWall: Boolean(row.show_on_wall),
+    certificate: row.certificate ?? null,
     providerTransactionId: row.provider_transaction_id
       ? String(row.provider_transaction_id)
       : null,
@@ -93,11 +97,13 @@ export async function insertDonation(input: NewDonation): Promise<Donation> {
   const rows = await db`
     insert into donations (
       reference, status, source, frequency, piece_id, amount_cop, currency,
-      charge_amount, fee, donor_name, donor_email, donor_phone, consent
+      charge_amount, fee, donor_name, donor_email, donor_phone, consent,
+      show_on_wall, certificate
     ) values (
       ${input.reference}, ${input.status}, ${input.source}, 'once', ${input.pieceId},
       ${input.amountCop}, ${input.currency}, ${input.chargeAmount}, 0,
-      ${input.donorName}, ${input.donorEmail}, ${input.donorPhone}, true
+      ${input.donorName}, ${input.donorEmail}, ${input.donorPhone}, true,
+      ${input.showOnWall}, ${input.certificate ? JSON.stringify(input.certificate) : null}
     )
     returning *
   `;

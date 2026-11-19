@@ -48,6 +48,8 @@ type ParsedOrder = {
   donorName: string | null;
   donorEmail: string;
   donorPhone: string | null;
+  showOnWall: boolean;
+  certificate: { name: string; docType: string; docNumber: string } | null;
 };
 
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{2,24}$/;
@@ -75,6 +77,24 @@ export function parseOrder(body: unknown): ParsedOrder {
     throw new DonationError("Revisa tu número de WhatsApp.");
   }
 
+  let certificate: ParsedOrder["certificate"] = null;
+  if (donor.certificate && typeof donor.certificate === "object") {
+    const cert = donor.certificate as Record<string, unknown>;
+    const docType = String(cert.docType ?? "");
+    const docNumber = clean(cert.docNumber, 20) ?? "";
+    if (!["CC", "NIT", "CE", "PA"].includes(docType)) {
+      throw new DonationError("Tipo de documento no válido para el certificado.");
+    }
+    if (!/^[0-9A-Za-z.\-]{4,20}$/.test(docNumber)) {
+      throw new DonationError("Escribe el número de documento del certificado.");
+    }
+    certificate = {
+      name: clean(cert.name, 100) ?? "",
+      docType,
+      docNumber,
+    };
+  }
+
   const amountCop = piece.amount > 0 ? piece.amount : Math.floor(Number(input.custom) || 0);
   if (piece.amount === 0) {
     if (amountCop < MIN_AMOUNT) {
@@ -91,6 +111,8 @@ export function parseOrder(body: unknown): ParsedOrder {
     donorName: clean(donor.name, 60),
     donorEmail: email,
     donorPhone: phone,
+    showOnWall: donor.showOnWall === true,
+    certificate,
   };
 }
 
@@ -120,6 +142,8 @@ export async function createDonation(body: unknown): Promise<Checkout> {
     donorName: order.donorName,
     donorEmail: order.donorEmail,
     donorPhone: order.donorPhone,
+    showOnWall: order.showOnWall,
+    certificate: order.certificate,
   });
 
   return {

@@ -40,3 +40,8 @@ Actualizado: 18 de noviembre de 2026.
 - Rama de trabajo: `feat/campaign-visual-merge`, sin push. Producción sigue con
   la versión anterior.
 - Los emojis del copy original se conservaron por decisión del cliente.
+
+- `/donar` usa el formulario original de Sebastián: stepper de 3 pasos, piezas,
+  certificado, muro de héroes y resumen con comisión. El Plan Padrino mensual se
+  muestra deshabilitado ("muy pronto") porque el backend aún no lo soporta.
+- El certificado y la preferencia de muro se guardan en la tabla de donaciones.

@@ -1,0 +1,11 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+
+test('el formulario conserva el diseño original de Sebastián', () => {
+  const flow = readFileSync('components/campaign/DonationFlow.tsx', 'utf8');
+  for (const marker of ['stepper', 'piece__badge', 'Calvito la recomienda', 'check--fee', 'data-astro-cid-erlevsxa', 'certificate']) {
+    assert.ok(flow.includes(marker), `Falta ${marker}`);
+  }
+  assert.ok(flow.includes('Plan Padrino mensual'));
+});
