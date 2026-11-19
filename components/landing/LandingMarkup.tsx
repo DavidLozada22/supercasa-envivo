@@ -3,6 +3,7 @@ import { Lock } from "lucide-react";
 import CopyHandler from "./CopyHandler";
 import StickyDonate from "./StickyDonate";
 import StreamPlayer from "./StreamPlayer";
+import SponsorsSection from "@/components/campaign/SponsorsSection";
 import HouseProgress from "./HouseProgress";
 
 export default function LandingMarkup({ config, raised }: { config: PublicConfig; raised?: number }) {
@@ -137,17 +138,7 @@ export default function LandingMarkup({ config, raised }: { config: PublicConfig
         </div>
       </div>
     </section>
-
-    
-    <section className="sponsors-section">
-      <h4>Aliados y Patrocinadores que se ponen la capa</h4>
-      <div className="sponsor-list">
-        <div className="sponsor-item">TerraFerme</div>
-        <div className="sponsor-item">HivraTech</div>
-        <div className="sponsor-item">ServImagenes</div>
-        <div className="sponsor-item">Intesi</div>
-      </div>
-    </section>
+    <SponsorsSection />
 
     
     <section className="social-wrapper">

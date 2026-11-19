@@ -85,3 +85,6 @@ Actualizado: 18 de noviembre de 2026.
 - Logos sin fondos blancos: Kavanah blanco en pie y placeholder, Kavanah negro
   en la imagen OG; el logo de la Fundación va directo. La versión OG incluye
   ambos logos y el CTA de la maratón.
+
+- La sección de aliados del home usa el mismo componente y diseño que la
+  página de la transmisión (tarjeta blanca con píldoras amarillas).
