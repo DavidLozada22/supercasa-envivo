@@ -1,5 +1,11 @@
 # Pruebas
 
+## Documentos legales
+
+- `node --test tests/legal-pages.test.mjs` comprueba las rutas y el aviso de borrador.
+- Pendiente: revisión legal del contenido y confirmación de las referencias a
+  transparencia, Plan Padrino y contacto de tesorería.
+
 ## Flujo del donante
 
 1. Abrir `/donar` en celular y en escritorio.

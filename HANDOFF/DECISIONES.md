@@ -1,5 +1,10 @@
 # Decisiones
 
+## Documentos legales recuperados
+
+Se conserva el texto de `legacy/segundosdevida` sin actualizar sus afirmaciones.
+Ambas páginas lo identifican como borrador pendiente de revisión legal.
+
 ## 1. Migrar a Next.js en vez de mantener HTML plano
 
 El sitio necesitaba panel, API y pagos. Un `index.html` no sostiene eso. Se portó
@@ -88,3 +93,15 @@ el evento tiene una URL limpia para compartir.
 
 `/donar` deja de ser un formulario plano y pasa a un wizard de 3 pasos: pieza,
 datos, confirmación. El QR apunta ahí.
+
+## 14. La maratón conserva su landing original
+
+`/envivo` no se rediseñó. Se parte de la landing publicada: header fucsia, hero
+con los Calvitos flotantes, stream grande, QR, aliados, patrocinadores y redes.
+Solo se cambió el logo del header, se añadió el acceso a «La campaña», se
+sustituyeron las capturas por el arte original de Sebastián con sus etiquetas en
+texto y se reemplazó el dibujo de la casa por su render por fases con las cifras
+en vivo.
+
+El crédito de SVG se retiró por pedido explícito del cliente en este proyecto.
+Queda «Evento producido por Kavanah».

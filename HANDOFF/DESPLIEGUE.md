@@ -1,5 +1,7 @@
 # Despliegue
 
+Las rutas legales recuperadas no requieren variables ni cambios de despliegue.
+
 ## Vercel
 
 - Proyecto: `supercasa-envivo`

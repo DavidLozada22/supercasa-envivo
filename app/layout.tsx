@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import MetaPixel from "@/components/analytics/MetaPixel";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SÚPER NAVIDAD: 48 Horas por la Supercasa | Fundación Segundos de Vida",
   description:
     "Maratón solidaria de 48 horas para construir La Supercasa de la Fundación Segundos de Vida.",
+  icons: { icon: "/favicon.svg" },
   verification: {
     other: {
       "facebook-domain-verification": "4mmbs2tq6hgyfnhpzuhx289m8tpx95",
@@ -25,7 +27,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>{children}<MetaPixel /></body>
     </html>
   );
 }

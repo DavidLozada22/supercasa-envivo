@@ -1,0 +1,16 @@
+import LegalPage from "@/components/legal/LegalPage";
+
+export const metadata = { title: "Términos de donación · La SUPERCASA" };
+
+export default function Terminos() {
+  return (
+    <LegalPage title="Términos de donación">
+      <ul>
+        <li>Los aportes se destinan a la obra de la SUPERCASA según el desglose publicado en la sección de transparencia.</li>
+        <li>El Plan Padrino mensual se puede cancelar en cualquier momento escribiendo a tesorería.</li>
+        <li>La fundación emite certificado de donación a las personas naturales y jurídicas que lo soliciten al poner su pieza.</li>
+        <li>Contacto de tesorería: <a href="mailto:admonsegundosdevida@hotmail.com">admonsegundosdevida@hotmail.com</a></li>
+      </ul>
+    </LegalPage>
+  );
+}

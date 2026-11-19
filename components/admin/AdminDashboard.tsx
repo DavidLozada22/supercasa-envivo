@@ -332,6 +332,9 @@ export default function AdminDashboard({
         </div>
 
         <main className="mx-auto w-full max-w-5xl space-y-5 p-5 md:p-8">
+          <a href="/admin/recorrido" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
+            Ver mapa y demostración del recorrido
+          </a>
           {tab === "stream" ? (
             <>
               <section className={cardClass}>

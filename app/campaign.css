@@ -114,6 +114,35 @@
 .sv-root .thanks-box__ref { font-family: ui-monospace, monospace; font-size: .72rem; letter-spacing: .04em; }
 .sv-root .thanks-box__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 12px; }
 
+.sv-root .marathon-nav { display:flex; align-items:center; gap: .6rem; }
+.sv-root .marathon-nav .btn { min-height:44px; font-size:.9rem; }
+.sv-root .marathon-nav small { display:block; font-size:.65rem; }
+.sv-root .marathon-hero { background:var(--sky); text-align:center; padding:clamp(2rem,5vw,4rem) 0 1.5rem; }
+.sv-root .marathon-hero__inner { max-width:800px; }
+.sv-root .marathon-hero h1 { font-size:clamp(2.4rem,5vw,4.3rem); margin:.5rem 0; }
+.sv-root .marathon-hero p:not(.eyebrow) { max-width:65ch; margin:.6rem auto; }
+.sv-root .marathon-date { font-weight:700; color:var(--ink-soft); }
+.sv-root .marathon-live { max-width:1040px; margin:2rem auto; }
+.sv-root .marathon-tracker { margin:2rem auto; }
+.sv-root .marathon-characters { background:var(--sky-light); }
+.sv-root .marathon-characters__list { list-style:none; display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1rem; margin:2rem 0 0; padding:0; }
+.sv-root .marathon-characters__list li { display:flex; flex-direction:column; align-items:center; justify-content:end; text-align:center; }
+.sv-root .marathon-characters__list img { width:100%; height:190px; object-fit:contain; }
+.sv-root .marathon-characters__list span { display:block; padding:.4rem .7rem; border:2px solid var(--ink); border-radius:999px; background:var(--yellow); font-weight:800; font-size:.8rem; }
+.sv-root .marathon-donate { background:var(--yellow-soft); }
+.sv-root .marathon-methods { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin-top:1.5rem; }
+.sv-root .marathon-methods article { display:flex; flex-direction:column; align-items:start; gap:.6rem; padding:1.3rem; }
+.sv-root .marathon-methods article h3, .sv-root .marathon-methods article p { margin:0; }
+.sv-root .marathon-methods article .btn { margin-top:auto; }
+.sv-root .marathon-socials { display:flex; flex-wrap:wrap; gap:2rem 5rem; padding-top:2rem; }
+.sv-root .marathon-socials h2 { font-size:1.1rem; }
+.sv-root .marathon-socials a { display:inline-block; margin:0 1rem .5rem 0; }
+@media (max-width:760px) {
+  .sv-root .marathon-nav .btn { padding:.5rem .7rem; font-size:.75rem; }
+  .sv-root .marathon-characters__list { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .sv-root .marathon-methods { grid-template-columns:1fr; }
+}
+
 /* Sin JS: las secciones con reveal se muestran siempre */
 .sv-root [data-reveal] { opacity: 1; transform: none; }
 .sv-root .allies__list li { color: var(--ink); }

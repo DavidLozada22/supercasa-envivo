@@ -187,12 +187,7 @@ export default async function DonatePage() {
         <p className="wrap small copy" data-astro-cid-scinlfmn>
           © 2026 Fundación Segundos de Vida · Evento producido por Kavanah
         </p>
-        <p className="wrap small copy" data-astro-cid-scinlfmn>
-          © 2026 Fundación Segundos de Vida. All Rights Reserved. | Built by{" "}
-          <a href="https://svgvisual.com" target="_blank" rel="noopener noreferrer" data-astro-cid-scinlfmn>
-            SVG
-          </a>
-        </p>
+        <p className="wrap small copy" data-astro-cid-scinlfmn>© 2026 Fundación Segundos de Vida</p>
       </footer>
     </div>
   );

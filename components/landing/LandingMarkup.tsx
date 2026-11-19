@@ -3,9 +3,9 @@ import { Lock } from "lucide-react";
 import CopyHandler from "./CopyHandler";
 import StickyDonate from "./StickyDonate";
 import StreamPlayer from "./StreamPlayer";
-import Tracker from "./Tracker";
+import HouseProgress from "./HouseProgress";
 
-export default function LandingMarkup({ config }: { config: PublicConfig }) {
+export default function LandingMarkup({ config, raised }: { config: PublicConfig; raised?: number }) {
   return (
     <>
       <CopyHandler />
@@ -18,8 +18,9 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
 
   <header>
     <div className="nav-container">
-      <div className="brand-logo-text">Fundación <span>Segundos</span> de Vida</div>
+      <a className="brand-logo" href="/"><img src="/img/logo-fsv.png" alt="Fundación Segundos de Vida" /></a>
       <div className="nav-actions">
+        <a href="/" className="nav-link">La campaña</a>
         <div className="live-pill">
           <span className="pulse-dot"></span> En Vivo • 48 Horas
         </div>
@@ -32,7 +33,7 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
     
     <section className="hero-showcase">
       <div className="hero-mascot left">
-        <img src="/bombero.png" alt="Súper Calvito Bombero" />
+        <img src="/img/calvitos/bombero.webp" alt="Súper Calvito Bombero" />
       </div>
 
       <div className="hero-header">
@@ -44,14 +45,14 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
       </div>
 
       <div className="hero-mascot right">
-        <img src="/doctora.png" alt="Súper Calvito Doctora" />
+        <img src="/img/calvitos/doctora.webp" alt="Súper Calvito Doctora" />
       </div>
     </section>
 
     <StreamPlayer stream={config.stream} />
 
 
-    <Tracker initialRaised={config.totals.raised} initialGoal={config.totals.goal} />
+    <HouseProgress initialRaised={raised ?? config.totals.raised} initialGoal={config.totals.goal} />
 
     
     <section className="squad-section" aria-label="Escuadrón Súper Calvitos">
@@ -61,22 +62,22 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
 
       <div className="squad-grid">
         <div className="squad-card">
-          <img src="/bombero.png" alt="Quiero ser bombero" />
+          <img src="/img/calvitos/bombero.webp" alt="" /><span className="squad-card__tag">Quiero ser bombero</span>
         </div>
         <div className="squad-card">
-          <img src="/doctora.png" alt="Quiero ser doctora" />
+          <img src="/img/calvitos/doctora.webp" alt="" /><span className="squad-card__tag">Quiero ser doctora</span>
         </div>
         <div className="squad-card">
-          <img src="/piloto.png" alt="Quiero ser piloto" />
+          <img src="/img/calvitos/piloto.webp" alt="" /><span className="squad-card__tag">Quiero ser piloto</span>
         </div>
         <div className="squad-card">
-          <img src="/policia.png" alt="Quiero ser policía" />
+          <img src="/img/calvitos/policia-calvita.webp" alt="" /><span className="squad-card__tag">Quiero ser policía</span>
         </div>
         <div className="squad-card">
-          <img src="/chef.png" alt="Quiero ser chef" />
+          <img src="/img/calvitos/chef.webp" alt="" /><span className="squad-card__tag">Quiero ser chef</span>
         </div>
         <div className="squad-card">
-          <img src="/constructor.png" alt="Quiero ser constructor" />
+          <img src="/img/calvitos/constructor.webp" alt="" /><span className="squad-card__tag">Quiero ser constructor</span>
         </div>
       </div>
     </section>
@@ -172,17 +173,7 @@ export default function LandingMarkup({ config }: { config: PublicConfig }) {
   <footer>
     <div className="footer-hashtags">#SuperNavidad48H &nbsp;•&nbsp; #PonteLaCapa &nbsp;•&nbsp; #48HorasPorLaSupercasa &nbsp;•&nbsp; #SegundosDeVida</div>
     <p>Fundación Segundos de Vida • NIT 900.649.809-2 • Niños hoy. Héroes siempre.</p>
-    <p className="mt-8 text-center text-xs text-white/30">
-      © {new Date().getFullYear()} Fundación Segundos de Vida. All Rights Reserved. | Built by{" "}
-      <a
-        href="https://svgvisual.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="font-semibold text-[#E6009E] transition hover:brightness-110"
-      >
-        SVG
-      </a>
-    </p>
+    <p className="mt-6 text-center text-xs text-white/40">Evento producido por Kavanah</p>
     <a
       href="/admin"
       aria-label="Panel de producción"

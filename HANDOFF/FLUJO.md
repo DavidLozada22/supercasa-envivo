@@ -83,6 +83,10 @@ Así el QR cae directo en la acción y la página no se alarga de más.
 
 ## Versión 3: home de campaña y live en su propia URL
 
+La página `/envivo` recupera la información de la maratón de David con los
+personajes originales de Sebastián. El panel incluye `/admin/recorrido`, un
+mapa y ejemplos de resultado que no crean pagos ni modifican el recaudo.
+
 ```mermaid
 flowchart TD
   A[Link en redes] --> B[/envivo]
