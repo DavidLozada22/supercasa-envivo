@@ -4,10 +4,12 @@ import { readFileSync } from 'node:fs';
 
 test('el formulario conserva el diseño original de Sebastián', () => {
   const flow = readFileSync('components/campaign/DonationFlow.tsx', 'utf8');
-  for (const marker of ['stepper', 'piece__badge', 'Calvito la recomienda', 'check--fee', 'data-astro-cid-erlevsxa', 'certificate']) {
+  const pieces = readFileSync('lib/donations/pieces.ts', 'utf8');
+  for (const marker of ['stepper', 'piece__badge', 'check--fee', 'data-astro-cid-erlevsxa', 'certificate']) {
     assert.ok(flow.includes(marker), `Falta ${marker}`);
   }
   assert.ok(flow.includes('Plan Padrino mensual'));
+  assert.ok(pieces.includes('Calvito la recomienda'));
 });
 
 test('hay una sola ruta pública de donación', () => {

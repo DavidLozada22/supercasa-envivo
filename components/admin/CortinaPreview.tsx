@@ -38,7 +38,7 @@ export default function CortinaPreview() {
 
   return (
     <div className="landing-root">
-      <div className="mx-auto w-full max-w-4xl px-4 py-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8">
         <p className="mb-6 text-sm text-slate-700">
           Toca play en cada cortina para verla y escucharla. Solo suena una a la vez y la música
           está en loop.

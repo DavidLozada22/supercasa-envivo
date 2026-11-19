@@ -126,3 +126,13 @@ Actualizado: 18 de noviembre de 2026.
 
 - Nuevo simulador en `/admin/casa`: barra y botones 0-100% para probar el
   fundido del render sin tocar el recaudo real. Enlace en el panel.
+
+- Panel con sidebar y breadcrumbs en todas las vistas internas (donaciones,
+  recorrido, cortinas, casa).
+- Nueva vista `/admin/donaciones`: lista de aportes con datos del donante,
+  filtro, CSV y registro manual que suma al recaudo. Los pagos de Wompi
+  aparecerán solos cuando el webhook confirme.
+- Atribución solo con enlace de afiliado `/ref/codigo`; se retiró la interfaz de
+  UTM y se reinició el contador de visitas.
+- El home muestra "Pon tu pieza" con el mismo layout de piezas del sitio
+  original. El Plan Padrino mensual sigue bloqueado y pendiente.

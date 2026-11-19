@@ -269,3 +269,28 @@
 @media (max-width: 600px) {
   .compare__handle { width: 46px; height: 46px; margin-top: -23px; margin-left: -23px; }
 }
+
+/* Cortinas en escritorio: tres columnas compactas */
+.cortina-list { grid-template-columns: 1fr; }
+@media (min-width: 900px) { .cortina-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1300px) { .cortina-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.cortina-card .stream-placeholder { padding: 14px; gap: .28rem; }
+.cortina-card .stream-placeholder__icon { display: none; }
+.cortina-card .stream-placeholder__logos { gap: 8px; margin-bottom: .1rem; }
+.cortina-card .stream-placeholder__logo img { height: 26px; }
+.cortina-card .stream-placeholder__logo--kavanah img { height: 32px; }
+.cortina-card .stream-placeholder__eyebrow { font-size: .55rem; }
+.cortina-card .stream-placeholder h2 { font-size: clamp(1rem, 1.3vw, 1.35rem); max-width: 22ch; }
+.cortina-card .stream-placeholder__message { font-size: .72rem; line-height: 1.35; max-width: 34ch; }
+.cortina-card .stream-placeholder__note { display: none; }
+.cortina-card .stream-placeholder__cta { padding: 7px 14px; font-size: .72rem; margin-top: 6px; }
+
+/* "Pon tu pieza" del home, igual al layout de Sebastián */
+.sv-root a.piece { text-decoration: none; color: var(--ink); }
+.sv-root .donate-preview { max-width: 860px; margin-inline: auto; padding: clamp(18px, 4vw, 36px); }
+.sv-root .donate-preview__head { margin-bottom: 1.2rem; }
+.sv-root .donate-preview__head h3 { margin: .2rem 0 .3rem; font-size: clamp(1.4rem, 3vw, 1.9rem); }
+.sv-root .donate-preview__head p { margin: 0; color: var(--ink-soft); }
+.sv-root .donate-preview__actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.4rem; }
+.sv-root .donate-preview__note { margin: 1rem 0 0; font-size: .8rem; color: var(--ink-soft); }

@@ -17,23 +17,18 @@ const input =
   "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 outline-none transition focus:border-[#E6009E] focus:ring-2 focus:ring-[#E6009E]/15";
 
 export default function CampaignTools() {
-  const [source, setSource] = useState("meta");
-  const [medium, setMedium] = useState("paid");
-  const [campaign, setCampaign] = useState("supernavidad");
-  const [content, setContent] = useState("");
   const [ref, setRef] = useState("meta");
   const [days, setDays] = useState("30");
   const [report, setReport] = useState<Report | null>(null);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const params = new URLSearchParams();
-  params.set("utm_source", source);
-  params.set("utm_medium", medium);
-  params.set("utm_campaign", campaign);
-  if (content) params.set("utm_content", content);
-  if (ref) params.set("ref", ref);
-  const url = `https://supercasa.svgvisual.com/envivo?${params.toString()}`;
+  const cleanRef = ref
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, "")
+    .slice(0, 40);
+  const url = `https://supercasa.svgvisual.com/ref/${cleanRef || "meta"}`;
 
   const load = async (range: string) => {
     setLoading(true);
@@ -65,36 +60,28 @@ export default function CampaignTools() {
   return (
     <div className="space-y-5">
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-base font-bold text-[#0F2354]">Enlaces de campaña</h2>
+        <h2 className="text-base font-bold text-[#0F2354]">Enlace de afiliado</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Usa este enlace en los anuncios de Meta: abre directo la transmisión. También puedes compartir
-          <span className="mx-1 font-mono text-xs">/ref/{ref || "codigo"}</span>.
+          Úsalo en los anuncios de Meta, en la bio de Instagram y en los perfiles. Abre directo la
+          transmisión y guarda el referido por 90 días.
         </p>
 
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
+        <div className="mt-4 max-w-md">
           <label className="block text-sm font-semibold text-[#0F2354]">
-            Origen
-            <input className={`${input} mt-1`} value={source} onChange={(e) => setSource(e.target.value)} />
+            Código de afiliado
+            <input
+              className={`${input} mt-1`}
+              value={ref}
+              onChange={(event) => setRef(event.target.value)}
+              placeholder="meta"
+            />
           </label>
-          <label className="block text-sm font-semibold text-[#0F2354]">
-            Medio
-            <input className={`${input} mt-1`} value={medium} onChange={(e) => setMedium(e.target.value)} />
-          </label>
-          <label className="block text-sm font-semibold text-[#0F2354]">
-            Campaña
-            <input className={`${input} mt-1`} value={campaign} onChange={(e) => setCampaign(e.target.value)} />
-          </label>
-          <label className="block text-sm font-semibold text-[#0F2354]">
-            Pieza o variante
-            <input className={`${input} mt-1`} value={content} onChange={(e) => setContent(e.target.value)} placeholder="video-1, carrusel-2" />
-          </label>
-          <label className="block text-sm font-semibold text-[#0F2354]">
-            Código de referido
-            <input className={`${input} mt-1`} value={ref} onChange={(e) => setRef(e.target.value)} />
-          </label>
+          <p className="mt-2 text-xs text-slate-500">
+            Solo letras, números, punto, guion y guion bajo.
+          </p>
         </div>
 
-        <div className="mt-4 flex items-start gap-2 rounded-xl bg-slate-50 p-3">
+        <div className="mt-4 flex flex-wrap items-center gap-2 rounded-xl bg-slate-50 p-3">
           <code className="min-w-0 flex-1 break-all text-xs text-slate-700">{url}</code>
           <button
             type="button"
@@ -118,8 +105,8 @@ export default function CampaignTools() {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-base font-bold text-[#0F2354]">Resultados por origen</h2>
-            <p className="text-sm text-slate-500">Visitas registradas y aportes aprobados.</p>
+            <h2 className="text-base font-bold text-[#0F2354]">Resultados por referido</h2>
+            <p className="text-sm text-slate-500">Visitas y aportes aprobados.</p>
           </div>
           <select
             value={days}
@@ -141,29 +128,27 @@ export default function CampaignTools() {
             <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">Visitas</h3>
             {loading ? <p className="text-sm text-slate-500">Cargando…</p> : null}
             {!loading && !report?.visits.length ? (
-              <p className="text-sm text-slate-500">Aún no hay visitas con UTM o referido.</p>
+              <p className="text-sm text-slate-500">Aún no hay visitas con referido.</p>
             ) : null}
             {report?.visits.length ? (
-              <div className="overflow-x-auto"><table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-xs uppercase text-slate-500">
-                    <th className="py-1">Origen</th>
-                    <th>Campaña</th>
-                    <th>Ref</th>
-                    <th className="text-right">Visitas</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {report.visits.map((row) => (
-                    <tr key={`${row.source}-${row.campaign}-${row.ref}`} className="border-t border-slate-100">
-                      <td className="py-2 font-semibold">{row.source}</td>
-                      <td>{row.campaign || "—"}</td>
-                      <td>{row.ref || "—"}</td>
-                      <td className="text-right">{row.visits}</td>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-xs uppercase text-slate-500">
+                      <th className="py-1">Referido</th>
+                      <th className="text-right">Visitas</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table></div>
+                  </thead>
+                  <tbody>
+                    {report.visits.map((row) => (
+                      <tr key={`${row.ref}-${row.source}-${row.campaign}`} className="border-t border-slate-100">
+                        <td className="py-2 font-semibold">{row.ref || row.source}</td>
+                        <td className="text-right">{row.visits}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : null}
           </div>
 
@@ -173,28 +158,26 @@ export default function CampaignTools() {
               <p className="text-sm text-slate-500">Aún no hay aportes atribuidos.</p>
             ) : null}
             {report?.donations.length ? (
-              <div className="overflow-x-auto"><table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-xs uppercase text-slate-500">
-                    <th className="py-1">Origen</th>
-                    <th>Campaña</th>
-                    <th>Ref</th>
-                    <th className="text-right">Aportes</th>
-                    <th className="text-right">Monto</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {report.donations.map((row) => (
-                    <tr key={`${row.source}-${row.campaign}-${row.ref}`} className="border-t border-slate-100">
-                      <td className="py-2 font-semibold">{row.source}</td>
-                      <td>{row.campaign || "—"}</td>
-                      <td>{row.ref || "—"}</td>
-                      <td className="text-right">{row.donations}</td>
-                      <td className="text-right">{cop.format(row.raised)}</td>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left text-xs uppercase text-slate-500">
+                      <th className="py-1">Referido</th>
+                      <th className="text-right">Aportes</th>
+                      <th className="text-right">Monto</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table></div>
+                  </thead>
+                  <tbody>
+                    {report.donations.map((row) => (
+                      <tr key={`${row.ref}-${row.source}-${row.campaign}`} className="border-t border-slate-100">
+                        <td className="py-2 font-semibold">{row.ref || row.source}</td>
+                        <td className="text-right">{row.donations}</td>
+                        <td className="text-right">{cop.format(row.raised)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : null}
           </div>
         </div>

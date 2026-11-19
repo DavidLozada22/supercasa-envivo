@@ -10,7 +10,7 @@ test('la atribución conserva UTM y enlaces de referido', () => {
   assert.ok(ref.includes('searchParams.set("ref"'));
   assert.ok(ref.includes('"/envivo"'));
   const tools = readFileSync('components/admin/CampaignTools.tsx', 'utf8');
-  assert.ok(tools.includes('utm_source'));
+  assert.ok(!tools.includes('utm_source'));
   assert.ok(tools.includes('/ref/'));
   const flow = readFileSync('components/campaign/DonationFlow.tsx', 'utf8');
   assert.ok(flow.includes('sc_attribution'));

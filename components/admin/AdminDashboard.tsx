@@ -195,6 +195,24 @@ export default function AdminDashboard({
               );
             })}
           </nav>
+
+          <div className="mt-6 border-t border-white/10 pt-4">
+            <p className="px-3.5 text-[10px] font-bold uppercase tracking-widest text-white/40">
+              Herramientas
+            </p>
+            <a href="/admin/donaciones" className="mt-1 flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
+              Donaciones
+            </a>
+            <a href="/admin/recorrido" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
+              Recorrido
+            </a>
+            <a href="/admin/cortina" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
+              Cortinas del live
+            </a>
+            <a href="/admin/casa" className="flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-semibold text-white/60 transition hover:bg-white/5 hover:text-white">
+              Avance de la casa
+            </a>
+          </div>
         </div>
 
         <div className="space-y-2">
