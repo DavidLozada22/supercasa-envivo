@@ -19,10 +19,13 @@ import {
 } from "lucide-react";
 import AdCanvasPreview from "@/components/admin/marketing/AdCanvasPreview";
 import LiveThumb from "@/components/admin/studio/LiveThumb";
+import ObsCopyButton from "@/components/admin/streaming/ObsCopyButton";
 import SceneView from "@/components/streaming/SceneView";
 import { downloadAdPng, renderAdToDataUrl } from "@/lib/marketing/ad-exporter";
 import {
   AD_CREATIVES,
+  creativeQrFallback,
+  resolveQrTarget,
   type AdCategory,
   type AdCreative,
   type AdFormat,
@@ -43,6 +46,8 @@ import {
   type StreamingContent,
   type StreamingCopy,
 } from "@/lib/streaming/merge";
+import { scenePath } from "@/lib/streaming/links";
+import { creativePath } from "@/lib/marketing/links";
 import {
   CALVITOS,
   SCENES,
@@ -429,55 +434,64 @@ function MarketingCard({
   const size = aspect === "9:16" ? { w: 360, h: 640 } : aspect === "1:1" ? { w: 360, h: 360 } : { w: 360, h: 450 };
 
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#E6009E]/40 hover:shadow-md"
-    >
-      <div
-        className={`relative aspect-[4/5] overflow-hidden ${
-          isOverlay ? "scene-preview--overlay" : "bg-[#071127]"
-        }`}
-      >
-        <LiveThumb designWidth={size.w} designHeight={size.h} className="absolute inset-0">
-          <AdCanvasPreview
-            creative={creative}
-            slide={merged}
-            theme={theme}
-            aspect={aspect}
-            hoursValue={edit?.hoursValue}
-            kickHandle={edit?.kickHandle}
-            showQrOverride={edit?.showQr}
-            qrTargetOverride={edit?.qrTarget}
-            thumbnail
-          />
-        </LiveThumb>
-        <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#0F2354]">
-          {formatLabel(creative.format)}
-        </span>
-        <span className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-[#0F2354]/85 text-white opacity-0 transition group-hover:opacity-100">
+    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#E6009E]/40 hover:shadow-md">
+      <button type="button" onClick={onOpen} className="block w-full text-left">
+        <div
+          className={`relative aspect-[4/5] overflow-hidden ${
+            isOverlay ? "scene-preview--overlay" : "bg-[#071127]"
+          }`}
+        >
+          <LiveThumb designWidth={size.w} designHeight={size.h} className="absolute inset-0">
+            <AdCanvasPreview
+              creative={creative}
+              slide={merged}
+              theme={theme}
+              aspect={aspect}
+              hoursValue={edit?.hoursValue}
+              kickHandle={edit?.kickHandle}
+              showQrOverride={edit?.showQr}
+              qrTargetOverride={edit?.qrTarget}
+              thumbnail
+            />
+          </LiveThumb>
+          <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#0F2354]">
+            {formatLabel(creative.format)}
+          </span>
+          <span className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-[#0F2354]/85 text-white opacity-0 transition group-hover:opacity-100">
+            <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
+          </span>
+          {isOverlay ? (
+            <span className="absolute bottom-2 left-2 rounded-full bg-[#0F2354]/90 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
+              PNG transparente
+            </span>
+          ) : null}
+          {creative.slides.length > 1 ? (
+            <span className="absolute bottom-2 right-2 rounded-full bg-black/55 px-2 py-1 text-[9px] font-extrabold text-white">
+              {creative.slides.length} slides
+            </span>
+          ) : null}
+        </div>
+        <div className="p-3 pb-2">
+          <p className="line-clamp-2 text-xs font-extrabold leading-tight text-[#0F2354]">
+            {creative.title}
+          </p>
+          <p className="mt-1 text-[10px] font-semibold text-slate-400">
+            {edit ? "Editado · toca para abrir" : "Toca para editar"}
+          </p>
+        </div>
+      </button>
+      <div className="flex flex-wrap items-center gap-1.5 px-3 pb-3">
+        <button
+          type="button"
+          onClick={onOpen}
+          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
+        >
           <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
-        </span>
-        {isOverlay ? (
-          <span className="absolute bottom-2 left-2 rounded-full bg-[#0F2354]/90 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
-            PNG transparente
-          </span>
-        ) : null}
-        {creative.slides.length > 1 ? (
-          <span className="absolute bottom-2 right-2 rounded-full bg-black/55 px-2 py-1 text-[9px] font-extrabold text-white">
-            {creative.slides.length} slides
-          </span>
-        ) : null}
+          Editar
+        </button>
+        <ObsCopyButton path={creativePath(creative.id, first.slideNumber ?? 1)} />
       </div>
-      <div className="p-3">
-        <p className="line-clamp-2 text-xs font-extrabold leading-tight text-[#0F2354]">
-          {creative.title}
-        </p>
-        <p className="mt-1 text-[10px] font-semibold text-slate-400">
-          {edit ? "Editado · toca para abrir" : "Toca para editar"}
-        </p>
-      </div>
-    </button>
+    </article>
   );
 }
 
@@ -495,38 +509,47 @@ function SceneCard({
   const overlay = scene.kind === "overlay";
   const merged = mergeScene(scene, edit);
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#E6009E]/40 hover:shadow-md"
-    >
-      <div
-        className={`relative aspect-video overflow-hidden ${
-          overlay ? "scene-preview--overlay" : "bg-[#0B1A3D]"
-        }`}
-      >
-        <LiveThumb designWidth={1920} designHeight={1080} className="absolute inset-0">
-          <SceneView scene={merged} render copy={copy} frozen />
-        </LiveThumb>
-        <span className="absolute left-2 top-2 rounded-full bg-[#FFD400] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#0B1A3D]">
-          {overlay ? "Overlay" : scene.group === "bloque" ? `Bloque ${scene.number}` : "Cortina"}
-        </span>
-        {edit ? (
-          <span className="absolute bottom-2 left-2 rounded-full bg-[#E6009E] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
-            Editada
+    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#E6009E]/40 hover:shadow-md">
+      <button type="button" onClick={onOpen} className="block w-full text-left">
+        <div
+          className={`relative aspect-video overflow-hidden ${
+            overlay ? "scene-preview--overlay" : "bg-[#0B1A3D]"
+          }`}
+        >
+          <LiveThumb designWidth={1920} designHeight={1080} className="absolute inset-0">
+            <SceneView scene={merged} render copy={copy} frozen />
+          </LiveThumb>
+          <span className="absolute left-2 top-2 rounded-full bg-[#FFD400] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#0B1A3D]">
+            {overlay ? "Overlay" : scene.group === "bloque" ? `Bloque ${scene.number}` : "Cortina"}
           </span>
-        ) : null}
-        <span className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-[#0F2354]/85 text-white opacity-0 transition group-hover:opacity-100">
+          {edit ? (
+            <span className="absolute bottom-2 left-2 rounded-full bg-[#E6009E] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
+              Editada
+            </span>
+          ) : null}
+          <span className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-[#0F2354]/85 text-white opacity-0 transition group-hover:opacity-100">
+            <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
+          </span>
+        </div>
+        <div className="p-3 pb-2">
+          <p className="line-clamp-2 text-xs font-extrabold leading-tight text-[#0F2354]">
+            {scene.label}
+          </p>
+          <p className="mt-1 line-clamp-2 text-[10px] font-semibold text-slate-400">{scene.when}</p>
+        </div>
+      </button>
+      <div className="flex flex-wrap items-center gap-1.5 px-3 pb-3">
+        <button
+          type="button"
+          onClick={onOpen}
+          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
+        >
           <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
-        </span>
+          Editar
+        </button>
+        <ObsCopyButton path={scenePath(scene, edit)} />
       </div>
-      <div className="p-3">
-        <p className="line-clamp-2 text-xs font-extrabold leading-tight text-[#0F2354]">
-          {scene.label}
-        </p>
-        <p className="mt-1 line-clamp-2 text-[10px] font-semibold text-slate-400">{scene.when}</p>
-      </div>
-    </button>
+    </article>
   );
 }
 
@@ -929,21 +952,19 @@ export default function ContentStudio({
   const aspect = selectedCreative
     ? draft.aspect ?? selectedCreative.defaultAspect
     : "9:16";
-  const qrMode =
-    draft.showQr === false
-      ? "none"
-      : draft.qrTarget === "live"
-        ? "live"
-        : draft.qrTarget === "donate"
-          ? "donate"
-          : "default";
+  const defaultQrTarget = selectedCreative
+    ? creativeQrFallback(selectedCreative)
+    : "live";
+  const effectiveQrTarget =
+    slide && selectedCreative
+      ? resolveQrTarget(slide, draft.qrTarget, defaultQrTarget)
+      : defaultQrTarget;
+  const qrMode = draft.showQr === false ? "none" : effectiveQrTarget;
   const progressOn = slideEdit.showProgressBar ?? Boolean(slide?.showProgressBar);
   const progressValue = slideEdit.progressPercent ?? slide?.progressPercent ?? 60;
   const scheduleRows = slideEdit.scheduleRows ?? slide?.scheduleRows ?? [];
   const tierRows = slideEdit.tierRows ?? slide?.tierRows ?? [];
   const copyResolved = resolveStreamingCopy(copyDraft);
-  const effectiveQrTarget =
-    draft.qrTarget ?? slide?.defaultQrTarget ?? "donate";
 
   const setScheduleRows = (
     rows: Array<{ time: string; title: string; host: string }>,
@@ -1032,6 +1053,13 @@ export default function ContentStudio({
             <span className="rounded-full bg-slate-100 px-3 py-1.5 text-slate-500">
               {role === "marketing" ? "Marketing" : "Admin"} · {user}
             </span>
+            <a
+              href="/admin/streaming?tab=presets"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#E6009E]/10 px-3 py-1.5 text-[#B8007E] transition hover:bg-[#E6009E]/15"
+            >
+              <Layers className="h-3 w-3" strokeWidth={2} />
+              Moscas y agenda
+            </a>
           </div>
         </div>
       </section>
@@ -1672,6 +1700,10 @@ export default function ContentStudio({
                           : copyResolved.donateUrl,
                       )}`}
                 </p>
+                <p className="mt-1 text-[10px] leading-snug text-slate-400">
+                  Por defecto, las piezas de redes apuntan al vivo. La categoría Donar apunta a
+                  donaciones.
+                </p>
               </div>
               <Field label="Caption para redes">
                 <textarea
@@ -1693,6 +1725,10 @@ export default function ContentStudio({
                 )}
                 {copied ? "Caption copiado" : "Copiar caption"}
               </button>
+              <p className="text-[10px] leading-snug text-slate-500">
+                El botón OBS copia el link del slide. Guarda antes para que OBS tome los últimos
+                cambios.
+              </p>
             </>
           }
           footer={
@@ -1719,6 +1755,13 @@ export default function ContentStudio({
                 <RotateCcw className="h-4 w-4" strokeWidth={2} />
                 Restablecer
               </button>
+              <ObsCopyButton
+                path={creativePath(
+                  selectedCreative.id,
+                  slide.slideNumber ?? slideIndex + 1,
+                )}
+                className="min-h-[44px] rounded-lg px-4"
+              />
               <button
                 type="button"
                 onClick={downloadMarketing}
@@ -2211,6 +2254,12 @@ export default function ContentStudio({
                 <RotateCcw className="h-4 w-4" strokeWidth={2} />
                 Restablecer
               </button>
+              <ObsCopyButton
+                path={scenePath(selectedScene, sceneDraft, {
+                  all: Object.keys(sceneDraft).length > 0,
+                })}
+                className="min-h-[44px] rounded-lg px-4"
+              />
               <button
                 type="button"
                 onClick={downloadScene}

@@ -6,6 +6,7 @@ import {
   CAMPAIGN_CONSTANTS,
   CreativeSlide,
   QrTarget,
+  creativeQrFallback,
   getCanvasDimensions,
   resolveDynamicTokens,
   resolveQrTarget,
@@ -250,18 +251,22 @@ export async function renderAdToDataUrl(options: ExportOptions): Promise<string>
   const giantNumber = slide.giantNumber
     ? resolveDynamicTokens(slide.giantNumber, tokens)
     : undefined;
+  const showQr = options.showQrOverride ?? Boolean(slide.showQr);
+  const effectiveQrTarget = resolveQrTarget(
+    slide,
+    options.qrTargetOverride,
+    creativeQrFallback(options.creative),
+  );
+  const qrMeta = getQrMeta(effectiveQrTarget);
   const urlLabel = resolveSlideUrlLabel(slide, {
-    qrTargetOverride: options.qrTargetOverride,
+    qrTargetOverride: effectiveQrTarget,
     ...tokens,
   }).toUpperCase();
   const urlText = resolveSlideUrlText(slide, {
     customUrlText: options.customUrlText,
-    qrTargetOverride: options.qrTargetOverride,
+    qrTargetOverride: effectiveQrTarget,
     ...tokens,
   });
-  const showQr = options.showQrOverride ?? Boolean(slide.showQr);
-  const effectiveQrTarget = resolveQrTarget(slide, options.qrTargetOverride);
-  const qrMeta = getQrMeta(effectiveQrTarget);
   const accent = ACCENT_HEX[slide.accentColor ?? 'magenta'];
   const progressPct = Math.max(0, Math.min(100, slide.progressPercent ?? 60));
 

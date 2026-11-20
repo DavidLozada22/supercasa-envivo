@@ -7,6 +7,7 @@ import {
   CAMPAIGN_CONSTANTS,
   CreativeSlide,
   QrTarget,
+  creativeQrFallback,
   resolveDynamicTokens,
   resolveQrTarget,
   resolveSlideUrlLabel,
@@ -30,6 +31,7 @@ interface AdCanvasPreviewProps {
   transparentOverlayOverride?: boolean;
   compact?: boolean;
   thumbnail?: boolean;
+  presentation?: boolean;
 }
 
 const ACCENT_HEX: Record<NonNullable<CreativeSlide['accentColor']>, { bg: string; text: string }> = {
@@ -55,6 +57,7 @@ export default function AdCanvasPreview({
   transparentOverlayOverride,
   compact = false,
   thumbnail = false,
+  presentation = false,
 }: AdCanvasPreviewProps) {
   const isCortina = theme === 'cortina';
   const isStory = aspect === '9:16';
@@ -82,19 +85,24 @@ export default function AdCanvasPreview({
   const giantNumber = slide.giantNumber
     ? resolveDynamicTokens(slide.giantNumber, tokens)
     : undefined;
-  const urlLabel = resolveSlideUrlLabel(slide, {
+
+  const showQr = showQrOverride ?? Boolean(slide.showQr);
+  const effectiveQrTarget = resolveQrTarget(
+    slide,
     qrTargetOverride,
+    creativeQrFallback(creative),
+  );
+  const qrMeta = getQrMeta(effectiveQrTarget);
+  const urlLabel = resolveSlideUrlLabel(slide, {
+    qrTargetOverride: effectiveQrTarget,
     ...tokens,
   });
   const urlText = resolveSlideUrlText(slide, {
     customUrlText,
-    qrTargetOverride,
+    qrTargetOverride: effectiveQrTarget,
     ...tokens,
   });
 
-  const showQr = showQrOverride ?? Boolean(slide.showQr);
-  const effectiveQrTarget = resolveQrTarget(slide, qrTargetOverride);
-  const qrMeta = getQrMeta(effectiveQrTarget);
   const [generatedQr, setGeneratedQr] = useState<{
     target: QrTarget;
     src: string;
@@ -150,10 +158,12 @@ export default function AdCanvasPreview({
   return (
     <div
       className={`relative w-full overflow-hidden select-none flex flex-col justify-between ${aspectClass} ${
-        compact ? 'rounded-2xl' : 'rounded-[24px]'
+        presentation ? 'rounded-none' : compact ? 'rounded-2xl' : 'rounded-[24px]'
       } ${
         isOverlay
-          ? 'text-white border-2 border-dashed border-[#1D2B4F]/40'
+          ? presentation
+            ? 'text-white'
+            : 'text-white border-2 border-dashed border-[#1D2B4F]/40'
           : hasFullScene
             ? 'bg-[#071127] text-white'
             : isCortina
@@ -162,13 +172,15 @@ export default function AdCanvasPreview({
       }`}
       style={
         isOverlay
-          ? {
-              backgroundColor: '#1E293B',
-              backgroundImage:
-                'linear-gradient(45deg, #2B394F 25%, transparent 25%), linear-gradient(-45deg, #2B394F 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #2B394F 75%), linear-gradient(-45deg, transparent 75%, #2B394F 75%)',
-              backgroundSize: '20px 20px',
-              backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
-            }
+          ? presentation
+            ? { backgroundColor: 'transparent' }
+            : {
+                backgroundColor: '#1E293B',
+                backgroundImage:
+                  'linear-gradient(45deg, #2B394F 25%, transparent 25%), linear-gradient(-45deg, #2B394F 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #2B394F 75%), linear-gradient(-45deg, transparent 75%, #2B394F 75%)',
+                backgroundSize: '20px 20px',
+                backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px',
+              }
           : undefined
       }
     >
@@ -376,7 +388,7 @@ export default function AdCanvasPreview({
             <div className="flex-1 min-h-0 flex flex-col justify-between">
               {/* Open Center Transparency Guide (Exported PNG is 100% alpha=0 here) */}
               <div className="flex-1 flex flex-col items-center justify-center px-3 text-center">
-                {!thumbnail ? (
+                {!thumbnail && !presentation ? (
                   <div className="rounded-2xl border-2 border-dashed border-white/45 bg-[#071127]/35 px-3 py-1.5 backdrop-blur-[1px]">
                     <div className={`font-extrabold uppercase tracking-wider text-[#B5F43D] ${compact ? 'text-[7px]' : 'text-[9.5px]'}`}>
                       Centro 100% Transparente (PNG)

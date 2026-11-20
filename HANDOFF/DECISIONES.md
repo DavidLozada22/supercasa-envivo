@@ -240,3 +240,27 @@ escenas se genera en `/api/qr` desde la URL de campaña, así que cambiar entre
 donaciones y transmisión cambia también la imagen del QR. Los datos que se repiten
 (URLs, Bre-B, banco, hashtag, Instagram) viven en un solo bloque y se aplican a
 todas las cortinas y overlays.
+
+## 32. El minuto a minuto genera los links de OBS
+
+Los bloques, las moscas y los "Ya viene" se construyen desde
+`lib/program/blocks.json` y `lib/program/segments.json`. La pestaña "Moscas y
+agenda" entrega links listos para OBS con el nombre, el cargo y el segmento en la
+URL. Si se actualiza la escaleta, se vuelve a importar y la lista se regenera; no
+hay que escribir nombres a mano.
+
+El QR del pie de las cortinas mide 200 px para que se lea desde lejos. Los
+materiales de marketing usan el QR del vivo por defecto, salvo la categoría Donar,
+porque esas piezas ya están dentro del flujo de donación. Las cortinas y overlays
+usan el QR de donaciones por defecto.
+
+## 33. Todo material tiene link de OBS
+
+Las cortinas y overlays copian su URL de `/pantalla/<id>` con los textos y ajustes
+actuales. Los materiales de marketing tienen una ruta propia,
+`/pantalla/creativo/<id>?slide=N`, que renderiza la pieza completa a su tamaño para
+usarla como fuente de navegador. El botón OBS vive en la tarjeta y en el editor de
+los tres tipos de material, no solo en el panel de Streaming.
+
+En marketing el link usa el estado guardado. Por eso el editor avisa que hay que
+guardar antes de copiar si se quieren llevar los últimos cambios.

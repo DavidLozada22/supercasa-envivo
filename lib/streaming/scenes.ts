@@ -1,3 +1,6 @@
+import blocksJson from "@/lib/program/blocks.json";
+import type { ProgramBlock } from "@/lib/program/types";
+
 export type SceneKind = "full" | "overlay";
 export type SceneGroup = "generic" | "bloque" | "hora";
 export type SceneAccent = "fuchsia" | "lime" | "yellow" | "cyan";
@@ -80,114 +83,6 @@ export type SceneDef = {
   returnAt?: string;
 };
 
-type BlockSeed = {
-  number: string;
-  day: string;
-  time: string;
-  title: string;
-  subtitle: string;
-  reto: string;
-};
-
-const BLOCKS: BlockSeed[] = [
-  {
-    number: "01",
-    day: "Día 1",
-    time: "18:00 a 22:00",
-    title: "El Gran Inicio",
-    subtitle: "El mejor regalo es terminar La Supercasa. Con Sebas.",
-    reto: "Reto del bloque: todos nos quedamos calvos.",
-  },
-  {
-    number: "02",
-    day: "Día 1 y 2",
-    time: "22:00 a 02:00",
-    title: "Noche de Desafíos y Risas Sin Filtro",
-    subtitle: "Con Vikingo. Retos decididos por la audiencia.",
-    reto: "Las donaciones y los votos eligen el próximo reto.",
-  },
-  {
-    number: "03",
-    day: "Día 2",
-    time: "02:00 a 06:00",
-    title: "Desvelo Paranormal",
-    subtitle: "Con Luz Gardenia y Libardo. Sobreviviendo a la madrugada.",
-    reto: "Podcast de rock y metal, monitoreo cardíaco en la oscuridad.",
-  },
-  {
-    number: "04",
-    day: "Día 2",
-    time: "06:00 a 10:00",
-    title: "Mañanero con Fe y Café",
-    subtitle: "Con Cris. Consultorio legal y meta de desayunos.",
-    reto: "Consultorio legal en vivo y aportes matutinos.",
-  },
-  {
-    number: "05",
-    day: "Día 2",
-    time: "10:00 a 14:00",
-    title: "Copa de Campeones",
-    subtitle: "Con Vikingo. El desafío gamer.",
-    reto: "Campeonato gamer con premio tecnológico.",
-  },
-  {
-    number: "06",
-    day: "Día 2",
-    time: "14:00 a 18:00",
-    title: "El Festival de Talentos Kavanah",
-    subtitle: "Con Paola. Talentos en vivo y cocina solidaria.",
-    reto: "Cocina express solidaria y muestra de talentos.",
-  },
-  {
-    number: "07",
-    day: "Día 2",
-    time: "18:00 a 22:00",
-    title: "La Gran Gala de los Sueños",
-    subtitle: "Con Sebas. La noche estelar de la maratón.",
-    reto: "Apadrinamiento de las 14 habitaciones en prime time.",
-  },
-  {
-    number: "08",
-    day: "Día 2 y 3",
-    time: "22:00 a 02:00",
-    title: "Retro Arcade y Noche de Leyendas",
-    subtitle: "Con Vikingo. Clásicos de los 80 y los 90.",
-    reto: "Torneo de Street Fighter y Mario Kart.",
-  },
-  {
-    number: "09",
-    day: "Día 3",
-    time: "02:00 a 06:00",
-    title: "Maratón Extrema: Reto Speedrun",
-    subtitle: "Con Libardo. El reto contra el reloj.",
-    reto: "Penalizaciones y ayudas pagadas con donaciones.",
-  },
-  {
-    number: "10",
-    day: "Día 3",
-    time: "06:00 a 10:00",
-    title: "Despertar Solidario",
-    subtitle: "Con Cris y Luz Gardenia. Historias que inspiran.",
-    reto: "Especial cultural Carnaval de Riosucio.",
-  },
-  {
-    number: "11",
-    day: "Día 3",
-    time: "10:00 a 14:00",
-    title: "El Desafío de Creadores",
-    subtitle: "Con Paola. La batalla de fandoms por una causa.",
-    reto: "Retos físicos, trivias y colaboraciones con creadores.",
-  },
-  {
-    number: "12",
-    day: "Día 3",
-    time: "14:00 a 18:00",
-    title: "El Gran Cierre",
-    subtitle: "Con Sebas. La cumbre de la esperanza.",
-    reto: "Meta global final y apertura simbólica de La Supercasa.",
-  },
-];
-
 const BLOCK_ACCENTS: SceneAccent[] = ["fuchsia", "lime", "cyan", "yellow"];
 
 export const CALVITOS: CalvitoKey[] = [
@@ -207,23 +102,26 @@ export function calvitoSrc(key: CalvitoKey): string {
   return `/img/calvitos/${key}.webp`;
 }
 
-const blockScenes: SceneDef[] = BLOCKS.map((block, index) => ({
-  id: `bloque-${block.number}`,
-  label: `Bloque ${block.number} · ${block.title}`,
-  kind: "full",
-  group: "bloque",
-  number: block.number,
-  accent: BLOCK_ACCENTS[index % BLOCK_ACCENTS.length],
-  eyebrow: `Bloque ${block.number} · ${block.day} · ${block.time}`,
-  title: block.title,
-  subtitle: block.subtitle,
-  note: block.reto,
-  fields: ["title", "subtitle", "note"],
-  when: `Entrada al bloque ${block.number}, de ${block.time}.`,
-  visual: "none",
-  illustration: CALVITOS[index % CALVITOS.length],
-  cta: "Dona y construye la siguiente pieza",
-}));
+const blockScenes: SceneDef[] = (blocksJson as ProgramBlock[]).map((block, index) => {
+  const shortTitle = block.title.split(/[:·]/)[0]?.trim() || block.title;
+  return {
+    id: `bloque-${block.number}`,
+    label: `Bloque ${block.number} · ${shortTitle}`,
+    kind: "full",
+    group: "bloque",
+    number: block.number,
+    accent: BLOCK_ACCENTS[index % BLOCK_ACCENTS.length],
+    eyebrow: `Bloque ${block.number} · ${block.day} · ${block.schedule}`,
+    title: shortTitle,
+    subtitle: block.title,
+    note: block.host ? `Con ${block.host}. ${block.challenge || block.focus}` : block.challenge,
+    fields: ["title", "subtitle", "note"],
+    when: `Entrada al bloque ${block.number}, de ${block.schedule}.`,
+    visual: "none",
+    illustration: CALVITOS[index % CALVITOS.length],
+    cta: "Dona y construye la siguiente pieza",
+  };
+});
 
 export const SCENES: SceneDef[] = [
   {

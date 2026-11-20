@@ -124,6 +124,30 @@ aquí y en `ESTADO.md`.
 - Manual: recorrer las pestañas Cortinas y Overlays OBS y confirmar que suman
   55 piezas entre las dos.
 
+## OBS, moscas y QR grande
+
+- Abrir `/admin/estudio?tab=cortinas` y confirmar que cada tarjeta tiene OBS.
+  Copiar una, abrirla en una pestaña y ver que el título y el QR salen iguales.
+- Repetir en Overlays y en Marketing. En Marketing, el OBS debe abrir
+  `/pantalla/creativo/<id>?slide=N` con la pieza completa y el QR del vivo.
+- Abrir el editor de un material de marketing, cambiar un texto, guardar y
+  copiar OBS. La pieza debe reflejar el cambio.
+- Abrir el editor de una cortina, cambiar un texto sin guardar y pulsar OBS. El
+  link copiado debe llevar el texto nuevo en la URL.
+- Abrir `/admin/streaming?tab=presets`. Filtrar "Moscas", copiar la de un invitado
+  y comprobar que `/pantalla/lower-third` abre con el nombre y el cargo.
+- Probar un "Ya viene" y un "Estamos en". Deben abrir con el título del segmento.
+- Verificar `/pantalla/casa`, `/pantalla/empezamos-1` y `/pantalla/bloque-01`:
+  el QR debe verse grande y ningún texto debe quedar tapado.
+- Verificar `/pantalla/donaciones`: un solo QR grande a la derecha, sin QR en el
+  pie.
+- En marketing, abrir una pieza de la categoría Donar y confirmar que el QR
+  arranca en Donaciones. Abrir una pieza normal y confirmar que arranca en
+  Transmisión.
+- Cuando llegue el minuto a minuto nuevo, importarlo con
+  `python3 scripts/import-escaleta.py "/ruta/archivo.xlsx"` y confirmar que los
+  bloques y la lista de moscas cambian sin tocar código.
+
 ## Editor completo del Estudio
 
 - Abrir `/admin/estudio?tab=cortinas&scene=casa`. Cambiar el título y ver que el

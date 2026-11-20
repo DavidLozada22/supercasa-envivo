@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 import SceneStage from "@/components/streaming/SceneStage";
 import SceneView from "@/components/streaming/SceneView";
-import { mergeScene, readStreamingContent } from "@/lib/streaming/content";
+import {
+  mergeScene,
+  readStreamingContent,
+  type SceneOverride,
+} from "@/lib/streaming/content";
 import { getScene } from "@/lib/streaming/scenes";
 
 export const metadata = {
@@ -26,7 +30,33 @@ export default async function ScenePage({
   const scene = getScene(id);
   if (!scene) notFound();
   const content = await readStreamingContent();
-  const merged = mergeScene(scene, content.scenes[id]);
+  const eyebrow = first(query.eyebrow);
+  const badge = first(query.badge);
+  const cta = first(query.cta);
+  const countValue = first(query.countValue);
+  const countUnit = first(query.countUnit);
+  const progressCaption = first(query.progressCaption);
+  const qrTargetRaw = first(query.qrTarget);
+  const progressLiveRaw = first(query.progressLive);
+  const progressPercentRaw = Number(first(query.progressPercent));
+  const queryOverride: SceneOverride = {
+    ...(eyebrow ? { eyebrow } : {}),
+    ...(badge ? { badge } : {}),
+    ...(cta ? { cta } : {}),
+    ...(countValue ? { countValue } : {}),
+    ...(countUnit ? { countUnit } : {}),
+    ...(progressCaption ? { progressCaption } : {}),
+    ...(qrTargetRaw === "live" || qrTargetRaw === "donate"
+      ? { qrTarget: qrTargetRaw }
+      : {}),
+    ...(progressLiveRaw === "true" || progressLiveRaw === "false"
+      ? { progressLive: progressLiveRaw === "true" }
+      : {}),
+    ...(Number.isFinite(progressPercentRaw) && first(query.progressPercent)
+      ? { progressPercent: Math.max(0, Math.min(100, progressPercentRaw)) }
+      : {}),
+  };
+  const merged = mergeScene(scene, { ...content.scenes[id], ...queryOverride });
 
   const fields = {
     title: first(query.title),

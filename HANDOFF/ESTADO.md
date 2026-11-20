@@ -4,6 +4,31 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, OBS, moscas y QR grande
+
+- Cada tarjeta de cortina, overlay o material de marketing del Estudio tiene un
+  botón OBS con el icono de copia. También está en el pie de los tres editores.
+  En cortinas y overlays copia `/pantalla/<id>` con los valores actuales en la
+  URL: título, invitado, cargo, hora de regreso, QR y avance.
+- Marketing tiene una ruta pública `/pantalla/creativo/<id>?slide=N` que muestra
+  el material completo, con el estado guardado, para usarlo como fuente de
+  navegador en OBS. El botón OBS copia ese link y el del slide que está abierto.
+  Hay que guardar antes para que OBS tome los últimos cambios.
+- Nueva pestaña "Moscas y agenda" en Streaming. Se genera del minuto a minuto:
+  cortinas de bloque, "Estamos en" por bloque, una mosca por persona con su cargo y
+  un "Ya viene" por segmento. Cada fila tiene OBS y Ver.
+- Las cortinas de bloque ya no usan una lista aparte: salen de
+  `lib/program/blocks.json`, con el título, el conductor y el reto del programa.
+- QR por defecto: cortinas y overlays apuntan a donaciones; los materiales de
+  marketing apuntan al vivo, excepto la categoría Donar. La URL y la etiqueta del
+  QR acompañan el destino.
+- El QR del pie de las cortinas pasó de 76 px a 200 px. Se ajustaron la casa, los
+  calvitos y las cuentas regresivas para que nada quede tapado. La escena de
+  donaciones conserva su QR grande a la derecha y oculta el del pie.
+- Se regeneraron los 55 PNG de `public/cortinas` y el ZIP con el QR grande y los
+  títulos del programa.
+- 52 pruebas pasan.
+
 ### 20 de noviembre, edición completa del Estudio
 
 - El editor de cortinas y overlays ahora muestra solo los campos que esa pieza usa:

@@ -14,6 +14,20 @@ body:has(.scene-host) {
   overflow: hidden !important;
 }
 
+.creative-host {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+html:has(.creative-host),
+body:has(.creative-host) {
+  margin: 0 !important;
+  background: transparent !important;
+  overflow: hidden !important;
+}
+
 .scene-stage {
   position: absolute;
   top: 0;
@@ -238,7 +252,7 @@ body:has(.scene-host) {
 
 .scene__count-number {
   font-family: "Fredoka", ui-rounded, system-ui, sans-serif;
-  font-size: 500px;
+  font-size: 460px;
   font-weight: 700;
   line-height: 0.72;
   letter-spacing: -0.05em;
@@ -247,7 +261,7 @@ body:has(.scene-host) {
 }
 
 .scene__count-number.is-fraction {
-  font-size: 540px;
+  font-size: 500px;
   line-height: 0.68;
 }
 
@@ -271,9 +285,10 @@ body:has(.scene-host) {
 }
 
 .scene--count .scene__subtitle {
-  max-width: 26ch;
-  margin-top: 16px;
-  font-size: 36px;
+  max-width: 28ch;
+  margin-top: 10px;
+  font-size: 34px;
+  line-height: 1.2;
 }
 
 .scene--count .scene__note {
@@ -337,8 +352,8 @@ body:has(.scene-host) {
 
 .scene--block .scene__hero {
   right: 10px;
-  bottom: 170px;
-  height: 720px;
+  bottom: 250px;
+  height: 620px;
 }
 
 /* Calvitos 3D */
@@ -346,10 +361,10 @@ body:has(.scene-host) {
 .scene__hero {
   position: absolute;
   right: 4px;
-  bottom: 130px;
+  bottom: 250px;
   z-index: 3;
   width: auto;
-  height: 800px;
+  height: 640px;
   filter: drop-shadow(0 38px 60px rgba(0, 0, 0, 0.5));
   animation: scene-float 7s ease-in-out infinite;
 }
@@ -361,7 +376,7 @@ body:has(.scene-host) {
 .scene__hero-cluster {
   position: absolute;
   right: 10px;
-  bottom: 150px;
+  bottom: 240px;
   z-index: 3;
   display: flex;
   align-items: flex-end;
@@ -370,23 +385,23 @@ body:has(.scene-host) {
 
 .scene__hero-cluster-item {
   width: auto;
-  height: 520px;
+  height: 460px;
   filter: drop-shadow(0 34px 56px rgba(0, 0, 0, 0.48));
   animation: scene-float 7s ease-in-out infinite;
 }
 
 .scene__hero-cluster-item.item-0 {
-  height: 520px;
+  height: 460px;
   z-index: 2;
 }
 
 .scene__hero-cluster-item.item-1 {
-  height: 430px;
+  height: 380px;
   margin-left: -30px;
 }
 
 .scene__hero-cluster-item.item-2 {
-  height: 390px;
+  height: 340px;
   margin-left: -20px;
 }
 
@@ -401,10 +416,10 @@ body:has(.scene-host) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding: 12px 20px;
+  gap: 28px;
+  padding: 16px 24px;
   border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 20px;
+  border-radius: 24px;
   background: rgba(7, 17, 39, 0.62);
   backdrop-filter: blur(10px);
 }
@@ -412,44 +427,45 @@ body:has(.scene-host) {
 .scene__foot-donate {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 24px;
   min-width: 0;
 }
 
 .scene__foot-qr {
   display: block;
-  width: 76px;
-  height: 76px;
-  padding: 4px;
-  border-radius: 12px;
+  width: 200px;
+  height: 200px;
+  padding: 12px;
+  border-radius: 22px;
   background: #fff;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.32);
 }
 
 .scene__foot-copy {
   display: grid;
-  gap: 2px;
+  gap: 4px;
   min-width: 0;
 }
 
 .scene__foot-cta {
   color: var(--accent);
-  font-size: 27px;
+  font-size: 34px;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.08;
 }
 
 .scene__foot-url {
-  color: rgba(255, 255, 255, 0.78);
-  font-size: 21px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 
 .scene__foot-side {
   display: flex;
   align-items: center;
-  gap: 26px;
-  color: rgba(255, 255, 255, 0.55);
+  gap: 22px;
+  color: rgba(255, 255, 255, 0.58);
   font-size: 20px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -474,6 +490,15 @@ body:has(.scene-host) {
   opacity: 0.8;
 }
 
+/* La escena de donaciones ya tiene un QR grande a la derecha. */
+.scene--donaciones .scene__foot-qr {
+  display: none;
+}
+
+.scene--donaciones .scene__foot {
+  padding: 14px 24px;
+}
+
 /* Casa por fases */
 
 .scene--house .scene__body {
@@ -492,10 +517,10 @@ body:has(.scene-host) {
 
 .scene__house {
   position: absolute;
-  top: 196px;
+  top: 160px;
   right: 80px;
   z-index: 3;
-  width: 900px;
+  width: 820px;
 }
 
 .scene__house-frame {
@@ -541,9 +566,9 @@ body:has(.scene-host) {
 }
 
 .scene__house-caption {
-  margin: 16px 0 0;
+  margin: 10px 0 0;
   color: rgba(255, 255, 255, 0.68);
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   text-align: right;
 }

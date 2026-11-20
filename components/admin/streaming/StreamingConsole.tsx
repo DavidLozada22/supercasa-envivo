@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import {
   Activity,
   Building2,
+  CalendarDays,
   Clapperboard,
   Clock,
   Download,
@@ -17,6 +18,7 @@ import { SCENES, getScene, type SceneDef } from "@/lib/streaming/scenes";
 import type { OnAirState } from "@/lib/streaming/types";
 import ConnectionPanel from "./ConnectionPanel";
 import ControlPanel from "./ControlPanel";
+import ProgramPresets from "./ProgramPresets";
 import ProgramStrip from "./ProgramStrip";
 import SceneGrid from "./SceneGrid";
 import StreamingGuide from "./StreamingGuide";
@@ -29,6 +31,7 @@ type TabId =
   | "casa"
   | "bloques"
   | "overlays"
+  | "presets"
   | "control"
   | "conexiones";
 
@@ -39,6 +42,7 @@ const TABS: Array<{ id: TabId; label: string; icon: typeof Layers }> = [
   { id: "casa", label: "La casa", icon: Building2 },
   { id: "bloques", label: "Bloques", icon: Layers },
   { id: "overlays", label: "Pantallas y overlays", icon: SlidersHorizontal },
+  { id: "presets", label: "Moscas y agenda", icon: CalendarDays },
   { id: "control", label: "En control", icon: Activity },
   { id: "conexiones", label: "Conexiones", icon: RefreshCw },
 ];
@@ -66,6 +70,13 @@ export default function StreamingConsole() {
   const [tab, setTab] = useState<TabId>("cortinas");
   const [health, setHealth] = useState<Health | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const value = new URLSearchParams(window.location.search).get("tab");
+    if (value && TABS.some((item) => item.id === value)) {
+      setTab(value as TabId);
+    }
+  }, []);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -237,11 +248,15 @@ export default function StreamingConsole() {
           <p className="text-xs leading-relaxed text-slate-600">
             Overlays con fondo transparente para poner encima del video. Todos llevan logos y
             llamado a donar. El fondo y el marco para live pequeño piden el video en 1280x720,
-            en la posición 80 x 180.
+            en la posición 80 x 180. Para el nombre y el cargo de cada invitado, usa{" "}
+            <strong className="font-bold text-[#0F2354]">Moscas y agenda</strong>: los links ya
+            salen llenos.
           </p>
           <SceneGrid scenes={overlays} />
         </div>
       ) : null}
+
+      {tab === "presets" ? <ProgramPresets /> : null}
 
       {tab === "control" ? (
         <ControlPanel onair={health?.onair ?? null} onSaved={onSaved} />

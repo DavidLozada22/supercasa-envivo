@@ -35,19 +35,22 @@ test('el panel de streaming esta protegido y tiene las cortinas listas', () => {
   assert.ok(grid.includes('/pantalla/'));
 
   const scenes = readFileSync('lib/streaming/scenes.ts', 'utf8');
+  for (const text of ['Empezamos en 1 minuto', 'Ya volvemos', 'Ajuste técnico']) {
+    assert.ok(scenes.includes(text), `falta la escena ${text}`);
+  }
+
+  const blocks = readFileSync('lib/program/blocks.json', 'utf8');
   for (const text of [
-    'Empezamos en 1 minuto',
-    'Ya volvemos',
-    'Ajuste técnico',
     'La Gran Gala de los Sueños',
     'El Gran Cierre',
     'Copa de Campeones',
   ]) {
-    assert.ok(scenes.includes(text), `falta la escena ${text}`);
+    assert.ok(blocks.includes(text), `falta el bloque ${text}`);
   }
 
   assert.ok(scenes.includes('blockScenes'));
-  assert.ok(scenes.includes('BLOCKS'));
+  assert.ok(scenes.includes('blocksJson'));
+  assert.ok(scenes.includes('ProgramBlock'));
 
   for (const file of [
     'empezamos-1',

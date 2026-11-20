@@ -2572,9 +2572,16 @@ export function filterCreatives(
   });
 }
 
+export function creativeQrFallback(
+  creative: Pick<AdCreative, 'category'>,
+): QrTarget {
+  return creative.category === 'donar' ? 'donate' : 'live';
+}
+
 export function resolveQrTarget(
   slide: Pick<CreativeSlide, 'defaultQrTarget' | 'urlText'>,
   override?: QrTarget,
+  fallback: QrTarget = 'live',
 ): QrTarget {
   if (override === 'live' || override === 'donate') {
     return override;
@@ -2582,10 +2589,7 @@ export function resolveQrTarget(
   if (slide.defaultQrTarget === 'live' || slide.defaultQrTarget === 'donate') {
     return slide.defaultQrTarget;
   }
-  if (slide.urlText.toLowerCase().includes('/envivo')) {
-    return 'live';
-  }
-  return 'donate';
+  return fallback;
 }
 
 export function getCreativeDefaultQrTarget(creative: AdCreative): QrTarget {
@@ -2593,7 +2597,7 @@ export function getCreativeDefaultQrTarget(creative: AdCreative): QrTarget {
     creative.slides.find((s) => s.showQr) ??
     creative.slides[creative.slides.length - 1] ??
     creative.slides[0];
-  return resolveQrTarget(qrSlide);
+  return resolveQrTarget(qrSlide, undefined, creativeQrFallback(creative));
 }
 
 export function resolveSlideUrlText(
