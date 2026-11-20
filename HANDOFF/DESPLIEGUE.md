@@ -105,3 +105,31 @@ el código.
 - Evento en vivo: viernes 20 de noviembre, 6:00 p. m., a domingo 22, 6:00 p. m.
 - El reproductor cambia de estado según esas fechas. `NEXT_PUBLIC_LIVE_PREVIEW=1`
   fuerza el estado en vivo solo en local.
+
+
+## Usuarios y roles del panel
+
+`ADMIN_USERS` tiene ocho entradas:
+
+- salvaje, vikingo, sebas, flor y lio: admin.
+- lina: finance.
+- ana y sandeivid: marketing.
+
+Claves de ana y sandeivid: `ana_supercasa` y `sandeivid_supercasa`. El resto
+conserva sus claves. El rol se resuelve por usuario desde `ADMIN_USERS`, sin
+cambiar la cookie. Se actualizó la variable en producción y preview con el token
+de Vercel; hay que volver a desplegar para que la tome.
+
+## Estudio de contenido
+
+El Estudio usa `html-to-image` para exportar cortinas y overlays a PNG. Los
+creatives usan el exportador canvas que ya venía con el prototipo. Los estados se
+guardan en Blob:
+
+- `supercasa/marketing.json`
+- `supercasa/streaming-content.json`
+
+El repositorio público `nelsonSVG/estudiomarketing` solo tenía el README. La
+versión completa de 88 creatives está en la carpeta local
+`GOOGLE AI STUDIO ESTUDIO MARKETING ` y ya fue copiada a `lib/marketing` y
+`components/admin/marketing`.

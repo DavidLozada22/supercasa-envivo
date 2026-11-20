@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import SceneStage from "@/components/streaming/SceneStage";
 import SceneView from "@/components/streaming/SceneView";
+import { mergeScene, readStreamingContent } from "@/lib/streaming/content";
 import { getScene } from "@/lib/streaming/scenes";
 
 export const metadata = {
@@ -24,6 +25,8 @@ export default async function ScenePage({
   const query = await searchParams;
   const scene = getScene(id);
   if (!scene) notFound();
+  const content = await readStreamingContent();
+  const merged = mergeScene(scene, content.scenes[id]);
 
   const fields = {
     title: first(query.title),
@@ -37,7 +40,7 @@ export default async function ScenePage({
 
   return (
     <SceneStage lock={render}>
-      <SceneView scene={scene} fields={fields} render={render} />
+      <SceneView scene={merged} fields={fields} render={render} />
     </SceneStage>
   );
 }

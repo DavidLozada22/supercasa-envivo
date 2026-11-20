@@ -4,6 +4,32 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, estudio y finanzas
+
+- Estudio de contenido en `/admin/estudio` con tres pestañas: Marketing,
+  Cortinas y Overlays.
+- Se integró el estudio de marketing completo: 88 creatives y 120 slides. La
+  carpeta local tiene la versión completa; el repositorio público de GitHub
+  solo tenía el README.
+- Cada creative abre un editor con preview, textos, color, tema, formato, QR,
+  caption y descarga PNG. Guarda por creative y por slide en Blob.
+- Cada cortina y overlay abre un editor con preview 1920x1080, textos, color,
+  calvito, guardado en Blob y descarga PNG con los cambios usando
+  `html-to-image`.
+- Los cambios de las escenas se aplican en `/pantalla/<id>` y en la fuente de
+  OBS. El PNG base se mantiene como respaldo.
+- Roles: salvaje, vikingo, sebas, flor y lio quedan admin. Lina queda finance.
+  Ana y sandeivid quedan marketing.
+- `/admin/recaudo` para Lina y los admin: total de Wompi, Bre-B y Bancolombia,
+  formulario para agregar aportes manuales, edición y borrado. Los aportes
+  manuales entran a `donations` y suman al total del sitio y a la barra de la
+  casa.
+- Acceso rápido móvil: barra inferior con cuatro módulos y un botón "Más" que
+  abre todos los módulos agrupados. El módulo activo siempre queda visible.
+- El login redirige a marketing a `/admin/estudio` y a finanzas a
+  `/admin/recaudo`. Las páginas y APIs validan el rol.
+- 50 pruebas en `tests/` (node --test).
+
 ### 19 de noviembre, segunda ronda
 
 - Cortinas rediseñadas a 1920x1080 con textos y logos más grandes. 55 piezas:
@@ -45,7 +71,7 @@ Actualizado: 19 de noviembre de 2026.
   PNG, Cuenta, Hora, Casa, Bloque u Overlay.
 - `?preview=live` en `/donar` fuerza el estado en vivo para revisar el mini visor
   sin esperar al evento.
-- 46 pruebas en `tests/` (node --test).
+- 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre
 

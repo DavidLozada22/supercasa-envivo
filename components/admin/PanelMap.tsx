@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { ADMIN_LINKS } from "./nav";
+import type { PanelRole } from "@/lib/users";
+import { linksForRole } from "./nav";
 
-export default function PanelMap() {
-  const links = ADMIN_LINKS.filter((link) => link.href !== "/admin");
+export default function PanelMap({ role }: { role: PanelRole }) {
+  const links = linksForRole(role).filter((link) => link.href !== "/admin");
 
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import SceneStage from "./SceneStage";
 import SceneView from "./SceneView";
+import { mergeScene, type StreamingContent } from "@/lib/streaming/merge";
 import { getScene } from "@/lib/streaming/scenes";
 import type { OnAirState } from "@/lib/streaming/types";
 
@@ -14,6 +15,7 @@ export default function OnAirStage({
   token: string;
 }) {
   const [state, setState] = useState<OnAirState>(initial);
+  const [content, setContent] = useState<StreamingContent | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -39,7 +41,30 @@ export default function OnAirStage({
     };
   }, [token]);
 
-  const scene = getScene(state.sceneId) ?? getScene("ya-volvemos");
+  useEffect(() => {
+    let alive = true;
+
+    const load = async () => {
+      try {
+        const response = await fetch("/api/streaming/content", { cache: "no-store" });
+        if (!response.ok) return;
+        const body = (await response.json()) as StreamingContent;
+        if (alive) setContent(body);
+      } catch {
+        // Se conserva el ultimo contenido valido.
+      }
+    };
+
+    void load();
+    const id = setInterval(load, 30_000);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, []);
+
+  const base = getScene(state.sceneId) ?? getScene("ya-volvemos");
+  const scene = base ? mergeScene(base, content?.scenes[state.sceneId]) : null;
   if (!scene) return null;
 
   return (

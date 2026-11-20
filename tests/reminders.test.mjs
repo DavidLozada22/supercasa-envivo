@@ -7,7 +7,7 @@ test('los recordatorios se guardan, se envian y se ven en el panel', () => {
   assert.ok(api.includes('insert into reminders'));
   assert.ok(api.includes('consent'));
   const admin = readFileSync('app/api/admin/reminders/route.ts', 'utf8');
-  assert.ok(admin.includes('isAuthenticated'));
+  assert.ok(admin.includes('apiRole'));
   assert.ok(admin.includes('sendReminderEmail'));
   const resend = readFileSync('lib/resend.ts', 'utf8');
   assert.ok(resend.includes('RESEND_API_KEY'));

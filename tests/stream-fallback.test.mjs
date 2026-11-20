@@ -27,7 +27,7 @@ test('el live resuelve el directo y cae a la cortina sin romper la pagina', () =
 
 test('el panel de streaming esta protegido y tiene las cortinas listas', () => {
   const page = readFileSync('app/admin/streaming/page.tsx', 'utf8');
-  assert.ok(page.includes('isAuthenticated'));
+  assert.ok(page.includes('requirePageRole'));
   assert.ok(page.includes('StreamingConsole'));
 
   const grid = readFileSync('components/admin/streaming/SceneGrid.tsx', 'utf8');
@@ -78,6 +78,6 @@ test('el panel de streaming esta protegido y tiene las cortinas listas', () => {
   assert.ok(onair.includes('notFound'));
 
   const state = readFileSync('app/api/admin/streaming/state/route.ts', 'utf8');
-  assert.ok(state.includes('isAuthenticated'));
+  assert.ok(state.includes('apiRole'));
   assert.ok(state.includes('getScene'));
 });

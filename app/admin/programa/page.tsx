@@ -1,7 +1,6 @@
-import { redirect } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import ProgramBoard from "@/components/admin/ProgramBoard";
-import { isAuthenticated } from "@/lib/auth";
+import { requirePageRole } from "@/lib/permissions";
 import blocksJson from "@/lib/program/blocks.json";
 import segmentsJson from "@/lib/program/segments.json";
 import type { ProgramBlock, ProgramSegment } from "@/lib/program/types";
@@ -11,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Programa" };
 
 export default async function ProgramPage() {
-  if (!(await isAuthenticated())) redirect("/admin/login");
+  await requirePageRole(["admin", "editor", "marketing"]);
 
   return (
     <AdminShell current="Programa">

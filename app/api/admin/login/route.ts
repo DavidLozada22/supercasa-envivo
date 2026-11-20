@@ -72,7 +72,17 @@ export async function POST(request: Request) {
 
   attempts.delete(ip);
 
-  const response = NextResponse.json({ ok: true, name: user.name });
+  const response = NextResponse.json({
+    ok: true,
+    name: user.name,
+    role: user.role,
+    redirect:
+      user.role === "marketing"
+        ? "/admin/estudio"
+        : user.role === "finance"
+          ? "/admin/recaudo"
+          : "/admin",
+  });
   response.cookies.set(SESSION_COOKIE, createSessionValue(user.username), sessionCookieOptions);
   return response;
 }

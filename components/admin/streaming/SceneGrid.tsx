@@ -8,6 +8,7 @@ import {
   ExternalLink,
   ImageOff,
   Loader2,
+  Pencil,
 } from "lucide-react";
 import type { SceneDef } from "@/lib/streaming/scenes";
 
@@ -123,6 +124,15 @@ export default function SceneGrid({ scenes }: { scenes: SceneDef[] }) {
             ) : null}
 
             <div className="flex flex-wrap gap-2">
+              <a
+                href={`/admin/estudio?tab=${
+                  scene.kind === "overlay" ? "overlays" : "cortinas"
+                }&scene=${scene.id}`}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
+              >
+                <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
+                Editar
+              </a>
               <a
                 href={`/cortinas/${scene.id}.png`}
                 download={`supercasa-${scene.id}.png`}

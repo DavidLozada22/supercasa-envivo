@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isAuthenticated } from "@/lib/auth";
+import { apiRole } from "@/lib/permissions";
 import {
   getOnAir,
   rotateOverlayToken,
@@ -30,8 +30,12 @@ function cleanFields(raw: unknown): OnAirFields {
 }
 
 export async function GET() {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
+  const access = await apiRole(["admin", "editor"]);
+  if (!access.ok) {
+    return NextResponse.json(
+      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
+      { status: access.status },
+    );
   }
   return NextResponse.json(await getOnAir(), {
     headers: { "Cache-Control": "no-store" },
@@ -39,8 +43,12 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
+  const access = await apiRole(["admin", "editor"]);
+  if (!access.ok) {
+    return NextResponse.json(
+      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
+      { status: access.status },
+    );
   }
 
   let body: { sceneId?: string; fields?: unknown };
@@ -61,8 +69,12 @@ export async function PUT(request: Request) {
 }
 
 export async function POST() {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
+  const access = await apiRole(["admin", "editor"]);
+  if (!access.ok) {
+    return NextResponse.json(
+      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
+      { status: access.status },
+    );
   }
   return NextResponse.json(await rotateOverlayToken(), {
     headers: { "Cache-Control": "no-store" },

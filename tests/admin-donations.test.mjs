@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 
 test('las donaciones se listan y se registran manualmente', () => {
   const api = readFileSync('app/api/admin/donations/route.ts', 'utf8');
-  assert.ok(api.includes('isAuthenticated'));
+  assert.ok(api.includes('apiRole'));
   assert.ok(api.includes('insert into donations'));
   assert.ok(api.includes("'approved'"));
   const panel = readFileSync('components/admin/DonationsPanel.tsx', 'utf8');

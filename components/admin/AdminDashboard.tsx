@@ -19,9 +19,11 @@ import {
   Youtube,
 } from "lucide-react";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import MobileAdminNav from "@/components/admin/MobileAdminNav";
 import CampaignTools from "@/components/admin/CampaignTools";
 import PanelMap from "@/components/admin/PanelMap";
 import type { AppConfig } from "@/lib/types";
+import type { PanelRole } from "@/lib/users";
 import { youtubeEmbedUrl, youtubeVideoId } from "@/lib/youtube";
 
 const TABS = [
@@ -92,9 +94,11 @@ function CopyButton({
 export default function AdminDashboard({
   initialConfig,
   user,
+  role,
 }: {
   initialConfig: AppConfig;
   user: string;
+  role: PanelRole;
 }) {
   const router = useRouter();
   const [config, setConfig] = useState<AppConfig>(initialConfig);
@@ -162,7 +166,7 @@ export default function AdminDashboard({
       className="flex min-h-screen bg-[#F4F6FB] text-slate-800"
       style={{ fontFamily: '"Plus Jakarta Sans", sans-serif' }}
     >
-      <AdminSidebar user={user} />
+      <AdminSidebar user={user} role={role} />
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-5 py-4 backdrop-blur md:px-8">
@@ -226,8 +230,8 @@ export default function AdminDashboard({
           })}
         </div>
 
-        <main className="mx-auto w-full max-w-5xl space-y-5 p-5 md:p-8">
-          <PanelMap />
+        <main className="mx-auto w-full max-w-5xl space-y-5 p-5 pb-28 md:p-8 md:pb-28 lg:pb-8">
+          <PanelMap role={role} />
           <div className="flex flex-wrap gap-2">
             <a href="/admin/recorrido" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
               Ver mapa y demostración del recorrido
@@ -590,6 +594,8 @@ export default function AdminDashboard({
           {tab === "campaigns" ? <CampaignTools /> : null}
         </main>
       </div>
+
+      <MobileAdminNav role={role} user={user} />
     </div>
   );
 }

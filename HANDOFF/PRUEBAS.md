@@ -53,7 +53,7 @@ la restricción en el servidor (pendiente).
 Anotar hallazgos en `ESTADO.md` o abrir un issue. Un cambio cerrado se refleja
 aquí y en `ESTADO.md`.
 
-- 46 comprobaciones en `tests/` (node --test).
+- 50 comprobaciones en `tests/` (node --test).
 - Revisado en 1280 y 390 px: header, menú móvil y mini visor sin desbordamiento.
 - Cuenta regresiva verificada en local: muestra horas restantes y no muestra la
   píldora ni el visor antes del inicio.
@@ -101,3 +101,17 @@ aquí y en `ESTADO.md`.
 - Manual: hacer scroll en `/donar` y confirmar la píldora "EN VIVO · Ver".
 - Manual: abrir `/admin/streaming` en Pantallas y overlays y revisar el tablero
   de transparencia, las etiquetas y el aviso de PNG pendiente.
+
+## Estudio, finanzas y móvil
+
+- `node --test tests/studio-finance.test.mjs` cubre roles, recaudo manual,
+  acceso rápido móvil y el editor del Estudio.
+- Manual: entrar como ana y confirmar que solo ve Estudio, Programa,
+  Recordatorios y Avisos. Editar un creative, guardar, recargar y descargar PNG.
+- Manual: entrar como lina y confirmar que cae en Recaudo y solo ve Recaudo.
+  Agregar un aporte de $1.000, editarlo, borrarlo y ver el total.
+- Manual: como admin, abrir `/admin/estudio`, editar una cortina, guardar y
+  abrir `/pantalla/<id>` para ver el cambio.
+- Manual: en celular, usar la barra inferior, entrar a un módulo y abrir "Más".
+- Manual: confirmar que el PNG de una cortina editada se descarga a 1920x1080 y
+  que el overlay sale transparente.

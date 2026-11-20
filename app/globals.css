@@ -14,3 +14,32 @@
   background-size: 26px 26px;
   background-position: 0 0, 0 13px, 13px -13px, -13px 0;
 }
+
+/* Tipografía y tarjetas del Estudio */
+.font-display {
+  font-family: "Baloo 2", "Fredoka", ui-rounded, system-ui, sans-serif;
+}
+.font-comic {
+  font-family: "Fredoka", "Baloo 2", ui-rounded, system-ui, sans-serif;
+}
+.sc-card {
+  border: 2.5px solid #1d2b4f;
+  box-shadow: 0 5px 0 #1d2b4f;
+}
+.sc-card-sm {
+  border: 2px solid #1d2b4f;
+  box-shadow: 0 3px 0 #1d2b4f;
+}
+.sc-btn {
+  border: 2.5px solid #1d2b4f;
+  box-shadow: 0 4px 0 #1d2b4f;
+  transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sc-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #1d2b4f;
+}
+.sc-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #1d2b4f;
+}

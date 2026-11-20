@@ -3,11 +3,19 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ExternalLink, LogOut } from "lucide-react";
-import { ADMIN_GROUPS } from "./nav";
+import type { PanelRole } from "@/lib/users";
+import { groupsForRole } from "./nav";
 
-export default function AdminSidebar({ user }: { user?: string }) {
+export default function AdminSidebar({
+  user,
+  role,
+}: {
+  user?: string;
+  role?: PanelRole | null;
+}) {
   const pathname = usePathname();
   const router = useRouter();
+  const groups = groupsForRole(role ?? null);
 
   const logout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -25,7 +33,7 @@ export default function AdminSidebar({ user }: { user?: string }) {
         <p className="mt-1 text-xs text-white/50">Fundación Segundos de Vida</p>
 
         <div className="mt-7 space-y-6">
-          {ADMIN_GROUPS.map((group) => (
+          {groups.map((group) => (
             <nav key={group.label} aria-label={group.label}>
               <p className="px-3.5 pb-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-white/30">
                 {group.label}

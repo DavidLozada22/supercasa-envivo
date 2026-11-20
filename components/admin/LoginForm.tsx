@@ -24,14 +24,18 @@ export default function LoginForm() {
         body: JSON.stringify({ username, password }),
       });
 
+      const data = (await response.json().catch(() => ({}))) as {
+        error?: string;
+        redirect?: string;
+      };
+
       if (!response.ok) {
-        const data = (await response.json().catch(() => ({}))) as { error?: string };
         setError(data.error ?? "No se pudo iniciar sesión.");
         setLoading(false);
         return;
       }
 
-      router.replace("/admin");
+      router.replace(data.redirect ?? "/admin");
       router.refresh();
     } catch {
       setError("Error de conexión. Intenta de nuevo.");

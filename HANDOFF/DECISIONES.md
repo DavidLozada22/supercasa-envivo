@@ -204,3 +204,26 @@ envíos quedan en el historial y se pueden exportar los inscritos en CSV.
 El sidebar agrupa Producción, Recaudo y casa, y Sitio. El inicio muestra un mapa
 con todas las herramientas. Se eliminó la duplicación del sidebar del dashboard y
 los enlaces viejos a `/admin/cortina`.
+
+
+## 28. El rol financiero vive en Recaudo
+
+Lina no entra a streaming, marketing ni programa. Entra a `/admin/recaudo`, donde
+suma Bre-B y Bancolombia a mano, ve lo de Wompi y corrige o borra sus registros.
+Los aportes manuales se guardan como donaciones aprobadas, así que el total del
+sitio y la barra de la casa se actualizan solos.
+
+## 29. El Estudio es un solo lugar
+
+Marketing, cortinas y overlays comparten `/admin/estudio`. Tocar una tarjeta abre
+un editor con preview, textos y descarga. Los creatives se guardan por slide; las
+escenas se guardan como overrides en Blob. El PNG descargable de una escena se
+genera en el navegador con `html-to-image`, a 1920x1080 y con fondo transparente
+en overlays.
+
+## 30. El acceso móvil no se esconde
+
+La barra inferior muestra cuatro módulos y el botón "Más". Si el módulo activo no
+está entre los cuatro, entra en la barra y sale el último. El botón "Más" abre
+todos los grupos. Ya no hay que recorrer una fila horizontal larga para llegar a
+la pantalla actual.

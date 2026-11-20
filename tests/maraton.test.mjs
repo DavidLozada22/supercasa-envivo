@@ -41,7 +41,7 @@ test('el menu de celular tiene accesos grandes y los logos', () => {
 });
 test('la demostración administrativa está protegida y no inicia pagos', () => {
   const demo = readFileSync('app/admin/recorrido/page.tsx', 'utf8');
-  assert.ok(demo.includes('isAuthenticated'));
+  assert.ok(demo.includes('requirePageRole'));
   assert.ok(demo.includes('FlowDemo'));
   const component = readFileSync('components/admin/FlowDemo.tsx', 'utf8');
   assert.ok(!component.includes('/api/donations'));

@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 
-export type PanelRole = "admin" | "editor";
+export type PanelRole = "admin" | "editor" | "marketing" | "finance";
 
 export type PanelUser = {
   username: string;
@@ -75,6 +75,10 @@ export function findUser(username: string): StoredUser | null {
   return (
     parseUsers().find((user) => user.username.toLowerCase() === normalized) ?? null
   );
+}
+
+export function roleOf(username: string): PanelRole | null {
+  return findUser(username)?.role ?? null;
 }
 
 export async function verifyUser(

@@ -1,7 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { NextResponse } from "next/server";
-import { getSession, isAuthenticated } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { dbClient } from "@/lib/donations/store";
+import { apiRole } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
@@ -28,8 +29,12 @@ function toDonation(row: Row) {
 }
 
 export async function GET(request: Request) {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
+  const access = await apiRole(["admin", "editor"]);
+  if (!access.ok) {
+    return NextResponse.json(
+      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
+      { status: access.status },
+    );
   }
 
   const db = dbClient();
@@ -48,8 +53,12 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (!(await isAuthenticated())) {
-    return NextResponse.json({ error: "No autorizado." }, { status: 401 });
+  const access = await apiRole(["admin", "editor"]);
+  if (!access.ok) {
+    return NextResponse.json(
+      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
+      { status: access.status },
+    );
   }
 
   const db = dbClient();

@@ -15,7 +15,7 @@ test('el live reemplaza la imagen del hero cuando hay transmisión', () => {
 
 test('existe una vista previa del home para el panel', () => {
   const page = readFileSync('app/admin/preview-home/page.tsx', 'utf8');
-  assert.ok(page.includes('isAuthenticated'));
+  assert.ok(page.includes('requirePageRole'));
   assert.ok(page.includes('HomePreview'));
   const preview = readFileSync('components/admin/HomePreview.tsx', 'utf8');
   assert.ok(preview.includes('?preview=live'));

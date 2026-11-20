@@ -16,10 +16,12 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Roles
 
-- **Vikingo**: señal, OBS, cortes de 12 horas, creación de cada broadcast y audio.
-- **Nelson**: panel, enlaces, cortinas, avisos y soporte técnico.
-- **Sebas**: conducción principal y bloques de apertura, gala y cierre.
-- **Flor, Lina y Lio**: apoyo en programa, avisos, chat y producción.
+- **Vikingo**: admin. Señal, OBS, cortes de 12 horas, creación de cada broadcast y audio.
+- **Nelson**: admin. Panel, enlaces, cortinas, avisos y soporte técnico.
+- **Sebas**: admin. Conducción principal y bloques de apertura, gala y cierre.
+- **Flor y Lio**: admin. Apoyo en programa, avisos, chat y producción.
+- **Lina**: finance. Solo recaudo: Bre-B, Bancolombia y Wompi.
+- **Ana y Sandeivid**: marketing. Estudio de contenido, cortinas, overlays, programa y avisos.
 
 Cada persona tiene su usuario y clave en el panel. Las claves se comparten por
 privado, no en grupos públicos.
@@ -261,6 +263,21 @@ elegir la cortina, aprobar cada correo y decidir los momentos de aviso.
 El corte de 12 horas no se puede evitar por API. Lo que se elimina es la
 actualización manual del enlace en la página.
 
+
+## Estudio de contenido
+
+En **Estudio** se editan y descargan los creatives de marketing, las cortinas y
+los overlays. Hay 88 creatives y 120 slides. Cada tarjeta abre un editor con
+preview, textos y descarga PNG. Las cortinas y overlays guardan sus textos en
+Blob y se reflejan en la fuente de OBS. Para descargar una cortina con los
+cambios se usa el botón PNG del editor, no el PNG base del ZIP.
+
+## Recaudo manual
+
+Lina entra a **Recaudo**. Allí suma lo que entra por Bre-B y Bancolombia, ve lo
+de Wompi y puede editar o borrar sus registros. Los aportes manuales suman al
+total del sitio y a la barra de la casa. El acceso es solo para finanzas y
+administradores.
 
 ## Chatbot
 

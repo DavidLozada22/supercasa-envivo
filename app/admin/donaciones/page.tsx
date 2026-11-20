@@ -1,14 +1,13 @@
-import { redirect } from "next/navigation";
 import AdminShell from "@/components/admin/AdminShell";
 import DonationsPanel from "@/components/admin/DonationsPanel";
-import { isAuthenticated } from "@/lib/auth";
+import { requirePageRole } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = { title: "Donaciones" };
 
 export default async function DonationsPage() {
-  if (!(await isAuthenticated())) redirect("/admin/login");
+  await requirePageRole(["admin", "editor"]);
   return (
     <AdminShell current="Donaciones">
       <DonationsPanel />
