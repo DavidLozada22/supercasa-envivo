@@ -166,6 +166,18 @@ aquí y en `ESTADO.md`.
   `python3 scripts/import-escaleta.py "/ruta/archivo.xlsx"` y confirmar que los
   bloques y la lista de moscas cambian sin tocar código.
 
+## Assets para OBS
+
+- Confirmar que `assets/obs/manifest.json` tiene 56 escenas y 4 pistas.
+- Revisar que cada escena tenga `id`, `category`, `file`, `pngUrl`, `obsUrl` y
+  `transparent`.
+- Confirmar que las 9 carpetas de overlays tengan su PNG.
+- Abrir las cuatro pistas de `assets/obs/music` y verificar que `loop` sea `true`
+  en el manifiesto.
+- Probar una URL pública de música y una de cortina.
+- Correr `npm run obs:assets` y confirmar que se regenera sin errores.
+- Confirmar que `assets/obs` no está en `.gitignore`.
+
 ## Respuestas para WhatsApp
 
 - Abrir `/respuestas` en celular. Debe cargar sin login.

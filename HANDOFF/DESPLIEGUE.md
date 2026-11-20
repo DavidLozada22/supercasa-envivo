@@ -150,3 +150,18 @@ El repositorio público `nelsonSVG/estudiomarketing` solo tenía el README. La
 versión completa de 88 creatives está en la carpeta local
 `GOOGLE AI STUDIO ESTUDIO MARKETING ` y ya fue copiada a `lib/marketing` y
 `components/admin/marketing`.
+
+## Rutas internas y assets de OBS
+
+- `/programa` y `/respuestas` son públicas, no piden sesión y responden con
+  `X-Robots-Tag: noindex, nofollow` y `Cache-Control: no-store`. Están fuera del
+  sitemap y `robots.txt` las bloquea.
+- `/admin/programa` es la versión del panel. Si un usuario sin permiso o bloqueado
+  entra, se le manda a `/programa`. Sin sesión, va al login.
+- `/api/program/now` es lectura pública. La escritura vive en
+  `/api/admin/program/now` y requiere rol admin o editor.
+- `assets/obs` es una carpeta del repositorio, no del sitio. Contiene la música y
+  los PNG organizados para OBS. Para OBS se usan las URL públicas de
+  `/cortinas/<id>.png`, `/pantalla/<id>` y `/audio/<archivo>.mp3`.
+- Las tres pistas nuevas están en `public/audio` y se sirven desde el dominio.
+- `npm run obs:assets` regenera `assets/obs` y su manifiesto.

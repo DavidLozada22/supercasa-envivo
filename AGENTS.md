@@ -24,6 +24,21 @@ Un cambio sin handoff actualizado está incompleto.
 - El crédito de SVG va en el pie de cada página.
 - El despliegue va por GitHub Actions con token, nunca por integración Git.
 
+## Assets para OBS
+
+Antes de configurar escenas, lee `assets/obs/README.md` y `assets/obs/manifest.json`.
+Ahí están la música, las cortinas y los overlays con nombres exactos, sin necesidad
+de leer el codebase.
+
+- Toda la música va en loop. No usar one-shot ni cortar el final.
+- En OBS, la fuente de medios debe tener `Loop` activo y no reiniciarse al cambiar
+  de escena.
+- Las cortinas de pantalla completa son 1920x1080.
+- Los overlays son PNG con transparencia.
+- Para textos dinámicos usa `https://supercasa.svgvisual.com/pantalla/<id>`.
+- No renombrar ni editar los archivos de `assets/obs`.
+- Si cambian las cortinas o la música, corre `npm run obs:assets`.
+
 ## Stack
 
 Next.js 16, React 19, Tailwind 4, Vercel Blob, Postgres y Wompi.

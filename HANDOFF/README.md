@@ -12,6 +12,8 @@ carpeta. Es parte del trabajo, no un extra.
 4. `DESPLIEGUE.md`: Vercel, dominio, variables y secretos.
 5. `PRUEBAS.md`: qué probar y con qué usuarios.
 6. `EVENTO-48H.md`: operación del evento, cortinas, cortes y avisos.
+7. `../assets/obs/README.md`: música, cortinas y overlays para OBS, con nombres
+   exactos y `manifest.json` para configurar escenas sin leer el código.
 
 ## Reglas de la carpeta
 

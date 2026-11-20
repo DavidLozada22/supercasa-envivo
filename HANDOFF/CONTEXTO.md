@@ -14,6 +14,8 @@ en Bogotá. Meta de referencia: $250.000.000 COP.
 | `/envivo` | Audiencia | Página del live: player, QR, avance y botón de donar |
 | `/donar` | Donantes | Wizard de 3 pasos, comisión cubierta y transferencias |
 | `/donar/gracias` | Donantes | Estado del aporte en tiempo real |
+| `/programa` | Equipo | Programa 48H, noindex, sin login |
+| `/respuestas` | Equipo | Respuestas y mensajes para WhatsApp, noindex, sin login |
 | `/admin` | Producción | Transmisión, recaudo, campaña y Meta Ads |
 | `/admin/login` | Producción | Acceso por usuario y clave |
 
@@ -35,8 +37,9 @@ components/landing/   landing, reproductor enmascarado, QR
 components/donations/ formulario Wompi y página de gracias
 components/admin/     panel de producción
 lib/                  configuración, sesión, usuarios, Meta, donaciones
+assets/obs/           assets versionados para OBS: música, cortinas, overlays y manifest
 supabase/migrations/  esquema de donaciones
-scripts/              utilidades (hash de claves)
+scripts/              utilidades (hash de claves, escaleta, Excel y assets de OBS)
 HANDOFF/              este contexto
 legacy/segundosdevida fuente original de Sebastián, solo referencia
 ```

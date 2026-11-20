@@ -305,3 +305,17 @@ evitan depender de WhatsApp Web o de una cuenta compartida.
 
 La página no carga Meta Pixel ni atribución, y el link se comparte solo por dentro
 del equipo.
+
+## 38. Los assets de OBS viven en el repositorio
+
+`assets/obs` es la carpeta de entrega para cualquier agente que configure OBS. No
+depende de leer el codebase: tiene los PNG por categoría, la música y un
+`manifest.json` con nombres exactos y URLs de producción.
+
+La música siempre va en loop. La pista actual y las tres opciones nuevas están
+tanto en `assets/obs/music` como en `public/audio`, para que se puedan usar por
+URL. El PNG es la versión base; para textos dinámicos se usa
+`/pantalla/<id>`. Los archivos no se renombran.
+
+`npm run obs:assets` reconstruye la carpeta y el manifiesto. Git guarda los blobs
+una sola vez aunque el mismo PNG exista en `public/cortinas` y en `assets/obs`.

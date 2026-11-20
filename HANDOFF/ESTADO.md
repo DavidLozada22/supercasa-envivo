@@ -1,8 +1,36 @@
 # Estado
 
-Actualizado: 19 de noviembre de 2026.
+Actualizado: 20 de noviembre de 2026.
+
+## Resumen actual
+
+- Producción: `https://supercasa.svgvisual.com`, desplegada por GitHub Actions.
+- Panel: `/admin` con Estudio, Streaming, Programa, Recaudo, Campañas y avisos.
+- Programa V6: 12 bloques y 508 segmentos. Página pública noindex en `/programa`.
+- Respuestas WhatsApp: `/respuestas`, pública y noindex, con 20 respuestas y 12
+  mensajes.
+- Assets OBS: `assets/obs`, con 56 PNG, cuatro pistas y `manifest.json`.
+- Pendiente: configurar el webhook de Wompi, hacer la donación real mínima y
+  completar los nombres de invitados que la V6 deja como "Invitados Especiales".
 
 ## Hecho
+
+### 20 de noviembre, assets para OBS
+
+- Nueva carpeta `assets/obs` versionada en el repositorio, fuera del gitignore.
+  Contiene 56 PNG de cortinas y overlays organizados por categoría, cuatro pistas
+  de música y un `manifest.json` con nombres exactos, rutas, URL de PNG y URL de
+  OBS.
+- La música actual (`cortina.mp3`) y las tres opciones nuevas quedan en
+  `assets/obs/music` y también en `public/audio` para usarlas por URL. Todas están
+  marcadas para loop.
+- `assets/obs/README.md` explica cómo configurar OBS: fuente de medios con Loop,
+  sin reiniciar al cambiar de escena, volumen de fondo, cortinas 1920x1080,
+  overlays transparentes y URLs dinámicas.
+- `AGENTS.md` y `HANDOFF/README.md` apuntan a esos assets para que cualquier agente
+  configure OBS sin leer el codebase.
+- `npm run obs:assets` regenera las carpetas y el manifiesto desde
+  `public/cortinas` y `public/audio`.
 
 ### 20 de noviembre, panel de respuestas para WhatsApp
 
