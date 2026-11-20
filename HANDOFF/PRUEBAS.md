@@ -115,3 +115,14 @@ aquí y en `ESTADO.md`.
 - Manual: en celular, usar la barra inferior, entrar a un módulo y abrir "Más".
 - Manual: confirmar que el PNG de una cortina editada se descarga a 1920x1080 y
   que el overlay sale transparente.
+
+## Verificación en producción
+
+- Login de lina: rol finance y redirección a `/admin/recaudo`.
+- Login de ana y sandeivid: rol marketing y redirección a `/admin/estudio`.
+- Login de salvaje: rol admin y entrada a `/admin`.
+- Lina no entra a Estudio ni Streaming. Ana y Sandeivid no entran a Recaudo ni
+  Streaming. Las APIs devuelven 403 en el cruce de roles.
+- Recaudo de producción: alta de $1.000, edición a $2.000 y borrado. Totales
+  correctos y vuelta a $0.
+- Estudio de producción: 88 de 88 creatives y el editor abre.

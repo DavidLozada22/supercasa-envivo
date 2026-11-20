@@ -28,6 +28,11 @@ Actualizado: 19 de noviembre de 2026.
   abre todos los módulos agrupados. El módulo activo siempre queda visible.
 - El login redirige a marketing a `/admin/estudio` y a finanzas a
   `/admin/recaudo`. Las páginas y APIs validan el rol.
+- `ADMIN_USERS` actualizado en Vercel para producción y preview. Roles
+  verificados en producción: Lina entra a Recaudo, Ana y Sandeivid a Estudio,
+  los cinco admin a Inicio. Las rutas y APIs bloquean el acceso cruzado.
+- Recaudo probado en producción: se agregó un aporte de $1.000, se editó a
+  $2.000 y se borró. El total volvió a $0.
 - 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre, segunda ronda
@@ -71,6 +76,11 @@ Actualizado: 19 de noviembre de 2026.
   PNG, Cuenta, Hora, Casa, Bloque u Overlay.
 - `?preview=live` en `/donar` fuerza el estado en vivo para revisar el mini visor
   sin esperar al evento.
+- `ADMIN_USERS` actualizado en Vercel para producción y preview. Roles
+  verificados en producción: Lina entra a Recaudo, Ana y Sandeivid a Estudio,
+  los cinco admin a Inicio. Las rutas y APIs bloquean el acceso cruzado.
+- Recaudo probado en producción: se agregó un aporte de $1.000, se editó a
+  $2.000 y se borró. El total volvió a $0.
 - 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre
