@@ -13,7 +13,8 @@ export default function Attribution() {
     if (
       pathname?.startsWith("/admin") ||
       pathname?.startsWith("/pantalla") ||
-      pathname?.startsWith("/programa")
+      pathname?.startsWith("/programa") ||
+      pathname?.startsWith("/respuestas")
     ) {
       return;
     }

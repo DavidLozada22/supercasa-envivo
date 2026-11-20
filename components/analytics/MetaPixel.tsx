@@ -28,7 +28,8 @@ export default function MetaPixel() {
   const publicPage =
     !pathname?.startsWith("/admin") &&
     !pathname?.startsWith("/pantalla") &&
-    !pathname?.startsWith("/programa");
+    !pathname?.startsWith("/programa") &&
+    !pathname?.startsWith("/respuestas");
 
   useEffect(() => {
     try {

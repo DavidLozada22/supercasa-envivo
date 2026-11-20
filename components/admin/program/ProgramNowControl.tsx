@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, ExternalLink, Loader2, Radio } from "lucide-react";
+import { Check, ExternalLink, Loader2, MessageCircle, Radio } from "lucide-react";
 import { PROGRAM_BLOCKS } from "@/lib/program/data";
 import type { ProgramSegment } from "@/lib/program/types";
 
@@ -85,6 +85,15 @@ export default function ProgramNowControl({ segments }: { segments: ProgramSegme
         >
           <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
           Ver programa público
+        </a>
+        <a
+          href="/respuestas"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-[11px] font-bold text-[#0F2354] transition hover:border-[#E6009E]/40"
+        >
+          <MessageCircle className="h-3.5 w-3.5" strokeWidth={2} />
+          Respuestas WhatsApp
         </a>
       </div>
 

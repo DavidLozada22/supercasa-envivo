@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/api/", "/donar/gracias", "/programa"],
+        disallow: ["/admin", "/api/", "/donar/gracias", "/programa", "/respuestas"],
       },
     ],
     sitemap: "https://supercasa.svgvisual.com/sitemap.xml",

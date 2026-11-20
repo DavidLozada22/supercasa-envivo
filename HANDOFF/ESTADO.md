@@ -4,6 +4,20 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, panel de respuestas para WhatsApp
+
+- Nueva página pública `/respuestas`, sin login y con `noindex`, para el equipo que
+  contesta WhatsApp. Tiene 20 respuestas rápidas y 12 mensajes para compartir en
+  grupos.
+- Cada respuesta se copia completa con enlaces y se puede abrir directamente en
+  WhatsApp. Los mensajes también tienen copiar y compartir.
+- Buscador, categorías por tema y diseño móvil. El botón "Copiar link" copia
+  `/respuestas` para pasarlo al equipo.
+- La página no se indexa, no aparece en el sitemap y no carga Meta Pixel ni
+  atribución.
+- El control de programa en Streaming tiene un acceso directo a
+  "Respuestas WhatsApp".
+
 ### 20 de noviembre, programa V6, página pública y textos del flujo
 
 - Se importó la escaleta V6 con un lector por nombre de columna. Ahora entiende las

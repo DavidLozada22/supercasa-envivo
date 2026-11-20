@@ -166,6 +166,19 @@ aquí y en `ESTADO.md`.
   `python3 scripts/import-escaleta.py "/ruta/archivo.xlsx"` y confirmar que los
   bloques y la lista de moscas cambian sin tocar código.
 
+## Respuestas para WhatsApp
+
+- Abrir `/respuestas` en celular. Debe cargar sin login.
+- Buscar "streaming", copiar la respuesta y pegarla en un chat. Debe incluir el
+  enlace a `/envivo`.
+- Probar "Abrir WhatsApp" en una respuesta.
+- Pasar a "Mensajes", copiar "Todo el evento en un mensaje" y compartirlo en un
+  grupo. Debe incluir fechas, enlaces, Bre-B y Bancolombia.
+- Confirmar `curl -I /respuestas` con `X-Robots-Tag: noindex, nofollow` y
+  `Disallow: /respuestas` en `/robots.txt`.
+- En Streaming, pestaña En control, abrir "Respuestas WhatsApp" y confirmar que
+  lleva al panel.
+
 ## Programa V6 y página pública
 
 - Importar con:

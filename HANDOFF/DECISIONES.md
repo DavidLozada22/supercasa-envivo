@@ -294,3 +294,14 @@ En el flujo de donación, todo lo que lleva a la señal se llama "transmisión" 
 "en vivo". "Envío" queda reservado para correos y comprobantes. Las etiquetas y
 los destinos se revisan juntos: "Volver a la transmisión" abre `/envivo` y "Ver
 resumen y pagar" lleva al paso de confirmación, no a una pantalla inesperada.
+
+## 37. Respuestas y mensajes para el equipo
+
+`/respuestas` es un panel público pero no indexado, con el mismo criterio que
+`/programa`. No requiere sesión porque lo usa gente que no entra al panel. Las
+respuestas viven en `lib/answers/presets.ts` y están escritas para copiar y pegar,
+con los enlaces ya incluidos. Los mensajes para redes salen del mismo archivo y
+evitan depender de WhatsApp Web o de una cuenta compartida.
+
+La página no carga Meta Pixel ni atribución, y el link se comparte solo por dentro
+del equipo.
