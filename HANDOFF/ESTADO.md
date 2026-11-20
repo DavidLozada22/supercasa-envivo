@@ -34,6 +34,9 @@ Actualizado: 20 de noviembre de 2026.
   de "ya empieza" y los nombres de conducción. El botón "Sincronizar agenda"
   escribe las filas actualizadas en el carrusel de agenda.
 - 61 pruebas pasan.
+- Desplegado con el commit `1e24b76`. Verificado en producción: `/programa` 200,
+  `/api/program` 12 bloques y 508 segmentos, `/api/program/excel` 200 con archivo
+  xlsx, `/pantalla/bloque-01` con el nombre del bloque y `/respuestas` 200.
 
 ### 20 de noviembre, assets para OBS
 
