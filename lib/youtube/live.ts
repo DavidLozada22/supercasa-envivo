@@ -1,5 +1,39 @@
 export const DEFAULT_CHANNEL_ID = "UCrdNxBU4cfR0rEHY1OO9tQQ";
 const API = "https://www.googleapis.com/youtube/v3";
+const VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
+
+export function parseVideoId(input: string): string {
+  const value = (input ?? "").trim();
+  if (!value) return "";
+  if (VIDEO_ID.test(value)) return value;
+
+  let url: URL;
+  try {
+    url = new URL(value.startsWith("http") ? value : `https://${value}`);
+  } catch {
+    return "";
+  }
+
+  const host = url.hostname.replace(/^www\./, "").replace(/^m\./, "").toLowerCase();
+  const isYouTube = host === "youtube.com" || host.endsWith(".youtube.com");
+  const isShort = host === "youtu.be";
+  if (!isYouTube && !isShort) return "";
+
+  if (isShort) {
+    const id = url.pathname.split("/").filter(Boolean)[0] ?? "";
+    return VIDEO_ID.test(id) ? id : "";
+  }
+
+  const direct = url.searchParams.get("v") ?? "";
+  if (VIDEO_ID.test(direct)) return direct;
+
+  const parts = url.pathname.split("/").filter(Boolean);
+  const index = parts.findIndex((part) =>
+    ["live", "embed", "shorts", "v"].includes(part.toLowerCase()),
+  );
+  const candidate = index >= 0 ? parts[index + 1] ?? "" : "";
+  return VIDEO_ID.test(candidate) ? candidate : "";
+}
 
 export type LiveSource =
   | "api-live"
@@ -83,7 +117,7 @@ export async function resolveLiveStatus(input: ResolveInput = {}): Promise<LiveS
     input.key === undefined ? process.env.YOUTUBE_API_KEY ?? "" : input.key ?? "";
   const doFetch: FetchLike = input.fetchImpl ?? fetch;
   const last = input.last ?? null;
-  const maxAge = input.maxAgeMs ?? 60_000;
+  const maxAge = input.maxAgeMs ?? 30_000;
 
   const base = last ?? {
     ...emptyStatus(channelId, checkedAt),

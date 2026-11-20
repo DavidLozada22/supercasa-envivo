@@ -32,6 +32,7 @@ export type Health = {
     updatedAt: string;
   };
   simulation: { videoId: string; until: string } | null;
+  override: { videoId: string; updatedAt: string; updatedBy: string } | null;
   capabilities: { blob: boolean; database: boolean };
   now: string;
 };

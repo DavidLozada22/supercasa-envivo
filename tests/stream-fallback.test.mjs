@@ -85,3 +85,19 @@ test('el panel de streaming esta protegido y tiene las cortinas listas', () => {
   assert.ok(state.includes('apiRole'));
   assert.ok(state.includes('getScene'));
 });
+
+
+test('el panel permite fijar el link del directo a mano', () => {
+  const route = readFileSync('app/api/admin/streaming/live-override/route.ts', 'utf8');
+  assert.ok(route.includes('parseVideoId'));
+  assert.ok(route.includes('clearLiveOverride'));
+
+  const panel = readFileSync('components/admin/streaming/ConnectionPanel.tsx', 'utf8');
+  assert.ok(panel.includes('/api/admin/streaming/live-override'));
+  assert.ok(panel.includes('Volver a automático'));
+  assert.ok(panel.includes('Link manual'));
+
+  const service = readFileSync('lib/streaming/service.ts', 'utf8');
+  assert.ok(service.includes('source: "manual"'));
+  assert.ok(service.includes('currentOverride'));
+});

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { resolveLiveStatus } from '../lib/youtube/live.ts';
+import { parseVideoId, resolveLiveStatus } from '../lib/youtube/live.ts';
 
 function ok(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -147,7 +147,7 @@ test('si la red falla conserva el estado', async () => {
   assert.equal(status.live, true);
 });
 
-test('respeta la cache de un minuto', async () => {
+test('respeta la cache de 30 segundos', async () => {
   let called = 0;
   const fetchImpl = async () => {
     called += 1;
@@ -160,4 +160,17 @@ test('respeta la cache de un minuto', async () => {
   });
   assert.equal(status.videoId, 'AAA');
   assert.equal(called, 0);
+});
+
+
+test('extrae el ID de un link de YouTube', () => {
+  assert.equal(parseVideoId('9jbiYJDTabU'), '9jbiYJDTabU');
+  assert.equal(parseVideoId('https://www.youtube.com/watch?v=9jbiYJDTabU&t=30s'), '9jbiYJDTabU');
+  assert.equal(parseVideoId('https://youtu.be/9jbiYJDTabU'), '9jbiYJDTabU');
+  assert.equal(parseVideoId('https://www.youtube.com/live/9jbiYJDTabU?si=abc'), '9jbiYJDTabU');
+  assert.equal(parseVideoId('https://m.youtube.com/watch?v=9jbiYJDTabU'), '9jbiYJDTabU');
+  assert.equal(parseVideoId('https://www.youtube.com/embed/9jbiYJDTabU'), '9jbiYJDTabU');
+  assert.equal(parseVideoId('https://vimeo.com/123456'), '');
+  assert.equal(parseVideoId('https://www.youtube.com/watch?v=corto'), '');
+  assert.equal(parseVideoId(''), '');
 });

@@ -4,6 +4,7 @@ import { getConfig } from "@/lib/config";
 import { dbClient } from "@/lib/donations/store";
 import { resendHealth } from "@/lib/resend";
 import { getLiveStatus, getOnAir, getSimulation } from "@/lib/streaming/service";
+import { readLiveOverride } from "@/lib/streaming/live-override";
 import { hasBlobStorage } from "@/lib/streaming/store";
 
 export const dynamic = "force-dynamic";
@@ -18,11 +19,12 @@ export async function GET() {
   }
 
   const config = await getConfig();
-  const [status, onair, resend, simulation] = await Promise.all([
+  const [status, onair, resend, simulation, override] = await Promise.all([
     getLiveStatus(config.stream.videoId),
     getOnAir(),
     resendHealth(),
     getSimulation(),
+    readLiveOverride(),
   ]);
 
   const db = dbClient();
@@ -34,6 +36,7 @@ export async function GET() {
         channelUrl: "https://www.youtube.com/@KavanahPL35",
         ...status,
       },
+      override,
       resend,
       onair,
       simulation,

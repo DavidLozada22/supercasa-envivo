@@ -16,6 +16,15 @@ Actualizado: 20 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, link manual del directo
+
+- El chequeo automatico pasa a 30 segundos. La cuota gratuita aguanta: 2.880
+  unidades al dia con directo y 5.760 sin directo, sobre 10.000.
+- El panel de Streaming tiene un campo para pegar el link del directo. Se aplica
+  al instante con fuente `manual` y se puede volver a automatico.
+- Si Google falla, el sitio conserva el ultimo directo detectado y el link manual
+  queda como salida rapida.
+
 ### 20 de noviembre, conexion del directo
 
 - El live se detecta por la lista de subidas del canal, no por el buscador de

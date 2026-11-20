@@ -202,6 +202,11 @@ aquí y en `ESTADO.md`.
 - En el panel de Streaming, la conexion de YouTube no debe mostrar error.
 - Si se cambia de directo, el resolutor debe tomar el nuevo video de la lista de
   subidas sin usar la cuota de busqueda.
+- En Streaming, Conexiones, pegar un link de YouTube en "Link manual". El estado
+  debe pasar a "Manual" y `/envivo` debe mostrar ese video. "Volver a automático"
+  debe retomar la deteccion.
+- Probar un link que no sea de YouTube. Debe responder "Pega un link de YouTube o
+  el ID de 11 caracteres." y no guardar nada.
 
 ## Assets para OBS
 

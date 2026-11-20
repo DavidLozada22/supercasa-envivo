@@ -374,3 +374,17 @@ no usa la cuota de busqueda y encuentra el directo al instante. Se mantiene
 
 Un 429 o 403 se trata como cuota agotada. El estado se cachea 60 segundos para
 cuidar la cuota durante las 48 horas.
+
+## 43. Chequeo cada 30 segundos y link manual
+
+La cuota gratuita de YouTube Data API es de 10.000 unidades por dia y no se
+cobra por pasarse: si se agota, la API rechaza hasta el reinicio diario. Con el
+chequeo cada 30 segundos se gastan 2.880 unidades al dia cuando hay directo
+(una llamada a `videos.list`) y 5.760 cuando no lo hay (lista de subidas mas
+videos). Sigue sobrando margen para 48 horas.
+
+El panel de Streaming tiene un campo "Link manual". Guarda el video en
+`supercasa/streaming/live-override.json` y el resolutor lo usa antes de llamar a
+la API, con fuente `manual`. "Volver a automático" borra el archivo y retoma la
+deteccion. Sirve si Google falla, si la clave se cae o si el directo no aparece
+en la lista de subidas.

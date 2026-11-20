@@ -5,10 +5,12 @@ import {
   AlertTriangle,
   CheckCircle2,
   ExternalLink,
+  Link2,
   Loader2,
   Mail,
   Play,
   RefreshCw,
+  RotateCcw,
   Square,
   Youtube,
   Zap,
@@ -72,6 +74,8 @@ export default function ConnectionPanel({
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [emailState, setEmailState] = useState("");
+  const [liveUrl, setLiveUrl] = useState("");
+  const [linkState, setLinkState] = useState("");
 
   if (!health) {
     return (
@@ -82,7 +86,7 @@ export default function ConnectionPanel({
     );
   }
 
-  const { youtube, resend, capabilities, simulation } = health;
+  const { youtube, resend, capabilities, simulation, override } = health;
   const resendInfo = RESEND_LABEL[resend.status] ?? RESEND_LABEL.error;
   const youtubeTone = !youtube.keyPresent
     ? "bad"
@@ -90,7 +94,7 @@ export default function ConnectionPanel({
       ? "warn"
       : "ok";
   const liveLabel = youtube.live
-    ? `En vivo: ${youtube.videoId}`
+    ? `${youtube.source === "manual" ? "Manual" : "En vivo"}: ${youtube.videoId}`
     : youtube.videoId
       ? `Último video conocido: ${youtube.videoId}`
       : "Sin directo detectado";
@@ -153,6 +157,51 @@ export default function ConnectionPanel({
       onRefresh();
     } catch {
       setError("Error de conexión al detener el simulacro.");
+    } finally {
+      setBusy("");
+    }
+  };
+
+  const useLink = async () => {
+    setBusy("link");
+    setLinkState("");
+    setError("");
+    try {
+      const response = await fetch("/api/admin/streaming/live-override", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: liveUrl }),
+      });
+      const body = (await response.json()) as { error?: string; override?: { videoId?: string } };
+      if (!response.ok) {
+        setLinkState(body.error ?? "No se pudo usar ese link.");
+        return;
+      }
+      setLinkState(`Listo. El sitio usa el directo ${body.override?.videoId ?? ""}.`);
+      setLiveUrl("");
+      onRefresh();
+    } catch {
+      setLinkState("Error de conexión al guardar el link.");
+    } finally {
+      setBusy("");
+    }
+  };
+
+  const useAuto = async () => {
+    setBusy("auto");
+    setLinkState("");
+    setError("");
+    try {
+      const response = await fetch("/api/admin/streaming/live-override", { method: "DELETE" });
+      if (!response.ok) {
+        const body = (await response.json()) as { error?: string };
+        setLinkState(body.error ?? "No se pudo volver a automático.");
+        return;
+      }
+      setLinkState("Modo automático activo. Se vuelve a consultar la API.");
+      onRefresh();
+    } catch {
+      setLinkState("Error de conexión al volver a automático.");
     } finally {
       setBusy("");
     }
@@ -269,6 +318,62 @@ export default function ConnectionPanel({
               Simular corte
             </button>
           )}
+        </div>
+
+        <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3">
+          <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+            Link manual
+          </p>
+          <p className="mt-1 text-[11px] leading-relaxed text-slate-500">
+            Si Google falla, pega el link del directo. Se usa de inmediato y el sitio deja de
+            consultar la API hasta que vuelvas a automático.
+          </p>
+          <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+            <input
+              value={liveUrl}
+              onChange={(event) => setLiveUrl(event.target.value)}
+              placeholder="https://www.youtube.com/watch?v=..."
+              aria-label="Link del directo de YouTube"
+              className="min-h-[40px] w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-[#0F2354] outline-none transition focus:border-[#E6009E] focus:ring-2 focus:ring-[#E6009E]/15"
+            />
+            <button
+              type="button"
+              onClick={useLink}
+              disabled={Boolean(busy) || !liveUrl.trim()}
+              className="inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-extrabold text-white transition hover:bg-[#B8007E] disabled:opacity-50"
+            >
+              {busy === "link" ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={2} />
+              ) : (
+                <Link2 className="h-3.5 w-3.5" strokeWidth={2} />
+              )}
+              Usar link
+            </button>
+          </div>
+          {override ? (
+            <div className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#0F2354] px-3 py-2 text-[11px] font-semibold text-white">
+              <span>
+                Modo manual: {override.videoId}
+                {override.updatedBy ? ` · ${override.updatedBy}` : ""}
+              </span>
+              <button
+                type="button"
+                onClick={useAuto}
+                disabled={Boolean(busy)}
+                className="inline-flex items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 text-[11px] font-bold text-white transition hover:bg-white/20 disabled:opacity-60"
+              >
+                {busy === "auto" ? (
+                  <Loader2 className="h-3 w-3 animate-spin" strokeWidth={2} />
+                ) : (
+                  <RotateCcw className="h-3 w-3" strokeWidth={2} />
+                )}
+                Volver a automático
+              </button>
+            </div>
+          ) : null}
+          {linkState ? (
+            <p className="mt-2 text-[11px] font-semibold text-slate-600">{linkState}</p>
+          ) : null}
         </div>
 
         {simulation ? (

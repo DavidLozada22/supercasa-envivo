@@ -8,6 +8,7 @@ import {
   type LiveStatus,
 } from "@/lib/youtube/live";
 import { readJson, writeJson } from "./store";
+import { readLiveOverride, type LiveOverride } from "./live-override";
 import type { OnAirFields, OnAirState } from "./types";
 
 export type { OnAirFields, OnAirState } from "./types";
@@ -26,6 +27,22 @@ export type Simulation = {
 
 let memory: { status: LiveStatus; at: number } | null = null;
 let inflight: Promise<LiveStatus> | null = null;
+let overrideMemory: { value: LiveOverride | null; at: number } | null = null;
+const OVERRIDE_TTL = 10_000;
+
+export function forgetLiveOverride(): void {
+  overrideMemory = null;
+  memory = null;
+}
+
+async function currentOverride(): Promise<LiveOverride | null> {
+  if (overrideMemory && Date.now() - overrideMemory.at < OVERRIDE_TTL) {
+    return overrideMemory.value;
+  }
+  const value = await readLiveOverride();
+  overrideMemory = { value, at: Date.now() };
+  return value;
+}
 
 function channelId(): string {
   return process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID;
@@ -41,6 +58,22 @@ export async function readLiveStatus(): Promise<LiveStatus | null> {
 }
 
 export async function getLiveStatus(fallbackId: string, force = false): Promise<LiveStatus> {
+  const override = await currentOverride();
+  if (override) {
+    const status: LiveStatus = {
+      videoId: override.videoId,
+      live: true,
+      source: "manual",
+      checkedAt: new Date().toISOString(),
+      changedAt: override.updatedAt || null,
+      error: null,
+      channelId: channelId(),
+      history: (memory?.status.history ?? []).slice(0, 12),
+    };
+    memory = { status, at: Date.now() };
+    return status;
+  }
+
   if (!force) {
     if (memory && Date.now() - memory.at < MEMORY_TTL) return memory.status;
     const cached = await readJson<LiveStatus>(LIVE_KEY);
