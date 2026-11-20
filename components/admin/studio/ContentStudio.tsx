@@ -7,6 +7,7 @@ import {
   Clapperboard,
   Copy,
   Download,
+  ExternalLink,
   Layers,
   Loader2,
   Palette,
@@ -434,6 +435,28 @@ function MarketingCard({
   const theme = edit?.theme ?? creative.defaultTheme;
   const aspect = edit?.aspect ?? creative.defaultAspect;
   const size = aspect === "9:16" ? { w: 360, h: 640 } : aspect === "1:1" ? { w: 360, h: 360 } : { w: 360, h: 450 };
+  const [downloading, setDownloading] = useState(false);
+
+  const download = async () => {
+    setDownloading(true);
+    try {
+      await downloadAdPng(
+        {
+          creative,
+          slide: merged,
+          theme,
+          aspect,
+          hoursValue: edit?.hoursValue,
+          kickHandle: edit?.kickHandle,
+          showQrOverride: edit?.showQr,
+          qrTargetOverride: edit?.qrTarget,
+        },
+        `supercasa-${creative.id}-${first.slideNumber ?? 1}.png`,
+      );
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#E6009E]/40 hover:shadow-md">
@@ -482,16 +505,42 @@ function MarketingCard({
           </p>
         </div>
       </button>
-      <div className="flex flex-wrap items-center gap-1.5 px-3 pb-3">
+      <div className="grid grid-cols-2 gap-1.5 px-3 pb-3 sm:flex sm:flex-wrap sm:items-center">
         <button
           type="button"
           onClick={onOpen}
-          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
+          className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
         >
           <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
           Editar
         </button>
-        <ObsCopyButton path={creativePath(creative.id, first.slideNumber ?? 1)} />
+        <button
+          type="button"
+          onClick={() => void download()}
+          disabled={downloading}
+          title="Descargar PNG del slide 1"
+          className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg bg-[#0F2354] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#183478] disabled:opacity-60"
+        >
+          {downloading ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" strokeWidth={2} />
+          ) : (
+            <Download className="h-3.5 w-3.5" strokeWidth={2} />
+          )}
+          PNG
+        </button>
+        <ObsCopyButton
+          path={creativePath(creative.id, first.slideNumber ?? 1)}
+          className="justify-center"
+        />
+        <a
+          href={creativePath(creative.id, first.slideNumber ?? 1)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold text-[#0F2354] transition hover:border-[#E6009E]/40 hover:bg-[#E6009E]/5"
+        >
+          <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
+          Ver
+        </a>
       </div>
     </article>
   );
@@ -546,16 +595,34 @@ function SceneCard({
           <p className="mt-1 line-clamp-2 text-[10px] font-semibold text-slate-400">{scene.when}</p>
         </div>
       </button>
-      <div className="flex flex-wrap items-center gap-1.5 px-3 pb-3">
+      <div className="grid grid-cols-2 gap-1.5 px-3 pb-3 sm:flex sm:flex-wrap sm:items-center">
         <button
           type="button"
           onClick={onOpen}
-          className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
+          className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
         >
           <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
           Editar
         </button>
-        <ObsCopyButton path={scenePath(scene, edit)} />
+        <a
+          href={`/cortinas/${scene.id}.png`}
+          download={`supercasa-${scene.id}.png`}
+          title="Descargar PNG base"
+          className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg bg-[#0F2354] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#183478]"
+        >
+          <Download className="h-3.5 w-3.5" strokeWidth={2} />
+          PNG
+        </a>
+        <ObsCopyButton path={scenePath(scene, edit)} className="justify-center" />
+        <a
+          href={scenePath(scene, edit)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-bold text-[#0F2354] transition hover:border-[#E6009E]/40 hover:bg-[#E6009E]/5"
+        >
+          <ExternalLink className="h-3.5 w-3.5" strokeWidth={2} />
+          Ver
+        </a>
       </div>
     </article>
   );
@@ -1749,8 +1816,8 @@ export default function ContentStudio({
                 {copied ? "Caption copiado" : "Copiar caption"}
               </button>
               <p className="text-[10px] leading-snug text-slate-500">
-                El botón OBS copia el link del slide. Guarda antes para que OBS tome los últimos
-                cambios.
+                Los botones OBS y Ver usan el estado guardado. Guarda antes para que tomen los
+                últimos cambios.
               </p>
             </>
           }
@@ -1785,6 +1852,18 @@ export default function ContentStudio({
                 )}
                 className="min-h-[44px] rounded-lg px-4"
               />
+              <a
+                href={creativePath(
+                  selectedCreative.id,
+                  slide.slideNumber ?? slideIndex + 1,
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-xs font-bold text-[#0F2354] transition hover:border-[#E6009E]/40 hover:bg-[#E6009E]/5"
+              >
+                <ExternalLink className="h-4 w-4" strokeWidth={2} />
+                Ver
+              </a>
               <button
                 type="button"
                 onClick={downloadMarketing}
@@ -2285,6 +2364,17 @@ export default function ContentStudio({
                 })}
                 className="min-h-[44px] rounded-lg px-4"
               />
+              <a
+                href={scenePath(selectedScene, sceneDraft, {
+                  all: Object.keys(sceneDraft).length > 0,
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-xs font-bold text-[#0F2354] transition hover:border-[#E6009E]/40 hover:bg-[#E6009E]/5"
+              >
+                <ExternalLink className="h-4 w-4" strokeWidth={2} />
+                Ver
+              </a>
               <button
                 type="button"
                 onClick={downloadScene}

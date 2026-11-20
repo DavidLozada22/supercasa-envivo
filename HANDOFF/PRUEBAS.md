@@ -137,6 +137,12 @@ aquí y en `ESTADO.md`.
   Personalizada.
 - Abrir Personalizada, cambiar título, subtítulo y línea corta, y guardar. Debe
   aparecer en `/pantalla/personalizada`.
+- En Studio, confirmar que cada tarjeta de Marketing, Cortinas y Overlays tiene
+  Editar, PNG, OBS y Ver. En celular deben quedar en dos filas de dos.
+- En una cortina, pulsar PNG y confirmar la descarga. Pulsar Ver y abrir
+  `/pantalla/<id>`.
+- En marketing, pulsar PNG y confirmar que descarga el slide 1 con el QR del vivo.
+  Pulsar Ver y abrir `/pantalla/creativo/<id>?slide=1`.
 
 - Abrir `/admin/estudio?tab=cortinas` y confirmar que cada tarjeta tiene OBS.
   Copiar una, abrirla en una pestaña y ver que el título y el QR salen iguales.

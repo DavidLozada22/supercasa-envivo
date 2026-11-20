@@ -18,6 +18,9 @@ Actualizado: 19 de noviembre de 2026.
   línea de hora de regreso.
 - Nueva cortina "Personalizada" para mensajes que no tienen una pieza propia.
   Tiene título, subtítulo y línea corta editables.
+- Las tarjetas del Studio tienen los cuatro accesos rápidos: Editar, PNG, OBS y
+  Ver. Los editores de cortinas y marketing agregan Ver junto a OBS. En escenas,
+  Ver abre el borrador actual; en marketing, el estado guardado.
 - Se regeneraron las 56 cortinas y el ZIP con el nuevo QR grande, el nombre
   "Ya regresamos" y la cortina Personalizada.
 
