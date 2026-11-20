@@ -80,7 +80,7 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     answer:
       "La Supercasa es la casa que la Fundación Segundos de Vida está construyendo para los Súper Calvitos, niños y niñas con cáncer, y sus familias. La maratón de 48 horas es para terminar la obra y abrir sus puertas.",
     actions: [
-      { type: "link", label: "Ver el live", href: "/envivo" },
+      { type: "link", label: "Ver la transmisión", href: "/envivo" },
       { type: "entry", label: "¿A quién ayuda?", id: "causa" },
     ],
   },
@@ -107,7 +107,7 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     quick: true,
     keywords: ["cuando", "hora", "empieza", "termina", "fecha", "horario", "calendario"],
     answer: () => dateAnswer(),
-    actions: [{ type: "link", label: "Ver el live", href: "/envivo" }],
+    actions: [{ type: "link", label: "Ver la transmisión", href: "/envivo" }],
   },
   {
     id: "donde",
@@ -115,7 +115,7 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     keywords: ["donde", "ver", "live", "youtube", "transmision", "envivo", "canal"],
     answer:
       "En supercasa.svgvisual.com/envivo. También puedes abrir el canal de YouTube @KavanahPL35. El sitio detecta el directo solo, así que no tienes que buscar enlaces nuevos cuando hay un corte.",
-    actions: [{ type: "link", label: "Abrir el live", href: "/envivo" }],
+    actions: [{ type: "link", label: "Abrir la transmisión", href: "/envivo" }],
   },
   {
     id: "donar",
@@ -178,7 +178,7 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     keywords: ["que viene", "programa", "bloque", "seccion", "sección", "ahora", "siguiente", "escaleta"],
     answer: () => programAnswer(),
     actions: [
-      { type: "link", label: "Ver el live", href: "/envivo" },
+      { type: "link", label: "Ver la transmisión", href: "/envivo" },
       { type: "link", label: "Donar ahora", href: "/donar" },
     ],
   },
@@ -247,7 +247,7 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     keywords: ["compartir", "sin donar", "gratis", "ayudar", "difundir", "redes"],
     answer:
       "Compartir también construye. Manda el live a tres personas y cuéntales por qué lo haces. Si puedes, dona aunque sea una pieza pequeña. Las dos cosas suman.",
-    actions: [{ type: "link", label: "Compartir el live", href: "/envivo" }],
+    actions: [{ type: "link", label: "Compartir la transmisión", href: "/envivo" }],
   },
   {
     id: "visita",

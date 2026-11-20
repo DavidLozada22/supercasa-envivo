@@ -107,8 +107,8 @@ export default function DonationThanks({ reference }: { reference: string }) {
       <p className="thanks-box__ref">{donation.reference}</p>
 
       <div className="thanks-box__actions">
-        <Link href="/" className="btn btn--primary">
-          Volver al live
+        <Link href="/envivo" className="btn btn--primary">
+          Volver a la transmisión
         </Link>
         {!approved ? (
           <Link href="/donar" className="btn btn--white">
@@ -119,7 +119,7 @@ export default function DonationThanks({ reference }: { reference: string }) {
           <a
             className="btn btn--white"
             href={`https://wa.me/?text=${encodeURIComponent(
-              `Me uní a La Supercasa y ya puse mi pieza. Entra al live y dona: ${origin}`,
+              `Me uní a La Supercasa y ya puse mi pieza. Entra a la transmisión y dona: ${origin}`,
             )}`}
             target="_blank"
             rel="noopener noreferrer"

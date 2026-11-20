@@ -50,7 +50,7 @@ export default function LiveStage({ stream }: { stream: PublicConfig["stream"] }
             </p>
             <p className="live-stage__title">
               {current === "before"
-                ? "El live empieza el viernes 20 de noviembre"
+                ? "La transmisión empieza el viernes 20 de noviembre"
                 : "Gracias por acompañarnos"}
             </p>
             <p className="live-stage__note">
@@ -70,7 +70,7 @@ export default function LiveStage({ stream }: { stream: PublicConfig["stream"] }
       <div className="live-stage__bar">
         <DonationQR />
         <div className="live-stage__copy">
-          <p className="live-stage__kicker">Aporta mientras ves el live</p>
+          <p className="live-stage__kicker">Aporta mientras ves la transmisión</p>
           <p className="live-stage__hint">Tarjeta, PSE, Bre-B o transferencia.</p>
           <div className="live-stage__actions">
             <Link href="/donar" className="btn btn--primary">

@@ -434,7 +434,7 @@ export default function DonationFlow({
               Volver a elegir la pieza
             </button>
             <button type="button" className="btn btn--primary" onClick={next} {...A}>
-              Ver el impacto de mi pieza
+              Ver resumen y pagar
             </button>
           </div>
         </div>

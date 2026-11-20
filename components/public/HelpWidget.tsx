@@ -199,7 +199,7 @@ export default function HelpWidget() {
           ? `Ya teníamos tu correo, ${name || "gracias"}. Te avisamos en cada bloque importante y cuando la meta se mueva.`
           : `Listo, ${name || "gracias"}. Quedaste en la lista. Te aviso cuando abra cada bloque y cuando falte poco para la meta.`,
         [
-          { type: "link", label: "Ver el live", href: "/envivo" },
+          { type: "link", label: "Ver la transmisión", href: "/envivo" },
           { type: "link", label: "Donar ahora", href: "/donar" },
         ],
       );

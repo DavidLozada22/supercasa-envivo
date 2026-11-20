@@ -11,7 +11,7 @@ export const metadata = {
   alternates: { canonical: "/envivo" },
   openGraph: {
     title: "Maratón 48 horas por La Supercasa",
-    description: "Acompáñanos en la transmisión solidaria de 48 horas y dona mientras ves el live.",
+    description: "Acompáñanos en la transmisión solidaria de 48 horas y dona mientras ves la transmisión.",
     url: "/envivo",
     images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Maratón 48 horas por La Supercasa" }],
   },

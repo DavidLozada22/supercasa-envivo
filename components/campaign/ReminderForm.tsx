@@ -64,7 +64,7 @@ export default function ReminderForm() {
             href="/envivo"
             className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#0F2354] px-5 py-2.5 text-sm font-extrabold text-white"
           >
-            Ver el live
+            Ver la transmisión
           </Link>
           <Link
             href="/donar"

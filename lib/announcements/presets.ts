@@ -90,7 +90,7 @@ export const REMINDER_PRESETS: ReminderPreset[] = [
     subject: "Estamos en vivo. La Supercasa ya empezó",
     message:
       "Abrimos la señal. Durante 48 horas vamos a construir La Supercasa en vivo. Entra, mira el avance y dona desde donde estés.",
-    ctaLabel: "Ver el live",
+    ctaLabel: "Ver la transmisión",
     ctaUrl: LIVE_URL,
   },
   {
@@ -101,7 +101,7 @@ export const REMINDER_PRESETS: ReminderPreset[] = [
     subject: "Ya viene el siguiente bloque. No te lo pierdas",
     message:
       "En unos minutos entra un bloque nuevo con retos, invitados y una meta por cumplir. La casa avanza más rápido cuando estás mirando.",
-    ctaLabel: "Ver el live",
+    ctaLabel: "Ver la transmisión",
     ctaUrl: LIVE_URL,
   },
   {

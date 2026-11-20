@@ -146,13 +146,13 @@ export default function DonationLive({
               </p>
               <p className="donation-live__standby-title">
                 {snap.state === "before"
-                  ? "El live empieza el viernes 20"
+                  ? "La transmisión empieza el viernes 20"
                   : "Estamos al aire"}
               </p>
               <p className="donation-live__standby-note">
                 {snap.state === "before"
                   ? "6:00 p. m., hora de Bogotá"
-                  : "Abre el envío para ver la señal"}
+                  : "Abre la transmisión para ver la señal"}
               </p>
             </div>
           )}
@@ -175,13 +175,13 @@ export default function DonationLive({
             ) : null}
             <Link href="/envivo" className="btn btn--white">
               <ArrowUpRight className="h-5 w-5" strokeWidth={2} aria-hidden="true" />
-              Ir al envío
+              Ir a la transmisión
             </Link>
           </div>
           <p className="donation-live__note">
             {isLive
-              ? "Puedes seguir donando mientras ves el live."
-              : "La página del envío te muestra el estado y las cortinas del evento."}
+              ? "Puedes seguir donando mientras ves la transmisión."
+              : "La página de la transmisión te muestra el estado y las cortinas del evento."}
           </p>
         </div>
       </section>
@@ -225,7 +225,7 @@ export default function DonationLive({
             <div className="donation-live-modal__foot">
               <span>48 horas por La Supercasa</span>
               <Link href="/envivo" className="btn btn--yellow">
-                Ir al envío
+                Ir a la transmisión
               </Link>
             </div>
           </div>
