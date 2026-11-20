@@ -219,6 +219,7 @@ export default function StreamingConsole({
             Descarga el PNG y arrástralo a OBS, o copia la URL y úsala como fuente de navegador
             de 1920x1080. Los PNG son la versión genérica. Para cambiar el nombre o el texto, usa{" "}
             <strong className="font-bold text-[#0F2354]">En control</strong> y la fuente de OBS.
+            El ZIP completo pesa cerca de 11 MB. Si tienes datos limitados, descarga una por una.
           </p>
           <SceneGrid scenes={generic} onEdit={setEditingScene} />
         </div>

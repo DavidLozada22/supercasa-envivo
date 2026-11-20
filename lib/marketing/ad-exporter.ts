@@ -15,6 +15,8 @@ import {
 } from './campaign-kit';
 import { getQrDataUrl, getQrMeta } from './qr-helper';
 
+export type ExportFormat = 'auto' | 'png' | 'jpeg';
+
 export interface ExportOptions {
   creative: AdCreative;
   slide: CreativeSlide;
@@ -29,6 +31,8 @@ export interface ExportOptions {
   showQrOverride?: boolean;
   qrTargetOverride?: QrTarget;
   transparentOverlayOverride?: boolean;
+  format?: ExportFormat;
+  quality?: number;
 }
 
 const ACCENT_HEX: Record<NonNullable<CreativeSlide['accentColor']>, { bg: string; text: string; light: string }> = {
@@ -210,7 +214,9 @@ function drawSpeechBubble(
   return totalUsed;
 }
 
-export async function renderAdToDataUrl(options: ExportOptions): Promise<string> {
+async function renderAdCanvas(
+  options: ExportOptions,
+): Promise<{ canvas: HTMLCanvasElement; isOverlay: boolean }> {
   if (typeof document !== 'undefined' && document.fonts) {
     await document.fonts.ready;
   }
@@ -841,15 +847,52 @@ export async function renderAdToDataUrl(options: ExportOptions): Promise<string>
     textMaxW,
   );
 
+  return { canvas, isOverlay };
+}
+
+export async function renderAdToDataUrl(options: ExportOptions): Promise<string> {
+  const { canvas } = await renderAdCanvas(options);
   return canvas.toDataURL('image/png');
 }
 
-export async function downloadAdPng(options: ExportOptions, filename: string): Promise<void> {
-  const dataUrl = await renderAdToDataUrl(options);
-  const a = document.createElement('a');
-  a.href = dataUrl;
-  a.download = filename;
+export type RenderedAd = {
+  blob: Blob;
+  mime: "image/png" | "image/jpeg";
+  ext: "png" | "jpg";
+};
+
+export async function renderAdToBlob(options: ExportOptions): Promise<RenderedAd> {
+  const { canvas, isOverlay } = await renderAdCanvas(options);
+  const wanted: "png" | "jpeg" =
+    options.format === "png" || isOverlay ? "png" : "jpeg";
+  const ext: "png" | "jpg" = wanted === "png" ? "png" : "jpg";
+  const mime = ext === "png" ? "image/png" : "image/jpeg";
+  const quality = options.quality ?? 0.9;
+
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (value) => (value ? resolve(value) : reject(new Error("No se pudo generar la imagen"))),
+      mime,
+      ext === "jpg" ? quality : undefined,
+    );
+  });
+
+  return { blob, mime, ext };
+}
+
+export async function downloadAdPng(
+  options: ExportOptions,
+  filename: string,
+): Promise<string> {
+  const { blob, ext } = await renderAdToBlob(options);
+  const finalName = `${filename.replace(/\.(png|jpe?g)$/i, "")}.${ext}`;
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = finalName;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+  window.setTimeout(() => URL.revokeObjectURL(url), 4000);
+  return finalName;
 }

@@ -59,8 +59,9 @@ test('el estudio tiene catálogo, edición y descarga', () => {
   const studio = read('components/admin/studio/ContentStudio.tsx');
   assert.ok(studio.includes('AD_CREATIVES'));
   assert.ok(studio.includes('downloadAdPng'));
-  assert.ok(studio.includes('toPng'));
-  assert.ok(studio.includes('Descargar PNG'));
+  assert.ok(studio.includes('toBlob'));
+  assert.ok(studio.includes('Descargar JPG liviano'));
+  assert.ok(studio.includes('JPG pesa hasta 10 veces menos'));
   assert.ok(studio.includes('Guardar'));
   assert.ok(studio.includes('downloadCarousel'));
   assert.ok(studio.includes('Descargar carrusel (ZIP)'));

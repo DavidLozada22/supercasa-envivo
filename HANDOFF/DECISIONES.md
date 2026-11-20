@@ -388,3 +388,19 @@ El panel de Streaming tiene un campo "Link manual". Guarda el video en
 la API, con fuente `manual`. "Volver a automático" borra el archivo y retoma la
 deteccion. Sirve si Google falla, si la clave se cae o si el directo no aparece
 en la lista de subidas.
+
+## 44. Descargas livianas
+
+Las historias, posts y carruseles se exportan en JPG calidad 0.9 por defecto. Antes
+salían en PNG de 1080x1920 y un carrusel de 5 slides pesaba mas de 20 MB. Ahora
+cada slide pesa 200 a 300 KB y el ZIP del carrusel queda en 1 a 2 MB. Las capas
+transparentes siguen en PNG porque necesitan alfa. El panel deja elegir entre JPG
+liviano y PNG cuando la pieza no es transparente.
+
+Los PNG de OBS se optimizaron con paleta de 256 colores y calidad 85. El total
+paso de 88.9 MB a 22.3 MB y el ZIP de "Descargar todas" de 44 MB a 11.2 MB, sin
+perder transparencia. `node scripts/optimize-cortinas.mjs` repite el proceso y
+regenera el ZIP.
+
+Las descargas usan `canvas.toBlob` y object URLs en vez de data URLs en base64.
+Eso evita los archivos gigantes en memoria y los bloqueos de Safari en celulares.

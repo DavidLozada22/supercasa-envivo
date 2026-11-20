@@ -9,7 +9,8 @@
     "cortinas": "node scripts/render-cortinas.mjs",
     "programa": "python3 scripts/import-escaleta.py",
     "programa:excel": "node scripts/export-programa.mjs",
-    "obs:assets": "node scripts/export-obs-assets.mjs"
+    "obs:assets": "node scripts/export-obs-assets.mjs",
+    "assets:optimize": "node scripts/optimize-cortinas.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.0.0",

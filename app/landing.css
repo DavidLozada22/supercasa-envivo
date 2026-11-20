@@ -1428,46 +1428,53 @@
 .landing-root .live-player-wrap { position: relative; }
 .landing-root .live-player-wrap > .live-hours-pill { position: absolute; top: 14px; left: 14px; z-index: 9; }
 .landing-root .live-hours-pill {
-  display: grid;
-  gap: 4px;
-  width: 270px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  background: rgba(7, 17, 39, 0.92);
+  display: inline-flex;
+  width: auto;
+  max-width: calc(100% - 28px);
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px 5px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(7, 17, 39, 0.9);
   color: #fff;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(6px);
 }
-.landing-root .live-hours-pill.is-compact { width: 218px; padding: 8px 12px; border-radius: 14px; }
 .landing-root .live-hours-pill__tag {
   display: inline-flex;
-  width: fit-content;
   align-items: center;
-  gap: 6px;
-  padding: 3px 9px;
+  gap: 5px;
+  padding: 3px 7px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.75);
-  font-size: 0.58rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.52rem;
   font-weight: 900;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
 }
 .landing-root .live-hours-pill__tag.is-live { background: #e6009e; color: #fff; }
-.landing-root .live-hours-pill__tag i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.landing-root .live-hours-pill__row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.landing-root .live-hours-pill__row strong {
+.landing-root .live-hours-pill__tag i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.landing-root .live-hours-pill__time {
   font-family: "Fredoka", ui-rounded, system-ui, sans-serif;
-  font-size: 1.9rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  line-height: 1;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-.landing-root .live-hours-pill__row strong small { font-size: 0.8rem; color: rgba(255, 255, 255, 0.55); }
-.landing-root .live-hours-pill__row span { color: var(--verde-lima); font-size: 0.68rem; font-weight: 900; letter-spacing: 0.06em; }
-.landing-root .live-hours-pill__bar { height: 5px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, 0.16); }
-.landing-root .live-hours-pill__bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--amarillo-pill), var(--verde-lima)); }
-.landing-root .stream-placeholder .live-hours-pill { margin-top: 10px; width: 260px; }
+.landing-root .live-hours-pill__time b {
+  margin-right: 4px;
+  color: var(--verde-lima);
+  font-weight: 900;
+}
+.landing-root .live-hours-pill.is-compact { gap: 6px; padding: 4px 9px 4px 5px; }
+.landing-root .live-hours-pill.is-compact .live-hours-pill__time { font-size: 0.66rem; }
+.landing-root .live-hours-pill.is-compact .live-hours-pill__tag { padding: 2px 6px; font-size: 0.48rem; }
+.landing-root .stream-placeholder .live-hours-pill { margin-top: 10px; }
 @media (max-width: 600px) {
   .landing-root .live-player-wrap > .live-hours-pill { top: 8px; left: 8px; }
-  .landing-root .live-hours-pill.is-compact { width: 190px; }
-  .landing-root .stream-placeholder .live-hours-pill { width: 220px; }
+  .landing-root .live-hours-pill__tag { font-size: 0.46rem; }
+  .landing-root .live-hours-pill__time { font-size: 0.64rem; }
 }

@@ -208,6 +208,15 @@ aquí y en `ESTADO.md`.
 - Probar un link que no sea de YouTube. Debe responder "Pega un link de YouTube o
   el ID de 11 caracteres." y no guardar nada.
 
+## Descargas de marketing
+
+- En el Estudio, abrir una historia y descargar. Debe bajar un JPG de 200 a 400 KB.
+- Abrir un carrusel de 5 slides y descargar el ZIP. Debe pesar 1 o 2 MB y traer los
+  5 JPG y el caption.
+- Subir un slide transparente (capas PNG). Debe seguir bajando PNG con alfa.
+- En Streaming, abrir una cortina y descargar el PNG. Debe pesar 200 a 300 KB.
+- Descargar el ZIP de OBS. Debe pesar cerca de 11 MB y abrir sin errores.
+
 ## Assets para OBS
 
 - Confirmar que `assets/obs/manifest.json` tiene 56 escenas y 4 pistas.

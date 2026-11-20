@@ -10,7 +10,7 @@ test('el estudio copia links de OBS y genera moscas desde la agenda', () => {
   assert.ok(studio.includes('scenePath'));
   assert.ok(studio.includes('creativePath'));
   assert.ok(studio.includes('Moscas y agenda'));
-  assert.ok(studio.includes('Descargar PNG del slide 1'));
+  assert.ok(studio.includes('Descargar JPG liviano'));
   assert.ok(studio.includes('Descargar PNG base'));
   assert.ok(studio.includes('ExternalLink'));
 

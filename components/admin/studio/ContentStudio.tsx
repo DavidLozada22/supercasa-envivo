@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { toPng } from "html-to-image";
+import { toBlob } from "html-to-image";
 import {
   Check,
   Clapperboard,
@@ -22,7 +22,7 @@ import AdCanvasPreview from "@/components/admin/marketing/AdCanvasPreview";
 import LiveThumb from "@/components/admin/studio/LiveThumb";
 import ObsCopyButton from "@/components/admin/streaming/ObsCopyButton";
 import SceneView from "@/components/streaming/SceneView";
-import { downloadAdPng, renderAdToDataUrl } from "@/lib/marketing/ad-exporter";
+import { downloadAdPng, renderAdToBlob } from "@/lib/marketing/ad-exporter";
 import {
   AD_CREATIVES,
   creativeQrFallback,
@@ -518,7 +518,7 @@ function MarketingCard({
           type="button"
           onClick={() => void download()}
           disabled={downloading}
-          title="Descargar PNG del slide 1"
+          title={isOverlay ? "Descargar PNG transparente" : "Descargar JPG liviano"}
           className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg bg-[#0F2354] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#183478] disabled:opacity-60"
         >
           {downloading ? (
@@ -526,7 +526,7 @@ function MarketingCard({
           ) : (
             <Download className="h-3.5 w-3.5" strokeWidth={2} />
           )}
-          PNG
+          {isOverlay ? "PNG" : "JPG"}
         </button>
         <ObsCopyButton
           path={creativePath(creative.id, first.slideNumber ?? 1)}
@@ -670,6 +670,7 @@ export default function ContentStudio({
   });
   const [saving, setSaving] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [exportFormat, setExportFormat] = useState<"jpeg" | "png">("jpeg");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
@@ -917,7 +918,7 @@ export default function ContentStudio({
     setExporting(true);
     setError("");
     try {
-      await downloadAdPng(
+      const name = await downloadAdPng(
         {
           creative: selectedCreative,
           slide: mergedSlide,
@@ -927,9 +928,11 @@ export default function ContentStudio({
           kickHandle: draft.kickHandle,
           showQrOverride: draft.showQr,
           qrTargetOverride: draft.qrTarget,
+          format: exportFormat,
         },
-        `supercasa-${selectedCreative.id}-${slide.slideNumber}.png`,
+        `supercasa-${selectedCreative.id}-${slide.slideNumber}`,
       );
+      setStatus(`Listo: ${name}`);
     } catch {
       setError("No se pudo generar el PNG. Intenta de nuevo.");
     } finally {
@@ -949,7 +952,7 @@ export default function ContentStudio({
       const folder = `supercasa-${selectedCreative.id}`;
       for (let index = 0; index < mergedSlides.length; index += 1) {
         setStatus(`Generando slide ${index + 1} de ${total}...`);
-        const dataUrl = await renderAdToDataUrl({
+        const rendered = await renderAdToBlob({
           creative: selectedCreative,
           slide: mergedSlides[index],
           theme: draft.theme ?? selectedCreative.defaultTheme,
@@ -958,16 +961,17 @@ export default function ContentStudio({
           kickHandle: draft.kickHandle,
           showQrOverride: draft.showQr,
           qrTargetOverride: draft.qrTarget,
+          format: exportFormat,
         });
-        const base64 = dataUrl.split(",")[1] ?? "";
-        zip.file(`${folder}/slide-${String(index + 1).padStart(2, "0")}.png`, base64, {
-          base64: true,
-        });
+        zip.file(
+          `${folder}/slide-${String(index + 1).padStart(2, "0")}.${rendered.ext}`,
+          rendered.blob,
+        );
       }
       const caption = (draft.caption ?? selectedCreative.caption ?? "").trim();
       if (caption) zip.file(`${folder}/caption.txt`, caption);
       setStatus("Comprimiendo el ZIP...");
-      const blob = await zip.generateAsync({ type: "blob" });
+      const blob = await zip.generateAsync({ type: "blob", compression: "STORE" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -976,7 +980,7 @@ export default function ContentStudio({
       link.click();
       document.body.removeChild(link);
       window.setTimeout(() => URL.revokeObjectURL(url), 2000);
-      setStatus(`${total} imágenes y el caption descargados en un ZIP.`);
+      setStatus(`${total} imágenes en ${exportFormat === "jpeg" ? "JPG" : "PNG"} y el caption, en un ZIP liviano.`);
     } catch {
       setError("No se pudo generar el carrusel completo. Intenta slide por slide.");
     } finally {
@@ -994,7 +998,7 @@ export default function ContentStudio({
     try {
       await waitForImages(node);
       const merged = mergeScene(selectedScene, sceneDraft);
-      const dataUrl = await toPng(node, {
+      const blob = await toBlob(node, {
         width: 1920,
         height: 1080,
         pixelRatio: 1,
@@ -1002,12 +1006,15 @@ export default function ContentStudio({
         backgroundColor:
           merged.kind === "overlay" ? "transparent" : "#0b1a3d",
       });
+      if (!blob) throw new Error("sin imagen");
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.href = dataUrl;
+      link.href = url;
       link.download = `supercasa-${selectedScene.id}-editado.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      window.setTimeout(() => URL.revokeObjectURL(url), 4000);
     } catch {
       setError("No se pudo generar el PNG. Prueba desde la fuente de OBS.");
     } finally {
@@ -1341,7 +1348,9 @@ export default function ContentStudio({
                   <RotateCcw className="h-4 w-4" strokeWidth={2} />
                   Volver a los originales
                 </button>
-                <span className="text-[11px] font-semibold text-slate-500">{status}</span>
+                <span className="text-[11px] font-semibold text-slate-500">
+                {status || (exportFormat === "jpeg" ? "JPG pesa hasta 10 veces menos." : "PNG sin pérdida.")}
+              </span>
                 {error ? (
                   <span className="text-[11px] font-semibold text-red-700">{error}</span>
                 ) : null}
@@ -1864,6 +1873,42 @@ export default function ContentStudio({
                 <ExternalLink className="h-4 w-4" strokeWidth={2} />
                 Ver
               </a>
+              {selectedCreative.category === "overlays" ? (
+                <span className="inline-flex min-h-[44px] items-center rounded-lg bg-slate-100 px-3 text-[11px] font-bold text-slate-600">
+                  PNG con transparencia
+                </span>
+              ) : (
+                <div
+                  className="inline-flex overflow-hidden rounded-lg border border-slate-200"
+                  role="group"
+                  aria-label="Formato de descarga"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setExportFormat("jpeg")}
+                    aria-pressed={exportFormat === "jpeg"}
+                    className={`min-h-[44px] px-3 text-[11px] font-extrabold transition ${
+                      exportFormat === "jpeg"
+                        ? "bg-[#0F2354] text-white"
+                        : "bg-white text-slate-500 hover:bg-slate-50"
+                    }`}
+                  >
+                    JPG liviano
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setExportFormat("png")}
+                    aria-pressed={exportFormat === "png"}
+                    className={`min-h-[44px] px-3 text-[11px] font-extrabold transition ${
+                      exportFormat === "png"
+                        ? "bg-[#0F2354] text-white"
+                        : "bg-white text-slate-500 hover:bg-slate-50"
+                    }`}
+                  >
+                    PNG
+                  </button>
+                </div>
+              )}
               <button
                 type="button"
                 onClick={downloadMarketing}
@@ -1875,7 +1920,7 @@ export default function ContentStudio({
                 ) : (
                   <Download className="h-4 w-4" strokeWidth={2} />
                 )}
-                {selectedCreative.slides.length > 1 ? "Descargar slide" : "Descargar PNG"}
+                {selectedCreative.slides.length > 1 ? "Descargar slide" : "Descargar imagen"}
               </button>
               {selectedCreative.slides.length > 1 ? (
                 <button
@@ -1892,7 +1937,9 @@ export default function ContentStudio({
                   Descargar carrusel (ZIP)
                 </button>
               ) : null}
-              <span className="text-[11px] font-semibold text-slate-500">{status}</span>
+              <span className="text-[11px] font-semibold text-slate-500">
+                {status || (exportFormat === "jpeg" ? "JPG pesa hasta 10 veces menos." : "PNG sin pérdida.")}
+              </span>
               {error ? (
                 <span className="text-[11px] font-semibold text-red-700">{error}</span>
               ) : null}
@@ -2388,7 +2435,9 @@ export default function ContentStudio({
                 )}
                 Descargar PNG
               </button>
-              <span className="text-[11px] font-semibold text-slate-500">{status}</span>
+              <span className="text-[11px] font-semibold text-slate-500">
+                {status || (exportFormat === "jpeg" ? "JPG pesa hasta 10 veces menos." : "PNG sin pérdida.")}
+              </span>
               {error ? (
                 <span className="text-[11px] font-semibold text-red-700">{error}</span>
               ) : null}
