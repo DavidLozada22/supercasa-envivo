@@ -165,3 +165,23 @@ test('el panel agrupa los accesos y muestra todo desde el inicio', () => {
   assert.ok(map.includes('/admin/streaming'));
   assert.ok(map.includes('Todo lo que necesitas'));
 });
+
+test('donar tiene mini visor y el panel tiene placeholders claros', () => {
+  const donate = read('app/donar/page.tsx');
+  assert.ok(donate.includes('DonationLive'));
+  assert.ok(donate.includes('getLiveStatus'));
+  assert.ok(donate.includes('snapshot'));
+
+  const mini = read('components/donations/DonationLive.tsx');
+  assert.ok(mini.includes('/api/live/current'));
+  assert.ok(mini.includes('Pantalla completa'));
+  assert.ok(mini.includes('youtube-nocookie.com/embed'));
+  assert.ok(mini.includes('IntersectionObserver'));
+  assert.ok(mini.includes('aria-modal'));
+
+  const grid = read('components/admin/streaming/SceneGrid.tsx');
+  assert.ok(grid.includes('ScenePreview'));
+  assert.ok(grid.includes('PNG pendiente'));
+  assert.ok(grid.includes('scene-preview--overlay'));
+  assert.ok(grid.includes('SceneKindBadge'));
+});

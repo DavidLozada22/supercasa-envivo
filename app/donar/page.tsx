@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import CopyHandler from "@/components/landing/CopyHandler";
 import DonationFlow from "@/components/campaign/DonationFlow";
+import DonationLive from "@/components/donations/DonationLive";
 import HouseProgress from "@/components/landing/HouseProgress";
 import SiteHeader from "@/components/public/SiteHeader";
 import SiteFooter from "@/components/public/SiteFooter";
@@ -16,6 +17,7 @@ import { getConfig } from "@/lib/config";
 import { progress } from "@/lib/donations/service";
 import { paymentsAvailable } from "@/lib/donations/wompi";
 import { mailtoLink, RECEIPT_MESSAGE, whatsappLink } from "@/lib/contact";
+import { getLiveStatus, snapshot } from "@/lib/streaming/service";
 
 export const dynamic = "force-dynamic";
 
@@ -38,10 +40,21 @@ export const metadata = {
   },
 };
 
-export default async function DonatePage() {
+export default async function DonatePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ preview?: string }>;
+}) {
+  const query = await searchParams;
   const [config, online] = await Promise.all([getConfig(), progress()]);
   const raised = config.totals.raised + online.raisedCop;
   const payments = paymentsAvailable();
+  const liveStatus = await getLiveStatus(config.stream.videoId);
+  const baseSnapshot = snapshot(liveStatus);
+  const previewLive = query.preview === "live";
+  const live = previewLive
+    ? { ...baseSnapshot, state: "live" as const, live: true, videoId: "RMAXHKK_VqM" }
+    : baseSnapshot;
 
   return (
     <>
@@ -60,6 +73,10 @@ export default async function DonatePage() {
                 habitación. Elige el camino que te quede más fácil. Los dos llegan a la misma
                 meta.
               </p>
+            </div>
+
+            <div className="wrap">
+              <DonationLive initial={live} preview={previewLive} />
             </div>
 
             <div className="wrap donate-paths">

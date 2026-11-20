@@ -36,7 +36,16 @@ Actualizado: 19 de noviembre de 2026.
 - La escaleta se normaliza: sin guiones largos, con nombres capitalizados y el
   error "Incio" corregido. El aviso de duraciones se mantiene.
 - Generador de cortinas con ZIP `cortinas-supercasa.zip` (55 piezas, 50 MB).
-- 45 pruebas en `tests/` (node --test).
+- `/donar` tiene un mini visor del live entre la introducción y los dos caminos:
+  video en vivo, botón de pantalla completa con modal, acceso directo a
+  `/envivo` y píldora "EN VIVO · Ver" al salir de pantalla. Antes del evento
+  muestra el conteo.
+- El panel de Streaming cambió los placeholders de las tarjetas: esqueleto de
+  carga, aviso de PNG pendiente, tablero para overlays transparentes y etiquetas
+  PNG, Cuenta, Hora, Casa, Bloque u Overlay.
+- `?preview=live` en `/donar` fuerza el estado en vivo para revisar el mini visor
+  sin esperar al evento.
+- 46 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre
 

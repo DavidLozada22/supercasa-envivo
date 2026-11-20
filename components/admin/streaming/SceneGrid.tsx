@@ -1,8 +1,89 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, Download, ExternalLink } from "lucide-react";
+import {
+  Check,
+  Copy,
+  Download,
+  ExternalLink,
+  ImageOff,
+  Loader2,
+} from "lucide-react";
 import type { SceneDef } from "@/lib/streaming/scenes";
+
+function SceneKindBadge({ scene }: { scene: SceneDef }) {
+  const base =
+    "rounded-full px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider";
+
+  if (scene.group === "bloque" && scene.number) {
+    return <span className={`${base} bg-[#FFD400] text-[#0B1A3D]`}>Bloque {scene.number}</span>;
+  }
+  if (scene.kind === "overlay") {
+    return <span className={`${base} bg-[#00A8E8] text-white`}>Overlay</span>;
+  }
+  if (scene.group === "hora") {
+    return <span className={`${base} bg-[#B5F43D] text-[#0B1A3D]`}>Hora</span>;
+  }
+  if (scene.id.startsWith("empezamos-")) {
+    return <span className={`${base} bg-[#E6009E] text-white`}>Cuenta</span>;
+  }
+  if (scene.visual === "house") {
+    return <span className={`${base} bg-[#00A8E8] text-white`}>Casa</span>;
+  }
+  return <span className={`${base} bg-white/10 text-white/70`}>PNG</span>;
+}
+
+function ScenePreview({ scene }: { scene: SceneDef }) {
+  const [state, setState] = useState<"loading" | "ready" | "error">("loading");
+  const overlay = scene.kind === "overlay";
+
+  return (
+    <div
+      className={`relative aspect-video overflow-hidden bg-[#0B1A3D] ${
+        overlay ? "scene-preview--overlay" : ""
+      }`}
+    >
+      {state !== "ready" ? (
+        <div className="absolute inset-0 z-10 grid place-items-center gap-1.5 px-5 text-center">
+          {state === "loading" ? (
+            <Loader2 className="h-5 w-5 animate-spin text-white/40" strokeWidth={2} />
+          ) : (
+            <ImageOff className="h-5 w-5 text-white/40" strokeWidth={2} />
+          )}
+          <span className="text-[11px] font-semibold leading-snug text-white/55">
+            {scene.label}
+          </span>
+          {state === "error" ? (
+            <span className="text-[9px] font-bold uppercase tracking-wider text-[#FFD400]">
+              PNG pendiente
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+
+      <img
+        src={`/cortinas/${scene.id}.png`}
+        alt={`Vista previa de ${scene.label}`}
+        loading="lazy"
+        onLoad={() => setState("ready")}
+        onError={() => setState("error")}
+        className={`relative h-full w-full object-cover transition-opacity duration-200 ${
+          state === "ready" ? "opacity-100" : "opacity-0"
+        }`}
+      />
+
+      <div className="absolute left-3 top-3 z-20 flex flex-wrap gap-1.5">
+        <SceneKindBadge scene={scene} />
+      </div>
+
+      {scene.fields.length > 0 ? (
+        <span className="absolute right-3 top-3 z-20 rounded-full bg-black/45 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white/80">
+          Editable
+        </span>
+      ) : null}
+    </div>
+  );
+}
 
 export default function SceneGrid({ scenes }: { scenes: SceneDef[] }) {
   const [copied, setCopied] = useState<string | null>(null);
@@ -25,29 +106,13 @@ export default function SceneGrid({ scenes }: { scenes: SceneDef[] }) {
           key={scene.id}
           className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
         >
-          <div className="relative aspect-video overflow-hidden bg-[#0B1A3D]">
-            <span className="absolute inset-0 grid place-items-center px-6 text-center text-xs font-semibold text-white/30">
-              {scene.label}
-            </span>
-            <img
-              src={`/cortinas/${scene.id}.png`}
-              alt={`Vista previa de ${scene.label}`}
-              loading="lazy"
-              className="relative h-full w-full object-cover"
-              onError={(event) => {
-                event.currentTarget.style.visibility = "hidden";
-              }}
-            />
-            {scene.number ? (
-              <span className="absolute left-3 top-3 rounded-full bg-[#FFD400] px-2.5 py-1 text-[11px] font-extrabold text-[#0B1A3D]">
-                Bloque {scene.number}
-              </span>
-            ) : null}
-          </div>
+          <ScenePreview scene={scene} />
 
           <div className="space-y-3 p-4">
             <div>
-              <h3 className="text-sm font-extrabold leading-tight text-[#0F2354]">{scene.label}</h3>
+              <h3 className="text-sm font-extrabold leading-tight text-[#0F2354]">
+                {scene.label}
+              </h3>
               <p className="mt-1 text-xs leading-relaxed text-slate-500">{scene.when}</p>
             </div>
 

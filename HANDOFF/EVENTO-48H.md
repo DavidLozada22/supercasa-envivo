@@ -142,6 +142,14 @@ en la descripción para poder cruzar el pago. El WhatsApp sale de
 `NEXT_PUBLIC_DONATION_WHATSAPP`; si no está definido, usa el teléfono público de
 la Fundación.
 
+## Mini visor en donaciones
+
+`/donar` muestra un mini visor del live entre la introducción y los dos caminos.
+Si hay señal, reproduce el video en silencio y ofrece **Pantalla completa**
+(modal) e **Ir al envío**. Antes del evento muestra el conteo y el acceso al
+envío. Al hacer scroll queda una píldora **EN VIVO · Ver**. Para revisarlo sin
+esperar al evento: `/donar?preview=live`.
+
 ## Avisos por correo
 
 Solo se escribe a quienes dejaron el correo en la página del live y aceptaron el
