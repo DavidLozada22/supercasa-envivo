@@ -1,3 +1,6 @@
+import blocksJson from "@/lib/program/blocks.json";
+import type { ProgramBlock } from "@/lib/program/types";
+
 export type AdFormat = 'story' | 'post' | 'carousel';
 export type AdTheme = 'cortina' | 'calvito';
 export type AdCategory = 'horas' | 'suenos' | 'bloques' | 'donar' | 'carruseles' | 'overlays';
@@ -118,116 +121,72 @@ No importa desde qué país nos acompañes, qué plataforma utilices o cuántos 
 Porque los verdaderos héroes no siempre llevan capa… ¡mañana toda la comunidad streamer puede ponerse una!
 ¡POR LOS SUPER CALVITOS, POR LA VIDA Y POR LA ESPERANZA! 🦸‍♂️❤️`;
 
-export const PROGRAM_BLOCKS: ProgramBlockSummary[] = [
-  {
-    number: '01',
-    day: 'Vie 20 Nov',
-    schedule: '18:00 – 22:00',
-    title: 'El Gran Inicio: 48 Horas por La Supercasa',
-    host: 'Sebas',
-    challenge: 'Todos nos rapamos en vivo por los Super Calvitos',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '02',
-    day: 'Vie 20 – Sáb 21',
-    schedule: '22:00 – 02:00',
-    title: 'Noche de Desafíos & Risas Sin Filtro',
-    host: 'Deivid',
-    challenge: 'Retos en vivo decididos por votación y donación',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '03',
-    day: 'Sáb 21 Nov',
-    schedule: '02:00 – 06:00',
-    title: 'Desvelo Paranormal: Sobreviviendo a la Madrugada',
-    host: 'Luz Gardenia y Libardo',
-    challenge: 'Podcast Rock/Metal LATAM + monitoreo cardíaco',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '04',
-    day: 'Sáb 21 Nov',
-    schedule: '06:00 – 10:00',
-    title: 'Mañanero con Fe y Café',
-    host: 'Cris',
-    challenge: 'Consultorio legal en vivo + meta de desayunos',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '05',
-    day: 'Sáb 21 Nov',
-    schedule: '10:00 – 14:00',
-    title: 'Copa de Campeones: El Desafío Gamer (Kick)',
-    host: 'David',
-    challenge: 'Campeonato gamer en vivo por Kick con inscripciones solidarias',
-    note: 'Transmisión por Kick + supercasa.svgvisual.com/envivo',
-  },
-  {
-    number: '06',
-    day: 'Sáb 21 Nov',
-    schedule: '14:00 – 18:00',
-    title: 'El Festival de Talentos Kavanah',
-    host: 'Paola',
-    challenge: 'Muestra de talentos + cocina express solidaria',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '07',
-    day: 'Sáb 21 Nov',
-    schedule: '18:00 – 22:00',
-    title: 'La Gran Gala de los Sueños (Noche Estelar)',
-    host: 'Sebas',
-    challenge: 'Apadrinamiento de las 14 habitaciones en Prime Time',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '08',
-    day: 'Sáb 21 – Dom 22',
-    schedule: '22:00 – 02:00',
-    title: 'Retro Arcade & Noche de Leyendas',
-    host: 'Deivid',
-    challenge: 'Torneo Street Fighter / Mario Kart 80s & 90s',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '09',
-    day: 'Dom 22 Nov',
-    schedule: '02:00 – 06:00',
-    title: 'Maratón Extrema: Reto Speedrun',
-    host: 'Libardo',
-    challenge: 'Reto contra el reloj con ayudas por donación',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '10',
-    day: 'Dom 22 Nov',
-    schedule: '06:00 – 10:00',
-    title: 'Despertar Solidario: Historias que Inspiran',
-    host: 'Cris y Luz Gardenia',
-    challenge: 'Especial Carnaval de Riosucio + meta línea blanca',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '11',
-    day: 'Dom 22 Nov',
-    schedule: '10:00 – 14:00',
-    title: 'El Desafío de Creadores: Batalla por una Causa',
-    host: 'Paola',
-    challenge: 'Batalla de fandoms, retos físicos y trivias',
-    note: 'Horario tentativo',
-  },
-  {
-    number: '12',
-    day: 'Dom 22 Nov',
-    schedule: '14:00 – 18:00',
-    title: 'El Gran Cierre: La Cumbre de la Esperanza',
-    host: 'Equipo Kavanah + FSV',
-    challenge: 'Meta global final + apertura simbólica de la Supercasa',
-    note: 'Horario tentativo',
-  },
-];
+const PROGRAM_DAY = new Intl.DateTimeFormat("es-CO", {
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+  timeZone: "America/Bogota",
+});
+
+function programDay(iso: string): string {
+  const parts = PROGRAM_DAY.formatToParts(new Date(iso));
+  const value = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+  const weekday = value("weekday").replace(".", "");
+  const month = value("month").replace(".", "");
+  return (
+    weekday.charAt(0).toUpperCase() +
+    weekday.slice(1) +
+    " " +
+    value("day") +
+    " " +
+    month.charAt(0).toUpperCase() +
+    month.slice(1)
+  );
+}
+
+export const PROGRAM_BLOCKS: ProgramBlockSummary[] = (blocksJson as ProgramBlock[]).map((block) => {
+  const start = programDay(block.startsAt);
+  const end = programDay(block.endsAt);
+  return {
+    number: block.number,
+    day: start === end ? start : start + " - " + end,
+    schedule: block.startClock + " - " + block.endClock,
+    title: block.title,
+    host: block.host || "Equipo Kavanah",
+    challenge: block.challenge || block.focus,
+    note: block.focus,
+  };
+});
+
+const BLOCK_BY_NUMBER = new Map(PROGRAM_BLOCKS.map((block) => [block.number, block]));
+
+function shortTitle(value: string): string {
+  return value.split(/[:·]/)[0]?.trim() || value;
+}
+
+function agendaRow(numbers: string[], title?: string): {
+  time: string;
+  title: string;
+  host: string;
+} {
+  const blocks = numbers
+    .map((number) => BLOCK_BY_NUMBER.get(number))
+    .filter((block): block is ProgramBlockSummary => Boolean(block));
+  if (blocks.length === 0) {
+    return { time: "", title: title ?? "", host: "" };
+  }
+  const first = blocks[0];
+  const last = blocks[blocks.length - 1];
+  const start = first.schedule.split(" - ")[0];
+  const end = last.schedule.split(" - ")[1];
+  const hosts = [...new Set(blocks.map((block) => block.host).filter(Boolean))];
+  return {
+    time: start + " - " + end,
+    title: title ?? blocks.map((block) => shortTitle(block.title)).join(" + "),
+    host: hosts.join(" + "),
+  };
+}
+
 
 export const AD_CREATIVES: AdCreative[] = [
   // ==================== SUEÑOS Y PROFESIONES 3D (DIRECTOS CON GLOBO CARICATURA) ====================
@@ -680,7 +639,7 @@ Bloque 01 · El Gran Inicio de las 48 HORAS por La Supercasa con Sebas y todo el
     defaultAspect: '9:16',
     objective: 'Sintonía bloque nocturno',
     caption: `🎮😂 ¡YA VA A EMPEZAR LA NOCHE DE DESAFÍOS & RISAS SIN FILTRO!
-Con Deivid · Retos en vivo decididos por la audiencia con cada donación.
+Con Vikingo · Retos en vivo decididos por la audiencia con cada donación.
 
 📺 Míralo en vivo: supercasa.svgvisual.com/envivo
 🫆 Manda tu reto donando: supercasa.svgvisual.com/donar
@@ -715,7 +674,7 @@ Con Deivid · Retos en vivo decididos por la audiencia con cada donación.
     defaultKickHandle: 'deivid',
     objective: 'Llevar comunidad gamer de Kick a donar',
     caption: `🏆🎮 ¡YA EMPIEZA LA COPA DE CAMPEONES: EL DESAFÍO GAMER!
-Acompaña a David en vivo por Kick (@{KICK}) dentro de las 48 Horas por La Supercasa.
+Acompaña a Vikingo en vivo por Kick (@{KICK}) dentro de las 48 Horas por La Supercasa.
 Inscripciones y aportes solidarios para terminar el hogar de los Super Calvitos.
 
 🟢 Transmisión Kick: kick.com/{KICK}
@@ -730,7 +689,7 @@ Inscripciones y aportes solidarios para terminar el hogar de los Super Calvitos.
         kicker: 'EN VIVO POR KICK: @{KICK} · BLOQUE 05',
         headline: 'Copa de Campeones Gamer',
         speechBubble: '¡Únete en Kick (@{KICK}) y apoya con tu donación en el torneo! 🎮🏆',
-        body: 'Desafío Gamer de David · Sábado 10:00 a. m. (Bogotá).',
+        body: 'Desafío Gamer de Vikingo · Sábado 10:00 a. m. (Bogotá).',
         accentColor: 'lime',
         urlLabel: 'KICK @{KICK} Y EN VIVO EN',
         urlText: 'supercasa.svgvisual.com/envivo',
@@ -742,7 +701,7 @@ Inscripciones y aportes solidarios para terminar el hogar de los Super Calvitos.
   {
     id: 'post-copa-gamer-kick',
     title: 'Post 4:5 · Copa de Campeones Gamer en Kick',
-    subtitle: 'Escena 3D gamer para anunciar el torneo de David con su @ de Kick',
+    subtitle: 'Escena 3D gamer para anunciar el torneo de Vikingo con su @ de Kick',
     format: 'post',
     category: 'bloques',
     defaultTheme: 'cortina',
@@ -751,7 +710,7 @@ Inscripciones y aportes solidarios para terminar el hogar de los Super Calvitos.
     defaultKickHandle: 'deivid',
     objective: 'Difusión del torneo gamer en redes',
     caption: `🎮🔥 ¡TORNEO SOLIDARIO EN KICK POR LA SUPERCASA!
-Participa o apoya en la Copa de Campeones: El Desafío Gamer con David en Kick (@{KICK}).
+Participa o apoya en la Copa de Campeones: El Desafío Gamer con Vikingo en Kick (@{KICK}).
 Todo lo recaudado va directo a construir La Supercasa de la Fundación @segundosdevidafundacion.
 
 🟢 Kick: kick.com/{KICK}
@@ -766,7 +725,7 @@ Todo lo recaudado va directo a construir La Supercasa de la Fundación @segundos
         kicker: 'ESPECIAL GAMER · KICK @{KICK}',
         headline: 'Copa de Campeones: Desafío Gamer',
         speechBubble: '¡Juega y apoya por los Super Calvitos en Kick @{KICK}! 🎮',
-        body: 'Sábado 21 Nov · 10:00 a. m. (Bogotá). Conduce David.',
+        body: 'Sábado 21 Nov · 10:00 a. m. (Bogotá). Conduce Vikingo.',
         accentColor: 'lime',
         urlLabel: 'EN VIVO POR KICK Y EN',
         urlText: 'supercasa.svgvisual.com/envivo',
@@ -1135,8 +1094,8 @@ Dona fácil con Wompi, Nequi, PSE o Bancolombia en:
   },
   {
     id: 'carousel-agenda-tentativa',
-    title: 'Carrusel 03 · Agenda Tentativa 48H & Kick (5 Slides)',
-    subtitle: 'Horarios tentativos por día incluyendo Copa Gamer de David en Kick',
+    title: 'Carrusel 03 · Agenda 48H & Kick (5 Slides)',
+    subtitle: 'Horarios por día. Incluye la Copa Gamer de Vikingo en Kick',
     format: 'carousel',
     category: 'carruseles',
     defaultTheme: 'cortina',
@@ -1144,9 +1103,9 @@ Dona fácil con Wompi, Nequi, PSE o Bancolombia en:
     supportsKickHandle: true,
     defaultKickHandle: 'deivid',
     objective: 'Guardar en Instagram y sintonizar bloques',
-    caption: `📌 ¡GUARDA LA AGENDA TENTATIVA DE LAS 48 HORAS!
+    caption: `📌 ¡GUARDA LA AGENDA DE LAS 48 HORAS!
 (Horarios sujetos a ajustes en vivo durante la maratón).
-Incluye la Copa de Campeones Gamer con David por Kick (@{KICK}).
+Incluye la Copa de Campeones Gamer con Vikingo por Kick (@{KICK}).
 
 📺 Sigue toda la transmisión en: supercasa.svgvisual.com/envivo
 🫆 Dona cuando quieras: supercasa.svgvisual.com/donar
@@ -1156,7 +1115,7 @@ Incluye la Copa de Campeones Gamer con David por Kick (@{KICK}).
       {
         id: 'car3-s1',
         slideNumber: 1,
-        kicker: 'SLIDE 1 / 5 · AGENDA TENTATIVA 48H',
+        kicker: 'SLIDE 1 / 5 · AGENDA 48H',
         headline: '12 Bloques de Solidaridad Sin Parar',
         body: 'Viernes 20 nov 6:00 p. m. a Domingo 22 nov 6:00 p. m. (Hora Bogotá GMT-5).',
         giantNumber: '48H',
@@ -1168,17 +1127,14 @@ Incluye la Copa de Campeones Gamer con David por Kick (@{KICK}).
       {
         id: 'car3-s2',
         slideNumber: 2,
-        kicker: 'SLIDE 2 / 5 · VIERNES 20 NOV (TENTATIVO)',
+        kicker: 'SLIDE 2 / 5 · VIERNES 20 NOV',
         headline: 'Gran Inicio & Noche de Desafíos',
         body: 'Arrancamos rapándonos en vivo por los Super Calvitos y seguimos con retos del público.',
         giantNumber: 'DÍA 1',
         accentColor: 'yellow',
         urlLabel: 'MIRA EL SÁBADO →',
         urlText: 'supercasa.svgvisual.com/envivo',
-        scheduleRows: [
-          { time: '18:00 – 22:00', title: 'El Gran Inicio (Rapada en vivo)', host: 'Sebas' },
-          { time: '22:00 – 02:00', title: 'Noche de Desafíos & Risas Sin Filtro', host: 'Deivid' },
-        ],
+        scheduleRows: [agendaRow(["01"]), agendaRow(["02"])],
       },
       {
         id: 'car3-s3',
@@ -1191,15 +1147,15 @@ Incluye la Copa de Campeones Gamer con David por Kick (@{KICK}).
         urlLabel: 'MIRA EL DOMINGO →',
         urlText: 'supercasa.svgvisual.com/envivo',
         scheduleRows: [
-          { time: '02:00 – 10:00', title: 'Desvelo Paranormal + Mañanero Café', host: 'Luz, Libardo, Cris' },
-          { time: '10:00 – 14:00', title: 'Copa Campeones Gamer (Kick @{KICK})', host: 'David' },
-          { time: '14:00 – 22:00', title: 'Talentos Kavanah + Gala 14 Habitaciones', host: 'Paola & Sebas' },
+          agendaRow(["03", "04"], "Desvelo Paranormal + Mañanero"),
+          agendaRow(["05"]),
+          agendaRow(["06", "07"], "Talentos Kavanah + Gala de los Sueños"),
         ],
       },
       {
         id: 'car3-s4',
         slideNumber: 4,
-        kicker: 'SLIDE 4 / 5 · DOMINGO 22 NOV (TENTATIVO)',
+        kicker: 'SLIDE 4 / 5 · DOMINGO 22 NOV',
         headline: 'Retro Arcade, Creadores y Gran Cierre',
         body: 'Batalla de fandoms, speedrun solidario y apertura simbólica de La Supercasa.',
         giantNumber: 'DÍA 3',
@@ -1207,9 +1163,9 @@ Incluye la Copa de Campeones Gamer con David por Kick (@{KICK}).
         urlLabel: 'ÚNETE AL CIERRE →',
         urlText: 'supercasa.svgvisual.com/envivo',
         scheduleRows: [
-          { time: '22:00 – 06:00', title: 'Retro Arcade 80s/90s + Speedrun', host: 'Deivid & Libardo' },
-          { time: '06:00 – 14:00', title: 'Despertar Solidario + Batalla Creadores', host: 'Cris, Luz & Paola' },
-          { time: '14:00 – 18:00', title: 'Gran Cierre: Cumbre de la Esperanza', host: 'Kavanah + FSV' },
+          agendaRow(["08", "09"], "Retro Arcade + Speedrun"),
+          agendaRow(["10", "11"], "Despertar Solidario + Creadores"),
+          agendaRow(["12"], "El Gran Cierre"),
         ],
       },
       {
@@ -1324,7 +1280,7 @@ Desliza para conocer qué está pasando ahora mismo en la maratón solidaria jun
     defaultKickHandle: 'deivid',
     objective: 'Conectar comunidad gamer al stream oficial durante el torneo',
     caption: `🎮🏆 ¡ESTAMOS EN VIVO CON LA COPA DE CAMPEONES GAMER!
-Acompaña a David en Kick (@{KICK}) y en la señal oficial de las 48 Horas por La Supercasa.
+Acompaña a Vikingo en Kick (@{KICK}) y en la señal oficial de las 48 Horas por La Supercasa.
 Cada partida y cada reto ayudan a terminar el hogar de los Super Calvitos.
 
 📺 Transmisión oficial: https://supercasa.svgvisual.com/envivo
@@ -1356,8 +1312,8 @@ Cada partida y cada reto ayudan a terminar el hogar de los Super Calvitos.
         urlLabel: 'CANAL @{KICK} Y WEB →',
         urlText: 'supercasa.svgvisual.com/envivo',
         scheduleRows: [
-          { time: 'EN VIVO', title: 'Copa Campeones Gamer (Kick @{KICK})', host: 'David' },
-          { time: '22:00 – 02:00', title: 'Retro Arcade: Street Fighter & Mario Kart', host: 'Deivid' },
+          { time: '10:00 - 14:00', title: 'Copa Campeones Gamer (Kick @{KICK})', host: 'Vikingo' },
+          { time: '22:00 - 02:00', title: 'Retro Arcade: Street Fighter & Mario Kart', host: 'Vikingo' },
         ],
       },
       {
@@ -1441,7 +1397,7 @@ Desde la rapada solidaria hasta el podcast de madrugada, el festival de talentos
         urlText: 'supercasa.svgvisual.com/envivo',
         scheduleRows: [
           { time: 'RETOS', title: 'Todos nos rapamos por los Super Calvitos', host: 'Sebas & Equipo' },
-          { time: 'VIVO', title: 'Castigos y desafíos activados por donación', host: 'Deivid' },
+          { time: 'VIVO', title: 'Castigos y desafíos activados por donación', host: 'Vikingo' },
         ],
       },
       {
@@ -2107,7 +2063,7 @@ Seguimos transmitiendo en vivo junto a @kavanahpl35 y @segundosdevidafundacion. 
         schedule: 'Sáb 21 – Dom 22 · 22:00 – 02:00 (Tentativo)',
         headline: 'Retro Arcade: Noche 80s & 90s',
         bubble: '¡Torneo Street Fighter y Mario Kart por los Super Calvitos! 🕹️🔥',
-        host: 'Deivid',
+        host: 'Vikingo',
         accent: 'cyan' as const,
         char: CAMPAIGN_CONSTANTS.assets.piloto,
         url: 'supercasa.svgvisual.com/envivo',
@@ -2175,17 +2131,24 @@ Seguimos transmitiendo en vivo junto a @kavanahpl35 y @segundosdevidafundacion. 
       },
     ] as const
   ).map(
-    (b): AdCreative => ({
+    (b): AdCreative => {
+      const program = b.num !== "48H" ? BLOCK_BY_NUMBER.get(String(b.num)) : undefined;
+      const schedule = program ? program.day + " · " + program.schedule : b.schedule;
+      const host = program?.host ?? b.host;
+      const title = program
+        ? `Historia · Ya empieza Bloque ${b.num}: ${shortTitle(program.title)}`
+        : b.title;
+      return {
       id: b.id,
-      title: b.title,
-      subtitle: 'subtitle' in b ? b.subtitle : `${b.schedule} · Conduce: ${b.host}`,
+      title,
+      subtitle: 'subtitle' in b ? b.subtitle : `${schedule} · Conduce: ${host}`,
       format: 'story',
       category: 'bloques',
       defaultTheme: 'cortina',
       defaultAspect: '9:16',
       objective: 'Convocar audiencia al bloque en vivo',
       caption: `📺🚨 ¡YA VA A EMPEZAR: ${b.headline.toUpperCase()}!
-📅 ${b.schedule} · Conduce: ${b.host}
+📅 ${schedule} · Conduce: ${host}
 
 🏡 Página oficial (causa, live y donaciones): https://supercasa.svgvisual.com/
 📺 Transmisión en vivo: https://supercasa.svgvisual.com/envivo
@@ -2196,10 +2159,10 @@ Seguimos transmitiendo en vivo junto a @kavanahpl35 y @segundosdevidafundacion. 
         {
           id: `${b.id}-s1`,
           slideNumber: 1,
-          kicker: `BLOQUE ${b.num} · ${b.schedule.toUpperCase()}`,
+          kicker: `BLOQUE ${b.num} · ${schedule.toUpperCase()}`,
           headline: b.headline,
           speechBubble: b.bubble,
-          body: `Conduce: ${b.host}. Mira el vivo y apoya La Supercasa (60%).`,
+          body: `Conduce: ${host}. Mira el vivo y apoya La Supercasa (60%).`,
           giantNumber: b.num,
           accentColor: b.accent,
           urlLabel: b.url === 'supercasa.svgvisual.com' ? 'VIVO Y DONACIONES EN' : 'MIRA EL EN VIVO EN',
@@ -2208,7 +2171,8 @@ Seguimos transmitiendo en vivo junto a @kavanahpl35 y @segundosdevidafundacion. 
           showQr: true,
         },
       ],
-    }),
+      };
+    },
   ),
 
   // ==================== +8 PIEZAS EXTRA DE SUEÑOS 3D Y PÁGINA PRINCIPAL ====================

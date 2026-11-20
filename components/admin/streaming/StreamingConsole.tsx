@@ -24,7 +24,7 @@ import {
 } from "@/lib/streaming/scenes";
 import type { OnAirState } from "@/lib/streaming/types";
 import type { StreamingContent } from "@/lib/streaming/merge";
-import { PROGRAM_SEGMENTS } from "@/lib/program/data";
+import type { ProgramState } from "@/lib/program/types";
 import ContentStudio from "@/components/admin/studio/ContentStudio";
 import ProgramNowControl from "@/components/admin/program/ProgramNowControl";
 import ConnectionPanel from "./ConnectionPanel";
@@ -83,8 +83,10 @@ const overlays = SCENES.filter(
 
 export default function StreamingConsole({
   content: initialContent,
+  program,
 }: {
   content: StreamingContent;
+  program?: ProgramState;
 }) {
   const [tab, setTab] = useState<TabId>("cortinas");
   const [health, setHealth] = useState<Health | null>(null);
@@ -288,11 +290,13 @@ export default function StreamingConsole({
         </div>
       ) : null}
 
-      {tab === "presets" ? <ProgramPresets /> : null}
+      {tab === "presets" ? (
+        <ProgramPresets blocks={program?.blocks} segments={program?.segments} />
+      ) : null}
 
       {tab === "control" ? (
         <div className="space-y-4">
-          <ProgramNowControl segments={PROGRAM_SEGMENTS} />
+          <ProgramNowControl segments={program?.segments ?? []} />
           <ControlPanel onair={health?.onair ?? null} onSaved={onSaved} />
         </div>
       ) : null}

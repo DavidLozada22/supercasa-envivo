@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PublicProgram from "@/components/program/PublicProgram";
-import { PROGRAM_BLOCKS, PROGRAM_SEGMENTS } from "@/lib/program/data";
 import { readProgramNow } from "@/lib/program/now";
+import { readProgram } from "@/lib/program/store";
 import type { PublicProgramSegment } from "@/lib/program/types";
 
 export const dynamic = "force-dynamic";
@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 };
 
 export default async function ProgramPage() {
-  const marker = await readProgramNow();
-  const segments: PublicProgramSegment[] = PROGRAM_SEGMENTS.map((segment) => ({
+  const [marker, program] = await Promise.all([readProgramNow(), readProgram()]);
+  const segments: PublicProgramSegment[] = program.segments.map((segment) => ({
     id: segment.id,
     code: segment.code,
     block: segment.block,
@@ -37,7 +37,7 @@ export default async function ProgramPage() {
   }));
   return (
     <PublicProgram
-      blocks={PROGRAM_BLOCKS}
+      blocks={program.blocks}
       segments={segments}
       initialMarker={marker}
       serverNow={new Date().toISOString()}

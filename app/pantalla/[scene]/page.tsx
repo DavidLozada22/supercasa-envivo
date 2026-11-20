@@ -7,6 +7,7 @@ import {
   type SceneOverride,
 } from "@/lib/streaming/content";
 import { getScene } from "@/lib/streaming/scenes";
+import { readProgram } from "@/lib/program/store";
 
 export const metadata = {
   title: "Cortina",
@@ -29,7 +30,25 @@ export default async function ScenePage({
   const query = await searchParams;
   const scene = getScene(id);
   if (!scene) notFound();
-  const content = await readStreamingContent();
+  const [content, program] = await Promise.all([readStreamingContent(), readProgram()]);
+
+  let base = scene;
+  if (id.startsWith("bloque-")) {
+    const number = id.replace("bloque-", "");
+    const block = program.blocks.find((item) => item.number === number);
+    if (block) {
+      const short = block.title.split(/[:·]/)[0]?.trim() || block.title;
+      base = {
+        ...scene,
+        label: `Bloque ${block.number} · ${short}`,
+        eyebrow: `Bloque ${block.number} · ${block.day} · ${block.startClock} - ${block.endClock}`,
+        title: short,
+        subtitle: block.title,
+        note: block.host ? `Con ${block.host}. ${block.challenge || block.focus}` : block.challenge,
+      };
+    }
+  }
+
   const eyebrow = first(query.eyebrow);
   const badge = first(query.badge);
   const cta = first(query.cta);
@@ -56,7 +75,7 @@ export default async function ScenePage({
       ? { progressPercent: Math.max(0, Math.min(100, progressPercentRaw)) }
       : {}),
   };
-  const merged = mergeScene(scene, { ...content.scenes[id], ...queryOverride });
+  const merged = mergeScene(base, { ...content.scenes[id], ...queryOverride });
 
   const fields = {
     title: first(query.title),

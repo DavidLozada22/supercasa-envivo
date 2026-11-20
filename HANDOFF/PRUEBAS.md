@@ -166,6 +166,23 @@ aquí y en `ESTADO.md`.
   `python3 scripts/import-escaleta.py "/ruta/archivo.xlsx"` y confirmar que los
   bloques y la lista de moscas cambian sin tocar código.
 
+## Editor del programa
+
+- Entrar como admin a `/admin/programa/editar`.
+- Cambiar el nombre y el horario del Bloque 01. Guardar y abrir `/programa` en una
+  pestaña nueva. El bloque debe salir con el nombre y la hora nuevos.
+- Agregar un segmento dentro del Bloque 01, ponerle nombre y hora, guardar. Debe
+  aparecer en `/programa`, en la tabla de moscas y en el Excel.
+- Eliminar un segmento y confirmar que desaparece de `/programa`.
+- Agregar un bloque, cambiar su día y horario, guardar y ver que aparece como
+  pestaña de día si cambia de día.
+- Probar un nombre vacío o una hora inválida. Debe salir el resumen de errores y
+  no guardar.
+- Usar "Sincronizar agenda" y abrir el carrusel de agenda en el Estudio. Las filas
+  de horarios deben tener los bloques nuevos.
+- Descargar el Excel y confirmar que las tres hojas tienen los cambios.
+- Usar "Restaurar al JSON base" y confirmar que vuelve al programa V6.
+
 ## Assets para OBS
 
 - Confirmar que `assets/obs/manifest.json` tiene 56 escenas y 4 pistas.

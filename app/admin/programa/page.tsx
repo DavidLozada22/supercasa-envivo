@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Download, ExternalLink, Pencil } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 import ProgramBoard from "@/components/admin/ProgramBoard";
 import { getSession } from "@/lib/auth";
 import { currentRole } from "@/lib/permissions";
-import blocksJson from "@/lib/program/blocks.json";
-import segmentsJson from "@/lib/program/segments.json";
-import type { ProgramBlock, ProgramSegment } from "@/lib/program/types";
+import { readProgram } from "@/lib/program/store";
 
 export const dynamic = "force-dynamic";
 
@@ -20,13 +20,60 @@ export default async function ProgramPage() {
     redirect("/programa");
   }
 
+  const program = await readProgram();
+
   return (
     <AdminShell current="Programa">
-      <ProgramBoard
-        blocks={blocksJson as ProgramBlock[]}
-        segments={segmentsJson as ProgramSegment[]}
-        serverNow={new Date().toISOString()}
-      />
+      <div className="space-y-4">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#E6009E]">
+                Programa 48H
+              </p>
+              <h1 className="mt-1 text-lg font-extrabold text-[#0F2354]">
+                Bloques, horarios y segmentos
+              </h1>
+              <p className="mt-1 max-w-2xl text-xs leading-relaxed text-slate-500">
+                Edita el programa completo. Los cambios se guardan en Blob y salen en
+                `/programa`, en las moscas y en la agenda. Última edición:{" "}
+                {program.updatedBy || "JSON base"}.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href="/admin/programa/editar"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-[#E6009E] px-4 py-2 text-xs font-extrabold text-white transition hover:bg-[#B8007E]"
+              >
+                <Pencil className="h-4 w-4" strokeWidth={2} />
+                Editar programa
+              </Link>
+              <a
+                href="/api/program/excel"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-xs font-bold text-[#0F2354] transition hover:border-[#E6009E]/40"
+              >
+                <Download className="h-4 w-4" strokeWidth={2} />
+                Excel
+              </a>
+              <a
+                href="/programa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-xs font-bold text-[#0F2354] transition hover:border-[#E6009E]/40"
+              >
+                <ExternalLink className="h-4 w-4" strokeWidth={2} />
+                Ver público
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <ProgramBoard
+          blocks={program.blocks}
+          segments={program.segments}
+          serverNow={new Date().toISOString()}
+        />
+      </div>
     </AdminShell>
   );
 }

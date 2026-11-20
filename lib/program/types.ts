@@ -59,3 +59,10 @@ export type PublicProgramSegment = Pick<
   | "status"
   | "notes"
 >;
+
+export type ProgramState = {
+  blocks: ProgramBlock[];
+  segments: ProgramSegment[];
+  updatedAt: string;
+  updatedBy: string;
+};

@@ -7,6 +7,7 @@ Actualizado: 20 de noviembre de 2026.
 - Producción: `https://supercasa.svgvisual.com`, desplegada por GitHub Actions.
 - Panel: `/admin` con Estudio, Streaming, Programa, Recaudo, Campañas y avisos.
 - Programa V6: 12 bloques y 508 segmentos. Página pública noindex en `/programa`.
+- Editor del programa en `/admin/programa/editar`, con guardado en Blob.
 - Respuestas WhatsApp: `/respuestas`, pública y noindex, con 20 respuestas y 12
   mensajes.
 - Assets OBS: `assets/obs`, con 56 PNG, cuatro pistas y `manifest.json`.
@@ -14,6 +15,25 @@ Actualizado: 20 de noviembre de 2026.
   completar los nombres de invitados que la V6 deja como "Invitados Especiales".
 
 ## Hecho
+
+### 20 de noviembre, editor del programa
+
+- Nueva ruta `/admin/programa/editar` para que el cliente edite el programa
+  completo: nombre del bloque, día, horario, conducción, invitados, pilar, enfoque,
+  reto, canales y todos los segmentos.
+- Se pueden agregar y eliminar bloques y segmentos, duplicar segmentos, buscar
+  dentro del bloque y corregir horas, ejecución, tipo, responsable, estado y notas.
+- Guardado en `supercasa/program.json` en Blob, con validación en el servidor y
+  recálculo de fechas, duraciones y conteos. Botón para descartar y para restaurar
+  al JSON base.
+- `/programa`, `/api/program`, las moscas de Streaming y el Excel leen el programa
+  guardado. `/pantalla/bloque-XX` también toma el nombre y el horario actuales.
+- El Excel se genera al momento en `/api/program/excel` con las hojas Programa,
+  Bloques y Moscas.
+- Marketing ya toma los bloques del JSON V6: la agenda del carrusel, las historias
+  de "ya empieza" y los nombres de conducción. El botón "Sincronizar agenda"
+  escribe las filas actualizadas en el carrusel de agenda.
+- 61 pruebas pasan.
 
 ### 20 de noviembre, assets para OBS
 

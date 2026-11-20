@@ -25,8 +25,6 @@ export type ProgramPreset = {
 
 export { PROGRAM_BLOCKS, PROGRAM_SEGMENTS } from "./data";
 
-const SEGMENTS = PROGRAM_SEGMENTS;
-
 const GENERIC_PRESENTER =
   /^(invitados?\s+especiales?|por confirmar|n\/a|ninguno|todo el equipo)$/i;
 
@@ -80,10 +78,13 @@ export function lowerThirdPath(guest: string, role: string): string {
   return pathFor("lower-third", { guest, guestRole: role });
 }
 
-function buildPresets(): ProgramPreset[] {
+export function buildPresets(
+  blocks: ProgramBlock[] = PROGRAM_BLOCKS,
+  segments: ProgramSegment[] = PROGRAM_SEGMENTS,
+): ProgramPreset[] {
   const presets: ProgramPreset[] = [];
 
-  for (const block of PROGRAM_BLOCKS) {
+  for (const block of blocks) {
     const scene = blockScene(block);
     if (!scene) continue;
     presets.push({
@@ -101,7 +102,7 @@ function buildPresets(): ProgramPreset[] {
     });
   }
 
-  for (const block of PROGRAM_BLOCKS) {
+  for (const block of blocks) {
     const scene = getScene("estamos-en");
     if (!scene) continue;
     const override: SceneOverride = {
@@ -160,7 +161,7 @@ function buildPresets(): ProgramPreset[] {
     });
   };
 
-  for (const block of PROGRAM_BLOCKS) {
+  for (const block of blocks) {
     for (const person of splitPeople(block.host)) {
       addMosca(
         block,
@@ -174,9 +175,9 @@ function buildPresets(): ProgramPreset[] {
     }
   }
 
-  for (const segment of SEGMENTS) {
+  for (const segment of segments) {
     if (!segment.live) continue;
-    const block = PROGRAM_BLOCKS.find((item) => item.number === segment.block);
+    const block = blocks.find((item) => item.number === segment.block);
     if (!block) continue;
     for (const person of splitPeople(segment.presenter)) {
       const role = roleFor(segment, block, person);
@@ -193,7 +194,7 @@ function buildPresets(): ProgramPreset[] {
     }
   }
 
-  for (const block of PROGRAM_BLOCKS) {
+  for (const block of blocks) {
     if (guestBlocks.has(block.number)) continue;
     if (!/invitad/i.test(block.guests)) continue;
     addMosca(
@@ -208,9 +209,9 @@ function buildPresets(): ProgramPreset[] {
     );
   }
 
-  for (const segment of SEGMENTS) {
+  for (const segment of segments) {
     if (!segment.live || !segment.name) continue;
-    const block = PROGRAM_BLOCKS.find((item) => item.number === segment.block);
+    const block = blocks.find((item) => item.number === segment.block);
     if (!block) continue;
     const scene = getScene("ya-viene");
     if (!scene) continue;

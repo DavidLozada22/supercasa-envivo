@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
-import { PROGRAM_SEGMENTS } from "@/lib/program/data";
+import { readProgram } from "@/lib/program/store";
 import { readProgramNow, writeProgramNow } from "@/lib/program/now";
 import { apiRole } from "@/lib/permissions";
 
@@ -44,8 +44,11 @@ export async function PUT(request: Request) {
   if (segmentId === undefined) {
     return NextResponse.json({ error: "Segmento inválido." }, { status: 400 });
   }
-  if (segmentId && !PROGRAM_SEGMENTS.some((segment) => segment.id === segmentId)) {
-    return NextResponse.json({ error: "Ese segmento no existe." }, { status: 400 });
+  if (segmentId) {
+    const program = await readProgram();
+    if (!program.segments.some((segment) => segment.id === segmentId)) {
+      return NextResponse.json({ error: "Ese segmento no existe." }, { status: 400 });
+    }
   }
 
   const session = await getSession();

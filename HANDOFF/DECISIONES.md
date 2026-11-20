@@ -319,3 +319,14 @@ URL. El PNG es la versión base; para textos dinámicos se usa
 
 `npm run obs:assets` reconstruye la carpeta y el manifiesto. Git guarda los blobs
 una sola vez aunque el mismo PNG exista en `public/cortinas` y en `assets/obs`.
+
+## 39. El programa se edita en el panel
+
+El JSON de la escaleta sigue siendo la base versionada, pero el cliente edita una
+copia en `supercasa/program.json` desde `/admin/programa/editar`. El servidor
+normaliza fechas, horas, duraciones, IDs y conteos antes de guardar.
+
+La página pública, las moscas, el Excel y las cortinas de bloque leen ese estado.
+El botón "Sincronizar agenda" actualiza las filas del carrusel de agenda de
+marketing. Los PNG de OBS siguen siendo la versión base hasta que se regeneren con
+`npm run cortinas` y `npm run obs:assets`.

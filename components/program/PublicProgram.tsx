@@ -329,7 +329,7 @@ export default function PublicProgram({
           </div>
           <div className="flex items-center gap-2">
             <a
-              href="/programa/programa-48h.xlsx"
+              href="/api/program/excel"
               download
               className="inline-flex min-h-[44px] items-center gap-2 rounded-xl bg-[#E6009E] px-3.5 py-2 text-xs font-extrabold text-white transition hover:bg-[#B8007E]"
             >

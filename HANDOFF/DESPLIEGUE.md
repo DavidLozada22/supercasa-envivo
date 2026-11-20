@@ -145,6 +145,7 @@ guardan en Blob:
 
 - `supercasa/marketing.json`
 - `supercasa/streaming-content.json`
+- `supercasa/program.json`
 
 El repositorio público `nelsonSVG/estudiomarketing` solo tenía el README. La
 versión completa de 88 creatives está en la carpeta local

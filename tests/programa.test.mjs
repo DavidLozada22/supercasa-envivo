@@ -34,7 +34,7 @@ test('la página pública no se indexa y tiene la barra de ahora', () => {
   assert.ok(view.includes('Según cronograma'));
   assert.ok(view.includes('En vivo según el equipo'));
   assert.ok(view.includes('Ir a ahora'));
-  assert.ok(view.includes('programa-48h.xlsx'));
+  assert.ok(view.includes('/api/program/excel'));
   assert.ok(view.includes('Built by'));
 });
 

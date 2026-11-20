@@ -6,9 +6,11 @@ import {
   PRESET_KINDS,
   PROGRAM_BLOCKS,
   PROGRAM_PRESETS,
+  buildPresets,
   lowerThirdPath,
   type PresetKind,
 } from "@/lib/program/presets";
+import type { ProgramBlock, ProgramSegment } from "@/lib/program/types";
 import ObsCopyButton from "./ObsCopyButton";
 
 const KIND_STYLES: Record<PresetKind, string> = {
@@ -25,7 +27,18 @@ const KIND_LABELS: Record<PresetKind, string> = {
   block: "Bloque",
 };
 
-export default function ProgramPresets() {
+export default function ProgramPresets({
+  blocks,
+  segments,
+}: {
+  blocks?: ProgramBlock[];
+  segments?: ProgramSegment[];
+}) {
+  const programBlocks = blocks ?? PROGRAM_BLOCKS;
+  const presets = useMemo(
+    () => (blocks && segments ? buildPresets(blocks, segments) : PROGRAM_PRESETS),
+    [blocks, segments],
+  );
   const [kind, setKind] = useState<"all" | PresetKind>("all");
   const [block, setBlock] = useState("all");
   const [query, setQuery] = useState("");
@@ -36,7 +49,7 @@ export default function ProgramPresets() {
 
   const filtered = useMemo(() => {
     const term = query.trim().toLowerCase();
-    return PROGRAM_PRESETS.filter((preset) => {
+    return presets.filter((preset) => {
       if (kind !== "all" && preset.kind !== kind) return false;
       if (block !== "all" && preset.block !== block) return false;
       if (!term) return true;
@@ -66,7 +79,7 @@ export default function ProgramPresets() {
             </p>
           </div>
           <span className="rounded-full bg-slate-100 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
-            {filtered.length} de {PROGRAM_PRESETS.length}
+            {filtered.length} de {presets.length}
           </span>
         </div>
         <p className="mt-3 rounded-xl bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">
@@ -81,8 +94,8 @@ export default function ProgramPresets() {
             const active = kind === item.id;
             const count =
               item.id === "all"
-                ? PROGRAM_PRESETS.length
-                : PROGRAM_PRESETS.filter((preset) => preset.kind === item.id).length;
+                ? presets.length
+                : presets.filter((preset) => preset.kind === item.id).length;
             return (
               <button
                 key={item.id}
@@ -114,7 +127,7 @@ export default function ProgramPresets() {
           className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-[#0F2354] outline-none"
         >
           <option value="all">Todos los bloques</option>
-          {PROGRAM_BLOCKS.map((item) => (
+          {programBlocks.map((item) => (
             <option key={item.number} value={item.number}>
               {item.label} · {item.schedule}
             </option>
