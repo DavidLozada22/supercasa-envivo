@@ -33,6 +33,9 @@ Actualizado: 19 de noviembre de 2026.
   los cinco admin a Inicio. Las rutas y APIs bloquean el acceso cruzado.
 - Recaudo probado en producción: se agregó un aporte de $1.000, se editó a
   $2.000 y se borró. El total volvió a $0.
+- Exportación PNG de cortinas corregida y verificada a 1920x1080 en local y
+  producción. El preview se escala, pero la captura usa el nodo real sin
+  transformación.
 - 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre, segunda ronda
@@ -81,6 +84,9 @@ Actualizado: 19 de noviembre de 2026.
   los cinco admin a Inicio. Las rutas y APIs bloquean el acceso cruzado.
 - Recaudo probado en producción: se agregó un aporte de $1.000, se editó a
   $2.000 y se borró. El total volvió a $0.
+- Exportación PNG de cortinas corregida y verificada a 1920x1080 en local y
+  producción. El preview se escala, pero la captura usa el nodo real sin
+  transformación.
 - 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre

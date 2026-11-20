@@ -126,3 +126,4 @@ aquí y en `ESTADO.md`.
 - Recaudo de producción: alta de $1.000, edición a $2.000 y borrado. Totales
   correctos y vuelta a $0.
 - Estudio de producción: 88 de 88 creatives y el editor abre.
+- PNG de cortina editada verificado en producción: 1920x1080 y contenido completo.
