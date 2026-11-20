@@ -1,7 +1,13 @@
 export const DEFAULT_CHANNEL_ID = "UCrdNxBU4cfR0rEHY1OO9tQQ";
 const API = "https://www.googleapis.com/youtube/v3";
 
-export type LiveSource = "api-live" | "api-search" | "cached" | "fallback" | "manual";
+export type LiveSource =
+  | "api-live"
+  | "api-search"
+  | "api-uploads"
+  | "cached"
+  | "fallback"
+  | "manual";
 export type LiveError = "missing_key" | "quota" | "network" | "api" | null;
 
 export type LiveHistoryEntry = {
@@ -77,7 +83,7 @@ export async function resolveLiveStatus(input: ResolveInput = {}): Promise<LiveS
     input.key === undefined ? process.env.YOUTUBE_API_KEY ?? "" : input.key ?? "";
   const doFetch: FetchLike = input.fetchImpl ?? fetch;
   const last = input.last ?? null;
-  const maxAge = input.maxAgeMs ?? 25_000;
+  const maxAge = input.maxAgeMs ?? 60_000;
 
   const base = last ?? {
     ...emptyStatus(channelId, checkedAt),
@@ -122,7 +128,7 @@ export async function resolveLiveStatus(input: ResolveInput = {}): Promise<LiveS
       const response = await request(
         `${API}/videos?part=snippet,liveStreamingDetails&id=${encodeURIComponent(candidate)}`,
       );
-      if (response.status === 403) return failure("quota");
+      if (response.status === 403 || response.status === 429) return failure("quota");
       if (!response.ok) return failure("api");
       const data = (await response.json()) as {
         items?: Array<{
@@ -151,44 +157,88 @@ export async function resolveLiveStatus(input: ResolveInput = {}): Promise<LiveS
       }
     }
 
-    const response = await request(
-      `${API}/search?part=snippet&channelId=${encodeURIComponent(channelId)}&eventType=live&type=video&maxResults=1`,
-    );
-    if (response.status === 403) return failure("quota");
-    if (!response.ok) return failure("api");
-
-    const data = (await response.json()) as {
-      items?: Array<{ id?: { videoId?: string } }>;
-    };
-    const found = data.items?.[0]?.id?.videoId ?? "";
-
-    if (found) {
-      const same = found === base.videoId;
+    // El buscador de YouTube gasta 100 unidades y suele tardar en indexar el
+    // directo. La lista de subidas del canal cuesta 2 unidades y trae el vivo
+    // al instante. Funciona con la lista UU<canal>.
+    const uploads = channelId.startsWith("UC") ? `UU${channelId.slice(2)}` : "";
+    if (!uploads) {
       return {
         ...base,
         channelId,
-        videoId: found,
-        live: true,
-        source: "api-search",
+        live: false,
+        source: "api-uploads",
         checkedAt,
-        changedAt: same ? base.changedAt ?? checkedAt : checkedAt,
         error: null,
-        history: same
-          ? base.history
-          : withHistory(base, {
-              at: checkedAt,
-              from: base.videoId || null,
-              to: found,
-              reason: base.live ? "streak_ended" : "new_live",
-            }),
       };
+    }
+
+    const listResponse = await request(
+      `${API}/playlistItems?part=contentDetails&playlistId=${encodeURIComponent(uploads)}&maxResults=12`,
+    );
+    if (listResponse.status === 403 || listResponse.status === 429) {
+      return failure("quota");
+    }
+    if (!listResponse.ok) return failure("api");
+
+    const listData = (await listResponse.json()) as {
+      items?: Array<{ contentDetails?: { videoId?: string } }>;
+    };
+    const ids = (listData.items ?? [])
+      .map((item) => item.contentDetails?.videoId ?? "")
+      .filter(Boolean)
+      .slice(0, 12);
+
+    if (ids.length > 0) {
+      const videosResponse = await request(
+        `${API}/videos?part=snippet,liveStreamingDetails&id=${ids.join(",")}`,
+      );
+      if (videosResponse.status === 403 || videosResponse.status === 429) {
+        return failure("quota");
+      }
+      if (!videosResponse.ok) return failure("api");
+
+      const videosData = (await videosResponse.json()) as {
+        items?: Array<{
+          id?: string;
+          snippet?: { liveBroadcastContent?: string };
+          liveStreamingDetails?: { actualEndTime?: string };
+        }>;
+      };
+      const liveItem = (videosData.items ?? []).find(
+        (item) =>
+          item.snippet?.liveBroadcastContent === "live" &&
+          !item.liveStreamingDetails?.actualEndTime,
+      );
+      const found = liveItem?.id ?? "";
+
+      if (found) {
+        const same = found === base.videoId;
+        return {
+          ...base,
+          channelId,
+          videoId: found,
+          live: true,
+          source: "api-uploads",
+          checkedAt,
+          changedAt: same ? base.changedAt ?? checkedAt : checkedAt,
+          error: null,
+          history: same
+            ? base.history
+            : withHistory(base, {
+                at: checkedAt,
+                from: base.videoId || null,
+                to: found,
+                reason: base.live ? "streak_ended" : "new_live",
+              }),
+        };
+      }
     }
 
     return {
       ...base,
       channelId,
       live: false,
-      source: "api-search",
+      source: "api-uploads",
       checkedAt,
       error: null,
     };

@@ -51,19 +51,30 @@ test('mantiene el directo si videos.list confirma que sigue en vivo', async () =
   assert.ok(calls[0].includes('/videos'));
 });
 
-test('detecta el directo nuevo cuando el anterior termino', async () => {
+test('detecta el directo nuevo desde la lista de subidas', async () => {
   const fetchImpl = async (url) => {
-    if (url.includes('/videos')) {
+    if (url.includes('/playlistItems')) {
+      return ok({ items: [{ contentDetails: { videoId: 'BBB' } }] });
+    }
+    if (url.includes('id=BBB')) {
       return ok({
         items: [
           {
-            snippet: { liveBroadcastContent: 'none' },
-            liveStreamingDetails: { actualEndTime: '2026-11-21T06:00:00Z' },
+            id: 'BBB',
+            snippet: { liveBroadcastContent: 'live' },
+            liveStreamingDetails: {},
           },
         ],
       });
     }
-    return ok({ items: [{ id: { videoId: 'BBB' } }] });
+    return ok({
+      items: [
+        {
+          snippet: { liveBroadcastContent: 'none' },
+          liveStreamingDetails: { actualEndTime: '2026-11-21T06:00:00Z' },
+        },
+      ],
+    });
   };
   const status = await resolveLiveStatus({
     key: 'k',
@@ -73,7 +84,7 @@ test('detecta el directo nuevo cuando el anterior termino', async () => {
   });
   assert.equal(status.videoId, 'BBB');
   assert.equal(status.live, true);
-  assert.equal(status.source, 'api-search');
+  assert.equal(status.source, 'api-uploads');
   assert.equal(status.history[0].to, 'BBB');
   assert.equal(status.history[0].reason, 'streak_ended');
 });
@@ -89,7 +100,23 @@ test('si no hay directo conserva el ultimo ID y marca fuera de linea', async () 
   });
   assert.equal(status.videoId, 'AAA');
   assert.equal(status.live, false);
-  assert.equal(status.source, 'api-search');
+  assert.equal(status.source, 'api-uploads');
+});
+
+test('si el buscador responde 429 lo trata como cuota', async () => {
+  const fetchImpl = async (url) => {
+    if (url.includes('/videos')) {
+      return ok({ items: [{ snippet: { liveBroadcastContent: 'none' } }] });
+    }
+    return ok({ error: { message: 'Quota exceeded' } }, 429);
+  };
+  const status = await resolveLiveStatus({
+    key: 'k',
+    last: base,
+    now: new Date('2026-11-21T06:00:00Z'),
+    fetchImpl,
+  });
+  assert.equal(status.error, 'quota');
 });
 
 test('si la cuota esta agotada conserva el estado', async () => {
@@ -120,7 +147,7 @@ test('si la red falla conserva el estado', async () => {
   assert.equal(status.live, true);
 });
 
-test('respeta la cache de 25 segundos', async () => {
+test('respeta la cache de un minuto', async () => {
   let called = 0;
   const fetchImpl = async () => {
     called += 1;

@@ -14,7 +14,8 @@ test('el live resuelve el directo y cae a la cortina sin romper la pagina', () =
 
   const resolver = readFileSync('lib/youtube/live.ts', 'utf8');
   assert.ok(resolver.includes('YOUTUBE_API_KEY'));
-  assert.ok(resolver.includes('eventType=live'));
+  assert.ok(resolver.includes('/playlistItems'));
+  assert.ok(resolver.includes('api-uploads'));
   assert.ok(resolver.includes('quota'));
 
   const masked = readFileSync('components/landing/MaskedPlayer.tsx', 'utf8');

@@ -15,7 +15,7 @@ export type { OnAirFields, OnAirState } from "./types";
 const LIVE_KEY = "supercasa/streaming/live-status.json";
 const ON_AIR_KEY = "supercasa/streaming/onair.json";
 const SIM_KEY = "supercasa/streaming/simulation.json";
-const MEMORY_TTL = 10_000;
+const MEMORY_TTL = 30_000;
 
 export type Simulation = {
   videoId: string;
