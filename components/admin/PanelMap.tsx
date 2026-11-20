@@ -29,7 +29,7 @@ export default function PanelMap({ role }: { role: PanelRole }) {
         </Link>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-3 xl:grid-cols-4">
         {links.map((link) => {
           const Icon = link.icon;
           const primary = link.href === "/admin/streaming";
@@ -37,7 +37,7 @@ export default function PanelMap({ role }: { role: PanelRole }) {
             <Link
               key={link.href}
               href={link.href}
-              className={`group flex h-full flex-col gap-2 rounded-xl border p-4 transition ${
+              className={`group flex h-full flex-col gap-2 rounded-xl border p-3 transition sm:p-4 ${
                 primary
                   ? "border-[#B5F43D] bg-[#B5F43D]/12 hover:bg-[#B5F43D]/20"
                   : "border-slate-200 bg-slate-50 hover:border-[#E6009E]/35 hover:bg-white"
@@ -59,7 +59,7 @@ export default function PanelMap({ role }: { role: PanelRole }) {
                   strokeWidth={2}
                 />
               </span>
-              <span className="text-[11px] leading-relaxed text-slate-500">{link.description}</span>
+              <span className="hidden text-[11px] leading-relaxed text-slate-500 sm:block">{link.description}</span>
             </Link>
           );
         })}

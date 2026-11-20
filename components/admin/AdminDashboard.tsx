@@ -8,6 +8,7 @@ import {
   Eye,
   EyeOff,
   KeyRound,
+  LayoutDashboard,
   Loader2,
   Megaphone,
   QrCode,
@@ -27,21 +28,14 @@ import type { PanelRole } from "@/lib/users";
 import { youtubeEmbedUrl, youtubeVideoId } from "@/lib/youtube";
 
 const TABS = [
+  { id: "home", label: "Inicio", icon: LayoutDashboard },
   { id: "stream", label: "Transmisión", icon: Radio },
-  { id: "totals", label: "Recaudo", icon: Wallet },
+  { id: "totals", label: "Meta", icon: Wallet },
   { id: "calendar", label: "Calendario", icon: Megaphone },
   { id: "campaigns", label: "Campañas", icon: Target },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
-
-const cop = new Intl.NumberFormat("es-CO", {
-  style: "currency",
-  currency: "COP",
-  maximumFractionDigits: 0,
-});
-
-const num = new Intl.NumberFormat("es-CO");
 
 const inputClass =
   "w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-800 shadow-sm outline-none transition focus:border-[#E6009E] focus:ring-2 focus:ring-[#E6009E]/15";
@@ -102,7 +96,7 @@ export default function AdminDashboard({
 }) {
   const router = useRouter();
   const [config, setConfig] = useState<AppConfig>(initialConfig);
-  const [tab, setTab] = useState<TabId>("stream");
+  const [tab, setTab] = useState<TabId>("home");
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<"idle" | "saved" | "error">("idle");
   const [message, setMessage] = useState("");
@@ -159,8 +153,6 @@ export default function AdminDashboard({
     router.refresh();
   };
 
-  const pct = config.totals.goal > 0 ? (config.totals.raised / config.totals.goal) * 100 : 0;
-
   return (
     <div
       className="flex min-h-screen bg-[#F4F6FB] text-slate-800"
@@ -192,23 +184,25 @@ export default function AdminDashboard({
                 {message}
               </span>
             ) : null}
-            <button
-              type="button"
-              onClick={save}
-              disabled={saving}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#E6009E] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#B8007E] disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {saving ? (
-                <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
-              ) : (
-                <Save className="h-4 w-4" strokeWidth={2} />
-              )}
-              {saving ? "Guardando" : "Guardar cambios"}
-            </button>
+            {tab !== "home" ? (
+              <button
+                type="button"
+                onClick={save}
+                disabled={saving}
+                className="inline-flex items-center gap-2 rounded-xl bg-[#E6009E] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#B8007E] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
+                ) : (
+                  <Save className="h-4 w-4" strokeWidth={2} />
+                )}
+                {saving ? "Guardando" : "Guardar cambios"}
+              </button>
+            ) : null}
           </div>
         </header>
 
-        <div className="flex gap-2 overflow-x-auto border-b border-slate-200 bg-white px-5 py-3 lg:hidden">
+        <div className="flex gap-2 overflow-x-auto border-b border-slate-200 bg-white px-5 py-3">
           {TABS.map((item) => {
             const Icon = item.icon;
             const active = tab === item.id;
@@ -231,18 +225,7 @@ export default function AdminDashboard({
         </div>
 
         <main className="mx-auto w-full max-w-5xl space-y-5 p-5 pb-28 md:p-8 md:pb-28 lg:pb-8">
-          <PanelMap role={role} />
-          <div className="flex flex-wrap gap-2">
-            <a href="/admin/recorrido" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
-              Ver mapa y demostración del recorrido
-            </a>
-            <a href="/admin/streaming" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
-              Abrir Streaming
-            </a>
-            <a href="/admin/casa" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-[#0F2354] transition hover:bg-slate-100">
-              Ver avance de la casa
-            </a>
-          </div>
+          {tab === "home" ? <PanelMap role={role} /> : null}
           {tab === "stream" ? (
             <>
               <section className={cardClass}>
@@ -469,82 +452,45 @@ export default function AdminDashboard({
                   <Wallet className="h-5 w-5" strokeWidth={1.75} />
                 </span>
                 <div>
-                  <h2 className="text-base font-bold text-[#0F2354]">Recaudo en vivo</h2>
+                  <h2 className="text-base font-bold text-[#0F2354]">Meta de la campaña</h2>
                   <p className="text-sm text-slate-500">
-                    Las cifras se publican en la página y en el render de la casa.
+                    El recaudo real se calcula solo desde Recaudo, con Bre-B, Bancolombia
+                    y Wompi. Aquí solo ajustas la meta.
                   </p>
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Monto recaudado (COP)">
-                  <input
-                    type="number"
-                    min={0}
-                    className={inputClass}
-                    value={config.totals.raised}
-                    onChange={(event) =>
-                      setConfig((current) => ({
-                        ...current,
-                        totals: { ...current.totals, raised: Number(event.target.value) || 0 },
-                      }))
-                    }
-                  />
-                </Field>
-
-                <Field label="Meta total (COP)">
-                  <input
-                    type="number"
-                    min={1}
-                    className={inputClass}
-                    value={config.totals.goal}
-                    onChange={(event) =>
-                      setConfig((current) => ({
-                        ...current,
-                        totals: {
-                          ...current.totals,
-                          goal: Number(event.target.value) || current.totals.goal,
-                        },
-                      }))
-                    }
-                  />
-                </Field>
-              </div>
+              <Field label="Meta total (COP)">
+                <input
+                  type="number"
+                  min={1}
+                  className={inputClass}
+                  value={config.totals.goal}
+                  onChange={(event) =>
+                    setConfig((current) => ({
+                      ...current,
+                      totals: {
+                        ...current.totals,
+                        goal: Number(event.target.value) || current.totals.goal,
+                      },
+                    }))
+                  }
+                />
+              </Field>
 
               <div className="mt-4 flex flex-wrap gap-2">
-                {[50_000, 100_000, 500_000, 1_000_000, 5_000_000, 10_000_000].map((amount) => (
-                  <button
-                    key={amount}
-                    type="button"
-                    onClick={() =>
-                      setConfig((current) => ({
-                        ...current,
-                        totals: { ...current.totals, raised: current.totals.raised + amount },
-                      }))
-                    }
-                    className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-[#0F2354] transition hover:border-[#E6009E]/40 hover:text-[#E6009E]"
-                  >
-                    +{num.format(amount)}
-                  </button>
-                ))}
-              </div>
-
-              <div className="mt-6 rounded-xl bg-slate-50 px-4 py-4">
-                <div className="flex items-center justify-between text-sm font-semibold text-[#0F2354]">
-                  <span>Avance</span>
-                  <span>{pct.toLocaleString("es-CO", { maximumFractionDigits: 1 })}%</span>
-                </div>
-                <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-200">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#E6009E] to-[#FF6B2B] transition-all"
-                    style={{ width: `${Math.min(100, pct)}%` }}
-                  />
-                </div>
-                <div className="mt-3 flex flex-wrap justify-between gap-2 text-xs text-slate-500">
-                  <span>Recaudado: {cop.format(config.totals.raised)}</span>
-                  <span>Meta: {cop.format(config.totals.goal)}</span>
-                  <span>Falta: {cop.format(Math.max(0, config.totals.goal - config.totals.raised))}</span>
-                </div>
+                <a
+                  href="/admin/recaudo"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#0F2354] px-4 py-2.5 text-xs font-bold text-white transition hover:bg-[#183478]"
+                >
+                  Ver recaudo real
+                </a>
+                <a
+                  href="/admin/donaciones"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-bold text-[#0F2354] transition hover:bg-slate-50"
+                >
+                  Ver donaciones
+                </a>
               </div>
             </section>
           ) : null}

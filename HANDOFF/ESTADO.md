@@ -40,6 +40,11 @@ Actualizado: 19 de noviembre de 2026.
   `WOMPI_PUBLIC_KEY`, `WOMPI_PRIVATE_KEY`, `WOMPI_INTEGRITY_SECRET` y
   `WOMPI_EVENTS_SECRET` desde la bóveda. La consulta de estado ahora usa la llave
   privada. Preview queda en modo simulado para no cobrar por accidente.
+- Dashboard `/admin` abre en Inicio con el mapa de accesos. Al entrar a
+  Transmisión, Meta, Calendario o Campañas, el mapa se oculta y se ve solo esa
+  sección. El mapa quedó en dos columnas en móvil y las descripciones se ocultan
+  para reducir scroll. La pestaña de recaudo del dashboard se renombró Meta y ya
+  no edita el recaudo manual: el recaudo real vive en `/admin/recaudo`.
 - 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre, segunda ronda

@@ -140,3 +140,13 @@ aquí y en `ESTADO.md`.
   - Que el total del sitio suba.
 - Revisar en el dashboard de Wompi que el webhook apunte a
   `https://supercasa.svgvisual.com/api/wompi/webhook`.
+
+## Dashboard en móvil
+
+- Entrar a `/admin` como admin en 390 px. Debe abrir en Inicio con el mapa de
+  accesos en dos columnas.
+- Tocar Transmisión, Meta, Calendario o Campañas. El mapa debe desaparecer y
+  solo debe quedar la sección elegida.
+- Volver a Inicio. El mapa debe reaparecer.
+- Abrir "Más" en la barra inferior. Debe mostrar todos los módulos agrupados y
+  el activo resaltado.

@@ -11,5 +11,7 @@ test('el panel tiene simulador de avance con fundido', () => {
   assert.ok(preview.includes('key={frame}'));
   assert.ok(preview.includes('useState(60)'));
   const dash = readFileSync('components/admin/AdminDashboard.tsx', 'utf8');
-  assert.ok(dash.includes('/admin/casa'));
+  assert.ok(dash.includes('PanelMap'));
+  const nav = readFileSync('components/admin/nav.ts', 'utf8');
+  assert.ok(nav.includes('/admin/casa'));
 });
