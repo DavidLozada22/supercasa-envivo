@@ -2,6 +2,8 @@ import crypto from "node:crypto";
 
 export type PanelRole = "admin" | "editor" | "marketing" | "finance";
 
+const DEFAULT_PROGRAM_EDITORS = ["lio"];
+
 export type PanelUser = {
   username: string;
   name: string;
@@ -79,6 +81,26 @@ export function findUser(username: string): StoredUser | null {
 
 export function roleOf(username: string): PanelRole | null {
   return findUser(username)?.role ?? null;
+}
+
+export function programEditors(): string[] {
+  const raw = process.env.PROGRAM_EDITORS ?? "";
+  const list = raw
+    .split(",")
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean);
+  return list.length > 0 ? list : DEFAULT_PROGRAM_EDITORS;
+}
+
+export function canEditProgram(username: string | null | undefined): boolean {
+  if (!username) return false;
+  return programEditors().includes(username.trim().toLowerCase());
+}
+
+export function programEditorNames(): string[] {
+  return programEditors().map(
+    (username) => findUser(username)?.name || username.charAt(0).toUpperCase() + username.slice(1),
+  );
 }
 
 export async function verifyUser(

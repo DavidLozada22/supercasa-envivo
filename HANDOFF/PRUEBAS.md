@@ -169,6 +169,10 @@ aquí y en `ESTADO.md`.
 ## Editor del programa
 
 - Entrar como admin a `/admin/programa/editar`.
+- Entrar con un usuario que no sea Lio. El panel debe mostrar "Solo lectura" y
+  `/admin/programa/editar` debe devolver al panel del programa.
+- Intentar guardar con otro usuario desde la API debe responder 403. Lio debe
+  poder guardar y sincronizar la agenda.
 - Cambiar el nombre y el horario del Bloque 01. Guardar y abrir `/programa` en una
   pestaña nueva. El bloque debe salir con el nombre y la hora nuevos.
 - Agregar un segmento dentro del Bloque 01, ponerle nombre y hora, guardar. Debe

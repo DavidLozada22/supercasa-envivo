@@ -1,20 +1,23 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/auth";
 import { buildAgendaRows } from "@/lib/program/agenda";
 import { readProgram } from "@/lib/program/store";
 import { readMarketingState, writeMarketingState } from "@/lib/marketing/store";
-import { apiRole } from "@/lib/permissions";
+import { apiProgramEditor } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
-const ALLOWED = ["admin", "editor", "marketing"] as const;
 const CREATIVE_ID = "carousel-agenda-tentativa";
 
 export async function POST() {
-  const access = await apiRole([...ALLOWED]);
+  const access = await apiProgramEditor();
   if (!access.ok) {
     return NextResponse.json(
-      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
+      {
+        error:
+          access.status === 401
+            ? "No autorizado."
+            : "Solo el editor del programa puede sincronizar la agenda.",
+      },
       { status: access.status },
     );
   }
@@ -29,14 +32,13 @@ export async function POST() {
     slides[slideId] = { ...(slides[slideId] ?? {}), scheduleRows };
   }
 
-  const session = await getSession();
   const next = await writeMarketingState({
     edits: {
       ...state.edits,
       [CREATIVE_ID]: { ...current, slides },
     },
     updatedAt: "",
-    updatedBy: session?.username ?? "",
+    updatedBy: access.username,
   });
 
   return NextResponse.json(

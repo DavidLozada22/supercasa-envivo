@@ -28,6 +28,7 @@ Vercel no duplique despliegues ni bloquee envíos.
 | --- | --- | --- |
 | `ADMIN_USERS` | Producción, Preview | Usuarios del panel con salt y hash |
 | `ADMIN_SESSION_SECRET` | Producción, Preview | Firma de la cookie de sesión |
+| `PROGRAM_EDITORS` | Producción, Preview | Usuarios que pueden editar el programa. Por defecto `lio` |
 | `BLOB_READ_WRITE_TOKEN` | Producción, Preview | Configuración del panel |
 | `DATABASE_URL` | Producción | Donaciones en Postgres |
 | `WOMPI_PUBLIC_KEY` | Producción | Widget de Wompi |

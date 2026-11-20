@@ -33,7 +33,10 @@ Actualizado: 20 de noviembre de 2026.
 - Marketing ya toma los bloques del JSON V6: la agenda del carrusel, las historias
   de "ya empieza" y los nombres de conducción. El botón "Sincronizar agenda"
   escribe las filas actualizadas en el carrusel de agenda.
-- 61 pruebas pasan.
+- Solo Lio puede editar el programa. Los demás roles ven el programa en lectura
+  y pueden descargar el Excel. La lista sale de `PROGRAM_EDITORS` (por defecto
+  `lio`) y se valida en el servidor.
+- 62 pruebas pasan.
 - Desplegado con el commit `1e24b76`. Verificado en producción: `/programa` 200,
   `/api/program` 12 bloques y 508 segmentos, `/api/program/excel` 200 con archivo
   xlsx, `/pantalla/bloque-01` con el nombre del bloque y `/respuestas` 200.

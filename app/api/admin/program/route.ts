@@ -1,38 +1,32 @@
 import { NextResponse } from "next/server";
-import { getSession } from "@/lib/auth";
 import {
   ProgramValidationError,
   readProgram,
   resetProgram,
   writeProgram,
 } from "@/lib/program/store";
-import { apiRole } from "@/lib/permissions";
+import { apiProgramEditor } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
 
-const ALLOWED = ["admin", "editor", "marketing"] as const;
+function denied(status: 401 | 403) {
+  return NextResponse.json(
+    { error: status === 401 ? "No autorizado." : "Solo el editor del programa puede hacer esto." },
+    { status },
+  );
+}
 
 export async function GET() {
-  const access = await apiRole([...ALLOWED]);
-  if (!access.ok) {
-    return NextResponse.json(
-      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
-      { status: access.status },
-    );
-  }
+  const access = await apiProgramEditor();
+  if (!access.ok) return denied(access.status);
   return NextResponse.json(await readProgram(), {
     headers: { "Cache-Control": "no-store" },
   });
 }
 
 export async function PUT(request: Request) {
-  const access = await apiRole([...ALLOWED]);
-  if (!access.ok) {
-    return NextResponse.json(
-      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
-      { status: access.status },
-    );
-  }
+  const access = await apiProgramEditor();
+  if (!access.ok) return denied(access.status);
 
   let body: { blocks?: unknown; segments?: unknown };
   try {
@@ -41,12 +35,11 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Solicitud inválida." }, { status: 400 });
   }
 
-  const session = await getSession();
   try {
     const program = await writeProgram(
       Array.isArray(body.blocks) ? body.blocks : [],
       Array.isArray(body.segments) ? body.segments : [],
-      session?.username ?? "",
+      access.username,
     );
     return NextResponse.json(program, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
@@ -61,13 +54,8 @@ export async function PUT(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const access = await apiRole([...ALLOWED]);
-  if (!access.ok) {
-    return NextResponse.json(
-      { error: access.status === 401 ? "No autorizado." : "Sin permiso." },
-      { status: access.status },
-    );
-  }
+  const access = await apiProgramEditor();
+  if (!access.ok) return denied(access.status);
 
   let body: { reset?: unknown };
   try {
@@ -80,7 +68,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Acción no reconocida." }, { status: 400 });
   }
 
-  const session = await getSession();
-  const program = await resetProgram(session?.username ?? "");
+  const program = await resetProgram(access.username);
   return NextResponse.json(program, { headers: { "Cache-Control": "no-store" } });
 }

@@ -52,3 +52,32 @@ test('la agenda de marketing y el Excel salen del programa actual', () => {
   assert.ok(kit.includes('BLOCK_BY_NUMBER'));
   assert.ok(kit.includes('agendaRow'));
 });
+
+test('solo el editor del programa puede modificarlo', () => {
+  const users = read('lib/users.ts');
+  assert.ok(users.includes('PROGRAM_EDITORS'));
+  assert.ok(users.includes('canEditProgram'));
+  assert.ok(users.includes('programEditorNames'));
+
+  const permissions = read('lib/permissions.ts');
+  assert.ok(permissions.includes('apiProgramEditor'));
+  assert.ok(permissions.includes('requireProgramEditorPage'));
+
+  const editorPage = read('app/admin/programa/editar/page.tsx');
+  assert.ok(editorPage.includes('requireProgramEditorPage'));
+  assert.ok(!editorPage.includes('"admin", "editor", "marketing"'));
+
+  const api = read('app/api/admin/program/route.ts');
+  assert.ok(api.includes('apiProgramEditor'));
+  assert.ok(!api.includes('const ALLOWED'));
+
+  const sync = read('app/api/admin/program/sync-agenda/route.ts');
+  assert.ok(sync.includes('apiProgramEditor'));
+
+  const panel = read('app/admin/programa/page.tsx');
+  assert.ok(panel.includes('canEditProgram'));
+  assert.ok(panel.includes('Solo lectura'));
+
+  const env = read('.env.example');
+  assert.ok(env.includes('PROGRAM_EDITORS'));
+});

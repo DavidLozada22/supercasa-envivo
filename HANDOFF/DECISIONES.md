@@ -330,3 +330,15 @@ La página pública, las moscas, el Excel y las cortinas de bloque leen ese esta
 El botón "Sincronizar agenda" actualiza las filas del carrusel de agenda de
 marketing. Los PNG de OBS siguen siendo la versión base hasta que se regeneren con
 `npm run cortinas` y `npm run obs:assets`.
+
+## 40. Solo Lio edita el programa
+
+El programa 48H lo modifica una sola persona. La variable `PROGRAM_EDITORS`
+acepta una lista de usuarios separada por comas y su valor por defecto es `lio`.
+No es un rol nuevo: Lio conserva su rol admin y los demás usuarios ven el
+programa en modo lectura, con el Excel disponible.
+
+La regla se aplica en el servidor, no solo en la interfaz. `/admin/programa/editar`
+redirige a `/admin/programa` a quien no esté en la lista, y las rutas
+`/api/admin/program` y `/api/admin/program/sync-agenda` responden 403. Para sumar
+a otra persona basta con agregar su usuario a `PROGRAM_EDITORS` en Vercel.
