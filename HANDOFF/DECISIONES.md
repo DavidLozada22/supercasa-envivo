@@ -342,3 +342,21 @@ La regla se aplica en el servidor, no solo en la interfaz. `/admin/programa/edit
 redirige a `/admin/programa` a quien no esté en la lista, y las rutas
 `/api/admin/program` y `/api/admin/program/sync-agenda` responden 403. Para sumar
 a otra persona basta con agregar su usuario a `PROGRAM_EDITORS` en Vercel.
+
+## 41. Marcas de hecho y orden manual
+
+Cada segmento tiene una casilla `done`. Se guarda al instante con
+`/api/admin/program/check`, sin esperar al botón de guardar, para que Lio pueda
+marcar el programa mientras ocurre. El Excel agrega la columna `Hecho`.
+
+El orden de bloques y segmentos ahora es el orden del arreglo guardado. Se
+quitaron los `sort` por hora de `normalize.ts`: la escaleta V6 ya viene en orden
+cronológico y desde el editor se mueve con flechas. Las horas siguen mandando en
+la barra "Ahora", en las moscas y en el próximo segmento, que se calcula por hora.
+
+Al duplicar, la copia se inserta justo debajo de la fila original y queda con
+`(copia)` en el nombre y sin la marca de hecho. Al agregar un segmento, entra al
+final de su bloque.
+
+`readBlob` usa `useCache: false`. Sin eso, dos marcas seguidas se pisaban porque
+la segunda lectura traía la versión anterior del programa.

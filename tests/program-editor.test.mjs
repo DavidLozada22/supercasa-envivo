@@ -81,3 +81,29 @@ test('solo el editor del programa puede modificarlo', () => {
   const env = read('.env.example');
   assert.ok(env.includes('PROGRAM_EDITORS'));
 });
+
+test('el programa se marca por segmento y conserva el orden manual', () => {
+  const types = read('lib/program/types.ts');
+  assert.ok(types.includes('done: boolean'));
+
+  const normalize = read('lib/program/normalize.ts');
+  assert.ok(normalize.includes('done: input.done === true'));
+  assert.ok(!normalize.includes('segments.sort'));
+  assert.ok(!normalize.includes('blocks.sort'));
+
+  const editor = read('components/admin/program/ProgramEditor.tsx');
+  assert.ok(editor.includes('toggleDone'));
+  assert.ok(editor.includes('moveSegment'));
+  assert.ok(editor.includes('moveBlock'));
+  assert.ok(editor.includes('title="Subir"'));
+  assert.ok(editor.includes('title="Bajar"'));
+  assert.ok(editor.includes('(copia)'));
+  assert.ok(editor.includes('splice(index + 1, 0, copy)'));
+
+  const check = read('app/api/admin/program/check/route.ts');
+  assert.ok(check.includes('apiProgramEditor'));
+  assert.ok(check.includes('writeProgram'));
+
+  const excel = read('lib/program/excel.ts');
+  assert.ok(excel.includes('Hecho'));
+});

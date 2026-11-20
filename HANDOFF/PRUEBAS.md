@@ -175,8 +175,14 @@ aquí y en `ESTADO.md`.
   poder guardar y sincronizar la agenda.
 - Cambiar el nombre y el horario del Bloque 01. Guardar y abrir `/programa` en una
   pestaña nueva. El bloque debe salir con el nombre y la hora nuevos.
+- Marcar la casilla de un segmento y recargar: debe seguir marcado. El contador del
+  bloque y el total deben subir. Repetir con dos casillas seguidas.
+- Duplicar un segmento: la copia debe quedar justo debajo, con `(copia)` y sin la
+  marca de hecho. Guardar, recargar y confirmar la posición.
+- Subir y bajar un segmento con las flechas. Guardar y recargar: el orden debe
+  mantenerse. Hacer lo mismo con un bloque dentro del mismo día.
 - Agregar un segmento dentro del Bloque 01, ponerle nombre y hora, guardar. Debe
-  aparecer en `/programa`, en la tabla de moscas y en el Excel.
+  aparecer al final del bloque, en `/programa`, en la tabla de moscas y en el Excel.
 - Eliminar un segmento y confirmar que desaparece de `/programa`.
 - Agregar un bloque, cambiar su día y horario, guardar y ver que aparece como
   pestaña de día si cambia de día.

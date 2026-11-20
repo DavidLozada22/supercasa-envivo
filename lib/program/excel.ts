@@ -16,6 +16,7 @@ export function buildProgramWorkbook(program: ProgramState): XLSX.WorkBook {
       Tipo: segment.type,
       Responsable: segment.presenter,
       Estado: segment.status,
+      Hecho: segment.done ? "Sí" : "",
       Notas: segment.notes,
     };
   });

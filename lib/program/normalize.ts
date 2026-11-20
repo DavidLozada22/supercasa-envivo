@@ -109,7 +109,6 @@ export function normalizeProgram(
     });
   });
 
-  blocks.sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt));
   const byNumber = new Map(blocks.map((block) => [block.number, block]));
 
   const seenSegments = new Set<string>();
@@ -169,6 +168,7 @@ export function normalizeProgram(
       platforms: text(input.platforms, 240),
       status: text(input.status, 80),
       notes: text(input.notes, 1500),
+      done: input.done === true,
       startsAt: iso(startsAt),
       endsAt: iso(endsAt),
       clock: startClock,
@@ -177,7 +177,6 @@ export function normalizeProgram(
     });
   });
 
-  segments.sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt));
   for (const segment of segments) {
     const block = byNumber.get(segment.block);
     if (!block) continue;

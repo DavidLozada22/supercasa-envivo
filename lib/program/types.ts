@@ -35,6 +35,7 @@ export type ProgramSegment = {
   platforms: string;
   status: string;
   notes: string;
+  done: boolean;
   startsAt: string;
   endsAt: string;
   clock: string;

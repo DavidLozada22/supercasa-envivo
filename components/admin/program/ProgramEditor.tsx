@@ -5,6 +5,8 @@ import Link from "next/link";
 import {
   AlertTriangle,
   ArrowLeft,
+  ChevronDown,
+  ChevronUp,
   Download,
   ExternalLink,
   Loader2,
@@ -99,6 +101,7 @@ export default function ProgramEditor({
   const [query, setQuery] = useState("");
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState(false);
+  const [checking, setChecking] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
@@ -121,10 +124,7 @@ export default function ProgramEditor({
 
   const selectedBlock = draft.blocks.find((block) => block.number === selected) ?? null;
   const blockSegments = useMemo(
-    () =>
-      draft.segments
-        .filter((segment) => segment.block === selected)
-        .sort((a, b) => a.startClock.localeCompare(b.startClock)),
+    () => draft.segments.filter((segment) => segment.block === selected),
     [draft.segments, selected],
   );
   const filteredSegments = useMemo(() => {
@@ -137,6 +137,18 @@ export default function ProgramEditor({
     );
   }, [blockSegments, query]);
   const liveCount = draft.segments.filter((segment) => segment.live).length;
+  const doneCount = draft.segments.filter((segment) => segment.done).length;
+  const blockDone = blockSegments.filter((segment) => segment.done).length;
+  const blockIndex = selectedBlock
+    ? draft.blocks.findIndex((block) => block.number === selectedBlock.number)
+    : -1;
+  const canMoveBlockUp =
+    blockIndex > 0 &&
+    draft.blocks[blockIndex - 1]?.dayNumber === selectedBlock?.dayNumber;
+  const canMoveBlockDown =
+    blockIndex >= 0 &&
+    blockIndex < draft.blocks.length - 1 &&
+    draft.blocks[blockIndex + 1]?.dayNumber === selectedBlock?.dayNumber;
 
   const updateBlock = (patch: Partial<ProgramBlock>) => {
     if (!selectedBlock) return;
@@ -222,13 +234,23 @@ export default function ProgramEditor({
       platforms: "",
       status: "",
       notes: "",
+      done: false,
       startsAt: "",
       endsAt: "",
       clock: start,
       startClock: start,
       endClock: end,
     };
-    setDraft((current) => ({ ...current, segments: [...current.segments, segment] }));
+    setDraft((current) => {
+      const segments = [...current.segments];
+      const lastIndex = segments.reduce(
+        (index, item, position) => (item.block === selectedBlock.number ? position : index),
+        -1,
+      );
+      if (lastIndex === -1) segments.push(segment);
+      else segments.splice(lastIndex + 1, 0, segment);
+      return { ...current, segments };
+    });
     setQuery("");
   };
 
@@ -238,14 +260,81 @@ export default function ProgramEditor({
       id: newId(`S${segment.block}`),
       code: "",
       name: `${segment.name} (copia)`,
-      startClock: segment.endClock,
-      endClock: addMinutes(segment.endClock, segment.duration),
-      clock: segment.endClock,
+      done: false,
       startsAt: "",
       endsAt: "",
     };
-    setDraft((current) => ({ ...current, segments: [...current.segments, copy] }));
+    setDraft((current) => {
+      const segments = [...current.segments];
+      const index = segments.findIndex((item) => item.id === segment.id);
+      segments.splice(index + 1, 0, copy);
+      return { ...current, segments };
+    });
     setQuery("");
+  };
+
+  const moveSegment = (segment: ProgramSegment, direction: -1 | 1) => {
+    setDraft((current) => {
+      const group = current.segments.filter((item) => item.block === segment.block);
+      const position = group.findIndex((item) => item.id === segment.id);
+      const target = group[position + direction];
+      if (!target) return current;
+
+      const segments = [...current.segments];
+      const from = segments.findIndex((item) => item.id === segment.id);
+      const to = segments.findIndex((item) => item.id === target.id);
+      segments.splice(from, 1);
+      segments.splice(to, 0, segment);
+      return { ...current, segments };
+    });
+  };
+
+  const moveBlock = (direction: -1 | 1) => {
+    if (!selectedBlock) return;
+    setDraft((current) => {
+      const index = current.blocks.findIndex((block) => block.number === selectedBlock.number);
+      const target = index + direction;
+      if (target < 0 || target >= current.blocks.length) return current;
+      if (current.blocks[target].dayNumber !== current.blocks[index].dayNumber) return current;
+      const blocks = [...current.blocks];
+      const [moved] = blocks.splice(index, 1);
+      blocks.splice(target, 0, moved);
+      return { ...current, blocks };
+    });
+  };
+
+  const toggleDone = async (segment: ProgramSegment) => {
+    const next = !segment.done;
+    updateSegment(segment.id, { done: next });
+
+    const stored = baseline.segments.some((item) => item.id === segment.id);
+    if (!stored) return;
+
+    setChecking(segment.id);
+    try {
+      const response = await fetch("/api/admin/program/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ segmentId: segment.id, done: next }),
+      });
+      const body = (await response.json().catch(() => ({}))) as { error?: string };
+      if (!response.ok) {
+        updateSegment(segment.id, { done: segment.done });
+        setErrors([body.error ?? "No se pudo guardar la marca."]);
+        return;
+      }
+      setBaseline((current) => ({
+        ...current,
+        segments: current.segments.map((item) =>
+          item.id === segment.id ? { ...item, done: next } : item,
+        ),
+      }));
+    } catch {
+      updateSegment(segment.id, { done: segment.done });
+      setErrors(["Error de conexión al marcar el segmento."]);
+    } finally {
+      setChecking(null);
+    }
   };
 
   const deleteSegment = (id: string) => {
@@ -404,7 +493,8 @@ export default function ProgramEditor({
             </h1>
             <p className="mt-1 max-w-2xl text-xs leading-relaxed text-slate-500">
               Cambia el programa y guarda. Se actualiza `/programa`, las moscas y el Excel.
-              Los horarios se recalculan solos al guardar.
+              Marca la casilla de cada segmento cuando se cumpla: se guarda al instante.
+              Mueve filas y bloques con las flechas.
             </p>
           </div>
           <div className="flex flex-wrap gap-1.5 text-[10px] font-extrabold">
@@ -416,6 +506,9 @@ export default function ProgramEditor({
             </span>
             <span className="rounded-full bg-[#E6009E]/10 px-2.5 py-1 text-[#B8007E]">
               {liveCount} en vivo
+            </span>
+            <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-emerald-700">
+              {doneCount} {doneCount === 1 ? "hecho" : "hechos"}
             </span>
             <button
               type="button"
@@ -477,8 +570,8 @@ export default function ProgramEditor({
             ¿Restaurar el programa al JSON base?
           </p>
           <p className="mt-1 text-[11px] leading-relaxed text-amber-800">
-            Se pierden los cambios guardados en el editor. Las escenas y los gráficos vuelven al
-            programa del repositorio.
+            Se pierden los cambios guardados en el editor, incluidas las marcas de hecho. Las
+            escenas y los gráficos vuelven al programa del repositorio.
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
             <button
@@ -529,7 +622,9 @@ export default function ProgramEditor({
           <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1">
             {draft.blocks.map((block) => {
               const active = block.number === selected;
-              const count = draft.segments.filter((segment) => segment.block === block.number).length;
+              const items = draft.segments.filter((segment) => segment.block === block.number);
+              const count = items.length;
+              const done = items.filter((segment) => segment.done).length;
               return (
                 <button
                   key={block.number}
@@ -558,6 +653,13 @@ export default function ProgramEditor({
                   </span>
                   <span className="mt-1 block text-[9px] font-semibold text-slate-400">
                     {block.day} · {block.startClock} a {block.endClock} · {count} seg.
+                  </span>
+                  <span
+                    className={`mt-0.5 block text-[9px] font-extrabold ${
+                      done === count && count > 0 ? "text-emerald-600" : "text-slate-400"
+                    }`}
+                  >
+                    {done} de {count} hechos
                   </span>
                 </button>
               );
@@ -595,14 +697,36 @@ export default function ProgramEditor({
                     </button>
                   </div>
                 ) : (
-                  <button
-                    type="button"
-                    onClick={() => setConfirmDelete(selectedBlock.number)}
-                    className="inline-flex min-h-[36px] items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-[10px] font-bold text-slate-500 transition hover:border-red-200 hover:text-red-600"
-                  >
-                    <Trash2 className="h-3 w-3" strokeWidth={2} />
-                    Eliminar
-                  </button>
+                  <div className="flex flex-wrap gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => moveBlock(-1)}
+                      disabled={!canMoveBlockUp}
+                      aria-label="Subir bloque"
+                      title="Subir bloque"
+                      className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-[#E6009E]/40 hover:text-[#0F2354] disabled:opacity-40"
+                    >
+                      <ChevronUp className="h-4 w-4" strokeWidth={2} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveBlock(1)}
+                      disabled={!canMoveBlockDown}
+                      aria-label="Bajar bloque"
+                      title="Bajar bloque"
+                      className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-[#E6009E]/40 hover:text-[#0F2354] disabled:opacity-40"
+                    >
+                      <ChevronDown className="h-4 w-4" strokeWidth={2} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmDelete(selectedBlock.number)}
+                      className="inline-flex min-h-[36px] items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1.5 text-[10px] font-bold text-slate-500 transition hover:border-red-200 hover:text-red-600"
+                    >
+                      <Trash2 className="h-3 w-3" strokeWidth={2} />
+                      Eliminar
+                    </button>
+                  </div>
                 )}
               </div>
 
@@ -721,6 +845,9 @@ export default function ProgramEditor({
                   <h2 className="mt-1 text-base font-extrabold text-[#0F2354]">
                     {blockSegments.length} en {selectedBlock.label}
                   </h2>
+                  <p className="mt-0.5 text-[10px] font-extrabold text-emerald-600">
+                    {blockDone} de {blockSegments.length} hechos
+                  </p>
                 </div>
                 <div className="ml-auto flex flex-wrap items-center gap-1.5">
                   <div className="relative">
@@ -751,20 +878,27 @@ export default function ProgramEditor({
               </p>
 
               <div className="mt-2 overflow-x-auto rounded-xl border border-slate-200">
-                <table className="w-full min-w-[1160px] table-fixed border-collapse text-left">
+                <table className="w-full min-w-[1108px] table-fixed border-collapse text-left">
                   <colgroup>
-                    <col style={{ width: 80 }} />
-                    <col style={{ width: 80 }} />
-                    <col style={{ width: 250 }} />
-                    <col style={{ width: 130 }} />
-                    <col style={{ width: 145 }} />
-                    <col style={{ width: 130 }} />
-                    <col style={{ width: 100 }} />
-                    <col style={{ width: 180 }} />
-                    <col style={{ width: 64 }} />
+                    <col style={{ width: 48 }} />
+                    <col style={{ width: 72 }} />
+                    <col style={{ width: 72 }} />
+                    <col style={{ width: 210 }} />
+                    <col style={{ width: 116 }} />
+                    <col style={{ width: 110 }} />
+                    <col style={{ width: 108 }} />
+                    <col style={{ width: 92 }} />
+                    <col style={{ width: 140 }} />
+                    <col style={{ width: 140 }} />
                   </colgroup>
                   <thead className="bg-slate-50 text-[9px] font-extrabold uppercase tracking-wider text-slate-400">
                     <tr>
+                      <th
+                        className="sticky left-0 z-20 bg-slate-50 px-1 py-2 text-center shadow-[1px_0_0_0_#e2e8f0]"
+                        scope="col"
+                      >
+                        Hecho
+                      </th>
                       <th className="px-2 py-2">Inicio</th>
                       <th className="px-2 py-2">Fin</th>
                       <th className="px-2 py-2">Segmento</th>
@@ -773,12 +907,36 @@ export default function ProgramEditor({
                       <th className="px-2 py-2">Responsable</th>
                       <th className="px-2 py-2">Estado</th>
                       <th className="px-2 py-2">Notas</th>
-                      <th className="px-2 py-2 text-right">Acciones</th>
+                      <th className="bg-slate-50 px-2 py-2 text-right lg:sticky lg:right-0 lg:z-20 lg:shadow-[-1px_0_0_0_#e2e8f0]">
+                        Acciones
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredSegments.map((segment) => (
-                      <tr key={segment.id} className="border-t border-slate-100 align-top">
+                      <tr
+                        key={segment.id}
+                        className={`border-t border-slate-100 align-top ${
+                          segment.done ? "bg-emerald-50" : ""
+                        }`}
+                      >
+                        <td
+                          className={`sticky left-0 z-10 px-1 py-1.5 shadow-[1px_0_0_0_#e2e8f0] ${
+                            segment.done ? "bg-emerald-50" : "bg-white"
+                          }`}
+                        >
+                          <label className="flex h-11 w-11 cursor-pointer items-center justify-center">
+                            <input
+                              type="checkbox"
+                              checked={segment.done}
+                              disabled={checking !== null}
+                              onChange={() => void toggleDone(segment)}
+                              aria-label={`Marcar ${segment.name} como hecho`}
+                              title={segment.done ? "Hecho" : "Marcar como hecho"}
+                              className="h-4 w-4 cursor-pointer accent-[#E6009E]"
+                            />
+                          </label>
+                        </td>
                         <td className="px-1.5 py-1.5">
                           <input
                             type="text"
@@ -834,7 +992,7 @@ export default function ProgramEditor({
                               });
                             }}
                             aria-label="Ejecución"
-                            className={inputClass}
+                            className={`${inputClass} text-[11px]`}
                           >
                             <option value="EN VIVO">EN VIVO</option>
                             <option value="PREGRABADO">PREGRABADO</option>
@@ -881,8 +1039,32 @@ export default function ProgramEditor({
                             className={inputClass}
                           />
                         </td>
-                        <td className="px-1.5 py-1.5">
+                        <td
+                          className={`px-1.5 py-1.5 lg:sticky lg:right-0 lg:z-10 lg:shadow-[-1px_0_0_0_#e2e8f0] ${
+                            segment.done ? "lg:bg-emerald-50" : "lg:bg-white"
+                          }`}
+                        >
                           <div className="flex justify-end gap-1">
+                            <button
+                              type="button"
+                              onClick={() => moveSegment(segment, -1)}
+                              disabled={blockSegments[0]?.id === segment.id}
+                              aria-label={`Subir ${segment.name}`}
+                              title="Subir"
+                              className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-[#E6009E]/40 hover:text-[#0F2354] disabled:opacity-40"
+                            >
+                              <ChevronUp className="h-3.5 w-3.5" strokeWidth={2} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveSegment(segment, 1)}
+                              disabled={blockSegments[blockSegments.length - 1]?.id === segment.id}
+                              aria-label={`Bajar ${segment.name}`}
+                              title="Bajar"
+                              className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-[#E6009E]/40 hover:text-[#0F2354] disabled:opacity-40"
+                            >
+                              <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />
+                            </button>
                             <button
                               type="button"
                               onClick={() => duplicateSegment(segment)}

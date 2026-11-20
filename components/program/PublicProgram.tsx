@@ -226,13 +226,14 @@ export default function PublicProgram({
   const autoCurrent = findCurrent(segments, now);
   const current = manualFresh ? manualSegment : autoCurrent;
   const mode = manualFresh ? "manual" : "auto";
-  const currentIndex = current
-    ? segments.findIndex((segment) => segment.id === current.id)
-    : -1;
-  const next =
-    currentIndex >= 0
-      ? segments[currentIndex + 1] ?? null
-      : segments.find((segment) => Date.parse(segment.startsAt) > now) ?? null;
+  const next = useMemo(() => {
+    const after = current ? Date.parse(current.startsAt) : now;
+    return (
+      segments
+        .filter((segment) => Date.parse(segment.startsAt) > after)
+        .sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt))[0] ?? null
+    );
+  }, [segments, current, now]);
   const currentBlock = current
     ? blocks.find((block) => block.number === current.block) ?? null
     : null;

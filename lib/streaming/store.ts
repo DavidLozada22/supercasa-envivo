@@ -13,7 +13,10 @@ function localFile(key: string): string {
 
 async function readBlob(key: string): Promise<string | null> {
   const { get } = await import("@vercel/blob");
-  const result = (await get(key, { access: "private" } as never)) as unknown as {
+  const result = (await get(key, {
+    access: "private",
+    useCache: false,
+  } as never)) as unknown as {
     stream?: ReadableStream<Uint8Array> | null;
     blob?: { url?: string };
   };

@@ -23,6 +23,10 @@ Actualizado: 20 de noviembre de 2026.
   reto, canales y todos los segmentos.
 - Se pueden agregar y eliminar bloques y segmentos, duplicar segmentos, buscar
   dentro del bloque y corregir horas, ejecución, tipo, responsable, estado y notas.
+- Cada segmento tiene una casilla "Hecho" que se guarda al instante, con contador
+  por bloque y total. El Excel incluye la columna `Hecho`.
+- Bloques y segmentos se reordenan con flechas. La copia de un segmento queda justo
+  debajo de la fila original. El orden manual se conserva al guardar.
 - Guardado en `supercasa/program.json` en Blob, con validación en el servidor y
   recálculo de fechas, duraciones y conteos. Botón para descartar y para restaurar
   al JSON base.
@@ -36,7 +40,7 @@ Actualizado: 20 de noviembre de 2026.
 - Solo Lio puede editar el programa. Los demás roles ven el programa en lectura
   y pueden descargar el Excel. La lista sale de `PROGRAM_EDITORS` (por defecto
   `lio`) y se valida en el servidor.
-- 62 pruebas pasan.
+- 63 pruebas pasan.
 - Desplegado con el commit `1e24b76`. Verificado en producción: `/programa` 200,
   `/api/program` 12 bloques y 508 segmentos, `/api/program/excel` 200 con archivo
   xlsx, `/pantalla/bloque-01` con el nombre del bloque y `/respuestas` 200.
