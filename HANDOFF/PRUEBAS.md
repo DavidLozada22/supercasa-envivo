@@ -193,6 +193,16 @@ aquí y en `ESTADO.md`.
 - Descargar el Excel y confirmar que las tres hojas tienen los cambios.
 - Usar "Restaurar al JSON base" y confirmar que vuelve al programa V6.
 
+## Directo de YouTube
+
+- Abrir `/envivo` con el canal en vivo. Debe incrustar el video actual y mostrar
+  "Estamos en vivo".
+- Revisar `/api/live/current`. Debe traer `live: true`, el `videoId` correcto y
+  `source: api-uploads`.
+- En el panel de Streaming, la conexion de YouTube no debe mostrar error.
+- Si se cambia de directo, el resolutor debe tomar el nuevo video de la lista de
+  subidas sin usar la cuota de busqueda.
+
 ## Assets para OBS
 
 - Confirmar que `assets/obs/manifest.json` tiene 56 escenas y 4 pistas.

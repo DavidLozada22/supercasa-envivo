@@ -360,3 +360,17 @@ final de su bloque.
 
 `readBlob` usa `useCache: false`. Sin eso, dos marcas seguidas se pisaban porque
 la segunda lectura traía la versión anterior del programa.
+
+## 42. El directo se detecta por la lista de subidas
+
+`search.list` gasta 100 unidades por llamada, tiene su propia cuota diaria y
+tarda en indexar el directo. Por eso el panel decia "Google respondio con un
+error" o "no hay directo" con el canal ya en vivo.
+
+Ahora el resolutor consulta `playlistItems` de la lista de subidas del canal
+(`UU` + el ID sin `UC`) y luego `videos.list` con esos IDs. Cuesta 2 unidades,
+no usa la cuota de busqueda y encuentra el directo al instante. Se mantiene
+`videos.list` sobre el ultimo ID conocido como primer intento (1 unidad).
+
+Un 429 o 403 se trata como cuota agotada. El estado se cachea 60 segundos para
+cuidar la cuota durante las 48 horas.

@@ -16,6 +16,16 @@ Actualizado: 20 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, conexion del directo
+
+- El live se detecta por la lista de subidas del canal, no por el buscador de
+  YouTube. La busqueda gastaba la cuota diaria y no encontraba el directo aunque
+  el canal estuviera en vivo.
+- Verificado con el directo `9jbiYJDTabU`: `/api/live/current` responde
+  `live: true`, `/envivo` incrusta el video y el panel deja de mostrar el error
+  de Google.
+- Desplegado con el commit `d1a4fb7`.
+
 ### 20 de noviembre, editor del programa
 
 - Nueva ruta `/admin/programa/editar` para que el cliente edite el programa
