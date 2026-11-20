@@ -69,7 +69,7 @@ export default function OnAirStage({
 
   return (
     <SceneStage>
-      <SceneView scene={scene} fields={state.fields} />
+      <SceneView scene={scene} fields={state.fields} copy={content?.copy} />
     </SceneStage>
   );
 }

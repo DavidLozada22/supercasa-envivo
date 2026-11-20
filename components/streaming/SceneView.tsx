@@ -15,23 +15,25 @@ import {
 } from "lucide-react";
 import { EVENT_END, EVENT_HOURS, EVENT_START } from "@/lib/event";
 import {
+  displayUrl,
+  resolveStreamingCopy,
+  type StreamingCopy,
+} from "@/lib/streaming/merge";
+import {
   calvitoSrc,
   type CalvitoKey,
   type SceneDef,
   type SceneField,
+  type SceneQrTarget,
 } from "@/lib/streaming/scenes";
 
 type Props = {
   scene: SceneDef;
   fields?: Partial<Record<SceneField, string>>;
   render?: boolean;
+  copy?: StreamingCopy;
+  frozen?: boolean;
 };
-
-const DONATE_URL = "supercasa.svgvisual.com/donar";
-const BRE_B = "Bre-B @lasupercasa";
-const BANK = "Bancolombia 186-000090-54";
-const IG_FSV = "@segundosdevidafundacion";
-const IG_KAV = "@kavanahpl35";
 
 const cop = new Intl.NumberFormat("es-CO", {
   style: "currency",
@@ -41,6 +43,25 @@ const cop = new Intl.NumberFormat("es-CO", {
 
 function clean(value: string | undefined): string {
   return (value ?? "").trim();
+}
+
+function qrSrc(target: SceneQrTarget | undefined, copy?: StreamingCopy): string {
+  const resolved = resolveStreamingCopy(copy);
+  const url = target === "live" ? resolved.liveUrl : resolved.donateUrl;
+  return `/api/qr?u=${encodeURIComponent(url)}`;
+}
+
+function qrDestination(
+  target: SceneQrTarget | undefined,
+  copy?: StreamingCopy,
+): { url: string; short: string; cta: string } {
+  const resolved = resolveStreamingCopy(copy);
+  const url = target === "live" ? resolved.liveUrl : resolved.donateUrl;
+  return {
+    url,
+    short: displayUrl(url),
+    cta: target === "live" ? "Mira el en vivo" : "Dona aquí",
+  };
 }
 
 function useProgress(enabled = true) {
@@ -71,15 +92,23 @@ function useProgress(enabled = true) {
   return data;
 }
 
-export default function SceneView({ scene, fields = {}, render = false }: Props) {
+export default function SceneView({
+  scene,
+  fields = {},
+  render = false,
+  copy,
+  frozen = false,
+}: Props) {
   if (scene.kind === "overlay") {
-    return <OverlayView scene={scene} fields={fields} render={render} />;
+    return (
+      <OverlayView scene={scene} fields={fields} render={render} copy={copy} frozen={frozen} />
+    );
   }
 
   if (scene.visual === "liveframe") {
     return (
       <div className={`scene scene--liveframe${render ? " is-render" : ""}`}>
-        <LiveFrame transparent={false} />
+        <LiveFrame scene={scene} copy={copy} transparent={false} frozen={frozen} />
       </div>
     );
   }
@@ -87,13 +116,17 @@ export default function SceneView({ scene, fields = {}, render = false }: Props)
   const title = clean(fields.title) || scene.title;
   const subtitle = clean(fields.subtitle) || scene.subtitle;
   const note = clean(fields.note) || scene.note || "";
-  const guest = clean(fields.guest) || "Nombre del invitado";
-  const guestRole = clean(fields.guestRole) || "Cargo o rol";
-  const returnAt = clean(fields.returnAt);
+  const guest = clean(fields.guest) || scene.guest || "Nombre del invitado";
+  const guestRole = clean(fields.guestRole) || scene.guestRole || "Cargo o rol";
+  const returnAt = clean(fields.returnAt) || scene.returnAt || "";
   const isCount = Boolean(scene.countValue);
   const isGuest = scene.id === "invitado";
   const hasHero =
     scene.visual !== "house" && Boolean(scene.illustration || scene.illustrationCluster);
+  const badge =
+    scene.badge ||
+    (scene.id === "gracias" ? "GRACIAS" : scene.group === "bloque" ? "BLOQUE EN VIVO" : "48 HORAS");
+  const qr = qrDestination(scene.qrTarget, copy);
 
   return (
     <div
@@ -121,7 +154,7 @@ export default function SceneView({ scene, fields = {}, render = false }: Props)
         </div>
         <span className="scene__badge">
           <i aria-hidden="true" />
-          {scene.id === "gracias" ? "GRACIAS" : scene.group === "bloque" ? "BLOQUE EN VIVO" : "48 HORAS"}
+          {badge}
         </span>
       </header>
 
@@ -160,20 +193,14 @@ export default function SceneView({ scene, fields = {}, render = false }: Props)
         {note ? <p className="scene__note">{note}</p> : null}
       </main>
 
-      {scene.visual === "house" ? (
-        <HouseVisual
-          frame={scene.houseFrame ?? 50}
-          live={Boolean(scene.houseLive)}
-          render={render}
-        />
-      ) : null}
+      {scene.visual === "house" ? <HouseVisual scene={scene} frozen={frozen} /> : null}
 
       {hasHero ? <SceneHero scene={scene} render={render} /> : null}
 
       {scene.visual === "qr" ? (
         <div className="scene__qr">
-          <img src="/img/qr-donar.png" alt="" aria-hidden="true" />
-          <span>Escanea y dona</span>
+          <img src={qrSrc(scene.qrTarget, copy)} alt="" aria-hidden="true" />
+          <span>{scene.cta || qr.cta}</span>
         </div>
       ) : null}
 
@@ -181,7 +208,7 @@ export default function SceneView({ scene, fields = {}, render = false }: Props)
 
       {!hasHero ? <SceneIcon visual={scene.visual} /> : null}
 
-      <SceneFoot cta={scene.cta} />
+      <SceneFoot scene={scene} copy={copy} />
     </div>
   );
 }
@@ -259,37 +286,38 @@ function AlliesLogos() {
   );
 }
 
-function SceneFoot({ cta }: { cta?: string }) {
+function SceneFoot({ scene, copy }: { scene: SceneDef; copy?: StreamingCopy }) {
+  const resolved = resolveStreamingCopy(copy);
+  const qr = qrDestination(scene.qrTarget, copy);
   return (
     <footer className="scene__foot">
       <div className="scene__foot-donate">
-        <img className="scene__foot-qr" src="/img/qr-donar.png" alt="" aria-hidden="true" />
+        <img
+          className="scene__foot-qr"
+          src={qrSrc(scene.qrTarget, copy)}
+          alt=""
+          aria-hidden="true"
+        />
         <div className="scene__foot-copy">
-          <span className="scene__foot-cta">{cta || "Dona aquí"}</span>
-          <span className="scene__foot-url">{DONATE_URL}</span>
+          <span className="scene__foot-cta">{scene.cta || qr.cta}</span>
+          <span className="scene__foot-url">{qr.short}</span>
         </div>
       </div>
       <div className="scene__foot-side">
-        <span className="scene__foot-hashtag">#PonteLaCapa</span>
-        <span className="scene__foot-method">{BRE_B}</span>
+        <span className="scene__foot-hashtag">{resolved.hashtag}</span>
+        <span className="scene__foot-method">{resolved.breB}</span>
       </div>
     </footer>
   );
 }
 
-function HouseVisual({
-  frame,
-  live,
-  render,
-}: {
-  frame: number;
-  live: boolean;
-  render: boolean;
-}) {
-  const progress = useProgress(live && !render);
-  const pct = live && progress?.goal ? (progress.raised / progress.goal) * 100 : frame;
+function HouseVisual({ scene, frozen }: { scene: SceneDef; frozen: boolean }) {
+  const live = Boolean(scene.progressLive);
+  const frame = scene.progressPercent ?? scene.houseFrame ?? 50;
+  const progress = useProgress(live && !frozen);
+  const pct = live && !frozen && progress?.goal ? (progress.raised / progress.goal) * 100 : frame;
   const snapped = Math.min(100, Math.max(0, Math.floor(pct / 5) * 5));
-  const shown = live ? Math.round(pct) : frame;
+  const shown = live && !frozen && progress?.goal ? Math.round(pct) : frame;
   const src = `/img/casa/supercasa-${String(snapped).padStart(3, "0")}-1400.webp`;
 
   return (
@@ -297,22 +325,25 @@ function HouseVisual({
       <div className="scene__house-frame">
         <img src={src} alt="" aria-hidden="true" />
         <span className="scene__house-pct">{shown}%</span>
-        {live ? <span className="scene__house-live">AVANCE REAL</span> : null}
+        {live && !frozen && progress?.goal ? (
+          <span className="scene__house-live">AVANCE REAL</span>
+        ) : null}
       </div>
       <p className="scene__house-caption">
-        {live ? "La casa avanza con cada donación" : "Paso a paso, entre todos"}
+        {scene.progressCaption ||
+          (live ? "La casa avanza con cada donación" : "Paso a paso, entre todos")}
       </p>
     </div>
   );
 }
 
-function OverlayView({ scene, fields, render }: Props) {
+function OverlayView({ scene, fields, render, copy, frozen = false }: Props) {
   if (scene.id === "meta") {
     return (
       <div className={`scene scene--overlay scene--meta${render ? " is-render" : ""}`}>
-        <GoalBar />
+        <GoalBar scene={scene} copy={copy} frozen={frozen} />
         <OverlayBrand />
-        <OverlayChip />
+        <OverlayChip copy={copy} />
       </div>
     );
   }
@@ -320,9 +351,9 @@ function OverlayView({ scene, fields, render }: Props) {
   if (scene.id === "reloj") {
     return (
       <div className={`scene scene--overlay scene--reloj${render ? " is-render" : ""}`}>
-        <ClockBar />
+        <ClockBar scene={scene} copy={copy} />
         <OverlayBrand />
-        <OverlayChip />
+        <OverlayChip copy={copy} />
       </div>
     );
   }
@@ -332,10 +363,10 @@ function OverlayView({ scene, fields, render }: Props) {
       <div className={`scene scene--overlay scene--en-vivo${render ? " is-render" : ""}`}>
         <span className="live-badge">
           <i aria-hidden="true" />
-          EN VIVO
+          {scene.title || "EN VIVO"}
         </span>
         <OverlayBrand side="left" />
-        <OverlayChip />
+        <OverlayChip copy={copy} />
       </div>
     );
   }
@@ -343,7 +374,7 @@ function OverlayView({ scene, fields, render }: Props) {
   if (scene.id === "donacion") {
     return (
       <div className={`scene scene--overlay scene--donacion${render ? " is-render" : ""}`}>
-        <DonationOverlay />
+        <DonationOverlay scene={scene} copy={copy} />
       </div>
     );
   }
@@ -351,7 +382,7 @@ function OverlayView({ scene, fields, render }: Props) {
   if (scene.id === "en-vivo-qr") {
     return (
       <div className={`scene scene--overlay scene--liveqr${render ? " is-render" : ""}`}>
-        <LiveQrOverlay />
+        <LiveQrOverlay scene={scene} copy={copy} />
       </div>
     );
   }
@@ -359,7 +390,7 @@ function OverlayView({ scene, fields, render }: Props) {
   if (scene.id === "mosca") {
     return (
       <div className={`scene scene--overlay scene--mosca${render ? " is-render" : ""}`}>
-        <HoursBug render={Boolean(render)} />
+        <HoursBug scene={scene} copy={copy} render={Boolean(render)} />
       </div>
     );
   }
@@ -367,25 +398,25 @@ function OverlayView({ scene, fields, render }: Props) {
   if (scene.visual === "liveframe") {
     return (
       <div className={`scene scene--overlay scene--liveframe${render ? " is-render" : ""}`}>
-        <LiveFrame transparent />
+        <LiveFrame scene={scene} copy={copy} transparent frozen={frozen} />
       </div>
     );
   }
 
-  const guest = clean(fields?.guest) || "Nombre del invitado";
-  const guestRole = clean(fields?.guestRole) || "Cargo o rol";
+  const guest = clean(fields?.guest) || scene.guest || "Nombre del invitado";
+  const guestRole = clean(fields?.guestRole) || scene.guestRole || "Cargo o rol";
 
   return (
     <div className={`scene scene--overlay scene--lower-third${render ? " is-render" : ""}`}>
       <div className="lt">
-        <span className="lt__tag">EN VIVO</span>
+        <span className="lt__tag">{scene.eyebrow || "EN VIVO"}</span>
         <div className="lt__body">
           <strong>{guest}</strong>
           <span>{guestRole}</span>
         </div>
       </div>
       <OverlayBrand />
-      <OverlayChip />
+      <OverlayChip copy={copy} />
     </div>
   );
 }
@@ -400,18 +431,21 @@ function OverlayBrand({ side = "right" }: { side?: "left" | "right" }) {
   );
 }
 
-function OverlayChip() {
+function OverlayChip({ copy }: { copy?: StreamingCopy }) {
+  const resolved = resolveStreamingCopy(copy);
   return (
     <div className="ovchip" aria-hidden="true">
       <QrCode className="h-[22px] w-[22px]" strokeWidth={2} />
       <span>
-        DONA · {DONATE_URL} · {BRE_B}
+        DONA · {displayUrl(resolved.donateUrl)} · {resolved.breB}
       </span>
     </div>
   );
 }
 
-function DonationOverlay() {
+function DonationOverlay({ scene, copy }: { scene: SceneDef; copy?: StreamingCopy }) {
+  const resolved = resolveStreamingCopy(copy);
+  const qr = qrDestination(scene.qrTarget, copy);
   return (
     <div className="donov">
       <div className="donov__brand" aria-hidden="true">
@@ -419,40 +453,41 @@ function DonationOverlay() {
         <span>×</span>
         <img src="/img/kavanah-horizontal-gold.png" alt="" />
       </div>
-      <p className="donov__eyebrow">Dona ahora</p>
-      <h2 className="donov__title">Tu donación construye La Supercasa</h2>
+      <p className="donov__eyebrow">{scene.eyebrow || "Dona ahora"}</p>
+      <h2 className="donov__title">{scene.title}</h2>
       <div className="donov__qr">
-        <img src="/img/qr-donar.png" alt="" aria-hidden="true" />
+        <img src={qrSrc(scene.qrTarget, copy)} alt="" aria-hidden="true" />
       </div>
-      <p className="donov__url">{DONATE_URL}</p>
+      <p className="donov__url">{qr.short}</p>
       <p className="donov__cause">
-        Cada pieza acerca a los Súper Calvitos a su casa. Escanea el QR, entra al enlace o
-        transfiere.
+        {scene.note || scene.subtitle}
       </p>
       <div className="donov__methods">
-        <span>{BRE_B}</span>
-        <span>{BANK}</span>
+        <span>{resolved.breB}</span>
+        <span>{resolved.bank}</span>
       </div>
       <div className="donov__social">
-        <span>{IG_FSV}</span>
-        <span>{IG_KAV}</span>
+        <span>{resolved.igFsv}</span>
+        <span>{resolved.igKav}</span>
       </div>
     </div>
   );
 }
 
-function LiveQrOverlay() {
+function LiveQrOverlay({ scene, copy }: { scene: SceneDef; copy?: StreamingCopy }) {
+  const resolved = resolveStreamingCopy(copy);
+  const qr = qrDestination(scene.qrTarget, copy);
   return (
     <>
       <span className="live-badge live-badge--left">
         <i aria-hidden="true" />
-        EN VIVO
+        {scene.eyebrow || "EN VIVO"}
       </span>
       <div className="liveqr__card">
-        <p className="liveqr__cta">DONA AQUÍ</p>
-        <img className="liveqr__qr" src="/img/qr-donar.png" alt="" aria-hidden="true" />
-        <p className="liveqr__url">{DONATE_URL}</p>
-        <p className="liveqr__methods">{BRE_B}</p>
+        <p className="liveqr__cta">{scene.cta || "DONA AQUÍ"}</p>
+        <img className="liveqr__qr" src={qrSrc(scene.qrTarget, copy)} alt="" aria-hidden="true" />
+        <p className="liveqr__url">{qr.short}</p>
+        <p className="liveqr__methods">{resolved.breB}</p>
       </div>
       <div className="liveqr__brand" aria-hidden="true">
         <img src="/img/logo-fsv-official.png" alt="" />
@@ -463,8 +498,17 @@ function LiveQrOverlay() {
   );
 }
 
-function HoursBug({ render }: { render: boolean }) {
+function HoursBug({
+  scene,
+  copy,
+  render,
+}: {
+  scene: SceneDef;
+  copy?: StreamingCopy;
+  render: boolean;
+}) {
   const [now, setNow] = useState(0);
+  const resolved = resolveStreamingCopy(copy);
 
   useEffect(() => {
     setNow(Date.now());
@@ -507,16 +551,34 @@ function HoursBug({ render }: { render: boolean }) {
       <div className="hoursbug__track">
         <span style={{ width: `${pct.toFixed(2)}%` }} />
       </div>
-      <p className="hoursbug__cta">DONA · {DONATE_URL}</p>
+      <p className="hoursbug__cta">
+        {scene.cta || `DONA · ${displayUrl(resolved.donateUrl)}`}
+      </p>
     </div>
   );
 }
 
-function LiveFrame({ transparent }: { transparent: boolean }) {
-  const progress = useProgress();
+function LiveFrame({
+  scene,
+  copy,
+  transparent,
+  frozen = false,
+}: {
+  scene: SceneDef;
+  copy?: StreamingCopy;
+  transparent: boolean;
+  frozen?: boolean;
+}) {
+  const live = scene.progressLive !== false;
+  const progress = useProgress(live && !frozen);
   const raised = progress?.raised ?? 0;
   const goal = progress?.goal ?? 0;
-  const pct = goal > 0 ? Math.max(0, Math.min(100, (raised / goal) * 100)) : 0;
+  const pct =
+    live && !frozen && goal > 0
+      ? Math.max(0, Math.min(100, (raised / goal) * 100))
+      : Math.max(0, Math.min(100, scene.progressPercent ?? 0));
+  const resolved = resolveStreamingCopy(copy);
+  const qr = qrDestination(scene.qrTarget, copy);
 
   return (
     <div className={`liveframe${transparent ? " is-overlay" : " is-background"}`}>
@@ -538,7 +600,9 @@ function LiveFrame({ transparent }: { transparent: boolean }) {
           <img src="/img/kavanah-horizontal-gold.png" alt="Kavanah" />
         </div>
         <div className="liveframe__topline">
-          <span className="liveframe__kicker">48 horas por La Supercasa</span>
+          <span className="liveframe__kicker">
+            {scene.eyebrow || "48 horas por La Supercasa"}
+          </span>
           <span className="live-badge live-badge--inline">
             <i aria-hidden="true" />
             EN VIVO
@@ -547,19 +611,19 @@ function LiveFrame({ transparent }: { transparent: boolean }) {
       </div>
 
       <div className="liveframe__panel">
-        <p className="liveframe__eyebrow">Dona ahora</p>
-        <h2 className="liveframe__title">Tu donación construye La Supercasa</h2>
+        <p className="liveframe__eyebrow">{scene.cta || "Dona ahora"}</p>
+        <h2 className="liveframe__title">{scene.title}</h2>
         <div className="liveframe__qr">
-          <img src="/img/qr-donar.png" alt="" aria-hidden="true" />
+          <img src={qrSrc(scene.qrTarget, copy)} alt="" aria-hidden="true" />
         </div>
-        <p className="liveframe__url">{DONATE_URL}</p>
+        <p className="liveframe__url">{qr.short}</p>
         <p className="liveframe__cause">
-          Escanea el QR o entra al enlace. Cada aporte pone una pieza real en la casa de los
-          Súper Calvitos.
+          {scene.note ||
+            "Escanea el QR o entra al enlace. Cada aporte pone una pieza real en la casa de los Súper Calvitos."}
         </p>
         <div className="liveframe__methods">
-          <span>{BRE_B}</span>
-          <span>{BANK}</span>
+          <span>{resolved.breB}</span>
+          <span>{resolved.bank}</span>
         </div>
 
         <div className="liveframe__progress">
@@ -571,47 +635,68 @@ function LiveFrame({ transparent }: { transparent: boolean }) {
             <span style={{ width: `${pct.toFixed(2)}%` }} />
           </div>
           <p>
-            {cop.format(raised)} de {goal > 0 ? cop.format(goal) : "la meta"}
+            {live && !frozen && goal > 0
+              ? `${cop.format(raised)} de ${cop.format(goal)}`
+              : `${pct.toFixed(0)}% de la meta`}
           </p>
         </div>
 
         <div className="liveframe__social">
-          <span>{IG_FSV}</span>
-          <span>{IG_KAV}</span>
+          <span>{resolved.igFsv}</span>
+          <span>{resolved.igKav}</span>
         </div>
       </div>
 
       <div className="liveframe__bottom">
         <span className="liveframe__ticker">
-          Cada pieza cuenta · Dona en {DONATE_URL} · {BRE_B} · {IG_FSV} · {IG_KAV}
+          {scene.subtitle ||
+            `Cada pieza cuenta · Dona en ${displayUrl(resolved.donateUrl)} · ${resolved.breB} · ${resolved.igFsv} · ${resolved.igKav}`}
         </span>
       </div>
     </div>
   );
 }
 
-function GoalBar() {
-  const data = useProgress();
+function GoalBar({
+  scene,
+  copy,
+  frozen = false,
+}: {
+  scene: SceneDef;
+  copy?: StreamingCopy;
+  frozen?: boolean;
+}) {
+  const live = Boolean(scene.progressLive);
+  const data = useProgress(live && !frozen);
   const raised = data?.raised ?? 0;
   const goal = data?.goal ?? 0;
-  const pct = goal > 0 ? Math.max(0, Math.min(100, (raised / goal) * 100)) : 0;
+  const pct =
+    live && !frozen && goal > 0
+      ? Math.max(0, Math.min(100, (raised / goal) * 100))
+      : Math.max(0, Math.min(100, scene.progressPercent ?? 60));
+  const qr = qrDestination(scene.qrTarget, copy);
 
   return (
     <div className="goal">
       <div className="goal__fill" style={{ width: `${pct.toFixed(2)}%` }} />
       <div className="goal__row">
-        <span className="goal__label">RECAUDADO</span>
-        <strong className="goal__amount">{cop.format(raised)}</strong>
-        <span className="goal__goal">de {goal > 0 ? cop.format(goal) : "la meta"}</span>
-        <span className="goal__cta">DONA EN {DONATE_URL}</span>
+        <span className="goal__label">{scene.eyebrow || "RECAUDADO"}</span>
+        <strong className="goal__amount">
+          {live && !frozen && goal > 0 ? cop.format(raised) : `${pct.toFixed(0)}%`}
+        </strong>
+        <span className="goal__goal">
+          {live && !frozen && goal > 0 ? `de ${cop.format(goal)}` : "de la meta"}
+        </span>
+        <span className="goal__cta">{scene.cta || `DONA EN ${qr.short}`}</span>
         <span className="goal__pct">{pct.toFixed(0)}%</span>
       </div>
     </div>
   );
 }
 
-function ClockBar() {
+function ClockBar({ scene, copy }: { scene: SceneDef; copy?: StreamingCopy }) {
   const [now, setNow] = useState(0);
+  const resolved = resolveStreamingCopy(copy);
 
   useEffect(() => {
     setNow(Date.now());
@@ -629,11 +714,13 @@ function ClockBar() {
   return (
     <div className="clockbar">
       <div className="clockbar__row">
-        <span className="clockbar__label">MARATÓN</span>
+        <span className="clockbar__label">{scene.eyebrow || "MARATÓN"}</span>
         <strong className="clockbar__hour">
           HORA {hour} <span>de {EVENT_HOURS}</span>
         </strong>
-        <span className="clockbar__cta">DONA EN {DONATE_URL}</span>
+        <span className="clockbar__cta">
+          {scene.cta || `DONA EN ${displayUrl(resolved.donateUrl)}`}
+        </span>
         <span className="clockbar__pct">{pct.toFixed(0)}%</span>
       </div>
       <div className="clockbar__track">

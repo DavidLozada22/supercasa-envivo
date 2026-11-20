@@ -4,6 +4,31 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, edición completa del Estudio
+
+- El editor de cortinas y overlays ahora muestra solo los campos que esa pieza usa:
+  etiqueta superior, antetítulo, título, subtítulo, línea corta, llamado a donar,
+  cuenta regresiva, invitado, rol, hora de regreso y texto bajo la casa.
+- Se agregó el control de avance: recaudo real o porcentaje fijo de 0 a 100. Aplica
+  a la casa, la barra de la meta y los marcos de live. Los PNG y el preview usan el
+  valor elegido.
+- El QR y el enlace se eligen por escena: donaciones o transmisión. El QR se genera
+  con `/api/qr` a partir de la URL configurada y se incrusta en el PNG.
+- Los textos fijos de los overlays (meta, reloj, donación, QR en vivo, mosca, marco
+  de live, lower third) ahora se leen de la escena. Ya no hay textos escondidos en
+  el código.
+- Nuevo bloque "Datos de campaña" en Cortinas y Overlays: URL de donar, URL del
+  vivo, Bre-B, banco, hashtag e Instagram. Se edita una vez y se aplica a todas las
+  escenas y a los QR.
+- Marketing: control de barra y porcentaje de avance, edición de agenda y niveles
+  de donación, valores de horas en vivo y usuario de Kick. Las etiquetas "HOY",
+  "OBRA REAL" y "CONSTRUIDO" usan el porcentaje elegido en preview y PNG.
+- Las tarjetas de marketing y de escenas ahora renderizan la pieza completa, no una
+  foto suelta. Cargan solo al entrar en pantalla, reflejan los cambios guardados y
+  muestran el checkerboard en las capas transparentes.
+- El editor móvil se corrigió con `min-w-0`: el preview ya no desborda la pantalla.
+- `app/api/qr` genera PNG de QR solo para enlaces de `svgvisual.com`.
+
 ### 19 de noviembre, descargas y categorías del Estudio
 
 - Las descargas de marketing y de escenas usan siempre el borrador abierto, con

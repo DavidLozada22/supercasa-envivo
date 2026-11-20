@@ -40,7 +40,7 @@ export default async function ScenePage({
 
   return (
     <SceneStage lock={render}>
-      <SceneView scene={merged} fields={fields} render={render} />
+      <SceneView scene={merged} fields={fields} render={render} copy={content.copy} />
     </SceneStage>
   );
 }

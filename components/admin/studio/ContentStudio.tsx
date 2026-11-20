@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import AdCanvasPreview from "@/components/admin/marketing/AdCanvasPreview";
+import LiveThumb from "@/components/admin/studio/LiveThumb";
 import SceneView from "@/components/streaming/SceneView";
 import { downloadAdPng, renderAdToDataUrl } from "@/lib/marketing/ad-exporter";
 import {
@@ -35,9 +36,12 @@ import type {
   SlideEdit,
 } from "@/lib/marketing/types";
 import {
+  displayUrl,
   mergeScene,
+  resolveStreamingCopy,
   type SceneOverride,
   type StreamingContent,
+  type StreamingCopy,
 } from "@/lib/streaming/merge";
 import {
   CALVITOS,
@@ -112,8 +116,155 @@ const CATEGORY_NOTES: Partial<Record<AdCategory, string>> = {
     "PNG con fondo transparente para poner encima de una historia de Instagram, un Reel o un video. El centro queda vacío a propósito.",
 };
 
+const COPY_FIELDS: Array<{
+  key: keyof StreamingCopy;
+  label: string;
+  placeholder: string;
+  hint?: string;
+}> = [
+  {
+    key: "donateUrl",
+    label: "URL para donar",
+    placeholder: "https://supercasa.svgvisual.com/donar",
+    hint: "El QR también apunta aquí. Debe ser un enlace de svgvisual.com.",
+  },
+  {
+    key: "liveUrl",
+    label: "URL del en vivo",
+    placeholder: "https://supercasa.svgvisual.com/envivo",
+    hint: "Se usa cuando el QR apunta a la transmisión. Debe ser de svgvisual.com.",
+  },
+  {
+    key: "breB",
+    label: "Llave Bre-B",
+    placeholder: "Bre-B @lasupercasa",
+  },
+  {
+    key: "bank",
+    label: "Cuenta bancaria",
+    placeholder: "Bancolombia 186-000090-54",
+  },
+  {
+    key: "hashtag",
+    label: "Hashtag",
+    placeholder: "#PonteLaCapa",
+  },
+  {
+    key: "igFsv",
+    label: "Instagram de la Fundación",
+    placeholder: "@segundosdevidafundacion",
+  },
+  {
+    key: "igKav",
+    label: "Instagram de Kavanah",
+    placeholder: "@kavanahpl35",
+  },
+];
+
+function sceneShowsProgress(scene: SceneDef): boolean {
+  return scene.visual === "house" || ["meta", "fondo-live", "marco-live"].includes(scene.id);
+}
+
+function sceneShowsStyle(scene: SceneDef): boolean {
+  return scene.kind === "full" && scene.visual !== "liveframe";
+}
+
+function sceneProgressLabel(scene: SceneDef): string {
+  if (scene.visual === "house") return "Avance de la obra";
+  if (scene.id === "meta") return "Barra de la meta";
+  return "Avance del recaudo";
+}
+
+type SceneFieldVisibility = {
+  badge?: boolean;
+  eyebrow?: boolean;
+  title?: boolean;
+  subtitle?: boolean;
+  note?: boolean;
+  cta?: boolean;
+  count?: boolean;
+  guest?: boolean;
+  returnAt?: boolean;
+  progress?: boolean;
+  style?: boolean;
+  qr?: boolean;
+};
+
+function sceneFields(scene: SceneDef): SceneFieldVisibility {
+  const isCount = Boolean(scene.countValue);
+  if (scene.kind === "full") {
+    if (scene.visual === "liveframe") {
+      return {
+        eyebrow: true,
+        title: true,
+        subtitle: true,
+        note: true,
+        cta: true,
+        progress: true,
+        qr: true,
+      };
+    }
+    return {
+      badge: true,
+      eyebrow: true,
+      title: !isCount && scene.id !== "invitado",
+      subtitle: true,
+      note: true,
+      cta: true,
+      count: isCount,
+      guest: scene.id === "invitado",
+      returnAt: scene.id === "ya-volvemos",
+      progress: sceneShowsProgress(scene),
+      style: sceneShowsStyle(scene),
+      qr: true,
+    };
+  }
+
+  if (scene.id === "lower-third") return { eyebrow: true, guest: true };
+  if (scene.id === "meta") {
+    return { eyebrow: true, cta: true, progress: true, qr: true };
+  }
+  if (scene.id === "reloj") return { eyebrow: true, cta: true, qr: true };
+  if (scene.id === "en-vivo") return { title: true };
+  if (scene.id === "donacion") {
+    return { eyebrow: true, title: true, subtitle: true, note: true, qr: true };
+  }
+  if (scene.id === "en-vivo-qr") return { eyebrow: true, cta: true, qr: true };
+  if (scene.id === "mosca") return { cta: true };
+  if (scene.visual === "liveframe") {
+    return {
+      eyebrow: true,
+      title: true,
+      subtitle: true,
+      note: true,
+      cta: true,
+      progress: true,
+      qr: true,
+    };
+  }
+  return { qr: true };
+}
+
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
+}
+
+async function waitForImages(node: HTMLElement): Promise<void> {
+  const images = Array.from(node.querySelectorAll("img"));
+  await Promise.all(
+    images.map(
+      (image) =>
+        new Promise<void>((resolve) => {
+          if (image.complete) {
+            resolve();
+            return;
+          }
+          const done = () => resolve();
+          image.addEventListener("load", done, { once: true });
+          image.addEventListener("error", done, { once: true });
+        }),
+    ),
+  );
 }
 
 function sceneType(scene: SceneDef): SceneType {
@@ -201,8 +352,8 @@ function EditorShell({
         </header>
 
         <div className="grid flex-1 overflow-y-auto lg:grid-cols-[minmax(0,1fr)_minmax(0,430px)] lg:overflow-hidden">
-          <div className="bg-slate-100 p-4 lg:overflow-auto">{preview}</div>
-          <div className="space-y-4 p-4 lg:overflow-auto">{form}</div>
+          <div className="min-w-0 bg-slate-100 p-4 lg:overflow-auto">{preview}</div>
+          <div className="min-w-0 space-y-4 p-4 lg:overflow-auto">{form}</div>
         </div>
 
         <footer className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-white px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
@@ -215,9 +366,11 @@ function EditorShell({
 
 function ScenePreview({
   scene,
+  copy,
   captureRef,
 }: {
   scene: SceneDef;
+  copy?: StreamingCopy;
   captureRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -251,7 +404,7 @@ function ScenePreview({
           transformOrigin: "top left",
         }}
       >
-        <SceneView scene={scene} render />
+        <SceneView scene={scene} render copy={copy} />
       </div>
     </div>
   );
@@ -270,9 +423,10 @@ function MarketingCard({
   const merged: CreativeSlide = edit?.slides[first.id]
     ? { ...first, ...edit.slides[first.id] }
     : first;
-  const image = merged.fullSceneImage ?? merged.characterImage;
-  const headline = merged.headline;
   const isOverlay = creative.category === "overlays";
+  const theme = edit?.theme ?? creative.defaultTheme;
+  const aspect = edit?.aspect ?? creative.defaultAspect;
+  const size = aspect === "9:16" ? { w: 360, h: 640 } : aspect === "1:1" ? { w: 360, h: 360 } : { w: 360, h: 450 };
 
   return (
     <button
@@ -282,35 +436,22 @@ function MarketingCard({
     >
       <div
         className={`relative aspect-[4/5] overflow-hidden ${
-          isOverlay
-            ? "bg-[#2B394F]"
-            : "bg-gradient-to-br from-[#0D1E47] to-[#071127]"
+          isOverlay ? "scene-preview--overlay" : "bg-[#071127]"
         }`}
-        style={
-          isOverlay
-            ? {
-                backgroundImage:
-                  "linear-gradient(45deg, #33445e 25%, transparent 25%), linear-gradient(-45deg, #33445e 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #33445e 75%), linear-gradient(-45deg, transparent 75%, #33445e 75%)",
-                backgroundSize: "20px 20px",
-                backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
-              }
-            : undefined
-        }
       >
-        {image ? (
-          <img
-            src={image}
-            alt=""
-            loading="lazy"
-            className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]"
+        <LiveThumb designWidth={size.w} designHeight={size.h} className="absolute inset-0">
+          <AdCanvasPreview
+            creative={creative}
+            slide={merged}
+            theme={theme}
+            aspect={aspect}
+            hoursValue={edit?.hoursValue}
+            kickHandle={edit?.kickHandle}
+            showQrOverride={edit?.showQr}
+            qrTargetOverride={edit?.qrTarget}
+            thumbnail
           />
-        ) : (
-          <div className="flex h-full flex-col justify-end bg-gradient-to-br from-[#0F2354] via-[#1a3370] to-[#E6009E] p-3">
-            <p className="line-clamp-4 font-display text-sm font-extrabold leading-tight text-white">
-              {headline}
-            </p>
-          </div>
-        )}
+        </LiveThumb>
         <span className="absolute left-2 top-2 rounded-full bg-white/90 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#0F2354]">
           {formatLabel(creative.format)}
         </span>
@@ -342,14 +483,17 @@ function MarketingCard({
 
 function SceneCard({
   scene,
-  edited,
+  edit,
+  copy,
   onOpen,
 }: {
   scene: SceneDef;
-  edited: boolean;
+  edit?: SceneOverride;
+  copy?: StreamingCopy;
   onOpen: () => void;
 }) {
   const overlay = scene.kind === "overlay";
+  const merged = mergeScene(scene, edit);
   return (
     <button
       type="button"
@@ -361,16 +505,13 @@ function SceneCard({
           overlay ? "scene-preview--overlay" : "bg-[#0B1A3D]"
         }`}
       >
-        <img
-          src={`/cortinas/${scene.id}.png`}
-          alt=""
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+        <LiveThumb designWidth={1920} designHeight={1080} className="absolute inset-0">
+          <SceneView scene={merged} render copy={copy} frozen />
+        </LiveThumb>
         <span className="absolute left-2 top-2 rounded-full bg-[#FFD400] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#0B1A3D]">
           {overlay ? "Overlay" : scene.group === "bloque" ? `Bloque ${scene.number}` : "Cortina"}
         </span>
-        {edited ? (
+        {edit ? (
           <span className="absolute bottom-2 left-2 rounded-full bg-[#E6009E] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
             Editada
           </span>
@@ -411,6 +552,8 @@ export default function ContentStudio({
   const [sceneFilter, setSceneFilter] = useState<"all" | SceneType>("all");
   const [marketingState, setMarketingState] = useState(marketing);
   const [contentState, setContentState] = useState(content);
+  const [copyDraft, setCopyDraft] = useState<StreamingCopy>(content.copy ?? {});
+  const [showCampaign, setShowCampaign] = useState(false);
   const [selectedCreative, setSelectedCreative] = useState<AdCreative | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const [draft, setDraft] = useState<CreativeEdit>({ slides: {} });
@@ -575,7 +718,7 @@ export default function ContentStudio({
       const response = await fetch("/api/admin/streaming/content", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scenes }),
+        body: JSON.stringify({ scenes, copy: copyDraft }),
       });
       const body = (await response.json()) as StreamingContent & { error?: string };
       if (!response.ok) {
@@ -583,6 +726,7 @@ export default function ContentStudio({
         return;
       }
       setContentState(body);
+      setCopyDraft(body.copy ?? {});
       setStatus(
         "Guardado. La fuente de OBS toma estos textos en el próximo refresco. Si la escena está al aire, coordina con David.",
       );
@@ -604,7 +748,7 @@ export default function ContentStudio({
       const response = await fetch("/api/admin/streaming/content", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ scenes }),
+        body: JSON.stringify({ scenes, copy: copyDraft }),
       });
       const body = (await response.json()) as StreamingContent & { error?: string };
       if (!response.ok) {
@@ -612,6 +756,7 @@ export default function ContentStudio({
         return;
       }
       setContentState(body);
+      setCopyDraft(body.copy ?? {});
       setSceneDraft({});
       setStatus("Volvió al diseño original.");
     } catch {
@@ -619,6 +764,36 @@ export default function ContentStudio({
     } finally {
       setSaving(false);
     }
+  };
+
+  const saveCopy = async () => {
+    setSaving(true);
+    setStatus("");
+    setError("");
+    try {
+      const response = await fetch("/api/admin/streaming/content", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ scenes: contentState.scenes, copy: copyDraft }),
+      });
+      const body = (await response.json()) as StreamingContent & { error?: string };
+      if (!response.ok) {
+        setError(body.error ?? "No se pudieron guardar los datos.");
+        return;
+      }
+      setContentState(body);
+      setCopyDraft(body.copy ?? {});
+      setStatus("Datos de campaña guardados. Se aplican a todas las cortinas y overlays.");
+    } catch {
+      setError("Error de conexión al guardar los datos.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const resetCopy = () => {
+    setCopyDraft({});
+    setStatus("Datos en blanco. Guarda para volver a los valores originales.");
   };
 
   const downloadMarketing = async () => {
@@ -637,6 +812,8 @@ export default function ContentStudio({
           slide: mergedSlide,
           theme: draft.theme ?? selectedCreative.defaultTheme,
           aspect: draft.aspect ?? selectedCreative.defaultAspect,
+          hoursValue: draft.hoursValue,
+          kickHandle: draft.kickHandle,
           showQrOverride: draft.showQr,
           qrTargetOverride: draft.qrTarget,
         },
@@ -666,6 +843,8 @@ export default function ContentStudio({
           slide: mergedSlides[index],
           theme: draft.theme ?? selectedCreative.defaultTheme,
           aspect: draft.aspect ?? selectedCreative.defaultAspect,
+          hoursValue: draft.hoursValue,
+          kickHandle: draft.kickHandle,
           showQrOverride: draft.showQr,
           qrTargetOverride: draft.qrTarget,
         });
@@ -702,6 +881,7 @@ export default function ContentStudio({
     const previous = node.style.transform;
     node.style.transform = "none";
     try {
+      await waitForImages(node);
       const merged = mergeScene(selectedScene, sceneDraft);
       const dataUrl = await toPng(node, {
         width: 1920,
@@ -757,6 +937,43 @@ export default function ContentStudio({
         : draft.qrTarget === "donate"
           ? "donate"
           : "default";
+  const progressOn = slideEdit.showProgressBar ?? Boolean(slide?.showProgressBar);
+  const progressValue = slideEdit.progressPercent ?? slide?.progressPercent ?? 60;
+  const scheduleRows = slideEdit.scheduleRows ?? slide?.scheduleRows ?? [];
+  const tierRows = slideEdit.tierRows ?? slide?.tierRows ?? [];
+  const copyResolved = resolveStreamingCopy(copyDraft);
+  const effectiveQrTarget =
+    draft.qrTarget ?? slide?.defaultQrTarget ?? "donate";
+
+  const setScheduleRows = (
+    rows: Array<{ time: string; title: string; host: string }>,
+  ) => updateSlide({ scheduleRows: rows });
+
+  const updateScheduleRow = (
+    index: number,
+    patch: Partial<{ time: string; title: string; host: string }>,
+  ) => {
+    setScheduleRows(
+      scheduleRows.map((row, position) =>
+        position === index ? { ...row, ...patch } : row,
+      ),
+    );
+  };
+
+  const setTierRows = (
+    rows: Array<{ label: string; amount: string; note: string }>,
+  ) => updateSlide({ tierRows: rows });
+
+  const updateTierRow = (
+    index: number,
+    patch: Partial<{ label: string; amount: string; note: string }>,
+  ) => {
+    setTierRows(
+      tierRows.map((row, position) =>
+        position === index ? { ...row, ...patch } : row,
+      ),
+    );
+  };
 
   const setQrMode = (mode: "default" | "live" | "donate" | "none") => {
     if (mode === "default") {
@@ -773,6 +990,17 @@ export default function ContentStudio({
   const mergedScene = selectedScene
     ? mergeScene(selectedScene, sceneDraft)
     : null;
+  const sceneForm = selectedScene ? sceneFields(selectedScene) : null;
+  const sceneQrTarget = sceneDraft.qrTarget ?? selectedScene?.qrTarget ?? "donate";
+  const sceneProgressLive =
+    sceneDraft.progressLive ??
+    selectedScene?.progressLive ??
+    Boolean(selectedScene?.houseLive);
+  const sceneProgressPercent =
+    sceneDraft.progressPercent ??
+    selectedScene?.progressPercent ??
+    selectedScene?.houseFrame ??
+    60;
 
   const editedCount = Object.keys(marketingState.edits).length;
   const editedScenes = Object.keys(contentState.scenes).length;
@@ -928,6 +1156,83 @@ export default function ContentStudio({
         </div>
       ) : null}
 
+      {tab !== "marketing" ? (
+        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <button
+            type="button"
+            onClick={() => setShowCampaign((current) => !current)}
+            className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition hover:bg-slate-50"
+            aria-expanded={showCampaign}
+          >
+            <div className="min-w-0">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.16em] text-[#E6009E]">
+                Datos de campaña
+              </p>
+              <p className="mt-0.5 text-xs font-semibold leading-snug text-slate-500">
+                URLs, Bre-B, banco, hashtag e Instagram. Se aplican a todas las cortinas y
+                overlays.
+              </p>
+            </div>
+            <span className="shrink-0 rounded-full bg-slate-100 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-600">
+              {showCampaign ? "Ocultar" : "Editar"}
+            </span>
+          </button>
+          {showCampaign ? (
+            <div className="space-y-3 border-t border-slate-100 p-4">
+              <div className="grid gap-3 sm:grid-cols-2">
+                {COPY_FIELDS.map((field) => (
+                  <Field key={field.key} label={field.label}>
+                    <input
+                      value={copyDraft[field.key] ?? ""}
+                      onChange={(event) =>
+                        setCopyDraft((current) => ({
+                          ...current,
+                          [field.key]: event.target.value,
+                        }))
+                      }
+                      className={inputClass}
+                      placeholder={field.placeholder}
+                    />
+                    {field.hint ? (
+                      <span className="mt-1 block text-[10px] leading-snug text-slate-400">
+                        {field.hint}
+                      </span>
+                    ) : null}
+                  </Field>
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={saveCopy}
+                  disabled={saving}
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-[#0F2354] px-4 py-2 text-xs font-extrabold text-white transition hover:bg-[#183478] disabled:opacity-60"
+                >
+                  {saving ? (
+                    <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
+                  ) : (
+                    <Save className="h-4 w-4" strokeWidth={2} />
+                  )}
+                  Guardar datos
+                </button>
+                <button
+                  type="button"
+                  onClick={resetCopy}
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-200 px-4 py-2 text-xs font-bold text-slate-600 transition hover:bg-slate-50"
+                >
+                  <RotateCcw className="h-4 w-4" strokeWidth={2} />
+                  Volver a los originales
+                </button>
+                <span className="text-[11px] font-semibold text-slate-500">{status}</span>
+                {error ? (
+                  <span className="text-[11px] font-semibold text-red-700">{error}</span>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+
       {tab === "marketing" ? (
         <div className="grid gap-3 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
           {filteredCreatives.map((creative) => (
@@ -945,7 +1250,8 @@ export default function ContentStudio({
             <SceneCard
               key={scene.id}
               scene={scene}
-              edited={Boolean(contentState.scenes[scene.id])}
+              edit={contentState.scenes[scene.id]}
+              copy={copyDraft}
               onOpen={() => openScene(scene)}
             />
           ))}
@@ -966,6 +1272,8 @@ export default function ContentStudio({
                 slide={mergedSlide}
                 theme={theme}
                 aspect={aspect}
+                hoursValue={draft.hoursValue}
+                kickHandle={draft.kickHandle}
                 showQrOverride={draft.showQr}
                 qrTargetOverride={draft.qrTarget}
               />
@@ -1067,6 +1375,226 @@ export default function ContentStudio({
                   />
                 </Field>
               </div>
+              <div className="rounded-xl border border-slate-200 bg-white p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] font-bold text-[#0F2354]">Avance de la obra</p>
+                    <p className="text-[10px] leading-snug text-slate-500">
+                      Barra y etiquetas de porcentaje de esta pieza.
+                    </p>
+                  </div>
+                  <label className="flex min-h-[36px] shrink-0 items-center gap-2 text-[11px] font-bold text-slate-600">
+                    <input
+                      type="checkbox"
+                      checked={progressOn}
+                      onChange={(event) =>
+                        updateSlide({ showProgressBar: event.target.checked })
+                      }
+                      className="h-4 w-4 accent-[#E6009E]"
+                    />
+                    Mostrar
+                  </label>
+                </div>
+                {progressOn ? (
+                  <div className="mt-3 space-y-2">
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        step={5}
+                        value={progressValue}
+                        onChange={(event) =>
+                          updateSlide({ progressPercent: Number(event.target.value) })
+                        }
+                        className="flex-1 accent-[#E6009E]"
+                        aria-label="Porcentaje de avance"
+                      />
+                      <div className="flex items-center gap-1">
+                        <input
+                          type="number"
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={progressValue}
+                          onChange={(event) =>
+                            updateSlide({
+                              progressPercent: Math.max(
+                                0,
+                                Math.min(100, Number(event.target.value) || 0),
+                              ),
+                            })
+                          }
+                          className="w-16 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-sm font-bold text-slate-800 outline-none focus:border-[#E6009E]"
+                        />
+                        <span className="text-xs font-bold text-slate-500">%</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {[25, 50, 60, 75, 100].map((value) => (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => updateSlide({ progressPercent: value })}
+                          className={`rounded-full px-2.5 py-1 text-[10px] font-extrabold ${
+                            progressValue === value
+                              ? "bg-[#0F2354] text-white"
+                              : "bg-slate-100 text-slate-500 hover:text-[#0F2354]"
+                          }`}
+                        >
+                          {value}%
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-[10px] leading-snug text-slate-500">
+                      Cambia la barra y las etiquetas HOY y OBRA REAL del preview y del PNG.
+                    </p>
+                  </div>
+                ) : null}
+              </div>
+
+              {selectedCreative.supportsHourCounter ||
+              selectedCreative.supportsKickHandle ? (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {selectedCreative.supportsHourCounter ? (
+                    <Field label="Horas en vivo">
+                      <input
+                        value={draft.hoursValue ?? selectedCreative.defaultHourValue ?? "12"}
+                        onChange={(event) => updateCreative({ hoursValue: event.target.value })}
+                        className={inputClass}
+                        placeholder="Ej. 12"
+                      />
+                    </Field>
+                  ) : null}
+                  {selectedCreative.supportsKickHandle ? (
+                    <Field label="Usuario de Kick">
+                      <input
+                        value={draft.kickHandle ?? selectedCreative.defaultKickHandle ?? "deivid"}
+                        onChange={(event) => updateCreative({ kickHandle: event.target.value })}
+                        className={inputClass}
+                        placeholder="Ej. deivid"
+                      />
+                    </Field>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {scheduleRows.length > 0 ? (
+                <div className="space-y-2 rounded-xl border border-slate-200 bg-white p-3">
+                  <p className="text-[11px] font-bold text-[#0F2354]">Agenda del carrusel</p>
+                  {scheduleRows.map((row, index) => (
+                    <div
+                      key={index}
+                      className="grid gap-2 sm:grid-cols-[92px_1fr_1fr_auto]"
+                    >
+                      <input
+                        value={row.time}
+                        onChange={(event) =>
+                          updateScheduleRow(index, { time: event.target.value })
+                        }
+                        className={inputClass}
+                        placeholder="Hora"
+                      />
+                      <input
+                        value={row.title}
+                        onChange={(event) =>
+                          updateScheduleRow(index, { title: event.target.value })
+                        }
+                        className={inputClass}
+                        placeholder="Bloque"
+                      />
+                      <input
+                        value={row.host}
+                        onChange={(event) =>
+                          updateScheduleRow(index, { host: event.target.value })
+                        }
+                        className={inputClass}
+                        placeholder="Invitado"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setScheduleRows(
+                            scheduleRows.filter((_, position) => position !== index),
+                          )
+                        }
+                        aria-label="Quitar fila de agenda"
+                        className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-red-600"
+                      >
+                        <X className="h-4 w-4" strokeWidth={2} />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setScheduleRows([...scheduleRows, { time: "", title: "", host: "" }])
+                    }
+                    className="text-[11px] font-bold text-[#E6009E]"
+                  >
+                    Agregar fila
+                  </button>
+                </div>
+              ) : null}
+
+              {tierRows.length > 0 ? (
+                <div className="space-y-2 rounded-xl border border-slate-200 bg-white p-3">
+                  <p className="text-[11px] font-bold text-[#0F2354]">Niveles de donación</p>
+                  {tierRows.map((row, index) => (
+                    <div
+                      key={index}
+                      className="grid gap-2 sm:grid-cols-[1fr_110px_1.4fr_auto]"
+                    >
+                      <input
+                        value={row.label}
+                        onChange={(event) =>
+                          updateTierRow(index, { label: event.target.value })
+                        }
+                        className={inputClass}
+                        placeholder="Nombre"
+                      />
+                      <input
+                        value={row.amount}
+                        onChange={(event) =>
+                          updateTierRow(index, { amount: event.target.value })
+                        }
+                        className={inputClass}
+                        placeholder="$20.000"
+                      />
+                      <input
+                        value={row.note}
+                        onChange={(event) =>
+                          updateTierRow(index, { note: event.target.value })
+                        }
+                        className={inputClass}
+                        placeholder="Qué incluye"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setTierRows(
+                            tierRows.filter((_, position) => position !== index),
+                          )
+                        }
+                        aria-label="Quitar nivel de donación"
+                        className="grid h-10 w-10 place-items-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-50 hover:text-red-600"
+                      >
+                        <X className="h-4 w-4" strokeWidth={2} />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setTierRows([...tierRows, { label: "", amount: "", note: "" }])
+                    }
+                    className="text-[11px] font-bold text-[#E6009E]"
+                  >
+                    Agregar nivel
+                  </button>
+                </div>
+              ) : null}
+
               <div className="grid gap-3 sm:grid-cols-2">
                 <Field label="Tema">
                   <select
@@ -1094,20 +1622,57 @@ export default function ContentStudio({
                   </select>
                 </Field>
               </div>
-              <Field label="Código QR">
-                <select
-                  value={qrMode}
-                  onChange={(event) =>
-                    setQrMode(event.target.value as "default" | "live" | "donate" | "none")
-                  }
-                  className={inputClass}
-                >
-                  <option value="default">Como viene la pieza</option>
-                  <option value="live">QR al live</option>
-                  <option value="donate">QR a donar</option>
-                  <option value="none">Sin QR</option>
-                </select>
-              </Field>
+              <div>
+                <p className="mb-1 text-[11px] font-bold text-[#0F2354]">
+                  Código QR y enlace
+                </p>
+                <div className="grid grid-cols-2 gap-1">
+                  {(
+                    [
+                      { id: "donate", label: "Donaciones" },
+                      { id: "live", label: "Transmisión" },
+                    ] as const
+                  ).map((option) => {
+                    const active = qrMode !== "none" && effectiveQrTarget === option.id;
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        onClick={() => setQrMode(option.id)}
+                        aria-pressed={active}
+                        className={`min-h-[40px] rounded-lg px-2 py-1.5 text-[10px] font-extrabold transition ${
+                          active
+                            ? "bg-[#0F2354] text-white"
+                            : "bg-slate-100 text-slate-500 hover:text-[#0F2354]"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                <label className="mt-2 flex items-center gap-2 text-[11px] font-bold text-slate-600">
+                  <input
+                    type="checkbox"
+                    checked={qrMode !== "none"}
+                    onChange={(event) => {
+                      if (event.target.checked) setQrMode(effectiveQrTarget);
+                      else setQrMode("none");
+                    }}
+                    className="h-4 w-4 accent-[#E6009E]"
+                  />
+                  Mostrar QR en la pieza
+                </label>
+                <p className="mt-1 text-[10px] leading-snug text-slate-500">
+                  {qrMode === "none"
+                    ? "La pieza sale sin QR."
+                    : `Apunta a ${displayUrl(
+                        effectiveQrTarget === "live"
+                          ? copyResolved.liveUrl
+                          : copyResolved.donateUrl,
+                      )}`}
+                </p>
+              </div>
               <Field label="Caption para redes">
                 <textarea
                   rows={5}
@@ -1196,115 +1761,430 @@ export default function ContentStudio({
           title={selectedScene.label}
           subtitle={selectedScene.kind === "overlay" ? "Overlay" : "Cortina 1920x1080"}
           onClose={closeEditor}
-          preview={<ScenePreview scene={mergedScene} captureRef={captureRef} />}
+          preview={
+            <ScenePreview scene={mergedScene} copy={copyDraft} captureRef={captureRef} />
+          }
           form={
             <>
               <div className="rounded-xl bg-amber-50 px-3 py-2 text-[11px] leading-relaxed text-amber-800">
-                Los cambios se ven en la fuente de OBS al guardar. Si esta escena está al aire,
-                coordina con David antes de publicar.
+                Los cambios se ven en el preview y en el PNG aunque no guardes. Para que la fuente de
+                OBS los tome, guarda. Si esta escena está al aire, coordina con David antes de
+                publicar.
               </div>
-              <Field label="Eyebrow">
-                <input
-                  value={sceneDraft.eyebrow ?? selectedScene.eyebrow}
-                  onChange={(event) => setSceneDraft((current) => ({ ...current, eyebrow: event.target.value }))}
-                  className={inputClass}
-                />
-              </Field>
-              <Field label="Título">
-                <textarea
-                  rows={2}
-                  value={sceneDraft.title ?? selectedScene.title}
-                  onChange={(event) => setSceneDraft((current) => ({ ...current, title: event.target.value }))}
-                  className={inputClass}
-                />
-              </Field>
-              <Field label="Subtítulo">
-                <textarea
-                  rows={3}
-                  value={sceneDraft.subtitle ?? selectedScene.subtitle}
-                  onChange={(event) => setSceneDraft((current) => ({ ...current, subtitle: event.target.value }))}
-                  className={inputClass}
-                />
-              </Field>
-              <Field label="Línea corta">
-                <input
-                  value={sceneDraft.note ?? selectedScene.note ?? ""}
-                  onChange={(event) => setSceneDraft((current) => ({ ...current, note: event.target.value }))}
-                  className={inputClass}
-                />
-              </Field>
-              <Field label="Llamado a donar">
-                <input
-                  value={sceneDraft.cta ?? selectedScene.cta ?? ""}
-                  onChange={(event) => setSceneDraft((current) => ({ ...current, cta: event.target.value }))}
-                  className={inputClass}
-                />
-              </Field>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Número">
+
+              {sceneForm?.badge ? (
+                <Field label="Etiqueta superior">
                   <input
-                    value={sceneDraft.countValue ?? selectedScene.countValue ?? ""}
-                    onChange={(event) => setSceneDraft((current) => ({ ...current, countValue: event.target.value }))}
-                    className={inputClass}
-                  />
-                </Field>
-                <Field label="Unidad del número">
-                  <input
-                    value={sceneDraft.countUnit ?? selectedScene.countUnit ?? ""}
-                    onChange={(event) => setSceneDraft((current) => ({ ...current, countUnit: event.target.value }))}
-                    className={inputClass}
-                  />
-                </Field>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Field label="Color">
-                  <select
-                    value={sceneDraft.accent ?? selectedScene.accent}
-                    onChange={(event) =>
-                      setSceneDraft((current) => ({
-                        ...current,
-                        accent: event.target.value as SceneAccent,
-                      }))
-                    }
-                    className={inputClass}
-                  >
-                    {SCENE_ACCENTS.map((accent) => (
-                      <option key={accent} value={accent}>
-                        {accent}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label="Calvito">
-                  <select
                     value={
-                      sceneDraft.illustration === null
-                        ? "none"
-                        : sceneDraft.illustration ?? ""
+                      sceneDraft.badge ??
+                      selectedScene.badge ??
+                      (selectedScene.id === "gracias"
+                        ? "GRACIAS"
+                        : selectedScene.group === "bloque"
+                          ? "BLOQUE EN VIVO"
+                          : "48 HORAS")
                     }
                     onChange={(event) =>
-                      setSceneDraft((current) => ({
-                        ...current,
-                        illustration:
-                          event.target.value === "none"
-                            ? null
-                            : event.target.value === ""
-                              ? undefined
-                              : (event.target.value as CalvitoKey),
-                      }))
+                      setSceneDraft((current) => ({ ...current, badge: event.target.value }))
                     }
                     className={inputClass}
-                  >
-                    <option value="">Mantener el actual</option>
-                    <option value="none">Sin calvito</option>
-                    {CALVITOS.map((calvito) => (
-                      <option key={calvito} value={calvito}>
-                        {CALVITO_LABELS[calvito]}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </Field>
-              </div>
+              ) : null}
+
+              {sceneForm?.eyebrow ? (
+                <Field
+                  label={
+                    selectedScene.id === "meta"
+                      ? "Etiqueta de la barra"
+                      : selectedScene.id === "reloj"
+                        ? "Etiqueta del contador"
+                        : selectedScene.id === "en-vivo-qr"
+                          ? "Texto de la insignia"
+                          : "Antetítulo"
+                  }
+                >
+                  <input
+                    value={sceneDraft.eyebrow ?? selectedScene.eyebrow}
+                    onChange={(event) =>
+                      setSceneDraft((current) => ({ ...current, eyebrow: event.target.value }))
+                    }
+                    className={inputClass}
+                  />
+                </Field>
+              ) : null}
+
+              {sceneForm?.title ? (
+                <Field label={selectedScene.id === "en-vivo" ? "Texto de la insignia" : "Título"}>
+                  <textarea
+                    rows={2}
+                    value={sceneDraft.title ?? selectedScene.title}
+                    onChange={(event) =>
+                      setSceneDraft((current) => ({ ...current, title: event.target.value }))
+                    }
+                    className={inputClass}
+                  />
+                </Field>
+              ) : null}
+
+              {sceneForm?.subtitle ? (
+                <Field
+                  label={
+                    selectedScene.visual === "liveframe"
+                      ? "Ticker inferior"
+                      : selectedScene.id === "donacion"
+                        ? "Texto de apoyo (respaldo)"
+                        : "Subtítulo"
+                  }
+                >
+                  <textarea
+                    rows={3}
+                    value={sceneDraft.subtitle ?? selectedScene.subtitle}
+                    onChange={(event) =>
+                      setSceneDraft((current) => ({ ...current, subtitle: event.target.value }))
+                    }
+                    className={inputClass}
+                  />
+                </Field>
+              ) : null}
+
+              {sceneForm?.note ? (
+                <Field
+                  label={
+                    selectedScene.visual === "liveframe" || selectedScene.id === "donacion"
+                      ? "Texto de apoyo"
+                      : "Línea corta"
+                  }
+                >
+                  <input
+                    value={sceneDraft.note ?? selectedScene.note ?? ""}
+                    onChange={(event) =>
+                      setSceneDraft((current) => ({ ...current, note: event.target.value }))
+                    }
+                    className={inputClass}
+                  />
+                </Field>
+              ) : null}
+
+              {sceneForm?.cta ? (
+                <Field
+                  label={
+                    selectedScene.id === "meta" || selectedScene.id === "reloj"
+                      ? "Llamado de la barra"
+                      : selectedScene.id === "mosca"
+                        ? "Línea de donación"
+                        : selectedScene.visual === "liveframe"
+                          ? "Etiqueta del panel"
+                          : "Llamado a donar"
+                  }
+                >
+                  <input
+                    value={sceneDraft.cta ?? selectedScene.cta ?? ""}
+                    onChange={(event) =>
+                      setSceneDraft((current) => ({ ...current, cta: event.target.value }))
+                    }
+                    className={inputClass}
+                  />
+                </Field>
+              ) : null}
+
+              {sceneForm?.count ? (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Número">
+                    <input
+                      value={sceneDraft.countValue ?? selectedScene.countValue ?? ""}
+                      onChange={(event) =>
+                        setSceneDraft((current) => ({
+                          ...current,
+                          countValue: event.target.value,
+                        }))
+                      }
+                      className={inputClass}
+                    />
+                  </Field>
+                  <Field label="Unidad del número">
+                    <input
+                      value={sceneDraft.countUnit ?? selectedScene.countUnit ?? ""}
+                      onChange={(event) =>
+                        setSceneDraft((current) => ({
+                          ...current,
+                          countUnit: event.target.value,
+                        }))
+                      }
+                      className={inputClass}
+                    />
+                  </Field>
+                </div>
+              ) : null}
+
+              {sceneForm?.guest ? (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Nombre del invitado">
+                    <input
+                      value={sceneDraft.guest ?? selectedScene.guest ?? ""}
+                      onChange={(event) =>
+                        setSceneDraft((current) => ({ ...current, guest: event.target.value }))
+                      }
+                      className={inputClass}
+                      placeholder="Nombre del invitado"
+                    />
+                  </Field>
+                  <Field label="Cargo o rol">
+                    <input
+                      value={sceneDraft.guestRole ?? selectedScene.guestRole ?? ""}
+                      onChange={(event) =>
+                        setSceneDraft((current) => ({
+                          ...current,
+                          guestRole: event.target.value,
+                        }))
+                      }
+                      className={inputClass}
+                      placeholder="Cargo o rol"
+                    />
+                  </Field>
+                </div>
+              ) : null}
+
+              {sceneForm?.returnAt ? (
+                <Field label="Hora de regreso">
+                  <input
+                    value={sceneDraft.returnAt ?? selectedScene.returnAt ?? ""}
+                    onChange={(event) =>
+                      setSceneDraft((current) => ({ ...current, returnAt: event.target.value }))
+                    }
+                    className={inputClass}
+                    placeholder="Ej. 8:30 p. m."
+                  />
+                </Field>
+              ) : null}
+
+              {sceneForm?.progress ? (
+                <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-3">
+                  <div>
+                    <p className="text-[11px] font-bold text-[#0F2354]">
+                      {sceneProgressLabel(selectedScene)}
+                    </p>
+                    <p className="text-[10px] leading-snug text-slate-500">
+                      Elige si toma el recaudo real del sitio o un porcentaje fijo.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSceneDraft((current) => ({ ...current, progressLive: true }))
+                      }
+                      aria-pressed={sceneProgressLive}
+                      className={`min-h-[40px] rounded-lg px-2 py-1.5 text-[10px] font-extrabold transition ${
+                        sceneProgressLive
+                          ? "bg-[#0F2354] text-white"
+                          : "bg-slate-100 text-slate-500 hover:text-[#0F2354]"
+                      }`}
+                    >
+                      Recaudo real
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSceneDraft((current) => ({ ...current, progressLive: false }))
+                      }
+                      aria-pressed={!sceneProgressLive}
+                      className={`min-h-[40px] rounded-lg px-2 py-1.5 text-[10px] font-extrabold transition ${
+                        !sceneProgressLive
+                          ? "bg-[#0F2354] text-white"
+                          : "bg-slate-100 text-slate-500 hover:text-[#0F2354]"
+                      }`}
+                    >
+                      Porcentaje fijo
+                    </button>
+                  </div>
+                  {sceneProgressLive ? (
+                    <p className="rounded-lg bg-lime-50 px-2 py-1.5 text-[10px] leading-snug text-lime-900">
+                      En OBS y en la página toma el total de donaciones. Si todavía no hay datos,
+                      usa {sceneProgressPercent}% como respaldo. Cambia a "Porcentaje fijo" para
+                      elegir otro valor.
+                    </p>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range"
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={sceneProgressPercent}
+                          onChange={(event) =>
+                            setSceneDraft((current) => ({
+                              ...current,
+                              progressPercent: Number(event.target.value),
+                            }))
+                          }
+                          className="flex-1 accent-[#E6009E]"
+                          aria-label="Porcentaje de avance"
+                        />
+                        <div className="flex items-center gap-1">
+                          <input
+                            type="number"
+                            min={0}
+                            max={100}
+                            step={5}
+                            value={sceneProgressPercent}
+                            onChange={(event) =>
+                              setSceneDraft((current) => ({
+                                ...current,
+                                progressPercent: Math.max(
+                                  0,
+                                  Math.min(100, Number(event.target.value) || 0),
+                                ),
+                              }))
+                            }
+                            className="w-16 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1.5 text-sm font-bold text-slate-800 outline-none focus:border-[#E6009E]"
+                          />
+                          <span className="text-xs font-bold text-slate-500">%</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {[25, 50, 60, 75, 100].map((value) => (
+                          <button
+                            key={value}
+                            type="button"
+                            onClick={() =>
+                              setSceneDraft((current) => ({
+                                ...current,
+                                progressPercent: value,
+                              }))
+                            }
+                            className={`rounded-full px-2.5 py-1 text-[10px] font-extrabold ${
+                              sceneProgressPercent === value
+                                ? "bg-[#0F2354] text-white"
+                                : "bg-slate-100 text-slate-500 hover:text-[#0F2354]"
+                            }`}
+                          >
+                            {value}%
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  {selectedScene.visual === "house" ? (
+                    <Field label="Texto debajo de la casa">
+                      <input
+                        value={sceneDraft.progressCaption ?? selectedScene.progressCaption ?? ""}
+                        onChange={(event) =>
+                          setSceneDraft((current) => ({
+                            ...current,
+                            progressCaption: event.target.value,
+                          }))
+                        }
+                        className={inputClass}
+                        placeholder={
+                          sceneProgressLive
+                            ? "La casa avanza con cada donación"
+                            : "Paso a paso, entre todos"
+                        }
+                      />
+                    </Field>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {sceneForm?.qr ? (
+                <div className="rounded-xl border border-slate-200 bg-white p-3">
+                  <p className="text-[11px] font-bold text-[#0F2354]">
+                    Destino del QR y del enlace
+                  </p>
+                  <div className="mt-2 grid grid-cols-2 gap-1">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSceneDraft((current) => ({ ...current, qrTarget: "donate" }))
+                      }
+                      aria-pressed={sceneQrTarget === "donate"}
+                      className={`min-h-[40px] rounded-lg px-2 py-1.5 text-[10px] font-extrabold transition ${
+                        sceneQrTarget === "donate"
+                          ? "bg-[#0F2354] text-white"
+                          : "bg-slate-100 text-slate-500 hover:text-[#0F2354]"
+                      }`}
+                    >
+                      Donaciones
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setSceneDraft((current) => ({ ...current, qrTarget: "live" }))
+                      }
+                      aria-pressed={sceneQrTarget === "live"}
+                      className={`min-h-[40px] rounded-lg px-2 py-1.5 text-[10px] font-extrabold transition ${
+                        sceneQrTarget === "live"
+                          ? "bg-[#0F2354] text-white"
+                          : "bg-slate-100 text-slate-500 hover:text-[#0F2354]"
+                      }`}
+                    >
+                      Transmisión
+                    </button>
+                  </div>
+                  <p className="mt-1.5 text-[10px] leading-snug text-slate-500">
+                    Apunta a{" "}
+                    {displayUrl(
+                      sceneQrTarget === "live"
+                        ? copyResolved.liveUrl
+                        : copyResolved.donateUrl,
+                    )}
+                  </p>
+                </div>
+              ) : null}
+
+              {sceneForm?.style ? (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="Color">
+                    <select
+                      value={sceneDraft.accent ?? selectedScene.accent}
+                      onChange={(event) =>
+                        setSceneDraft((current) => ({
+                          ...current,
+                          accent: event.target.value as SceneAccent,
+                        }))
+                      }
+                      className={inputClass}
+                    >
+                      {SCENE_ACCENTS.map((accent) => (
+                        <option key={accent} value={accent}>
+                          {accent}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                  <Field label="Calvito">
+                    <select
+                      value={
+                        sceneDraft.illustration === null
+                          ? "none"
+                          : sceneDraft.illustration ?? ""
+                      }
+                      onChange={(event) =>
+                        setSceneDraft((current) => ({
+                          ...current,
+                          illustration:
+                            event.target.value === "none"
+                              ? null
+                              : event.target.value === ""
+                                ? undefined
+                                : (event.target.value as CalvitoKey),
+                        }))
+                      }
+                      className={inputClass}
+                    >
+                      <option value="">Mantener el actual</option>
+                      <option value="none">Sin calvito</option>
+                      {CALVITOS.map((calvito) => (
+                        <option key={calvito} value={calvito}>
+                          {CALVITO_LABELS[calvito]}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                </div>
+              ) : null}
             </>
           }
           footer={

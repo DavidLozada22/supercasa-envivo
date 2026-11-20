@@ -3,8 +3,14 @@ import { EMPTY_STREAMING_CONTENT, type StreamingContent } from "./merge";
 
 const KEY = "supercasa/streaming-content.json";
 
-export type { SceneOverride, StreamingContent } from "./merge";
-export { mergeScene, mergeScenes, EMPTY_STREAMING_CONTENT } from "./merge";
+export type { SceneOverride, StreamingContent, StreamingCopy } from "./merge";
+export {
+  mergeScene,
+  mergeScenes,
+  resolveStreamingCopy,
+  DEFAULT_STREAMING_COPY,
+  EMPTY_STREAMING_CONTENT,
+} from "./merge";
 
 export async function readStreamingContent(): Promise<StreamingContent> {
   const value = await readJson<StreamingContent>(KEY);

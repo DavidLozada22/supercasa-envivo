@@ -263,6 +263,7 @@ export async function renderAdToDataUrl(options: ExportOptions): Promise<string>
   const effectiveQrTarget = resolveQrTarget(slide, options.qrTargetOverride);
   const qrMeta = getQrMeta(effectiveQrTarget);
   const accent = ACCENT_HEX[slide.accentColor ?? 'magenta'];
+  const progressPct = Math.max(0, Math.min(100, slide.progressPercent ?? 60));
 
   // Preload all needed assets (including dynamically generated QR for /envivo or /donar)
   const qrImagePromise: Promise<HTMLImageElement | null> = showQr
@@ -598,7 +599,7 @@ export async function renderAdToDataUrl(options: ExportOptions): Promise<string>
     }
 
     if (slide.showProgressBar) {
-      const pct = slide.progressPercent ?? 60;
+      const pct = progressPct;
       const barY = stageBottom - 54;
       drawRoundedRect(ctx, padX, barY, stageW, 44, 22);
       ctx.fillStyle = '#FFFFFF';
@@ -646,7 +647,7 @@ export async function renderAdToDataUrl(options: ExportOptions): Promise<string>
       ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('HOY · 60%', padX + 107, cursorY + 41);
+      ctx.fillText(`HOY · ${progressPct}%`, padX + 107, cursorY + 41);
 
       drawRoundedRect(ctx, padX + halfW + 46, cursorY + 18, 198, 44, 12);
       ctx.fillStyle = '#4CAF50';
@@ -671,7 +672,7 @@ export async function renderAdToDataUrl(options: ExportOptions): Promise<string>
       ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('OBRA REAL · 60%', padX + 140, cursorY + 43);
+      ctx.fillText(`OBRA REAL · ${progressPct}%`, padX + 140, cursorY + 43);
       ctx.textAlign = 'left';
     } else if (slide.scheduleRows && slide.scheduleRows.length > 0) {
       const rows = slide.scheduleRows;
@@ -766,7 +767,7 @@ export async function renderAdToDataUrl(options: ExportOptions): Promise<string>
     }
 
     if (slide.showProgressBar) {
-      const pct = slide.progressPercent ?? 60;
+      const pct = progressPct;
       const barY = stageBottom - 54;
       drawRoundedRect(ctx, padX, barY, stageW, 44, 22);
       ctx.fillStyle = '#FFFFFF';

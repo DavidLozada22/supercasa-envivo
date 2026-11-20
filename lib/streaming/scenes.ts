@@ -2,6 +2,7 @@ export type SceneKind = "full" | "overlay";
 export type SceneGroup = "generic" | "bloque" | "hora";
 export type SceneAccent = "fuchsia" | "lime" | "yellow" | "cyan";
 export type SceneField = "title" | "subtitle" | "note" | "guest" | "guestRole" | "returnAt";
+export type SceneQrTarget = "donate" | "live";
 
 export type CalvitoKey =
   | "bombero"
@@ -63,6 +64,20 @@ export type SceneDef = {
   houseLive?: boolean;
   /** Llamado a la accion corto para la franja de donacion. */
   cta?: string;
+  /** Etiqueta de la esquina superior. */
+  badge?: string;
+  /** Destino del QR de la escena. */
+  qrTarget?: SceneQrTarget;
+  /** Usa el recaudo real en lugar del porcentaje fijo. */
+  progressLive?: boolean;
+  /** Porcentaje fijo de avance (0 a 100). */
+  progressPercent?: number;
+  /** Texto debajo de la casa. */
+  progressCaption?: string;
+  /** Textos de invitado y hora de regreso una vez fusionados. */
+  guest?: string;
+  guestRole?: string;
+  returnAt?: string;
 };
 
 type BlockSeed = {
@@ -750,6 +765,7 @@ export const SCENES: SceneDef[] = [
     fields: [],
     when: "Sobre el video, durante todo el evento.",
     visual: "spark",
+    progressLive: true,
   },
   {
     id: "reloj",
@@ -823,6 +839,7 @@ export const SCENES: SceneDef[] = [
     when: "Fondo para entrevistas, análisis o pantalla de espera.",
     visual: "liveframe",
     cta: "Dona aquí",
+    progressLive: true,
   },
   {
     id: "marco-live",
@@ -835,6 +852,7 @@ export const SCENES: SceneDef[] = [
     fields: [],
     when: "Encima del video cuando quieras live pequeño con panel de donación.",
     visual: "liveframe",
+    progressLive: true,
   },
 ];
 

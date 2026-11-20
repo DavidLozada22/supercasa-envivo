@@ -29,6 +29,7 @@ interface AdCanvasPreviewProps {
   qrTargetOverride?: QrTarget;
   transparentOverlayOverride?: boolean;
   compact?: boolean;
+  thumbnail?: boolean;
 }
 
 const ACCENT_HEX: Record<NonNullable<CreativeSlide['accentColor']>, { bg: string; text: string }> = {
@@ -53,6 +54,7 @@ export default function AdCanvasPreview({
   qrTargetOverride,
   transparentOverlayOverride,
   compact = false,
+  thumbnail = false,
 }: AdCanvasPreviewProps) {
   const isCortina = theme === 'cortina';
   const isStory = aspect === '9:16';
@@ -99,7 +101,7 @@ export default function AdCanvasPreview({
   } | null>(null);
 
   useEffect(() => {
-    if (!showQr || compact) return;
+    if (!showQr || compact || thumbnail) return;
     let cancelled = false;
     getQrDataUrl(effectiveQrTarget)
       .then((dataUrl) => {
@@ -118,10 +120,11 @@ export default function AdCanvasPreview({
     return () => {
       cancelled = true;
     };
-  }, [effectiveQrTarget, showQr, compact]);
+  }, [effectiveQrTarget, showQr, compact, thumbnail]);
 
-  const resolvedQrSrc =
-    generatedQr?.target === effectiveQrTarget
+  const resolvedQrSrc = thumbnail
+    ? `/api/qr?u=${encodeURIComponent(qrMeta.url)}`
+    : generatedQr?.target === effectiveQrTarget
       ? generatedQr.src
       : effectiveQrTarget === 'donate'
         ? CAMPAIGN_CONSTANTS.assets.qrDonate
@@ -129,6 +132,7 @@ export default function AdCanvasPreview({
 
   const accent = ACCENT_HEX[slide.accentColor ?? 'magenta'];
   const darkSurface = isOverlay || isCortina || hasFullScene;
+  const progressPct = Math.max(0, Math.min(100, slide.progressPercent ?? 60));
 
   const aspectClass =
     aspect === '9:16'
@@ -372,16 +376,18 @@ export default function AdCanvasPreview({
             <div className="flex-1 min-h-0 flex flex-col justify-between">
               {/* Open Center Transparency Guide (Exported PNG is 100% alpha=0 here) */}
               <div className="flex-1 flex flex-col items-center justify-center px-3 text-center">
-                <div className="rounded-2xl border-2 border-dashed border-white/45 bg-[#071127]/35 px-3 py-1.5 backdrop-blur-[1px]">
-                  <div className={`font-extrabold uppercase tracking-wider text-[#B5F43D] ${compact ? 'text-[7px]' : 'text-[9.5px]'}`}>
-                    Centro 100% Transparente (PNG)
+                {!thumbnail ? (
+                  <div className="rounded-2xl border-2 border-dashed border-white/45 bg-[#071127]/35 px-3 py-1.5 backdrop-blur-[1px]">
+                    <div className={`font-extrabold uppercase tracking-wider text-[#B5F43D] ${compact ? 'text-[7px]' : 'text-[9.5px]'}`}>
+                      Centro 100% Transparente (PNG)
+                    </div>
+                    {!compact && (
+                      <p className="mt-0.5 text-[9.5px] font-semibold text-white/85">
+                        Aquí se verá tu video o foto en Instagram / Reels
+                      </p>
+                    )}
                   </div>
-                  {!compact && (
-                    <p className="mt-0.5 text-[9.5px] font-semibold text-white/85">
-                      Aquí se verá tu video o foto en Instagram / Reels
-                    </p>
-                  )}
-                </div>
+                ) : null}
               </div>
 
               {/* Bottom Overlay Strip: Speech Bubble + Cause on Left, Direct 3D Child on Right */}
@@ -498,12 +504,12 @@ export default function AdCanvasPreview({
                   <div className="relative flex-1 min-h-0 overflow-hidden rounded-2xl border-[2.5px] border-[#1D2B4F] shadow-md">
                     <img
                       src={slide.houseImage}
-                      alt="La Supercasa hoy al 60%"
+                      alt={`La Supercasa hoy al ${progressPct}%`}
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-cover"
                     />
                     <span className="absolute top-1.5 left-1.5 rounded-md bg-[#FFD400] px-1.5 py-0.5 text-[9px] font-extrabold text-[#1D2B4F] border border-[#1D2B4F]">
-                      HOY · 60%
+                      HOY · {progressPct}%
                     </span>
                   </div>
                 </div>
@@ -528,13 +534,13 @@ export default function AdCanvasPreview({
               <div className="relative flex-1 min-h-0 overflow-hidden rounded-2xl border-[2.5px] border-[#1D2B4F] shadow-md">
                 <img
                   src={slide.houseImage}
-                  alt="Avance real de La Supercasa al 60%"
+                  alt={`Avance real de La Supercasa al ${progressPct}%`}
                   referrerPolicy="no-referrer"
                   className="h-full w-full object-cover"
                 />
                 {!compact && (
                   <span className="absolute top-2 left-2 rounded-lg bg-[#FFD400] px-2 py-0.5 text-[10px] font-extrabold text-[#1D2B4F] border border-[#1D2B4F]">
-                    OBRA REAL · 60%
+                    OBRA REAL · {progressPct}%
                   </span>
                 )}
               </div>
@@ -682,11 +688,11 @@ export default function AdCanvasPreview({
               <div className="relative h-5 w-full overflow-hidden rounded-full border-2 border-[#1D2B4F] bg-white">
                 <div
                   className="h-full rounded-full bg-[#4CAF50]"
-                  style={{ width: `${slide.progressPercent ?? 60}%` }}
+                  style={{ width: `${progressPct}%` }}
                 />
                 <div className="absolute inset-0 flex items-center justify-between px-2.5 text-[9px] font-extrabold">
                   <span className="text-white drop-shadow">
-                    {slide.progressPercent ?? 60}% CONSTRUIDO
+                    {progressPct}% CONSTRUIDO
                   </span>
                   <span className="text-[#1D2B4F]">META $250M</span>
                 </div>

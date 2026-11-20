@@ -66,10 +66,34 @@ test('el estudio tiene catálogo, edición y descarga', () => {
   assert.ok(studio.includes('Descargar carrusel (ZIP)'));
   assert.ok(studio.includes('Capas PNG transparentes'));
   assert.ok(studio.includes('PNG transparente'));
+  assert.ok(studio.includes('Datos de campaña'));
+  assert.ok(studio.includes('Avance de la obra'));
+  assert.ok(studio.includes('Recaudo real'));
+  assert.ok(studio.includes('Destino del QR y del enlace'));
+  assert.ok(studio.includes('Agenda del carrusel'));
+  assert.ok(studio.includes('Niveles de donación'));
+  assert.ok(studio.includes('LiveThumb'));
+  assert.ok(studio.includes('SceneView scene={merged}'));
+
+  const merge = read('lib/streaming/merge.ts');
+  assert.ok(merge.includes('resolveStreamingCopy'));
+  assert.ok(merge.includes('progressPercent'));
+  assert.ok(merge.includes('qrTarget'));
+
+  const qrApi = read('app/api/qr/route.ts');
+  assert.ok(qrApi.includes('QRCode.toBuffer'));
+
+  const streamingApi = read('app/api/admin/streaming/content/route.ts');
+  assert.ok(streamingApi.includes('progressPercent'));
+  assert.ok(streamingApi.includes('guestRole'));
+  assert.ok(streamingApi.includes('cleanCopy'));
 
   const marketingApi = read('app/api/admin/marketing/state/route.ts');
   assert.ok(marketingApi.includes('apiRole'));
   assert.ok(marketingApi.includes('AD_CREATIVES'));
+  assert.ok(marketingApi.includes('showProgressBar'));
+  assert.ok(marketingApi.includes('scheduleRows'));
+  assert.ok(marketingApi.includes('tierRows'));
 
   const sceneApi = read('app/api/admin/streaming/content/route.ts');
   assert.ok(sceneApi.includes('apiRole'));

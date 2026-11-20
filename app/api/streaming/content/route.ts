@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const content = await readStreamingContent();
   return NextResponse.json(
-    { scenes: content.scenes, updatedAt: content.updatedAt },
+    { scenes: content.scenes, copy: content.copy, updatedAt: content.updatedAt },
     { headers: { "Cache-Control": "no-store" } },
   );
 }

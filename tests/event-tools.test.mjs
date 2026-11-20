@@ -53,7 +53,11 @@ test('las cortinas cubren cuentas regresivas, casa, bloques y donacion', () => {
   assert.ok(view.includes('DonationOverlay'));
   assert.ok(view.includes('LiveFrame'));
   assert.ok(view.includes('calvitoSrc'));
-  assert.ok(view.includes('supercasa.svgvisual.com/donar'));
+  assert.ok(view.includes('/api/qr'));
+
+  const copy = read('lib/streaming/merge.ts');
+  assert.ok(copy.includes('supercasa.svgvisual.com/donar'));
+  assert.ok(copy.includes('DEFAULT_STREAMING_COPY'));
 });
 
 test('el live muestra horas, causa y llamados a donar', () => {

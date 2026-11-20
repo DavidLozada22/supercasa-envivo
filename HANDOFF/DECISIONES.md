@@ -227,3 +227,16 @@ La barra inferior muestra cuatro módulos y el botón "Más". Si el módulo acti
 está entre los cuatro, entra en la barra y sale el último. El botón "Más" abre
 todos los grupos. Ya no hay que recorrer una fila horizontal larga para llegar a
 la pantalla actual.
+
+## 31. El Estudio muestra y edita la pieza real
+
+Cada control del editor escribe en un campo que la escena o el creativo realmente
+renderiza. Los campos que no aplican a una pieza no se muestran. Las tarjetas usan
+el mismo componente que el editor, escalado y cargado solo al entrar en pantalla,
+para que el thumbnail sea la gráfica completa y refleje lo guardado.
+
+El avance se puede tomar del recaudo real o fijar con un porcentaje. El QR de las
+escenas se genera en `/api/qr` desde la URL de campaña, así que cambiar entre
+donaciones y transmisión cambia también la imagen del QR. Los datos que se repiten
+(URLs, Bre-B, banco, hashtag, Instagram) viven en un solo bloque y se aplican a
+todas las cortinas y overlays.

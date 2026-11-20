@@ -124,6 +124,28 @@ aquí y en `ESTADO.md`.
 - Manual: recorrer las pestañas Cortinas y Overlays OBS y confirmar que suman
   55 piezas entre las dos.
 
+## Editor completo del Estudio
+
+- Abrir `/admin/estudio?tab=cortinas&scene=casa`. Cambiar el título y ver que el
+  preview cambia al escribir. Pasar a "Porcentaje fijo", elegir 75% y confirmar
+  que la casa cambia a la imagen de 75% y el badge dice 75%.
+- En la misma escena, cambiar el destino del QR a "Transmisión" y verificar que el
+  QR, la URL y el llamado cambian en el preview.
+- Abrir el bloque "Datos de campaña", cambiar Bre-B y confirmar que las tarjetas
+  de cortinas debajo muestran el texto nuevo antes de guardar.
+- Abrir `/admin/estudio?tab=overlays&scene=meta`. Cambiar antetítulo y llamado, y
+  confirmar que la barra los muestra. Probar "Recaudo real" y "Porcentaje fijo".
+- Abrir `/admin/estudio?tab=overlays&scene=donacion`. Editar título, texto de
+  apoyo, Bre-B y banco; confirmar el preview y el PNG transparente.
+- En marketing, abrir una historia, activar "Mostrar" en "Avance de la obra",
+  elegir 75% y ver la barra y las etiquetas del preview.
+- En un carrusel, editar una fila de agenda o un nivel de donación y confirmar
+  que el slide abierto cambia.
+- Confirmar que las tarjetas de marketing muestran la gráfica completa, incluida
+  la capa PNG con checkerboard.
+- En celular, abrir el editor de una cortina. El preview debe quedar dentro del
+  ancho de la pantalla y el formulario debe poder desplazarse.
+
 ## Verificación en producción
 
 - Login de lina: rol finance y redirección a `/admin/recaudo`.

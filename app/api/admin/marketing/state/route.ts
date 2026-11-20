@@ -33,6 +33,24 @@ function text(value: unknown, max = 600): string | undefined {
   return typeof value === "string" ? value.slice(0, max) : undefined;
 }
 
+function cleanRows(
+  raw: unknown,
+  keys: [string, string, string],
+): Array<Record<string, string>> | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const rows: Array<Record<string, string>> = [];
+  for (const item of raw.slice(0, 12)) {
+    if (!item || typeof item !== "object") continue;
+    const source = item as Record<string, unknown>;
+    const row: Record<string, string> = {};
+    for (const key of keys) {
+      if (typeof source[key] === "string") row[key] = (source[key] as string).slice(0, 160);
+    }
+    if (Object.keys(row).length > 0) rows.push(row);
+  }
+  return rows;
+}
+
 function cleanEdit(raw: unknown): CreativeEdit | null {
   if (!raw || typeof raw !== "object") return null;
   const input = raw as Record<string, unknown>;
@@ -47,6 +65,11 @@ function cleanEdit(raw: unknown): CreativeEdit | null {
   }
   if (typeof input.showQr === "boolean") edit.showQr = input.showQr;
   if (typeof input.caption === "string") edit.caption = input.caption.slice(0, 2000);
+  for (const key of ["hoursValue", "kickHandle", "creatorHandle"] as const) {
+    if (typeof input[key] === "string") {
+      edit[key] = (input[key] as string).slice(0, 80);
+    }
+  }
 
   const slides = input.slides;
   if (slides && typeof slides === "object") {
@@ -62,6 +85,16 @@ function cleanEdit(raw: unknown): CreativeEdit | null {
         slide.accentColor = source.accentColor as AccentColor;
       }
       if (typeof source.showQr === "boolean") slide.showQr = source.showQr;
+      if (typeof source.showProgressBar === "boolean") {
+        slide.showProgressBar = source.showProgressBar;
+      }
+      if (typeof source.progressPercent === "number" && Number.isFinite(source.progressPercent)) {
+        slide.progressPercent = Math.max(0, Math.min(100, Math.round(source.progressPercent)));
+      }
+      const schedule = cleanRows(source.scheduleRows, ["time", "title", "host"]);
+      if (schedule) slide.scheduleRows = schedule as SlideEdit["scheduleRows"];
+      const tiers = cleanRows(source.tierRows, ["label", "amount", "note"]);
+      if (tiers) slide.tierRows = tiers as SlideEdit["tierRows"];
       edit.slides[slideId] = slide;
     }
   }

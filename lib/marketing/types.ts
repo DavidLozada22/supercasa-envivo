@@ -15,6 +15,10 @@ export type SlideEdit = {
   characterImage?: string;
   fullSceneImage?: string;
   showQr?: boolean;
+  showProgressBar?: boolean;
+  progressPercent?: number;
+  scheduleRows?: Array<{ time: string; title: string; host: string }>;
+  tierRows?: Array<{ label: string; amount: string; note: string }>;
 };
 
 export type CreativeEdit = {
@@ -23,6 +27,9 @@ export type CreativeEdit = {
   qrTarget?: QrTarget;
   showQr?: boolean;
   caption?: string;
+  hoursValue?: string;
+  kickHandle?: string;
+  creatorHandle?: string;
   slides: Record<string, SlideEdit>;
 };
 
