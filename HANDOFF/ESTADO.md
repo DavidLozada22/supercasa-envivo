@@ -17,6 +17,11 @@ Actualizado: 19 de noviembre de 2026.
   atribución.
 - El control de programa en Streaming tiene un acceso directo a
   "Respuestas WhatsApp".
+- Los links públicos `/programa` y `/respuestas` no leen sesión ni rol. Si un
+  usuario bloqueado o sin permiso entra a `/admin/programa`, ahora cae en
+  `/programa` en vez de quedar en el login. También quedaron alias `/plan`,
+  `/cronograma` y `/respuestas-rapidas`, y cabeceras `no-store` para que el
+  navegador no guarde un redirect viejo.
 
 ### 20 de noviembre, programa V6, página pública y textos del flujo
 

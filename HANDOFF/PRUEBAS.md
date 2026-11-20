@@ -178,6 +178,12 @@ aquí y en `ESTADO.md`.
   `Disallow: /respuestas` en `/robots.txt`.
 - En Streaming, pestaña En control, abrir "Respuestas WhatsApp" y confirmar que
   lleva al panel.
+- Abrir `/programa` y `/respuestas` con una cookie `sc_admin` vencida o inventada.
+  Deben responder 200, no mandar al login.
+- Entrar a `/admin/programa` sin sesión: debe mandar al login. Con una sesión
+  bloqueada o un rol sin permiso: debe mandar a `/programa`.
+- Confirmar que `/plan` y `/cronograma` redirigen a `/programa`, y
+  `/respuestas-rapidas` a `/respuestas`.
 
 ## Programa V6 y página pública
 

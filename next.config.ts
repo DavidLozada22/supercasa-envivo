@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [
+      { source: "/plan", destination: "/programa", permanent: false },
+      { source: "/cronograma", destination: "/programa", permanent: false },
+      { source: "/respuestas-rapidas", destination: "/respuestas", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {
@@ -9,6 +16,7 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
           { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "Cache-Control", value: "no-store, max-age=0, must-revalidate" },
         ],
       },
       {
@@ -16,6 +24,7 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
           { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "Cache-Control", value: "no-store, max-age=0, must-revalidate" },
         ],
       },
       {
@@ -23,6 +32,7 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
           { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "Cache-Control", value: "no-store, max-age=0, must-revalidate" },
         ],
       },
       {
@@ -30,6 +40,7 @@ const nextConfig: NextConfig = {
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
           { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "Cache-Control", value: "no-store, max-age=0, must-revalidate" },
         ],
       },
     ];
