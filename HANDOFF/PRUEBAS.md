@@ -115,6 +115,14 @@ aquí y en `ESTADO.md`.
 - Manual: en celular, usar la barra inferior, entrar a un módulo y abrir "Más".
 - Manual: confirmar que el PNG de una cortina editada se descarga a 1920x1080 y
   que el overlay sale transparente.
+- Manual: abrir un carrusel, cambiar el titular del slide 2 sin guardar y
+  descargar "Descargar slide". El PNG debe traer el texto nuevo.
+- Manual: sin guardar, pulsar "Descargar carrusel (ZIP)". Debe bajar un ZIP con
+  cinco PNG numerados y `caption.txt` con el caption editado.
+- Manual: filtrar por "Capas PNG" y abrir una. El preview debe mostrar el fondo
+  a cuadros y el PNG descargado debe tener el centro transparente.
+- Manual: recorrer las pestañas Cortinas y Overlays OBS y confirmar que suman
+  55 piezas entre las dos.
 
 ## Verificación en producción
 

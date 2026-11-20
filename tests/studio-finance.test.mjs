@@ -62,6 +62,10 @@ test('el estudio tiene catálogo, edición y descarga', () => {
   assert.ok(studio.includes('toPng'));
   assert.ok(studio.includes('Descargar PNG'));
   assert.ok(studio.includes('Guardar'));
+  assert.ok(studio.includes('downloadCarousel'));
+  assert.ok(studio.includes('Descargar carrusel (ZIP)'));
+  assert.ok(studio.includes('Capas PNG transparentes'));
+  assert.ok(studio.includes('PNG transparente'));
 
   const marketingApi = read('app/api/admin/marketing/state/route.ts');
   assert.ok(marketingApi.includes('apiRole'));

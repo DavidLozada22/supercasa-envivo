@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import AdCanvasPreview from "@/components/admin/marketing/AdCanvasPreview";
 import SceneView from "@/components/streaming/SceneView";
-import { downloadAdPng } from "@/lib/marketing/ad-exporter";
+import { downloadAdPng, renderAdToDataUrl } from "@/lib/marketing/ad-exporter";
 import {
   AD_CREATIVES,
   type AdCategory,
@@ -53,7 +53,7 @@ type SceneType = "general" | "cuenta" | "hora" | "casa" | "bloque";
 const TABS: Array<{ id: Tab; label: string; icon: typeof Palette }> = [
   { id: "marketing", label: "Marketing", icon: Palette },
   { id: "cortinas", label: "Cortinas", icon: Clapperboard },
-  { id: "overlays", label: "Overlays", icon: SlidersHorizontal },
+  { id: "overlays", label: "Overlays OBS", icon: SlidersHorizontal },
 ];
 
 const ACCENTS: Array<{ id: AccentColor; label: string; color: string }> = [
@@ -87,6 +87,31 @@ const SCENE_TYPES: Array<{ id: "all" | SceneType; label: string }> = [
   { id: "bloque", label: "Bloques" },
 ];
 
+const MARKETING_CATEGORIES: Array<{
+  id: "all" | AdCategory;
+  label: string;
+  short: string;
+}> = [
+  { id: "all", label: "Todas las piezas", short: "Todas" },
+  { id: "horas", label: "Horas en vivo", short: "Horas" },
+  { id: "suenos", label: "Sueños de los Calvitos", short: "Sueños" },
+  { id: "bloques", label: "Bloques y agenda", short: "Bloques" },
+  { id: "donar", label: "Donar y causa", short: "Donar" },
+  { id: "carruseles", label: "Carruseles", short: "Carruseles" },
+  { id: "overlays", label: "Capas PNG transparentes", short: "Capas PNG" },
+];
+
+const CATEGORY_NOTES: Partial<Record<AdCategory, string>> = {
+  horas: "Piezas para anunciar cuántas horas lleva la maratón al aire.",
+  suenos: "Sueños de los Calvitos: globos, escenas 3D y retratos de la causa.",
+  bloques: "Entradas y afiches de cada bloque de la programación.",
+  donar: "Piezas de conversión: cómo donar, avance de la casa y QR.",
+  carruseles:
+    "Cada carrusel tiene 5 slides. Se editan uno por uno y se descargan todas en un ZIP.",
+  overlays:
+    "PNG con fondo transparente para poner encima de una historia de Instagram, un Reel o un video. El centro queda vacío a propósito.",
+};
+
 function clone<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
@@ -103,6 +128,10 @@ function formatLabel(format: AdFormat): string {
   if (format === "story") return "Historia";
   if (format === "post") return "Post";
   return "Carrusel";
+}
+
+function categoryLabel(category: AdCategory): string {
+  return MARKETING_CATEGORIES.find((item) => item.id === category)?.label ?? category;
 }
 
 function Field({
@@ -243,6 +272,7 @@ function MarketingCard({
     : first;
   const image = merged.fullSceneImage ?? merged.characterImage;
   const headline = merged.headline;
+  const isOverlay = creative.category === "overlays";
 
   return (
     <button
@@ -250,7 +280,23 @@ function MarketingCard({
       onClick={onOpen}
       className="group overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-sm transition hover:-translate-y-0.5 hover:border-[#E6009E]/40 hover:shadow-md"
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-gradient-to-br from-[#0D1E47] to-[#071127]">
+      <div
+        className={`relative aspect-[4/5] overflow-hidden ${
+          isOverlay
+            ? "bg-[#2B394F]"
+            : "bg-gradient-to-br from-[#0D1E47] to-[#071127]"
+        }`}
+        style={
+          isOverlay
+            ? {
+                backgroundImage:
+                  "linear-gradient(45deg, #33445e 25%, transparent 25%), linear-gradient(-45deg, #33445e 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #33445e 75%), linear-gradient(-45deg, transparent 75%, #33445e 75%)",
+                backgroundSize: "20px 20px",
+                backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
+              }
+            : undefined
+        }
+      >
         {image ? (
           <img
             src={image}
@@ -271,6 +317,11 @@ function MarketingCard({
         <span className="absolute right-2 top-2 grid h-8 w-8 place-items-center rounded-full bg-[#0F2354]/85 text-white opacity-0 transition group-hover:opacity-100">
           <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
         </span>
+        {isOverlay ? (
+          <span className="absolute bottom-2 left-2 rounded-full bg-[#0F2354]/90 px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
+            PNG transparente
+          </span>
+        ) : null}
         {creative.slides.length > 1 ? (
           <span className="absolute bottom-2 right-2 rounded-full bg-black/55 px-2 py-1 text-[9px] font-extrabold text-white">
             {creative.slides.length} slides
@@ -390,6 +441,22 @@ export default function ContentStudio({
         .includes(term);
     });
   }, [query, format, category]);
+
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: AD_CREATIVES.length };
+    for (const creative of AD_CREATIVES) {
+      counts[creative.category] = (counts[creative.category] ?? 0) + 1;
+    }
+    return counts;
+  }, []);
+
+  const mergedSlides = useMemo<CreativeSlide[]>(() => {
+    if (!selectedCreative) return [];
+    return selectedCreative.slides.map((item) => ({
+      ...item,
+      ...(draft.slides[item.id] ?? {}),
+    }));
+  }, [selectedCreative, draft]);
 
   const filteredScenes = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -582,6 +649,51 @@ export default function ContentStudio({
     }
   };
 
+  const downloadCarousel = async () => {
+    if (!selectedCreative || selectedCreative.slides.length < 2) return;
+    const total = selectedCreative.slides.length;
+    setExporting(true);
+    setError("");
+    setStatus("");
+    try {
+      const { default: JSZip } = await import("jszip");
+      const zip = new JSZip();
+      const folder = `supercasa-${selectedCreative.id}`;
+      for (let index = 0; index < mergedSlides.length; index += 1) {
+        setStatus(`Generando slide ${index + 1} de ${total}...`);
+        const dataUrl = await renderAdToDataUrl({
+          creative: selectedCreative,
+          slide: mergedSlides[index],
+          theme: draft.theme ?? selectedCreative.defaultTheme,
+          aspect: draft.aspect ?? selectedCreative.defaultAspect,
+          showQrOverride: draft.showQr,
+          qrTargetOverride: draft.qrTarget,
+        });
+        const base64 = dataUrl.split(",")[1] ?? "";
+        zip.file(`${folder}/slide-${String(index + 1).padStart(2, "0")}.png`, base64, {
+          base64: true,
+        });
+      }
+      const caption = (draft.caption ?? selectedCreative.caption ?? "").trim();
+      if (caption) zip.file(`${folder}/caption.txt`, caption);
+      setStatus("Comprimiendo el ZIP...");
+      const blob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${folder}.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+      setStatus(`${total} imágenes y el caption descargados en un ZIP.`);
+    } catch {
+      setError("No se pudo generar el carrusel completo. Intenta slide por slide.");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const downloadScene = async () => {
     if (!selectedScene || !captureRef.current) return;
     setExporting(true);
@@ -677,8 +789,9 @@ export default function ContentStudio({
               Toca una pieza, edita los textos y descarga
             </h2>
             <p className="mt-1 max-w-3xl text-sm leading-relaxed text-slate-600">
-              Creatives de marketing, cortinas y overlays en un solo lugar. Guarda los cambios
-              para que la fuente de OBS los tome, o descarga el PNG con lo que editaste.
+              Marketing (historias, posts, carruseles y capas PNG transparentes), cortinas y
+              overlays de OBS en un solo lugar. Guarda los cambios para que la fuente de OBS los
+              tome, o descarga el PNG con lo que editaste sin guardar.
             </p>
           </div>
           <div className="flex flex-wrap gap-2 text-[10px] font-bold">
@@ -746,31 +859,16 @@ export default function ContentStudio({
         </div>
 
         {tab === "marketing" ? (
-          <>
-            <select
-              value={format}
-              onChange={(event) => setFormat(event.target.value as "all" | AdFormat)}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-[#0F2354] outline-none"
-            >
-              <option value="all">Todos los formatos</option>
-              <option value="story">Historias</option>
-              <option value="post">Posts</option>
-              <option value="carousel">Carruseles</option>
-            </select>
-            <select
-              value={category}
-              onChange={(event) => setCategory(event.target.value as "all" | AdCategory)}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-[#0F2354] outline-none"
-            >
-              <option value="all">Todas las categorías</option>
-              <option value="horas">Horas</option>
-              <option value="suenos">Sueños</option>
-              <option value="bloques">Bloques</option>
-              <option value="donar">Donar</option>
-              <option value="carruseles">Carruseles</option>
-              <option value="overlays">Overlays</option>
-            </select>
-          </>
+          <select
+            value={format}
+            onChange={(event) => setFormat(event.target.value as "all" | AdFormat)}
+            className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-bold text-[#0F2354] outline-none"
+          >
+            <option value="all">Todos los formatos</option>
+            <option value="story">Historias</option>
+            <option value="post">Posts</option>
+            <option value="carousel">Carruseles</option>
+          </select>
         ) : (
           <div className="flex flex-wrap gap-1">
             {SCENE_TYPES.map((type) => (
@@ -790,6 +888,45 @@ export default function ContentStudio({
           </div>
         )}
       </div>
+
+      {tab === "marketing" ? (
+        <div className="space-y-2">
+          <div className="-mx-1 flex flex-wrap gap-1.5 px-1">
+            {MARKETING_CATEGORIES.map((item) => {
+              const active = category === item.id;
+              const count = categoryCounts[item.id] ?? 0;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setCategory(item.id)}
+                  aria-pressed={active}
+                  title={item.label}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[10px] font-extrabold uppercase tracking-wider transition ${
+                    active
+                      ? "bg-[#0F2354] text-white"
+                      : "bg-white text-slate-500 ring-1 ring-slate-200 hover:text-[#0F2354]"
+                  }`}
+                >
+                  {item.short}
+                  <span
+                    className={`rounded-full px-1.5 py-0.5 text-[9px] font-extrabold ${
+                      active ? "bg-white/15 text-white" : "bg-slate-100 text-slate-500"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {category !== "all" ? (
+            <p className="rounded-xl bg-slate-50 px-3 py-2 text-[11px] leading-relaxed text-slate-600">
+              {CATEGORY_NOTES[category]}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       {tab === "marketing" ? (
         <div className="grid gap-3 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
@@ -818,7 +955,9 @@ export default function ContentStudio({
       {selectedCreative && slide && mergedSlide ? (
         <EditorShell
           title={selectedCreative.title}
-          subtitle={`${formatLabel(selectedCreative.format)} · ${selectedCreative.category}`}
+          subtitle={`${formatLabel(selectedCreative.format)} · ${categoryLabel(
+            selectedCreative.category,
+          )}`}
           onClose={closeEditor}
           preview={
             <div className="mx-auto w-full max-w-[240px] sm:max-w-[360px] lg:max-w-[460px]">
@@ -1026,8 +1165,23 @@ export default function ContentStudio({
                 ) : (
                   <Download className="h-4 w-4" strokeWidth={2} />
                 )}
-                Descargar PNG
+                {selectedCreative.slides.length > 1 ? "Descargar slide" : "Descargar PNG"}
               </button>
+              {selectedCreative.slides.length > 1 ? (
+                <button
+                  type="button"
+                  onClick={downloadCarousel}
+                  disabled={exporting}
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-[#E6009E] bg-white px-4 py-2 text-xs font-extrabold text-[#E6009E] transition hover:bg-[#E6009E]/5 disabled:opacity-60"
+                >
+                  {exporting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} />
+                  ) : (
+                    <Layers className="h-4 w-4" strokeWidth={2} />
+                  )}
+                  Descargar carrusel (ZIP)
+                </button>
+              ) : null}
               <span className="text-[11px] font-semibold text-slate-500">{status}</span>
               {error ? (
                 <span className="text-[11px] font-semibold text-red-700">{error}</span>

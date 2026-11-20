@@ -4,6 +4,22 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 19 de noviembre, descargas y categorías del Estudio
+
+- Las descargas de marketing y de escenas usan siempre el borrador abierto, con
+  o sin guardar. El preview ya reflejaba los textos al escribir.
+- Los carruseles tienen dos salidas: "Descargar slide" para el slide abierto y
+  "Descargar carrusel (ZIP)" para las cinco imágenes con los edits actuales más
+  `caption.txt`. El ZIP se arma con JSZip en el navegador.
+- Las categorías de marketing se separaron en filtros con conteo: Horas en vivo,
+  Sueños de los Calvitos, Bloques y agenda, Donar y causa, Carruseles y Capas PNG
+  transparentes. Cada filtro explica en una línea qué contiene.
+- La categoría de capas PNG se llama "Capas PNG transparentes" y las tarjetas
+  muestran un fondo a cuadros con la etiqueta "PNG transparente".
+- La pestaña de overlays de transmisión se llama "Overlays OBS" para no
+  confundirla con las capas PNG de marketing. Las dos pestañas suman las 55
+  escenas, todas con miniatura y editor.
+
 ### 20 de noviembre, estudio y finanzas
 
 - Estudio de contenido en `/admin/estudio` con tres pestañas: Marketing,
