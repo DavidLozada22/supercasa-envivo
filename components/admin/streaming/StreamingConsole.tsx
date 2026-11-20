@@ -24,7 +24,9 @@ import {
 } from "@/lib/streaming/scenes";
 import type { OnAirState } from "@/lib/streaming/types";
 import type { StreamingContent } from "@/lib/streaming/merge";
+import { PROGRAM_SEGMENTS } from "@/lib/program/data";
 import ContentStudio from "@/components/admin/studio/ContentStudio";
+import ProgramNowControl from "@/components/admin/program/ProgramNowControl";
 import ConnectionPanel from "./ConnectionPanel";
 import ControlPanel from "./ControlPanel";
 import ProgramPresets from "./ProgramPresets";
@@ -289,7 +291,10 @@ export default function StreamingConsole({
       {tab === "presets" ? <ProgramPresets /> : null}
 
       {tab === "control" ? (
-        <ControlPanel onair={health?.onair ?? null} onSaved={onSaved} />
+        <div className="space-y-4">
+          <ProgramNowControl segments={PROGRAM_SEGMENTS} />
+          <ControlPanel onair={health?.onair ?? null} onSaved={onSaved} />
+        </div>
       ) : null}
 
       {tab === "conexiones" ? (

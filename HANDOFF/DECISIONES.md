@@ -276,3 +276,21 @@ Las pantallas de transición viven en la pestaña Básicas. "Personalizada" es l
 válvula de escape para mensajes que no tienen una cortina propia. Los filtros del
 Studio mantienen las cuentas regresivas en su categoría y agregan Básicas como
 vista aparte.
+
+## 35. El programa público es una sola fuente
+
+`lib/program/blocks.json` y `segments.json` alimentan las cortinas de bloque, las
+moscas, la página `/programa` y el Excel. La página es pública pero no indexada,
+con `X-Robots-Tag` y `Disallow` en robots. El botón "Vamos aquí" del panel guarda
+el segmento actual para que la página siga la realidad cuando el reloj se corre.
+
+El Excel se genera limpio desde los mismos JSON, no se entrega el archivo original
+con hojas internas. La página está pensada para celular y WhatsApp, con barra fija
+de "Ahora" y búsqueda por invitado o segmento.
+
+## 36. "Envío" no es sinónimo de transmisión
+
+En el flujo de donación, todo lo que lleva a la señal se llama "transmisión" o
+"en vivo". "Envío" queda reservado para correos y comprobantes. Las etiquetas y
+los destinos se revisan juntos: "Volver a la transmisión" abre `/envivo` y "Ver
+resumen y pagar" lleva al paso de confirmación, no a una pantalla inesperada.

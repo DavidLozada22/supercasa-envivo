@@ -16,8 +16,8 @@
     "focus": "Estado general de la obra y propósito",
     "challenge": "Todos nos quedamos calvos / nos rapamos en vivo",
     "channels": "Instagram (Reels/Live), LinkedIn, Boletines Corporativos, Pauta Bogotá/Colombia",
-    "minutes": 245,
-    "segmentCount": 39
+    "minutes": 241,
+    "segmentCount": 36
   },
   {
     "number": "02",
@@ -31,13 +31,13 @@
     "endsAt": "2026-11-21T02:00:00-05:00",
     "title": "Noche de Desafíos & Risas Sin Filtro",
     "pillar": "Party Games",
-    "host": "Deivid",
+    "host": "Vikingo",
     "guests": "Invitados Especiales",
     "focus": "Piso 1 y Red Eléctrica",
     "challenge": "Retos en vivo decididos por votación/donación de la audiencia",
     "channels": "TikTok, Discord, Twitch, Instagram Stories",
-    "minutes": 244,
-    "segmentCount": 38
+    "minutes": 239,
+    "segmentCount": 49
   },
   {
     "number": "03",
@@ -56,8 +56,8 @@
     "focus": "Piso 2 y Ascensor",
     "challenge": "Podcast Historia del Rock/Metal en Latinoamérica + Monitoreo Cardíaco en Oscuridad",
     "channels": "Discord, Reddit, Grupos FB Misterio/Gaming, TikTok Late Night",
-    "minutes": 127,
-    "segmentCount": 31
+    "minutes": 240,
+    "segmentCount": 34
   },
   {
     "number": "04",
@@ -76,7 +76,7 @@
     "focus": "Piso 3 y Cocina",
     "challenge": "Consultorio Legal en Vivo + Meta de Desayunos / Aportes Matutinos",
     "channels": "Facebook, WhatsApp Channels/Grupos, X (Twitter), Emisoras Matutinas",
-    "minutes": 886,
+    "minutes": 239,
     "segmentCount": 44
   },
   {
@@ -91,13 +91,13 @@
     "endsAt": "2026-11-21T14:00:00-05:00",
     "title": "Copa de Campeones: El Desafío Gamer",
     "pillar": "Sueños",
-    "host": "Deivid",
+    "host": "Vikingo",
     "guests": "Invitados Especiales",
     "focus": "Ascensor",
     "challenge": "Campeonato Gamer con Premio Tecnológico mediante inscripciones por donación",
     "channels": "Twitch, YouTube Gaming, Servidores Discord Videojuegos",
-    "minutes": 199,
-    "segmentCount": 16
+    "minutes": 240,
+    "segmentCount": 49
   },
   {
     "number": "06",
@@ -116,8 +116,8 @@
     "focus": "Piso 4 y Áreas Comunes",
     "challenge": "Muestra de Talentos en Vivo + Cocina Express Solidaria",
     "channels": "Instagram, Facebook Live, Cadenas de WhatsApp Familiares",
-    "minutes": 199,
-    "segmentCount": 16
+    "minutes": 240,
+    "segmentCount": 43
   },
   {
     "number": "07",
@@ -136,8 +136,8 @@
     "focus": "Las 14 Habitaciones",
     "challenge": "Apadrinamiento de las 14 Habitaciones en Prime Time",
     "channels": "Multiplataforma (YouTube, Instagram, Facebook, LinkedIn, Notas de Prensa)",
-    "minutes": 172,
-    "segmentCount": 16
+    "minutes": 240,
+    "segmentCount": 45
   },
   {
     "number": "08",
@@ -151,13 +151,13 @@
     "endsAt": "2026-11-22T02:00:00-05:00",
     "title": "Retro Arcade & Noche de Leyendas",
     "pillar": "Apoyo Financiero",
-    "host": "Deivid",
+    "host": "Vikingo",
     "guests": "Kavanah 5 y Kavanah 9",
     "focus": "Terraza",
     "challenge": "Torneo Clásicos 80s/90s (Street Fighter / Mario Kart) + Reto Sostenibilidad",
     "channels": "Facebook, Instagram, Comunidades Coleccionistas y Cultura Pop/Retro",
-    "minutes": 185,
-    "segmentCount": 16
+    "minutes": 240,
+    "segmentCount": 42
   },
   {
     "number": "09",
@@ -176,8 +176,8 @@
     "focus": "Muebles y Accesorios",
     "challenge": "Reto contra el reloj con Penalizaciones y Ayudas pagadas por donaciones",
     "channels": "Twitch, Discord, Foros de Speedrunning y Clips en TikTok",
-    "minutes": 201,
-    "segmentCount": 16
+    "minutes": 240,
+    "segmentCount": 44
   },
   {
     "number": "10",
@@ -196,8 +196,8 @@
     "focus": "Electrodomésticos",
     "challenge": "Especial Cultural Carnaval de Riosucio + Meta de Línea Blanca/Electrodomésticos",
     "channels": "Facebook, Instagram, Redes de Voluntariado y ONGs",
-    "minutes": 172,
-    "segmentCount": 16
+    "minutes": 241,
+    "segmentCount": 47
   },
   {
     "number": "11",
@@ -216,8 +216,8 @@
     "focus": "Oficina Administrativa",
     "challenge": "Batalla de Fandoms con Collab Posts, Retos Físicos y Trivias",
     "channels": "TikTok, Instagram Reels, YouTube Shorts y Redes de Creadores",
-    "minutes": 199,
-    "segmentCount": 16
+    "minutes": 240,
+    "segmentCount": 41
   },
   {
     "number": "12",
@@ -236,7 +236,7 @@
     "focus": "Apertura Simbólica de La Supercasa",
     "challenge": "Meta Global Final + Cumplimiento de Reto Insignia + Apertura Simbólica",
     "channels": "Transmisión Simultánea Masiva (Todas las plataformas, Push, Correos, WhatsApp)",
-    "minutes": 171,
-    "segmentCount": 16
+    "minutes": 240,
+    "segmentCount": 34
   }
 ]

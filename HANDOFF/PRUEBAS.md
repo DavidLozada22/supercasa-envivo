@@ -166,6 +166,37 @@ aquí y en `ESTADO.md`.
   `python3 scripts/import-escaleta.py "/ruta/archivo.xlsx"` y confirmar que los
   bloques y la lista de moscas cambian sin tocar código.
 
+## Programa V6 y página pública
+
+- Importar con:
+  `python3 scripts/import-escaleta.py "/ruta/Escaleta 48H La Supercasa V6.xlsx"`
+  Deben salir 12 bloques, 508 segmentos y 32 en vivo.
+- Generar el Excel con `npm run programa:excel`. El archivo queda en
+  `public/programa/programa-48h.xlsx`.
+- Abrir `/programa` en celular. La barra de "Ahora" debe quedar fija, el segmento
+  actual resaltado y el botón "Ahora" debe volver a él.
+- Confirmar `curl -I /programa` con `X-Robots-Tag: noindex, nofollow` y que
+  `/robots.txt` tenga `Disallow: /programa`.
+- Descargar el Excel desde el botón y abrir las tres hojas.
+- En Streaming, pestaña En control, marcar un segmento como actual. Recargar
+  `/programa` y confirmar que la barra dice "En vivo según el equipo".
+- Volver a "Automático" y confirmar que la barra dice "Según cronograma".
+- En Moscas y agenda, ajustar el nombre y el cargo de una mosca, copiar el link y
+  abrir `/pantalla/lower-third` con los valores nuevos.
+
+## Flujo de donación y textos
+
+- Abrir `/donar` antes del evento. El botón del bloque de transmisión debe decir
+  "Ir a la transmisión".
+- Abrir el modal de la transmisión en vivo (cuando haya señal) y confirmar el
+  mismo texto.
+- Iniciar una donación, pasar por datos y confirmar que el botón dice "Ver resumen
+  y pagar".
+- Después del pago, en `/donar/gracias`, "Volver a la transmisión" debe abrir
+  `/envivo` y no el inicio.
+- Buscar "envío" en las rutas públicas. Solo deben quedar los textos de envío de
+  correos y comprobantes.
+
 ## Editor completo del Estudio
 
 - Abrir `/admin/estudio?tab=cortinas&scene=casa`. Cambiar el título y ver que el

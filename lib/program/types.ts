@@ -21,11 +21,13 @@ export type ProgramBlock = {
 
 export type ProgramSegment = {
   id: string;
+  code: string;
   day: string;
   block: string;
   duration: number;
   name: string;
   execution: string;
+  live: boolean;
   type: string;
   presenter: string;
   file: string;
@@ -36,4 +38,24 @@ export type ProgramSegment = {
   startsAt: string;
   endsAt: string;
   clock: string;
+  startClock: string;
+  endClock: string;
 };
+
+export type PublicProgramSegment = Pick<
+  ProgramSegment,
+  | "id"
+  | "code"
+  | "block"
+  | "name"
+  | "startClock"
+  | "endClock"
+  | "startsAt"
+  | "endsAt"
+  | "duration"
+  | "live"
+  | "type"
+  | "presenter"
+  | "status"
+  | "notes"
+>;

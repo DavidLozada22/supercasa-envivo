@@ -4,6 +4,30 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, programa V6, página pública y textos del flujo
+
+- Se importó la escaleta V6 con un lector por nombre de columna. Ahora entiende las
+  horas de Excel, las filas S (pregrabado) y V (en vivo), y genera IDs únicos.
+  Quedan 12 bloques, 508 segmentos y 32 segmentos en vivo.
+- Las cortinas de bloque, las moscas, "Ya viene" y "Estamos en" se generan del
+  programa. Las moscas salen para los conductores y los invitados con nombre; los
+  bloques sin nombre muestran "Invitado por confirmar" y se pueden ajustar en la
+  lista.
+- Nueva página pública `/programa`, sin login y con `noindex`. Tiene barra fija de
+  "Ahora" con bloque, segmento, hora, responsable, siguiente segmento y avance.
+  Incluye pestañas por día, búsqueda, acordeones por bloque, botón de Excel,
+  compartir y "Volver a ahora". Está pensada para celular y WhatsApp.
+- El programa público sigue el reloj de Bogotá. Si el equipo se corre, el control
+  "Programa en vivo" de Streaming o Programa permite marcar el segmento actual y
+  la página lo sigue.
+- Excel limpio en `/programa/programa-48h.xlsx` con hojas Programa, Bloques y
+  Moscas. Se genera con `npm run programa:excel`.
+- Se corrigió el flujo de donación: "Ir al envío" pasó a "Ir a la transmisión",
+  "Volver al live" ahora lleva a `/envivo` (antes llevaba al inicio), y el paso de
+  datos dice "Ver resumen y pagar". Se unificó "Ver el live" a "Ver la
+  transmisión" en recordatorios, ayuda, chat y anuncios.
+- 55 pruebas pasan.
+
 ### 20 de noviembre, edición desde Streaming y pantallas básicas
 
 - El botón Editar del panel de Streaming abre el editor en la misma pantalla, sin

@@ -1,5 +1,4 @@
-import blocksJson from "./blocks.json";
-import segmentsJson from "./segments.json";
+import { PROGRAM_BLOCKS, PROGRAM_SEGMENTS } from "./data";
 import type { ProgramBlock, ProgramSegment } from "./types";
 import { scenePath } from "@/lib/streaming/links";
 import { getScene } from "@/lib/streaming/scenes";
@@ -21,10 +20,12 @@ export type ProgramPreset = {
   path: string;
   guest?: string;
   guestRole?: string;
+  pending?: boolean;
 };
 
-export const PROGRAM_BLOCKS = blocksJson as ProgramBlock[];
-const SEGMENTS = segmentsJson as ProgramSegment[];
+export { PROGRAM_BLOCKS, PROGRAM_SEGMENTS } from "./data";
+
+const SEGMENTS = PROGRAM_SEGMENTS;
 
 const GENERIC_PRESENTER =
   /^(invitados?\s+especiales?|por confirmar|n\/a|ninguno|todo el equipo)$/i;
@@ -75,6 +76,10 @@ function pathFor(sceneId: string, override?: SceneOverride): string {
   return scenePath(scene, override);
 }
 
+export function lowerThirdPath(guest: string, role: string): string {
+  return pathFor("lower-third", { guest, guestRole: role });
+}
+
 function buildPresets(): ProgramPreset[] {
   const presets: ProgramPreset[] = [];
 
@@ -121,36 +126,90 @@ function buildPresets(): ProgramPreset[] {
   }
 
   const seenMoscas = new Set<string>();
-  for (const segment of SEGMENTS) {
-    const block = PROGRAM_BLOCKS.find((item) => item.number === segment.block);
-    if (!block) continue;
+  const guestBlocks = new Set<string>();
 
-    for (const person of splitPeople(segment.presenter)) {
-      const key = `${block.number}:${canonical(person)}`;
-      if (seenMoscas.has(key)) continue;
-      seenMoscas.add(key);
-      const role = roleFor(segment, block, person);
-      const override: SceneOverride = { guest: person, guestRole: role };
-      presets.push({
-        id: `mosca-${block.number}-${canonical(person).replace(/\s+/g, "-")}`,
-        kind: "mosca",
-        label: `Mosca · ${person}`,
-        title: person,
-        detail: `${role} · ${segment.name} · ${segment.clock}`,
-        block: block.number,
-        day: block.day,
-        clock: segment.clock,
-        startsAt: segment.startsAt,
-        endsAt: segment.endsAt,
-        guest: person,
-        guestRole: role,
-        path: pathFor("lower-third", override),
-      });
+  const addMosca = (
+    block: ProgramBlock,
+    person: string,
+    role: string,
+    detail: string,
+    clock: string,
+    startsAt: string,
+    endsAt: string,
+    pending = false,
+  ) => {
+    const key = `${block.number}:${canonical(person)}`;
+    if (seenMoscas.has(key)) return;
+    seenMoscas.add(key);
+    const override: SceneOverride = { guest: person, guestRole: role };
+    presets.push({
+      id: `mosca-${block.number}-${canonical(person).replace(/\s+/g, "-")}`,
+      kind: "mosca",
+      label: `Mosca · ${person}`,
+      title: person,
+      detail,
+      block: block.number,
+      day: block.day,
+      clock,
+      startsAt,
+      endsAt,
+      guest: person,
+      guestRole: role,
+      pending,
+      path: pathFor("lower-third", override),
+    });
+  };
+
+  for (const block of PROGRAM_BLOCKS) {
+    for (const person of splitPeople(block.host)) {
+      addMosca(
+        block,
+        person,
+        "Conducción",
+        `Conducción · ${block.label} · ${block.schedule}`,
+        block.startClock,
+        block.startsAt,
+        block.endsAt,
+      );
     }
   }
 
   for (const segment of SEGMENTS) {
-    if (!segment.name) continue;
+    if (!segment.live) continue;
+    const block = PROGRAM_BLOCKS.find((item) => item.number === segment.block);
+    if (!block) continue;
+    for (const person of splitPeople(segment.presenter)) {
+      const role = roleFor(segment, block, person);
+      if (role !== "Conducción") guestBlocks.add(block.number);
+      addMosca(
+        block,
+        person,
+        role,
+        `${role} · ${segment.name} · ${segment.clock}`,
+        segment.clock,
+        segment.startsAt,
+        segment.endsAt,
+      );
+    }
+  }
+
+  for (const block of PROGRAM_BLOCKS) {
+    if (guestBlocks.has(block.number)) continue;
+    if (!/invitad/i.test(block.guests)) continue;
+    addMosca(
+      block,
+      "Invitado por confirmar",
+      "Invitado",
+      `Por confirmar · ${block.label} · ${block.guests}`,
+      block.startClock,
+      block.startsAt,
+      block.endsAt,
+      true,
+    );
+  }
+
+  for (const segment of SEGMENTS) {
+    if (!segment.live || !segment.name) continue;
     const block = PROGRAM_BLOCKS.find((item) => item.number === segment.block);
     if (!block) continue;
     const scene = getScene("ya-viene");

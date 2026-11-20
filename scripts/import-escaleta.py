@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Importa la escaleta 48H (xlsx) al programa interno del panel.
+"""Importa la escaleta 48H (xlsx) al programa interno y al programa público.
 
 Uso:
-    python3 scripts/import-escaleta.py "/ruta/Escaleta 48H La Supercasa V2.xlsx"
+    python3 scripts/import-escaleta.py "/ruta/Escaleta 48H La Supercasa V6.xlsx"
 
 Escribe lib/program/blocks.json y lib/program/segments.json.
 No requiere dependencias: lee el xlsx como zip + XML.
@@ -13,7 +13,7 @@ import re
 import sys
 import zipfile
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
 
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
@@ -64,8 +64,8 @@ def read_sheets(path: Path):
                     text = "".join(node.text or "" for node in inline.iter(f"{{{NS}}}t"))
                 elif value is not None:
                     text = value.text or ""
-                if text.strip():
-                    cells[colnum(ref)] = text.strip().replace("\n", " / ")
+                if str(text).strip():
+                    cells[colnum(ref)] = str(text).strip().replace("\n", " / ")
             if cells:
                 width = max(cells)
                 rows.append([cells.get(index, "") for index in range(1, width + 1)])
@@ -80,27 +80,87 @@ def find_sheet(sheets, needle):
     return []
 
 
+def text(value):
+    return str(value).strip() if value is not None else ""
+
+
+def to_clock(value):
+    """Convierte una hora de Excel (fraccion) o texto HH:MM a HH:MM."""
+    raw = text(value)
+    if not raw:
+        return ""
+    match = re.match(r"^(\d{1,2}):(\d{2})", raw)
+    if match:
+        hour, minute = int(match.group(1)), int(match.group(2))
+        return f"{hour % 24:02d}:{minute % 60:02d}"
+    try:
+        number = float(raw)
+    except ValueError:
+        return ""
+    total = int(round(number * 24 * 60)) % (24 * 60)
+    return f"{total // 60:02d}:{total % 60:02d}"
+
+
+def to_minutes(value):
+    try:
+        return int(round(float(text(value))))
+    except ValueError:
+        return 0
+
+
+def date_from(day_number, clock):
+    return datetime.fromisoformat(f"{EVENT_DAY[day_number]}T{clock}:00-05:00")
+
+
+def header_index(rows, required):
+    for index, row in enumerate(rows):
+        values = [text(cell).lower() for cell in row]
+        if all(any(value == needle.lower() for value in values) for needle in required):
+            return index
+    return None
+
+
+def columns(row):
+    return {text(cell): index for index, cell in enumerate(row) if text(cell)}
+
+
+def cell(row, index):
+    if index is None or index >= len(row):
+        return ""
+    return row[index]
+
+
 def parse_blocks(rows):
-    header = next((index for index, row in enumerate(rows) if row and row[0].strip().lower() == "bloque"), None)
+    header = header_index(rows, ["Bloque", "Horario"])
     if header is None:
         return []
+    cols = columns(rows[header])
     blocks = []
     for row in rows[header + 1:]:
-        if not row or not row[0].startswith("Bloque"):
+        label = text(cell(row, cols.get("Bloque")))
+        if not label.lower().startswith("bloque"):
             continue
-        number = row[0].split()[-1].zfill(2)
-        day_label = row[1] if len(row) > 1 else ""
-        schedule = row[2] if len(row) > 2 else ""
-        clock_parts = [part.strip() for part in re.split(r"\s*[-–]\s*", schedule) if part.strip()]
-        start_clock = clock_parts[0][:5] if clock_parts else "00:00"
-        end_clock = clock_parts[1][:5] if len(clock_parts) > 1 else "00:00"
-        day_number = int(re.search(r"Día\s*(\d)", day_label).group(1)) if re.search(r"Día\s*(\d)", day_label) else 1
-        start_date = EVENT_DAY[day_number]
-        starts_at = datetime.fromisoformat(f"{start_date}T{start_clock}:00-05:00")
-        end_day = day_number
-        if end_clock <= start_clock:
-            end_day += 1
-        ends_at = datetime.fromisoformat(f"{EVENT_DAY.get(end_day, '2026-11-22')}T{end_clock}:00-05:00")
+        number = re.search(r"(\d+)", label)
+        if not number:
+            continue
+        number = number.group(1).zfill(2)
+        day_label = text(cell(row, cols.get("Día")))
+        schedule = text(cell(row, cols.get("Horario")))
+        clocks = re.split(r"\s*[-–]\s*", schedule)
+        start_clock = to_clock(clocks[0]) if clocks else ""
+        end_clock = to_clock(clocks[1]) if len(clocks) > 1 else ""
+        day_match = re.search(r"Día\s*(\d)", day_label)
+        day_number = int(day_match.group(1)) if day_match else 1
+        if not start_clock or not end_clock:
+            continue
+        host = text(cell(row, cols.get("Conducción")))
+        host = re.sub(r"\bDeivid\b", "Vikingo", host)
+        host = re.sub(r"\bDavid\b", "Vikingo", host)
+        guests = text(cell(row, cols.get("Hosts")))
+        starts_at = date_from(day_number, start_clock)
+        ends_at = date_from(day_number, end_clock)
+        if ends_at <= starts_at:
+            ends_at += timedelta(days=1)
         blocks.append({
             "number": number,
             "label": f"Bloque {number}",
@@ -111,71 +171,101 @@ def parse_blocks(rows):
             "endClock": end_clock,
             "startsAt": starts_at.isoformat(),
             "endsAt": ends_at.isoformat(),
-            "title": row[3] if len(row) > 3 else "",
-            "pillar": row[4] if len(row) > 4 else "",
-            "host": row[5] if len(row) > 5 else "",
-            "guests": row[6] if len(row) > 6 else "",
-            "focus": row[7] if len(row) > 7 else "",
-            "challenge": row[8] if len(row) > 8 else "",
-            "channels": row[9] if len(row) > 9 else "",
+            "title": text(cell(row, cols.get("Nombre del bloque"))),
+            "pillar": text(cell(row, cols.get("Pilar"))),
+            "host": host,
+            "guests": guests,
+            "focus": text(cell(row, cols.get("Enfoque físico"))),
+            "challenge": text(cell(row, cols.get("Reto del bloque"))),
+            "channels": text(cell(row, cols.get("Canales clave"))),
+            "minutes": 0,
+            "segmentCount": 0,
         })
     return blocks
 
 
 def parse_segments(rows, blocks):
-    header = next((index for index, row in enumerate(rows) if row and row[0].strip().upper() == "ID"), None)
+    header = header_index(rows, ["ID", "Hora de inicio", "Bloque"])
     if header is None:
         return []
+    cols = columns(rows[header])
     by_block = {block["number"]: block for block in blocks}
+    seen = {}
     segments = []
     for row in rows[header + 1:]:
-        if not row or not row[0].startswith("S"):
+        code = text(cell(row, cols.get("ID")))
+        if not code or code[:1].lower() not in ("s", "v"):
             continue
-        block_label = row[2] if len(row) > 2 else ""
-        match = re.search(r"(\d+)", block_label)
-        number = match.group(1).zfill(2) if match else "01"
-        try:
-            duration = int(float(row[5]))
-        except (ValueError, IndexError):
-            duration = 0
-        presenter = row[9] if len(row) > 9 else ""
-        presenter = re.sub(r"\bDeivid\b", "Vikingo", presenter)
-        presenter = re.sub(r"\bDavid\b", "Vikingo", presenter)
-        segment_name = row[6] if len(row) > 6 else ""
-        if segment_name:
-            segment_name = segment_name[0].upper() + segment_name[1:]
-            segment_name = segment_name.replace("Incio ", "Inicio ")
-        segments.append({
-            "id": row[0],
-            "day": row[1] if len(row) > 1 else "",
-            "block": number,
-            "duration": duration,
-            "name": segment_name,
-            "execution": row[7] if len(row) > 7 else "",
-            "type": row[8] if len(row) > 8 else "",
-            "presenter": presenter,
-            "file": row[10] if len(row) > 10 else "",
-            "format": row[11] if len(row) > 11 else "",
-            "platforms": row[12] if len(row) > 12 else "",
-            "status": row[15] if len(row) > 15 else "",
-            "notes": row[16] if len(row) > 16 else "",
-        })
-
-    cursor = {}
-    for segment in segments:
-        block = by_block.get(segment["block"])
+        block_match = re.search(r"(\d+)", text(cell(row, cols.get("Bloque"))))
+        if not block_match:
+            continue
+        block_number = block_match.group(1).zfill(2)
+        block = by_block.get(block_number)
         if not block:
             continue
-        if segment["block"] not in cursor:
-            cursor[segment["block"]] = datetime.fromisoformat(block["startsAt"])
-        starts = cursor[segment["block"]]
-        ends = starts + timedelta(minutes=segment["duration"])
-        segment["startsAt"] = starts.isoformat()
-        segment["endsAt"] = ends.isoformat()
-        segment["clock"] = starts.strftime("%H:%M")
-        cursor[segment["block"]] = ends
-    return segments
+        start_clock = to_clock(cell(row, cols.get("Hora de inicio")))
+        end_clock = to_clock(cell(row, cols.get("Hora de finalización")))
+        if not start_clock or not end_clock:
+            continue
 
+        block_start = block["startClock"]
+        block_end = block["endClock"]
+        after_midnight = block_end <= block_start and start_clock < block_end
+        day_number = int(block["dayNumber"])
+        start_date = datetime.fromisoformat(f"{EVENT_DAY[day_number]}T00:00:00-05:00")
+        if after_midnight:
+            start_date += timedelta(days=1)
+        starts_at = datetime.fromisoformat(
+            f"{start_date.date().isoformat()}T{start_clock}:00-05:00"
+        )
+        ends_at = datetime.fromisoformat(
+            f"{start_date.date().isoformat()}T{end_clock}:00-05:00"
+        )
+        if ends_at <= starts_at:
+            ends_at += timedelta(days=1)
+
+        presenter = text(cell(row, cols.get("Presentador / responsable")))
+        presenter = re.sub(r"\bDeivid\b", "Vikingo", presenter)
+        presenter = re.sub(r"\bDavid\b", "Vikingo", presenter)
+        execution = text(cell(row, cols.get("Ejecución"))).upper() or "PREGRABADO"
+        duration = to_minutes(cell(row, cols.get("Duración (min)")))
+        if duration <= 0:
+            duration = int((ends_at - starts_at).total_seconds() / 60)
+
+        base_id = code
+        seen[base_id] = seen.get(base_id, 0) + 1
+        unique_id = base_id if seen[base_id] == 1 else f"{base_id}-{seen[base_id]}"
+
+        segments.append({
+            "id": unique_id,
+            "code": code,
+            "day": text(cell(row, cols.get("Día"))),
+            "block": block_number,
+            "duration": duration,
+            "name": text(cell(row, cols.get("Nombre del contenido en ejecución"))),
+            "execution": execution,
+            "live": execution.startswith("EN VIVO"),
+            "type": text(cell(row, cols.get("Tipo de contenido"))),
+            "presenter": presenter,
+            "file": text(cell(row, cols.get("Archivo / pieza audiovisual"))),
+            "format": text(cell(row, cols.get("Formato"))),
+            "platforms": text(cell(row, cols.get("Plataforma(s)"))),
+            "status": text(cell(row, cols.get("Estado de producción"))),
+            "notes": text(cell(row, cols.get("Observaciones"))),
+            "startsAt": starts_at.isoformat(),
+            "endsAt": ends_at.isoformat(),
+            "clock": start_clock,
+            "startClock": start_clock,
+            "endClock": end_clock,
+        })
+
+    segments.sort(key=lambda item: item["startsAt"])
+    for segment in segments:
+        block = by_block.get(segment["block"])
+        if block:
+            block["minutes"] += segment["duration"]
+            block["segmentCount"] += 1
+    return segments
 
 
 def clean_text(value):
@@ -198,20 +288,23 @@ def main():
     blocks = parse_blocks(find_sheet(sheets, "BLOQUES"))
     segments = parse_segments(find_sheet(sheets, "ESCALETA"), blocks)
 
-    for block in blocks:
-        block_segments = [item for item in segments if item["block"] == block["number"]]
-        block["minutes"] = sum(item["duration"] for item in block_segments)
-        block["segmentCount"] = len(block_segments)
-
     target = Path("lib/program")
     target.mkdir(parents=True, exist_ok=True)
-    (target / "blocks.json").write_text(json.dumps(clean_text(blocks), ensure_ascii=False, indent=2), encoding="utf8")
-    (target / "segments.json").write_text(json.dumps(clean_text(segments), ensure_ascii=False, indent=2), encoding="utf8")
+    (target / "blocks.json").write_text(
+        json.dumps(clean_text(blocks), ensure_ascii=False, indent=2), encoding="utf8"
+    )
+    (target / "segments.json").write_text(
+        json.dumps(clean_text(segments), ensure_ascii=False, indent=2), encoding="utf8"
+    )
 
     print(f"Bloques: {len(blocks)}")
     print(f"Segmentos: {len(segments)}")
+    print(f"En vivo: {sum(1 for item in segments if item['live'])}")
     for block in blocks:
-        print(f"  {block['number']} {block['schedule']} {block['minutes']} min ({block['segmentCount']}) {block['title'][:50]}")
+        print(
+            f"  {block['number']} {block['schedule']} {block['minutes']} min "
+            f"({block['segmentCount']}) {block['title'][:52]}"
+        )
 
 
 if __name__ == "__main__":

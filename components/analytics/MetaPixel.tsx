@@ -25,7 +25,10 @@ export default function MetaPixel() {
   const [consent, setConsent] = useState<"yes" | "no" | null>(null);
   const initialized = useRef(false);
   const lastPath = useRef<string | null>(null);
-  const publicPage = !pathname?.startsWith("/admin") && !pathname?.startsWith("/pantalla");
+  const publicPage =
+    !pathname?.startsWith("/admin") &&
+    !pathname?.startsWith("/pantalla") &&
+    !pathname?.startsWith("/programa");
 
   useEffect(() => {
     try {
