@@ -586,9 +586,12 @@ export default function ContentStudio({
     if (!selectedScene || !captureRef.current) return;
     setExporting(true);
     setError("");
+    const node = captureRef.current;
+    const previous = node.style.transform;
+    node.style.transform = "none";
     try {
       const merged = mergeScene(selectedScene, sceneDraft);
-      const dataUrl = await toPng(captureRef.current, {
+      const dataUrl = await toPng(node, {
         width: 1920,
         height: 1080,
         pixelRatio: 1,
@@ -605,6 +608,7 @@ export default function ContentStudio({
     } catch {
       setError("No se pudo generar el PNG. Prueba desde la fuente de OBS.");
     } finally {
+      node.style.transform = previous;
       setExporting(false);
     }
   };
@@ -1194,6 +1198,7 @@ export default function ContentStudio({
           }
         />
       ) : null}
+
     </div>
   );
 }
