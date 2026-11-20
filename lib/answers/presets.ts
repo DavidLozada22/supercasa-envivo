@@ -286,6 +286,25 @@ Domingo 22
 Entra cuando puedas: ${LIVE}`,
   },
   {
+    id: "envivo-compartir",
+    category: "envivo",
+    title: "En vivo para compartir",
+    when: "Para reenviar a quien no tiene los links",
+    message: `Ya estamos en vivo en la maratón de 48 horas por La Supercasa.
+
+Entra aquí y acompáñanos: ${LIVE}
+
+Ahí puedes ver la transmisión y donar. Cada aporte pone una pieza real en la casa de los Súper Calvitos, niños y niñas con cáncer, y sus familias.
+
+Dona desde el celular: ${DONATE}
+Bre-B: @lasupercasa
+Bancolombia: 186-000090-54
+
+Programa completo: ${HOME}/programa
+
+Si el link no te abre, busca el canal @KavanahPL35 en YouTube o escríbenos al ${WHATSAPP}.`,
+  },
+  {
     id: "estamos-en-vivo",
     category: "envivo",
     title: "Estamos en vivo",

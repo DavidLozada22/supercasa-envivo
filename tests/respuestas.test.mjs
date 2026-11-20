@@ -13,6 +13,8 @@ test('el panel de respuestas tiene preguntas y mensajes listos', () => {
   assert.ok(data.includes('Abrir WhatsApp'));
   assert.ok(data.includes('Todo el evento en un mensaje'));
   assert.ok(data.includes('Programa de los 12 bloques'));
+  assert.ok(data.includes('En vivo para compartir'));
+  assert.ok(data.includes('Para reenviar a quien no tiene los links'));
 
   const board = read('components/answers/AnswerBoard.tsx');
   assert.ok(board.includes('Copiar respuesta'));
