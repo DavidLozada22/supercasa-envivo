@@ -128,7 +128,7 @@ export function parseTransaction(input: Record<string, unknown>): WompiTransacti
 
 async function call<T>(config: WompiConfig, path: string): Promise<T> {
   const response = await fetch(`${config.baseUrl}${path}`, {
-    headers: { Authorization: `Bearer ${config.publicKey}` },
+    headers: { Authorization: `Bearer ${config.privateKey}` },
     signal: AbortSignal.timeout(15_000),
   });
   const body = (await response.json().catch(() => ({}))) as { data?: unknown; error?: unknown };

@@ -1,5 +1,5 @@
 export const DONATION_WHATSAPP =
-  process.env.NEXT_PUBLIC_DONATION_WHATSAPP || "573165246087";
+  process.env.NEXT_PUBLIC_DONATION_WHATSAPP || "573175658064";
 
 export const DONATION_EMAIL = "hola@supercasa.svgvisual.com";
 

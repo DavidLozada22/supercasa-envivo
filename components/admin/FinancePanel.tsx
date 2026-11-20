@@ -32,6 +32,7 @@ type Wompi = {
 type FinanceData = {
   totals: { total: number; wompi: number; breb: number; bancolombia: number };
   goal: number;
+  wompiMode: "mock" | "sandbox" | "production";
   manual: Manual[];
   wompi: Wompi[];
 };
@@ -53,6 +54,7 @@ const inputClass =
 const EMPTY: FinanceData = {
   totals: { total: 0, wompi: 0, breb: 0, bancolombia: 0 },
   goal: 0,
+  wompiMode: "mock",
   manual: [],
   wompi: [],
 };
@@ -512,7 +514,24 @@ export default function FinancePanel() {
             <CreditCard className="h-4 w-4" strokeWidth={2} />
           </span>
           <div>
-            <h3 className="text-sm font-extrabold text-[#0F2354]">Wompi</h3>
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="text-sm font-extrabold text-[#0F2354]">Wompi</h3>
+              <span
+                className={`rounded-full px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider ${
+                  data.wompiMode === "production"
+                    ? "bg-emerald-50 text-emerald-700"
+                    : data.wompiMode === "sandbox"
+                      ? "bg-amber-50 text-amber-700"
+                      : "bg-red-50 text-red-700"
+                }`}
+              >
+                {data.wompiMode === "production"
+                  ? "Producción"
+                  : data.wompiMode === "sandbox"
+                    ? "Pruebas"
+                    : "Sin configurar"}
+              </span>
+            </div>
             <p className="text-[11px] text-slate-500">
               Se actualiza solo con cada pago aprobado. No se edita desde aquí.
             </p>

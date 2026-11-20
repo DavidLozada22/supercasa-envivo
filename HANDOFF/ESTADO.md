@@ -36,6 +36,10 @@ Actualizado: 19 de noviembre de 2026.
 - Exportación PNG de cortinas corregida y verificada a 1920x1080 en local y
   producción. El preview se escala, pero la captura usa el nodo real sin
   transformación.
+- Wompi producción activado. Se cargaron en Vercel producción
+  `WOMPI_PUBLIC_KEY`, `WOMPI_PRIVATE_KEY`, `WOMPI_INTEGRITY_SECRET` y
+  `WOMPI_EVENTS_SECRET` desde la bóveda. La consulta de estado ahora usa la llave
+  privada. Preview queda en modo simulado para no cobrar por accidente.
 - 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre, segunda ronda
@@ -79,15 +83,6 @@ Actualizado: 19 de noviembre de 2026.
   PNG, Cuenta, Hora, Casa, Bloque u Overlay.
 - `?preview=live` en `/donar` fuerza el estado en vivo para revisar el mini visor
   sin esperar al evento.
-- `ADMIN_USERS` actualizado en Vercel para producción y preview. Roles
-  verificados en producción: Lina entra a Recaudo, Ana y Sandeivid a Estudio,
-  los cinco admin a Inicio. Las rutas y APIs bloquean el acceso cruzado.
-- Recaudo probado en producción: se agregó un aporte de $1.000, se editó a
-  $2.000 y se borró. El total volvió a $0.
-- Exportación PNG de cortinas corregida y verificada a 1920x1080 en local y
-  producción. El preview se escala, pero la captura usa el nodo real sin
-  transformación.
-- 50 pruebas en `tests/` (node --test).
 
 ### 19 de noviembre
 
@@ -133,9 +128,8 @@ Actualizado: 19 de noviembre de 2026.
   para un bloque de 240.
 - Cargar la escaleta definitiva cuando llegue la versión nueva.
 - Revisar en celular real la franja de avisos, el chatbot y el formulario.
-- Confirmar el WhatsApp `+57 316 524 6087` para comprobantes y ayuda. Hoy es el
-  número público de la Fundación y se usa como respaldo configurable con
-  `NEXT_PUBLIC_DONATION_WHATSAPP`.
+- WhatsApp de comprobantes y ayuda: `+57 317 565 8064`, cargado como
+  `NEXT_PUBLIC_DONATION_WHATSAPP` en producción y preview.
 
 - Pixel 1108633085373695 configurado en local con consentimiento en páginas
   públicas. La API de Conversiones, deduplicación y eventos de compra siguen

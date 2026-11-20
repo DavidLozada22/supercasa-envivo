@@ -127,3 +127,16 @@ aquí y en `ESTADO.md`.
   correctos y vuelta a $0.
 - Estudio de producción: 88 de 88 creatives y el editor abre.
 - PNG de cortina editada verificado en producción: 1920x1080 y contenido completo.
+
+## Wompi produccion
+
+- Verificar que `/donar` muestre el formulario en línea y no el aviso de "Wompi
+  en activación".
+- Verificar que los botones de comprobante apunten a `wa.me/573175658064`.
+- Hacer una donación real mínima de $1.000 con tarjeta. Confirmar:
+  - La pantalla de gracias.
+  - El correo de agradecimiento de Resend.
+  - La fila de Wompi en `/admin/recaudo`.
+  - Que el total del sitio suba.
+- Revisar en el dashboard de Wompi que el webhook apunte a
+  `https://supercasa.svgvisual.com/api/wompi/webhook`.

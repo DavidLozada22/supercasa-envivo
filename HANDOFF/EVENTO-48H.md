@@ -134,15 +134,14 @@ Tiempo objetivo: 90 segundos.
 
 La página abre con dos caminos visibles:
 
-1. **Pagar en línea**: tarjeta, PSE o Nequi con Wompi.
+1. **Pagar en línea**: tarjeta, PSE o Nequi con Wompi. Ya está en producción.
 2. **Transferir sin tarjeta**: llave Bre-B `@lasupercasa` o cuenta Bancolombia
    `186-000090-54`.
 
 La transferencia se explica en tres pasos y termina con un botón para enviar el
 comprobante por WhatsApp o por correo. Pide escribir **SUPERCASA y el nombre**
-en la descripción para poder cruzar el pago. El WhatsApp sale de
-`NEXT_PUBLIC_DONATION_WHATSAPP`; si no está definido, usa el teléfono público de
-la Fundación.
+en la descripción para poder cruzar el pago. El WhatsApp de comprobantes es el
++57 317 565 8064.
 
 ## Mini visor en donaciones
 

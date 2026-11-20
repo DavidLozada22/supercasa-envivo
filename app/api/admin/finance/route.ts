@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { getConfig } from "@/lib/config";
 import { dbClient } from "@/lib/donations/store";
+import { wompiConfig } from "@/lib/donations/wompi";
 import { apiRole } from "@/lib/permissions";
 
 export const dynamic = "force-dynamic";
@@ -43,6 +44,7 @@ export async function GET() {
     return NextResponse.json({
       totals: { total: 0, wompi: 0, breb: 0, bancolombia: 0 },
       goal: config.totals.goal,
+      wompiMode: wompiConfig().mode,
       manual: [],
       wompi: [],
     });
@@ -94,6 +96,7 @@ export async function GET() {
         bancolombia: bankTotal,
       },
       goal: config.totals.goal,
+      wompiMode: wompiConfig().mode,
       manual,
       wompi: wompi.slice(0, 20),
     },

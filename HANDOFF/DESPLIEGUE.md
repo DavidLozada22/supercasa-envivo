@@ -85,8 +85,25 @@ crea `public/cortinas/cortinas-supercasa.zip` con las 55 piezas.
 El fondo y el marco para live pequeño usan el video en 1280x720 en la posición
 80 x 180. El panel derecho mide 560 px.
 
-El WhatsApp de comprobantes sale de `NEXT_PUBLIC_DONATION_WHATSAPP`. Si no está
-definido, usa el teléfono público de la Fundación `573165246087`.
+El WhatsApp de comprobantes sale de `NEXT_PUBLIC_DONATION_WHATSAPP`. Está
+cargado como `573175658064` en producción y preview. Si no está definido, el
+código usa el mismo número como respaldo.
+
+## Wompi producción
+
+Variables cargadas solo en producción desde
+`KAVANAH/WOMPI SEGUNDOS DE VIDA`:
+
+- `WOMPI_PUBLIC_KEY`
+- `WOMPI_PRIVATE_KEY`
+- `WOMPI_INTEGRITY_SECRET`
+- `WOMPI_EVENTS_SECRET`
+
+Preview queda en modo simulado. La URL del webhook en el dashboard de Wompi debe
+ser `https://supercasa.svgvisual.com/api/wompi/webhook` y el secreto de eventos
+debe ser el mismo que está en Vercel. La vuelta a `/donar/gracias` también
+consulta la transacción con la llave privada, así que confirma aunque el webhook
+tarde.
 
 Sin llaves de Wompi, `/donar` prioriza la transferencia, muestra el aviso de
 "Wompi en activación" y ofrece Bre-B o Bancolombia como camino principal.
