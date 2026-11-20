@@ -12,10 +12,19 @@ import {
   Loader2,
   RefreshCw,
   SlidersHorizontal,
+  Sparkles,
   Timer,
 } from "lucide-react";
-import { SCENES, getScene, type SceneDef } from "@/lib/streaming/scenes";
+import {
+  SCENES,
+  basicScenes,
+  getScene,
+  isBasicScene,
+  type SceneDef,
+} from "@/lib/streaming/scenes";
 import type { OnAirState } from "@/lib/streaming/types";
+import type { StreamingContent } from "@/lib/streaming/merge";
+import ContentStudio from "@/components/admin/studio/ContentStudio";
 import ConnectionPanel from "./ConnectionPanel";
 import ControlPanel from "./ControlPanel";
 import ProgramPresets from "./ProgramPresets";
@@ -26,6 +35,7 @@ import type { Health } from "./types";
 
 type TabId =
   | "cortinas"
+  | "basicas"
   | "cuentas"
   | "horas"
   | "casa"
@@ -37,6 +47,7 @@ type TabId =
 
 const TABS: Array<{ id: TabId; label: string; icon: typeof Layers }> = [
   { id: "cortinas", label: "Cortinas", icon: Clapperboard },
+  { id: "basicas", label: "Básicas", icon: Sparkles },
   { id: "cuentas", label: "Cuentas regresivas", icon: Timer },
   { id: "horas", label: "Horas del live", icon: Clock },
   { id: "casa", label: "La casa", icon: Building2 },
@@ -49,12 +60,14 @@ const TABS: Array<{ id: TabId; label: string; icon: typeof Layers }> = [
 
 const isCountdown = (scene: SceneDef) => scene.id.startsWith("empezamos-");
 
+const basics = basicScenes();
 const generic = SCENES.filter(
   (scene) =>
     scene.kind === "full" &&
     scene.group !== "bloque" &&
     scene.group !== "hora" &&
     !isCountdown(scene) &&
+    !isBasicScene(scene) &&
     scene.visual !== "house" &&
     scene.id !== "fondo-live",
 );
@@ -66,10 +79,16 @@ const overlays = SCENES.filter(
   (scene) => scene.kind === "overlay" || scene.id === "fondo-live",
 );
 
-export default function StreamingConsole() {
+export default function StreamingConsole({
+  content: initialContent,
+}: {
+  content: StreamingContent;
+}) {
   const [tab, setTab] = useState<TabId>("cortinas");
   const [health, setHealth] = useState<Health | null>(null);
   const [loading, setLoading] = useState(false);
+  const [content, setContent] = useState<StreamingContent>(initialContent);
+  const [editingScene, setEditingScene] = useState<SceneDef | null>(null);
 
   useEffect(() => {
     const value = new URLSearchParams(window.location.search).get("tab");
@@ -197,7 +216,18 @@ export default function StreamingConsole() {
             de 1920x1080. Los PNG son la versión genérica. Para cambiar el nombre o el texto, usa{" "}
             <strong className="font-bold text-[#0F2354]">En control</strong> y la fuente de OBS.
           </p>
-          <SceneGrid scenes={generic} />
+          <SceneGrid scenes={generic} onEdit={setEditingScene} />
+        </div>
+      ) : null}
+
+      {tab === "basicas" ? (
+        <div className="space-y-3">
+          <p className="text-xs leading-relaxed text-slate-600">
+            Pantallas de transición: ya regresamos, empezamos en X minutos, ajuste técnico,
+            ya viene, estamos en un bloque y personalizada. Edita los textos con el botón
+            Editar sin salir de Streaming.
+          </p>
+          <SceneGrid scenes={basics} onEdit={setEditingScene} />
         </div>
       ) : null}
 
@@ -207,7 +237,7 @@ export default function StreamingConsole() {
             Seis cuentas regresivas, de 1 minuto a 1 hora. Cada una tiene un calvito distinto y
             el número gigante para que se lea desde el celular.
           </p>
-          <SceneGrid scenes={countdowns} />
+          <SceneGrid scenes={countdowns} onEdit={setEditingScene} />
         </div>
       ) : null}
 
@@ -218,7 +248,7 @@ export default function StreamingConsole() {
             celebrar cada tramo y empujar la donación. La mosca y el contador de la página
             muestran la hora en tiempo real.
           </p>
-          <SceneGrid scenes={hours} />
+          <SceneGrid scenes={hours} onEdit={setEditingScene} />
         </div>
       ) : null}
 
@@ -229,7 +259,7 @@ export default function StreamingConsole() {
             <strong className="font-bold text-[#0F2354]">La casa en vivo</strong> como fuente de
             OBS: toma el recaudo real y avanza sola.
           </p>
-          <SceneGrid scenes={houses} />
+          <SceneGrid scenes={houses} onEdit={setEditingScene} />
         </div>
       ) : null}
 
@@ -239,7 +269,7 @@ export default function StreamingConsole() {
             Una cortina por bloque de la escaleta. Úsala 30 a 60 segundos antes de entrar al
             bloque, o durante el cambio de set. El número del bloque va en grande.
           </p>
-          <SceneGrid scenes={blocks} />
+          <SceneGrid scenes={blocks} onEdit={setEditingScene} />
         </div>
       ) : null}
 
@@ -252,7 +282,7 @@ export default function StreamingConsole() {
             <strong className="font-bold text-[#0F2354]">Moscas y agenda</strong>: los links ya
             salen llenos.
           </p>
-          <SceneGrid scenes={overlays} />
+          <SceneGrid scenes={overlays} onEdit={setEditingScene} />
         </div>
       ) : null}
 
@@ -264,6 +294,21 @@ export default function StreamingConsole() {
 
       {tab === "conexiones" ? (
         <ConnectionPanel health={health} onRefresh={() => void load()} />
+      ) : null}
+
+      {editingScene ? (
+        <ContentStudio
+          key={editingScene.id}
+          embedded
+          role="admin"
+          user="streaming"
+          marketing={{ edits: {}, updatedAt: "", updatedBy: "" }}
+          content={content}
+          initialTab={editingScene.kind === "overlay" ? "overlays" : "cortinas"}
+          initialScene={editingScene.id}
+          onClose={() => setEditingScene(null)}
+          onSaved={(next) => setContent(next)}
+        />
       ) : null}
     </div>
   );

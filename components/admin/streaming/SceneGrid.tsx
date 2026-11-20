@@ -86,7 +86,13 @@ function ScenePreview({ scene }: { scene: SceneDef }) {
   );
 }
 
-export default function SceneGrid({ scenes }: { scenes: SceneDef[] }) {
+export default function SceneGrid({
+  scenes,
+  onEdit,
+}: {
+  scenes: SceneDef[];
+  onEdit: (scene: SceneDef) => void;
+}) {
   const [copied, setCopied] = useState<string | null>(null);
 
   const copy = async (scene: SceneDef) => {
@@ -124,15 +130,14 @@ export default function SceneGrid({ scenes }: { scenes: SceneDef[] }) {
             ) : null}
 
             <div className="flex flex-wrap gap-2">
-              <a
-                href={`/admin/estudio?tab=${
-                  scene.kind === "overlay" ? "overlays" : "cortinas"
-                }&scene=${scene.id}`}
+              <button
+                type="button"
+                onClick={() => onEdit(scene)}
                 className="inline-flex items-center gap-1.5 rounded-lg bg-[#E6009E] px-3 py-2 text-xs font-bold text-white transition hover:bg-[#B8007E]"
               >
                 <Pencil className="h-3.5 w-3.5" strokeWidth={2} />
                 Editar
-              </a>
+              </button>
               <a
                 href={`/cortinas/${scene.id}.png`}
                 download={`supercasa-${scene.id}.png`}

@@ -356,11 +356,11 @@ export const SCENES: SceneDef[] = [
   },
   {
     id: "ya-volvemos",
-    label: "Ya volvemos",
+    label: "Ya regresamos",
     kind: "full",
     accent: "yellow",
     eyebrow: "Pausa breve",
-    title: "Ya volvemos",
+    title: "Ya regresamos",
     subtitle: "Estamos preparando el siguiente momento de la maratón.",
     note: "Tu aporte sigue construyendo La Supercasa.",
     fields: ["returnAt", "note"],
@@ -410,6 +410,21 @@ export const SCENES: SceneDef[] = [
     visual: "spark",
     illustration: "doctor",
     cta: "Dona y empuja la meta",
+  },
+  {
+    id: "personalizada",
+    label: "Personalizada",
+    kind: "full",
+    accent: "cyan",
+    eyebrow: "Mensaje",
+    title: "Escribe tu mensaje",
+    subtitle: "Una pantalla básica para lo que necesites.",
+    note: "Edita el título, el subtítulo y la línea corta.",
+    fields: ["title", "subtitle", "note"],
+    when: "Para mensajes que no tienen una cortina propia.",
+    visual: "spark",
+    illustration: "empresaria",
+    cta: "Dona y sigue con la maratón",
   },
   {
     id: "donaciones",
@@ -777,6 +792,22 @@ export function blockScenesList(): SceneDef[] {
 
 export function overlayScenes(): SceneDef[] {
   return SCENES.filter((scene) => scene.kind === "overlay");
+}
+
+const BASIC_SCENE_IDS = new Set([
+  "ya-volvemos",
+  "ajuste-tecnico",
+  "ya-viene",
+  "estamos-en",
+  "personalizada",
+]);
+
+export function isBasicScene(scene: SceneDef): boolean {
+  return BASIC_SCENE_IDS.has(scene.id) || scene.id.startsWith("empezamos-");
+}
+
+export function basicScenes(): SceneDef[] {
+  return SCENES.filter(isBasicScene);
 }
 
 export const DEFAULT_SCENE_ID = "ya-volvemos";

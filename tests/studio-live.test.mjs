@@ -37,6 +37,23 @@ test('el estudio copia links de OBS y genera moscas desde la agenda', () => {
   const streaming = read('components/admin/streaming/StreamingConsole.tsx');
   assert.ok(streaming.includes('ProgramPresets'));
   assert.ok(streaming.includes('Moscas y agenda'));
+  assert.ok(streaming.includes('ContentStudio'));
+  assert.ok(streaming.includes('embedded'));
+  assert.ok(streaming.includes('editingScene'));
+
+  const grid = read('components/admin/streaming/SceneGrid.tsx');
+  assert.ok(grid.includes('onEdit'));
+  assert.ok(!grid.includes('/admin/estudio?tab='));
+
+  const scenes = read('lib/streaming/scenes.ts');
+  assert.ok(scenes.includes('basicScenes'));
+  assert.ok(scenes.includes('personalizada'));
+  assert.ok(scenes.includes('Ya regresamos'));
+
+  const studioEmbed = read('components/admin/studio/ContentStudio.tsx');
+  assert.ok(studioEmbed.includes('isBasicScene'));
+  assert.ok(studioEmbed.includes('Básicas'));
+  assert.ok(studioEmbed.includes('embedded'));
 
   const copyButton = read('components/admin/streaming/ObsCopyButton.tsx');
   assert.ok(copyButton.includes('clipboard'));

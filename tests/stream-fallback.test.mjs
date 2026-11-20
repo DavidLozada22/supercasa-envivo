@@ -35,7 +35,7 @@ test('el panel de streaming esta protegido y tiene las cortinas listas', () => {
   assert.ok(grid.includes('/pantalla/'));
 
   const scenes = readFileSync('lib/streaming/scenes.ts', 'utf8');
-  for (const text of ['Empezamos en 1 minuto', 'Ya volvemos', 'Ajuste técnico']) {
+  for (const text of ['Empezamos en 1 minuto', 'Ya regresamos', 'Ajuste técnico']) {
     assert.ok(scenes.includes(text), `falta la escena ${text}`);
   }
 

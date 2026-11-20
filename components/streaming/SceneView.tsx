@@ -187,7 +187,7 @@ export default function SceneView({
         <p className="scene__subtitle">{subtitle}</p>
 
         {scene.id === "ya-volvemos" && returnAt ? (
-          <p className="scene__return">Volvemos a las {returnAt}</p>
+          <p className="scene__return">Regresamos a las {returnAt}</p>
         ) : null}
 
         {note ? <p className="scene__note">{note}</p> : null}

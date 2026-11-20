@@ -126,6 +126,18 @@ aquí y en `ESTADO.md`.
 
 ## OBS, moscas y QR grande
 
+- Abrir `/admin/streaming`, entrar a Cortinas y pulsar Editar. El editor debe
+  abrir encima de Streaming, la URL no debe cambiar y al cerrar debe volver a la
+  misma pestaña con los botones OBS, PNG y Ver.
+- Repetir desde Overlays y desde Básicas.
+- Abrir `/admin/estudio?tab=cortinas` y pulsar Editar. El editor debe abrir y
+  cerrar dentro del Studio.
+- En Streaming, pestaña Básicas, confirmar Ya regresamos, Empezamos en 1, 5, 15,
+  20, 30 y 60 minutos, Ajuste técnico, Ya viene, Estamos en un bloque y
+  Personalizada.
+- Abrir Personalizada, cambiar título, subtítulo y línea corta, y guardar. Debe
+  aparecer en `/pantalla/personalizada`.
+
 - Abrir `/admin/estudio?tab=cortinas` y confirmar que cada tarjeta tiene OBS.
   Copiar una, abrirla en una pestaña y ver que el título y el QR salen iguales.
 - Repetir en Overlays y en Marketing. En Marketing, el OBS debe abrir

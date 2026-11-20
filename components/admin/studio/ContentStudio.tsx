@@ -51,13 +51,14 @@ import { creativePath } from "@/lib/marketing/links";
 import {
   CALVITOS,
   SCENES,
+  isBasicScene,
   type CalvitoKey,
   type SceneAccent,
   type SceneDef,
 } from "@/lib/streaming/scenes";
 
 type Tab = "marketing" | "cortinas" | "overlays";
-type SceneType = "general" | "cuenta" | "hora" | "casa" | "bloque";
+type SceneType = "general" | "cuenta" | "hora" | "casa" | "bloque" | "basicas";
 
 const TABS: Array<{ id: Tab; label: string; icon: typeof Palette }> = [
   { id: "marketing", label: "Marketing", icon: Palette },
@@ -89,6 +90,7 @@ const CALVITO_LABELS: Record<CalvitoKey, string> = {
 
 const SCENE_TYPES: Array<{ id: "all" | SceneType; label: string }> = [
   { id: "all", label: "Todas" },
+  { id: "basicas", label: "Básicas" },
   { id: "general", label: "Generales" },
   { id: "cuenta", label: "Cuentas" },
   { id: "hora", label: "Horas" },
@@ -520,7 +522,13 @@ function SceneCard({
             <SceneView scene={merged} render copy={copy} frozen />
           </LiveThumb>
           <span className="absolute left-2 top-2 rounded-full bg-[#FFD400] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-[#0B1A3D]">
-            {overlay ? "Overlay" : scene.group === "bloque" ? `Bloque ${scene.number}` : "Cortina"}
+            {overlay
+              ? "Overlay"
+              : scene.group === "bloque"
+                ? `Bloque ${scene.number}`
+                : isBasicScene(scene)
+                  ? "Básica"
+                  : "Cortina"}
           </span>
           {edit ? (
             <span className="absolute bottom-2 left-2 rounded-full bg-[#E6009E] px-2 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white">
@@ -560,6 +568,9 @@ export default function ContentStudio({
   content,
   initialTab,
   initialScene,
+  embedded = false,
+  onClose,
+  onSaved,
 }: {
   role: string;
   user: string;
@@ -567,6 +578,9 @@ export default function ContentStudio({
   content: StreamingContent;
   initialTab?: Tab;
   initialScene?: string;
+  embedded?: boolean;
+  onClose?: () => void;
+  onSaved?: (content: StreamingContent) => void;
 }) {
   const [tab, setTab] = useState<Tab>(initialTab ?? "marketing");
   const [query, setQuery] = useState("");
@@ -629,7 +643,11 @@ export default function ContentStudio({
     return SCENES.filter((scene) => {
       if (tab === "overlays" && scene.kind !== "overlay") return false;
       if (tab === "cortinas" && scene.kind !== "full") return false;
-      if (sceneFilter !== "all" && sceneType(scene) !== sceneFilter) return false;
+      if (sceneFilter === "basicas") {
+        if (!isBasicScene(scene)) return false;
+      } else if (sceneFilter !== "all" && sceneType(scene) !== sceneFilter) {
+        return false;
+      }
       if (!term) return true;
       return `${scene.label} ${scene.title} ${scene.subtitle}`
         .toLowerCase()
@@ -659,6 +677,7 @@ export default function ContentStudio({
     setSelectedScene(null);
     setStatus("");
     setError("");
+    if (embedded) onClose?.();
   };
 
   const updateSlide = (patch: Partial<SlideEdit>) => {
@@ -750,6 +769,7 @@ export default function ContentStudio({
       }
       setContentState(body);
       setCopyDraft(body.copy ?? {});
+      onSaved?.(body);
       setStatus(
         "Guardado. La fuente de OBS toma estos textos en el próximo refresco. Si la escena está al aire, coordina con David.",
       );
@@ -780,6 +800,7 @@ export default function ContentStudio({
       }
       setContentState(body);
       setCopyDraft(body.copy ?? {});
+      onSaved?.(body);
       setSceneDraft({});
       setStatus("Volvió al diseño original.");
     } catch {
@@ -1028,6 +1049,8 @@ export default function ContentStudio({
 
   return (
     <div className="space-y-5">
+      {!embedded ? (
+        <>
       <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -1797,6 +1820,8 @@ export default function ContentStudio({
             </>
           }
         />
+      ) : null}
+        </>
       ) : null}
 
       {selectedScene && mergedScene ? (

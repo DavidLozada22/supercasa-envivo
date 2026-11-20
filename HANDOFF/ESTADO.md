@@ -4,6 +4,23 @@ Actualizado: 19 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, edición desde Streaming y pantallas básicas
+
+- El botón Editar del panel de Streaming abre el editor en la misma pantalla, sin
+  saltar al Estudio. Al cerrar, la persona vuelve a la pestaña de Streaming donde
+  estaba y conserva los botones de OBS, PNG y Ver.
+- El Studio conserva su propio editor. Si se edita desde el Studio, se cierra
+  sobre el mismo Studio.
+- Nueva pestaña "Básicas" en Streaming y filtro "Básicas" en el Studio. Incluye
+  Ya regresamos, Empezamos en 1, 5, 15, 20, 30 y 60 minutos, Ajuste técnico,
+  Ya viene, Estamos en un bloque y Personalizada.
+- "Ya volvemos" pasó a llamarse "Ya regresamos" en la cortina, el título y la
+  línea de hora de regreso.
+- Nueva cortina "Personalizada" para mensajes que no tienen una pieza propia.
+  Tiene título, subtítulo y línea corta editables.
+- Se regeneraron las 56 cortinas y el ZIP con el nuevo QR grande, el nombre
+  "Ya regresamos" y la cortina Personalizada.
+
 ### 20 de noviembre, OBS, moscas y QR grande
 
 - Cada tarjeta de cortina, overlay o material de marketing del Estudio tiene un

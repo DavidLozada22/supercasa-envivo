@@ -264,3 +264,15 @@ los tres tipos de material, no solo en el panel de Streaming.
 
 En marketing el link usa el estado guardado. Por eso el editor avisa que hay que
 guardar antes de copiar si se quieren llevar los últimos cambios.
+
+## 34. Editar sin salir del panel
+
+El editor de escenas se abre en una capa encima de Streaming y usa el contenido
+que ya cargó la página. Al cerrar, se desmonta y la pestaña de Streaming sigue
+donde estaba. El Studio usa el mismo componente sin la capa incrustada, así que
+cada contexto conserva su navegación y sus botones.
+
+Las pantallas de transición viven en la pestaña Básicas. "Personalizada" es la
+válvula de escape para mensajes que no tienen una cortina propia. Los filtros del
+Studio mantienen las cuentas regresivas en su categoría y agregan Básicas como
+vista aparte.
