@@ -37,7 +37,7 @@ Vercel no duplique despliegues ni bloquee envíos.
 | `WOMPI_EVENTS_SECRET` | Producción | Verificación del webhook |
 | `META_ACCESS_TOKEN` | Producción | Métricas de Meta Ads |
 | `YOUTUBE_API_KEY` | Producción, Preview | Detección del directo |
-| `YOUTUBE_CHANNEL_ID` | Producción, Preview | Canal `UCrdNxBU4cfR0rEHY1OO9tQQ` |
+| `YOUTUBE_CHANNEL_ID` | Producción, Preview | Canal `UCEye0fvhcpFbj21VOS7jWIQ` (`@user-me3lo9tr3m`) |
 | `RESEND_API_KEY` | Producción, Preview | Envío de avisos |
 | `RESEND_FROM` | Producción, Preview | Remitente verificado |
 | `NEXT_PUBLIC_DONATION_WHATSAPP` | Opcional | WhatsApp para comprobantes y ayuda |

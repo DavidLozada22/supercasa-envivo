@@ -24,6 +24,16 @@ Actualizado: 21 de noviembre de 2026.
 
 ## Hecho
 
+### 21 de noviembre, cambio de canal de YouTube
+
+- YouTube cortó la transmisión del canal @KavanahPL35 por políticas. El equipo
+  pasó a emitir por OBS al canal `@user-me3lo9tr3m`
+  (`UCEye0fvhcpFbj21VOS7jWIQ`).
+- `YOUTUBE_CHANNEL_ID` quedó actualizado en Vercel (producción y preview). La
+  detección automática toma el directo de ese canal: al momento del cambio es
+  `ZNqxKcLxxXI`.
+- El canal anterior era `UCrdNxBU4cfR0rEHY1OO9tQQ`.
+
 ### 21 de noviembre, minivisor del home y salida del correo
 
 - El visor del hero del home ya muestra la transmisión real, igual que `/donar`:
