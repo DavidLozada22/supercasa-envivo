@@ -56,3 +56,14 @@ test('el cronometro del live muestra lo que llevamos', () => {
   assert.ok(pill.includes('setInterval(tick, 1000)'));
   assert.ok(!pill.includes('Faltan'));
 });
+
+test('la pantalla completa funciona en iPhone sin la API del navegador', () => {
+  const player = readFileSync('components/landing/MaskedPlayer.tsx', 'utf8');
+  const css = readFileSync('components/landing/masked-player.module.css', 'utf8');
+  assert.ok(player.includes('webkitRequestFullscreen'), 'Debe intentar la variante de Safari');
+  assert.ok(player.includes('setFauxFull(true)'), 'Debe caer en la capa fija');
+  assert.ok(player.includes('stageFull'), 'Debe aplicar la clase de pantalla completa');
+  assert.ok(player.includes('Salir de pantalla completa'), 'Debe poder salir');
+  assert.ok(css.includes('.stageFull'), 'Falta el estilo de la capa fija');
+  assert.ok(css.includes('100dvh'), 'La capa debe medir la ventana real');
+});

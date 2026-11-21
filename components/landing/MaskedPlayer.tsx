@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Maximize, Pause, Play, Radio, Volume2, VolumeX } from "lucide-react";
+import { Maximize, Minimize, Pause, Play, Radio, Volume2, VolumeX } from "lucide-react";
 import styles from "./masked-player.module.css";
 import CortinaLive from "./CortinaLive";
 
@@ -22,6 +22,7 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   const [muted, setMuted] = useState(true);
   const [unavailable, setUnavailable] = useState(false);
   const [behind, setBehind] = useState(false);
+  const [fauxFull, setFauxFull] = useState(false);
   const pausedSince = useRef(0);
   const hasPlayed = useRef(false);
   const syncingUntil = useRef(0);
@@ -173,11 +174,60 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
     }
   };
 
+  // iPhone no tiene la API de pantalla completa para un div ni para el iframe
+  // de YouTube. En ese caso se usa una capa fija que ocupa toda la pantalla.
+  useEffect(() => {
+    if (!fauxFull) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setFauxFull(false);
+    };
+    const onNative = () => {
+      if (document.fullscreenElement) setFauxFull(false);
+    };
+    window.addEventListener("keydown", onKey);
+    document.addEventListener("fullscreenchange", onNative);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener("fullscreenchange", onNative);
+    };
+  }, [fauxFull]);
+
   const fullscreen = () => {
     const node = stageRef.current;
     if (!node) return;
-    if (document.fullscreenElement) void document.exitFullscreen();
-    else void node.requestFullscreen?.();
+
+    const doc = document as Document & {
+      webkitFullscreenElement?: Element | null;
+      webkitExitFullscreen?: () => Promise<void> | void;
+    };
+    const request: ((options?: FullscreenOptions) => Promise<void>) | undefined =
+      node.requestFullscreen ??
+      (node as unknown as { webkitRequestFullscreen?: () => Promise<void> })
+        .webkitRequestFullscreen;
+    const exit = document.exitFullscreen ?? doc.webkitExitFullscreen;
+    const active = document.fullscreenElement ?? doc.webkitFullscreenElement;
+
+    if (fauxFull) {
+      setFauxFull(false);
+      return;
+    }
+    if (active) {
+      void exit?.call(document);
+      return;
+    }
+
+    if (request) {
+      const result = request.call(node) as Promise<void> | undefined;
+      if (result && typeof result.catch === "function") {
+        result.catch(() => setFauxFull(true));
+      }
+      return;
+    }
+
+    setFauxFull(true);
   };
 
   if (unavailable) {
@@ -185,7 +235,7 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   }
 
   return (
-    <div className={styles.stage} ref={stageRef}>
+    <div className={`${styles.stage}${fauxFull ? ` ${styles.stageFull}` : ""}`} ref={stageRef}>
       <div id={PLAYER_ID} className={styles.frame} />
 
       {/* Bloquea cualquier clic o toque que intente abrir YouTube. */}
@@ -265,11 +315,27 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
           type="button"
           className={styles.control}
           onClick={fullscreen}
-          aria-label="Pantalla completa"
+          aria-label={fauxFull ? "Salir de pantalla completa" : "Pantalla completa"}
         >
-          <Maximize className="h-5 w-5" strokeWidth={2} />
+          {fauxFull ? (
+            <Minimize className="h-5 w-5" strokeWidth={2} />
+          ) : (
+            <Maximize className="h-5 w-5" strokeWidth={2} />
+          )}
         </button>
       </div>
+
+      {fauxFull ? (
+        <button
+          type="button"
+          className={styles.exitFull}
+          onClick={() => setFauxFull(false)}
+          aria-label="Salir de pantalla completa"
+        >
+          <Minimize className="h-4 w-4" strokeWidth={2.4} />
+          Salir
+        </button>
+      ) : null}
     </div>
   );
 }
