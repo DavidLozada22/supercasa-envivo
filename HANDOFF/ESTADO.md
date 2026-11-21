@@ -7,9 +7,15 @@ Actualizado: 21 de noviembre de 2026.
 - Producción: `https://supercasa.svgvisual.com`, desplegada por GitHub Actions.
 - Panel: `/admin` con Estudio, Streaming, Programa, Recaudo, Campañas y avisos.
 - Donaciones: el webhook de Wompi quedó configurado el 21 de noviembre. Antes
-  `events_url` estaba en `null` y ocho aportes quedaron en pendiente.
-- Pendiente: conciliar los aportes viejos y hacer la donación real mínima de
-  control.
+  `events_url` estaba en `null` y los eventos salían "Sin URL" en el Debugger.
+- Los pagos sí entraron a Wompi: tres aprobados desde el 1 de noviembre
+  ($52.500, $100.000 y $20.000) y cuatro rechazados. El de $52.500 quedó
+  conciliado en el sitio; los otros dos aprobados vienen de otra integración con
+  referencias distintas y no están en la base.
+- Quedan seis intentos en pendiente: son pagos abandonados, sin transacción en
+  Wompi, así que nunca hubo cobro.
+- Pendiente: hacer la donación real mínima de control y ver el evento con estado
+  200 en el Debugger.
 
 ## Hecho
 
@@ -31,7 +37,10 @@ Actualizado: 21 de noviembre de 2026.
   de 8 segundos entre consultas para no martillar la API.
 - `reconcilePending()` revisa los pendientes de los últimos catorce días para
   rescatar los aportes viejos.
-- 72 pruebas pasan.
+- Resultado en producción el mismo día: `{"ok":true,"checked":8,"updated":2}`.
+  El aporte de $52.500 pasó a aprobado y el de $31.900 a declinado. El recaudo
+  subió a $1.171.500 con quince donaciones aprobadas.
+- 73 pruebas pasan.
 
 ### 20 de noviembre, acceso de sebascapi
 
