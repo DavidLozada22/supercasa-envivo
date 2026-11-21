@@ -32,7 +32,6 @@ test('el reproductor permite volver al momento en vivo', () => {
   assert.ok(player.includes('Ir al momento en vivo'));
   assert.ok(player.includes('seekTo'));
   assert.ok(player.includes('pausedSince'));
-  assert.ok(player.includes('loadVideoById'));
 
   const css = readFileSync('components/landing/masked-player.module.css', 'utf8');
   assert.ok(css.includes('.goLive'));

@@ -24,6 +24,7 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   const [behind, setBehind] = useState(false);
   const pausedSince = useRef(0);
   const hasPlayed = useRef(false);
+  const syncingUntil = useRef(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -95,6 +96,10 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
     const timer = window.setInterval(() => {
       const player = playerRef.current;
       if (!player?.getDuration || !hasPlayed.current) return;
+      if (Date.now() < syncingUntil.current) {
+        setBehind(false);
+        return;
+      }
       if (pausedSince.current && Date.now() - pausedSince.current > 12_000) {
         setBehind(true);
         return;
@@ -103,6 +108,9 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
       const current = Number(player.getCurrentTime?.() ?? 0);
       const gap = Number.isFinite(duration) && Number.isFinite(current) ? duration - current : 0;
       stageRef.current?.setAttribute("data-live-gap", String(Math.max(0, Math.round(gap))));
+      stageRef.current?.setAttribute("data-live-current", String(Math.round(current)));
+      stageRef.current?.setAttribute("data-live-duration", String(Math.round(duration)));
+      stageRef.current?.setAttribute("data-live-state", String(player.getPlayerState?.() ?? ""));
       if (Number.isFinite(duration) && duration > 0) {
         setBehind(gap > 12);
       } else {
@@ -115,16 +123,34 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   const goLive = () => {
     const player = playerRef.current;
     if (!player) return;
-    const end = Number(player.getDuration?.() ?? 0);
-    try {
-      if (end > 0) player.seekTo(end, true);
-      else player.loadVideoById?.(videoId);
+
+    pausedSince.current = 0;
+    syncingUntil.current = Date.now() + 3_500;
+    setBehind(false);
+
+    const seek = () => {
+      const duration = Number(player.getDuration?.() ?? 0);
+      if (duration > 0) player.seekTo(duration, true);
       player.playVideo?.();
-      pausedSince.current = 0;
-      setBehind(false);
-    } catch {
-      // Si el reproductor no responde, se conserva la posición.
+    };
+
+    // En pausa, getDuration queda congelado en el momento de la pausa. Hay que
+    // reanudar primero y buscar el borde cuando la duracion ya se actualizo.
+    const state = Number(player.getPlayerState?.() ?? -1);
+    if (state === 2 || state === 5 || state === -1) {
+      player.playVideo?.();
+      window.setTimeout(seek, 900);
+    } else {
+      seek();
     }
+
+    window.setTimeout(() => {
+      const current = playerRef.current;
+      if (!current) return;
+      const duration = Number(current.getDuration?.() ?? 0);
+      const position = Number(current.getCurrentTime?.() ?? 0);
+      if (duration - position > 10) current.seekTo?.(duration, true);
+    }, 2_000);
   };
 
   const togglePlay = () => {
