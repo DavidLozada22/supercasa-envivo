@@ -2,5 +2,11 @@
   "framework": "nextjs",
   "git": {
     "deploymentEnabled": false
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/reconcile",
+      "schedule": "0 13 * * *"
+    }
+  ]
 }

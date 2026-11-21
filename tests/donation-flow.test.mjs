@@ -35,3 +35,13 @@ test('la consulta de estado no martilla la API de Wompi en cada ciclo', () => {
   assert.ok(service.includes('PROVIDER_CHECK_MS'), 'Falta el intervalo entre consultas');
   assert.ok(service.includes('shouldQueryProvider(reference)'), 'La consulta debe pasar por el control de frecuencia');
 });
+
+test('hay respaldo diario por si el webhook no entrega el evento', () => {
+  const route = readFileSync('app/api/cron/reconcile/route.ts', 'utf8');
+  const config = JSON.parse(readFileSync('vercel.json', 'utf8'));
+  assert.ok(route.includes('reconcilePending'), 'La ruta debe conciliar pendientes');
+  assert.ok(
+    (config.crons ?? []).some((cron) => cron.path === '/api/cron/reconcile'),
+    'vercel.json debe programar la conciliación diaria',
+  );
+});
