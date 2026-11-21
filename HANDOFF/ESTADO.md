@@ -8,14 +8,19 @@ Actualizado: 21 de noviembre de 2026.
 - Panel: `/admin` con Estudio, Streaming, Programa, Recaudo, Campañas y avisos.
 - Donaciones: el webhook de Wompi quedó configurado el 21 de noviembre. Antes
   `events_url` estaba en `null` y los eventos salían "Sin URL" en el Debugger.
-- Los pagos sí entraron a Wompi: tres aprobados desde el 1 de noviembre
-  ($52.500, $100.000 y $20.000) y cuatro rechazados. El de $52.500 quedó
-  conciliado en el sitio; los otros dos aprobados vienen de otra integración con
-  referencias distintas y no están en la base.
-- Quedan seis intentos en pendiente: son pagos abandonados, sin transacción en
-  Wompi, así que nunca hubo cobro.
-- Pendiente: hacer la donación real mínima de control y ver el evento con estado
-  200 en el Debugger.
+- Diagnóstico de los diez registros de Wompi:
+  - 1 aprobado: $50.000 de Jose Colorado, cobro de $52.500, referencia
+    `SC-1795221947573-277068`. Entró de verdad.
+  - 1 declinado: $31.900, referencia `SC-1795183889472-164360`. Wompi lo rechazó,
+    no hubo cobro.
+  - 6 intentos abandonados: no existe ninguna transacción en Wompi para esas
+    referencias. Nunca hubo cobro. Quedaron en `voided`.
+- Los otros pagos aprobados del comercio ($100.000 y $20.000) usan referencias de
+  otra integración (`2NDA04_`, `r2Twsx_`), no del sitio, y no se registraron.
+- Recaudo aprobado: $1.171.500 en quince aportes (incluye el de Wompi).
+- Pendiente: confirmar con Lina si el aporte manual de $52.500 con nota "Marcela
+  Villamarin" es distinto del pago de Jose Colorado. Si es el mismo, se borra
+  para no contarlo dos veces.
 
 ## Hecho
 

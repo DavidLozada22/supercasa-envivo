@@ -83,6 +83,11 @@ consulta Wompi por referencia cuando el aporte sigue pendiente, así que la pág
 de gracias y el recaudo se actualizan solos. `reconcilePending()` en
 `lib/donations/service.ts` revisa los pendientes de los últimos catorce días.
 
+Regla de cierre: si a las seis horas una referencia no tiene ninguna transacción
+en Wompi, se marca `voided` con el mensaje "Sin transacción en Wompi: intento
+abandonado". Nunca se cerró un pago real: si existe transacción, aunque sea
+PENDING, se aplica su estado.
+
 El redirect del widget vuelve a `/donar/gracias?ref=...`.
 
 ## Protección de despliegues
