@@ -64,6 +64,25 @@ En el panel de Wompi, la URL de eventos debe ser:
 https://supercasa.svgvisual.com/api/wompi/webhook
 ```
 
+Estado al 21 de noviembre de 2026: la URL quedó configurada en el comercio de
+producción `FUNDACION SEGUNDOS DE VIDA` (id 592603) con
+`PATCH /v1/merchants/592603` y `events_url`. Antes estaba en `null`, por eso
+los pagos se quedaban en pendiente: Wompi no enviaba ningún evento.
+
+Para confirmarlo sin abrir el panel:
+
+```
+GET https://production.wompi.co/v1/merchants
+Authorization: Bearer <llave privada de producción>
+```
+
+El campo `events_url` debe devolver la URL del webhook.
+
+Si el webhook vuelve a fallar, el sitio no se queda esperando. `/api/donations/<ref>`
+consulta Wompi por referencia cuando el aporte sigue pendiente, así que la página
+de gracias y el recaudo se actualizan solos. `reconcilePending()` en
+`lib/donations/service.ts` revisa los pendientes de los últimos catorce días.
+
 El redirect del widget vuelve a `/donar/gracias?ref=...`.
 
 ## Protección de despliegues

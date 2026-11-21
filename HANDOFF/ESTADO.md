@@ -1,20 +1,37 @@
 # Estado
 
-Actualizado: 20 de noviembre de 2026.
+Actualizado: 21 de noviembre de 2026.
 
 ## Resumen actual
 
 - Producción: `https://supercasa.svgvisual.com`, desplegada por GitHub Actions.
 - Panel: `/admin` con Estudio, Streaming, Programa, Recaudo, Campañas y avisos.
-- Programa V6: 12 bloques y 508 segmentos. Página pública noindex en `/programa`.
-- Editor del programa en `/admin/programa/editar`, con guardado en Blob.
-- Respuestas WhatsApp: `/respuestas`, pública y noindex, con 20 respuestas y 12
-  mensajes.
-- Assets OBS: `assets/obs`, con 56 PNG, cuatro pistas y `manifest.json`.
-- Pendiente: configurar el webhook de Wompi, hacer la donación real mínima y
-  completar los nombres de invitados que la V6 deja como "Invitados Especiales".
+- Donaciones: el webhook de Wompi quedó configurado el 21 de noviembre. Antes
+  `events_url` estaba en `null` y ocho aportes quedaron en pendiente.
+- Pendiente: conciliar los aportes viejos y hacer la donación real mínima de
+  control.
 
 ## Hecho
+
+### 21 de noviembre, webhook de Wompi y pagos pendientes
+
+- Causa del fallo: el comercio de producción tenía `events_url` en `null`. Wompi
+  cobraba pero no enviaba ningún evento, así que las donaciones se quedaban en
+  pendiente para siempre. Se confirmó con `GET /v1/merchants`: el listado de
+  `payment_events` no tenía una sola fila de los pagos reales del 20 y 21 de
+  noviembre.
+- Se configuró la URL de eventos con `PATCH /v1/merchants/592603`:
+  `https://supercasa.svgvisual.com/api/wompi/webhook`. Verificado en la misma
+  respuesta del API.
+- La firma del webhook ya era correcta: un evento firmado con el secreto de la
+  bóveda respondió 200 en producción. El problema era la entrega, no la llave.
+- El sitio ahora reconcilia solo: cuando un aporte sigue pendiente,
+  `/api/donations/<ref>` consulta Wompi por referencia y aplica el estado. La
+  página de gracias se actualiza aunque el webhook no llegue, con un intervalo
+  de 8 segundos entre consultas para no martillar la API.
+- `reconcilePending()` revisa los pendientes de los últimos catorce días para
+  rescatar los aportes viejos.
+- 72 pruebas pasan.
 
 ### 20 de noviembre, acceso de sebascapi
 

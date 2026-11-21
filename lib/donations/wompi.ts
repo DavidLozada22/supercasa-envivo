@@ -140,6 +140,45 @@ async function call<T>(config: WompiConfig, path: string): Promise<T> {
   return body.data as T;
 }
 
+/**
+ * Busca la transacción de una referencia cuando el webhook no llegó.
+ * Wompi exige ventana de fechas, así que se abre desde la creación del aporte.
+ */
+export async function findTransactionByReference(
+  reference: string,
+  since: Date,
+): Promise<WompiTransaction | null> {
+  const config = wompiConfig();
+  if (config.mode === "mock") return null;
+
+  const until = new Date();
+  const from = since.getTime() < until.getTime() ? since : new Date(until.getTime() - 86_400_000);
+  const query = new URLSearchParams({
+    reference,
+    from_date: from.toISOString(),
+    until_date: until.toISOString(),
+    page: "1",
+    page_size: "10",
+  });
+
+  try {
+    const response = await fetch(`${config.baseUrl}/transactions?${query}`, {
+      headers: { Authorization: `Bearer ${config.privateKey}` },
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!response.ok) return null;
+    const body = (await response.json().catch(() => ({}))) as { data?: unknown };
+    const rows = Array.isArray(body.data) ? body.data : [];
+    const match = rows.find(
+      (row) =>
+        row && typeof row === "object" && String((row as Record<string, unknown>).reference) === reference,
+    ) as Record<string, unknown> | undefined;
+    return match ? parseTransaction(match) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function getTransaction(id: string): Promise<WompiTransaction | null> {
   const config = wompiConfig();
   if (config.mode === "mock") return null;

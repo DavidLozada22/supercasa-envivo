@@ -9,11 +9,13 @@ import {
   getDonation,
   insertDonation,
   logEvent,
+  pendingWompi,
   transitionDonation,
   type Donation,
 } from "./store";
 import {
   buildSignedEvent,
+  findTransactionByReference,
   getTransaction,
   integritySignature,
   parseTransaction,
@@ -255,17 +257,62 @@ export async function processEvent(event: WompiEvent): Promise<{ ok: boolean; re
 }
 
 export async function donationStatus(reference: string): Promise<Donation | null> {
-  let donation = await getDonation(reference);
-  if (!donation) return null;
+  const donation = await getDonation(reference);
+  if (!donation || donation.status !== "pending" || donation.source !== "wompi") {
+    return donation;
+  }
 
-  if (donation.status === "pending" && donation.providerTransactionId) {
-    const transaction = await getTransaction(donation.providerTransactionId);
-    if (transaction && transaction.reference === reference) {
-      donation = (await applyTransaction(transaction)) ?? donation;
-    }
+  if (!shouldQueryProvider(reference)) return donation;
+
+  const transaction = donation.providerTransactionId
+    ? await getTransaction(donation.providerTransactionId)
+    : await findTransactionByReference(reference, createdAtOf(donation));
+
+  if (transaction && transaction.reference === reference) {
+    return (await applyTransaction(transaction)) ?? donation;
   }
 
   return donation;
+}
+
+/** Evita repetir la consulta a Wompi en cada ciclo de la página de gracias. */
+const providerChecks = new Map<string, number>();
+const PROVIDER_CHECK_MS = 8_000;
+
+function shouldQueryProvider(reference: string): boolean {
+  const now = Date.now();
+  const last = providerChecks.get(reference) ?? 0;
+  if (now - last < PROVIDER_CHECK_MS) return false;
+  providerChecks.set(reference, now);
+  if (providerChecks.size > 500) providerChecks.clear();
+  return true;
+}
+
+function createdAtOf(donation: Donation): Date {
+  const created = new Date(donation.createdAt);
+  return Number.isNaN(created.getTime()) ? new Date(Date.now() - 7 * 86_400_000) : created;
+}
+
+/**
+ * Rescata los pagos que quedaron pendientes porque el webhook no llegó.
+ * Se puede correr desde el panel o por consola sin tocar el recaudo manual.
+ */
+export async function reconcilePending(
+  sinceDays = 14,
+  limit = 100,
+): Promise<{ checked: number; updated: number }> {
+  const since = new Date(Date.now() - sinceDays * 86_400_000);
+  const pending = await pendingWompi(since, limit);
+  let updated = 0;
+
+  for (const donation of pending) {
+    const transaction = await findTransactionByReference(donation.reference, createdAtOf(donation));
+    if (!transaction) continue;
+    const result = await applyTransaction(transaction);
+    if (result && result.status !== "pending") updated += 1;
+  }
+
+  return { checked: pending.length, updated };
 }
 
 export async function progress(): Promise<{ raisedCop: number; donations: number }> {

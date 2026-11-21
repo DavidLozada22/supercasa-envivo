@@ -164,6 +164,28 @@ export async function transitionDonation(
   return rows[0] ? toDonation(rows[0] as Record<string, unknown>) : null;
 }
 
+export async function pendingWompi(since: Date, limit = 100): Promise<Donation[]> {
+  const db = sql();
+  if (!db) {
+    return [...memory().values()]
+      .filter(
+        (donation) =>
+          donation.status === "pending" &&
+          donation.source === "wompi" &&
+          new Date(donation.createdAt).getTime() >= since.getTime(),
+      )
+      .slice(0, limit);
+  }
+
+  const rows = await db`
+    select * from donations
+    where status = 'pending' and source = 'wompi' and created_at >= ${since.toISOString()}
+    order by created_at desc
+    limit ${limit}
+  `;
+  return rows.map((row) => toDonation(row as Record<string, unknown>));
+}
+
 export async function approvedTotal(): Promise<{ raisedCop: number; donations: number }> {
   const db = sql();
   if (!db) {
