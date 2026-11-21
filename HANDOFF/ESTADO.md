@@ -24,6 +24,21 @@ Actualizado: 21 de noviembre de 2026.
 
 ## Hecho
 
+### 21 de noviembre, link manual del directo en Postgres
+
+- El panel guardaba el link manual en Vercel Blob, que está suspendido. Cualquier
+  "Usar link" respondía "Error de conexión".
+- El override ahora vive en la tabla `live_override` de Postgres, con respaldo en
+  Blob para desarrollo local. El panel y `getLiveStatus` leen la misma fuente.
+- Link fijado: `Ep8Dnm1Aty0` (`https://youtube.com/live/Ep8Dnm1Aty0`). El sitio
+  lo usa como `source: manual` y deja de consultar la API de YouTube, así que la
+  cuota agotada no afecta el directo.
+- Verificado en producción: `/api/live/current` devuelve `Ep8Dnm1Aty0` y `/envivo`
+  y el home lo incrustan.
+- Pendiente crítico: el resto del estado del panel (avisos, estudio, programa,
+  configuración) sigue en Blob y ese almacenamiento está suspendido. Hay que
+  reactivarlo en Vercel o migrarlo a Postgres.
+
 ### 21 de noviembre, cambio de canal de YouTube
 
 - YouTube cortó la transmisión del canal @KavanahPL35 por políticas. El equipo
