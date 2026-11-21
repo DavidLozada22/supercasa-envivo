@@ -45,7 +45,7 @@ Vercel no duplique despliegues ni bloquee envíos.
 ## Resend
 
 - Dominio verificado: `supercasa.svgvisual.com`.
-- Remitente: `La Supercasa <hola@supercasa.svgvisual.com>`.
+- Remitente: `La Supercasa <no-responder@supercasa.svgvisual.com>`. La bandeja de hola@ no existe, así que no se invita a responder.
 - Registros en Vercel DNS: DKIM en `resend._domainkey`, MX y SPF en `send`,
   CNAME en `rsend`.
 - La clave vive en Vercel y en KeePass, entrada

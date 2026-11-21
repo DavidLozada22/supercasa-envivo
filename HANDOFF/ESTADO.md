@@ -24,6 +24,19 @@ Actualizado: 21 de noviembre de 2026.
 
 ## Hecho
 
+### 21 de noviembre, minivisor del home y salida del correo
+
+- El visor del hero del home ya muestra la transmisión real, igual que `/donar`:
+  consulta `/api/live/current` cada 30 segundos e incrusta el video de YouTube
+  con la píldora "En vivo" y el botón "Ver la transmisión". Antes solo era una
+  tarjeta con logos y botón.
+- Se retiró `hola@supercasa.svgvisual.com` de todo el sitio. El botón "Enviar por
+  correo" de `/donar` desapareció y las respuestas, el chatbot y el correo de
+  agradecimiento ahora ofrecen WhatsApp.
+- `RESEND_FROM` en Vercel cambió a `La Supercasa <no-responder@supercasa.svgvisual.com>`
+  para no invitar a responder a una bandeja que no existe.
+- 82 pruebas pasan.
+
 ### 21 de noviembre, volumen directo, accesos para todos y respuestas nuevas
 
 - En celular, el botón de sonido ya no espera a que se elija un nivel: activa o
