@@ -24,6 +24,18 @@ Actualizado: 21 de noviembre de 2026.
 
 ## Hecho
 
+### 21 de noviembre, pantalla completa en iPhone y volumen del live
+
+- iPhone Safari no tiene `requestFullscreen` para un div ni para el iframe de
+  YouTube, así que el botón de la máscara no hacía nada. Ahora se detecta y se
+  usa una capa fija que ocupa la ventana (`100dvh`) con botón "Salir". En
+  escritorio y Android sigue usando la pantalla completa nativa.
+- La máscara tiene control de volumen: el botón abre un panel con deslizador de
+  0 a 100, botón de silencio y porcentaje. El nivel se aplica con
+  `player.setVolume`. En iPhone el sistema puede priorizar los botones del
+  teléfono.
+- 77 pruebas pasan.
+
 ### 21 de noviembre, primeros dos pagos reales confirmados
 
 - Pago con tarjeta de Nelson, $50.000, referencia `SC-1795246260304-a0facf`,
