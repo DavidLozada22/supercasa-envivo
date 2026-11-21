@@ -16,12 +16,22 @@ Actualizado: 20 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, metricas en vivo
+
+- Streaming abre en "Metricas en vivo": personas en la pagina ahora, unicos del
+  dia, vistas y unicos por `/envivo`, `/donar` y `/recorrido`, barras de las
+  ultimas 12 horas y recaudo total con meta.
+- Se actualiza cada 12 segundos y trae boton directo a YouTube Studio.
+- Las vistas se guardan en Postgres (`live_pageviews`, `live_presence`) con un id
+  anonimo. Excluye al equipo y a los bots.
+- 69 pruebas pasan.
+
 ### 20 de noviembre, descargas livianas y cronometro
 
 - Historias, posts y carruseles se descargan en JPG por defecto. Un carrusel de 5
   slides pasa de mas de 20 MB a 1.1 MB. Las capas transparentes siguen en PNG.
 - Los PNG de OBS bajaron 75 por ciento: el ZIP completo paso de 44 MB a 11.2 MB.
-- El cronometro del live es una pildora de 161x27 con "Llevamos HH:MM:SS", sin
+- El cronometro del live es una pildora de 210x38 con "Llevamos HH:MM:SS", sin
   barra ni numero gigante. Cuenta el tiempo en vivo desde el inicio del evento.
 - Queda el selector JPG liviano o PNG en el Estudio para piezas sin transparencia.
 

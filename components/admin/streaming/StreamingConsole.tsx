@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import {
   Activity,
+  BarChart3,
   Building2,
   CalendarDays,
   Clapperboard,
@@ -29,6 +30,7 @@ import ContentStudio from "@/components/admin/studio/ContentStudio";
 import ProgramNowControl from "@/components/admin/program/ProgramNowControl";
 import ConnectionPanel from "./ConnectionPanel";
 import ControlPanel from "./ControlPanel";
+import LiveMetrics from "./LiveMetrics";
 import ProgramPresets from "./ProgramPresets";
 import ProgramStrip from "./ProgramStrip";
 import SceneGrid from "./SceneGrid";
@@ -36,6 +38,7 @@ import StreamingGuide from "./StreamingGuide";
 import type { Health } from "./types";
 
 type TabId =
+  | "metricas"
   | "cortinas"
   | "basicas"
   | "cuentas"
@@ -48,6 +51,7 @@ type TabId =
   | "conexiones";
 
 const TABS: Array<{ id: TabId; label: string; icon: typeof Layers }> = [
+  { id: "metricas", label: "Métricas en vivo", icon: BarChart3 },
   { id: "cortinas", label: "Cortinas", icon: Clapperboard },
   { id: "basicas", label: "Básicas", icon: Sparkles },
   { id: "cuentas", label: "Cuentas regresivas", icon: Timer },
@@ -88,7 +92,7 @@ export default function StreamingConsole({
   content: StreamingContent;
   program?: ProgramState;
 }) {
-  const [tab, setTab] = useState<TabId>("cortinas");
+  const [tab, setTab] = useState<TabId>("metricas");
   const [health, setHealth] = useState<Health | null>(null);
   const [loading, setLoading] = useState(false);
   const [content, setContent] = useState<StreamingContent>(initialContent);
@@ -212,6 +216,8 @@ export default function StreamingConsole({
           Actualizar
         </button>
       </div>
+
+      {tab === "metricas" ? <LiveMetrics /> : null}
 
       {tab === "cortinas" ? (
         <div className="space-y-3">

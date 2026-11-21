@@ -411,3 +411,20 @@ La pildora del live paso de cuenta regresiva a cronometro ascendente. Durante la
 maraton dice "Llevamos HH:MM:SS" con el punto EN VIVO. Antes del arranque muestra
 "Empieza pronto" y al cerrar, "48 h completas". Se actualiza cada segundo y mide
 desde el inicio del evento, no desde que carga la pagina.
+
+## 46. Metricas en vivo en el panel
+
+Streaming abre en la pestaña "Metricas en vivo". Un componente en el layout publico
+manda una vista por pagina visitada y un ping cada 20 segundos mientras la pestaña
+esta visible. Se guardan en `live_pageviews` y `live_presence`, con un id anonimo en
+`localStorage`. No guarda IP ni datos personales. Las sesiones de admin y los bots
+se descartan en el servidor.
+
+El panel muestra personas en `/envivo` ahora, unicos del dia, vistas y unicos de
+`/envivo`, `/donar` y `/recorrido`, barras de las ultimas 12 horas, y el recaudo
+manual mas el de Wompi. Se refresca cada 12 segundos. Incluye boton a YouTube
+Studio y una nota: los embeds tambien suman vistas en YouTube, pero YouTube no
+las separa por sitio.
+
+El SQL crea las tablas si no existen y la migracion quedo en
+`supabase/migrations/20261121000000_live_metrics.sql`.

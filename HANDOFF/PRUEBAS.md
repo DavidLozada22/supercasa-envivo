@@ -208,10 +208,22 @@ aquí y en `ESTADO.md`.
 - Probar un link que no sea de YouTube. Debe responder "Pega un link de YouTube o
   el ID de 11 caracteres." y no guardar nada.
 
+## Metricas en vivo
+
+- Abrir Streaming. Debe entrar en "Metricas en vivo" y mostrar el recaudo y los
+  contadores.
+- Abrir `/envivo` en una ventana normal (sin sesion) y esperar 20 segundos. El
+  contador "Viendo ahora /envivo" debe subir en el panel.
+- Cerrar la ventana y esperar 70 segundos. El contador debe bajar.
+- Entrar a `/donar` y `/recorrido`. Deben sumar en sus tarjetas y en las barras.
+- Revisar que el boton YouTube Studio abra el canal correcto.
+- Con la base caida o sin `DATABASE_URL`, el panel debe mostrar el aviso y no
+  romperse.
+
 ## Cronometro del live
 
-- Abrir `/envivo`. La pildora debe decir "EN VIVO Llevamos HH:MM:SS" y avanzar cada
-  segundo. No debe decir "Faltan".
+- Abrir `/envivo`. La pildora debe decir "EN VIVO Llevamos HH:MM:SS", medir cerca
+  de 210x38 y avanzar cada segundo. No debe decir "Faltan".
 - Recargar la pagina. El tiempo debe seguir desde el inicio del evento, no desde cero.
 
 ## Descargas de marketing

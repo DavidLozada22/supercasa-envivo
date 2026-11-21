@@ -1430,10 +1430,11 @@
 .landing-root .live-hours-pill {
   display: inline-flex;
   width: auto;
+  min-height: 38px;
   max-width: calc(100% - 28px);
   align-items: center;
-  gap: 7px;
-  padding: 5px 10px 5px 6px;
+  gap: 9px;
+  padding: 9px 14px 9px 9px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
   background: rgba(7, 17, 39, 0.9);
@@ -1444,21 +1445,21 @@
 .landing-root .live-hours-pill__tag {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 7px;
+  gap: 6px;
+  padding: 4px 9px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.78);
-  font-size: 0.52rem;
+  font-size: 0.6rem;
   font-weight: 900;
   letter-spacing: 0.12em;
   white-space: nowrap;
 }
 .landing-root .live-hours-pill__tag.is-live { background: #e6009e; color: #fff; }
-.landing-root .live-hours-pill__tag i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.landing-root .live-hours-pill__tag i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .landing-root .live-hours-pill__time {
   font-family: "Fredoka", ui-rounded, system-ui, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   font-variant-numeric: tabular-nums;
@@ -1469,12 +1470,12 @@
   color: var(--verde-lima);
   font-weight: 900;
 }
-.landing-root .live-hours-pill.is-compact { gap: 6px; padding: 4px 9px 4px 5px; }
-.landing-root .live-hours-pill.is-compact .live-hours-pill__time { font-size: 0.66rem; }
-.landing-root .live-hours-pill.is-compact .live-hours-pill__tag { padding: 2px 6px; font-size: 0.48rem; }
+.landing-root .live-hours-pill.is-compact { gap: 8px; padding: 6px 11px 6px 6px; }
+.landing-root .live-hours-pill.is-compact .live-hours-pill__time { font-size: 0.8rem; }
+.landing-root .live-hours-pill.is-compact .live-hours-pill__tag { padding: 3px 8px; font-size: 0.55rem; }
 .landing-root .stream-placeholder .live-hours-pill { margin-top: 10px; }
 @media (max-width: 600px) {
   .landing-root .live-player-wrap > .live-hours-pill { top: 8px; left: 8px; }
-  .landing-root .live-hours-pill__tag { font-size: 0.46rem; }
-  .landing-root .live-hours-pill__time { font-size: 0.64rem; }
+  .landing-root .live-hours-pill__tag { font-size: 0.54rem; }
+  .landing-root .live-hours-pill__time { font-size: 0.78rem; }
 }
