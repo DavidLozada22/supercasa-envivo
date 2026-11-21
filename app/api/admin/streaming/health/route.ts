@@ -33,7 +33,7 @@ export async function GET() {
     {
       youtube: {
         keyPresent: Boolean(process.env.YOUTUBE_API_KEY),
-        channelUrl: "https://www.youtube.com/@KavanahPL35",
+        channelUrl: "https://www.youtube.com/@user-me3lo9tr3m",
         ...status,
       },
       override,

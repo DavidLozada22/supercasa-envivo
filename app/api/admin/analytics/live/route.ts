@@ -39,7 +39,7 @@ export async function GET() {
       },
       youtube: {
         studioUrl: YOUTUBE_STUDIO,
-        channelUrl: "https://www.youtube.com/@KavanahPL35",
+        channelUrl: "https://www.youtube.com/@user-me3lo9tr3m",
       },
     },
     { headers: { "Cache-Control": "no-store" } },

@@ -59,10 +59,10 @@ export const QUICK_ANSWERS: QuickAnswer[] = [
     id: "no-encuentro-live",
     category: "empezar",
     question: "No encuentro el streaming",
-    answer: `Hola. Para ver la transmisión entra a ${LIVE}. Ahí se abre el live solo cuando estamos al aire. Si no carga, actualiza la página o entra al canal de YouTube @KavanahPL35. La maratón va del viernes 20 de noviembre a las 6:00 p. m. al domingo 22 a las 6:00 p. m., hora de Bogotá.`,
+    answer: `Hola. Para ver la transmisión entra a ${LIVE}. Ahí se abre el live solo cuando estamos al aire. Si no carga, actualiza la página o entra al canal de YouTube del directo @user-me3lo9tr3m. La maratón va del viernes 20 de noviembre a las 6:00 p. m. al domingo 22 a las 6:00 p. m., hora de Bogotá.`,
     links: [
       { label: "Abrir la transmisión", href: LIVE },
-      { label: "YouTube Kavanah", href: "https://www.youtube.com/@KavanahPL35" },
+      { label: "Canal del directo", href: "https://www.youtube.com/@user-me3lo9tr3m" },
     ],
   },
   {
@@ -125,10 +125,10 @@ Si transfieres, envía el comprobante al WhatsApp ${WHATSAPP} con tu nombre y el
     id: "no-carga",
     category: "empezar",
     question: "No me carga el live",
-    answer: `Hola. Prueba actualizar la página en ${LIVE}. Si sigue igual, entra al canal de YouTube @KavanahPL35. La señal se abre sola cuando estamos al aire.`,
+    answer: `Hola. Prueba actualizar la página en ${LIVE}. Si sigue igual, entra al canal de YouTube del directo @user-me3lo9tr3m. La señal se abre sola cuando estamos al aire.`,
     links: [
       { label: "Reintentar", href: LIVE },
-      { label: "YouTube Kavanah", href: "https://www.youtube.com/@KavanahPL35" },
+      { label: "Canal del directo", href: "https://www.youtube.com/@user-me3lo9tr3m" },
     ],
   },
   {
@@ -305,7 +305,7 @@ Bancolombia: 186-000090-54
 
 Programa completo: ${HOME}/programa
 
-Si el link no te abre, busca el canal @KavanahPL35 en YouTube o escríbenos al ${WHATSAPP}.`,
+Si el link no te abre, busca el canal @user-me3lo9tr3m en YouTube o escríbenos al ${WHATSAPP}.`,
   },
   {
     id: "estamos-en-vivo",

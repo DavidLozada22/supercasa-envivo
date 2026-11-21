@@ -114,7 +114,7 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     question: "¿Dónde veo el live?",
     keywords: ["donde", "ver", "live", "youtube", "transmision", "envivo", "canal"],
     answer:
-      "En supercasa.svgvisual.com/envivo. También puedes abrir el canal de YouTube @KavanahPL35. El sitio detecta el directo solo, así que no tienes que buscar enlaces nuevos cuando hay un corte.",
+      "En supercasa.svgvisual.com/envivo. También puedes abrir el canal de YouTube del directo @user-me3lo9tr3m. El sitio detecta el directo solo, así que no tienes que buscar enlaces nuevos cuando hay un corte.",
     actions: [{ type: "link", label: "Abrir la transmisión", href: "/envivo" }],
   },
   {

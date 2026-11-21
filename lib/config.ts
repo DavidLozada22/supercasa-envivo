@@ -4,13 +4,13 @@ import { DEFAULT_EMBED_URL } from "./youtube";
 
 export const DEFAULT_CONFIG: AppConfig = {
   stream: {
-    youtubeUrl: "https://www.youtube.com/@KavanahPL35/live",
+    youtubeUrl: "https://www.youtube.com/@user-me3lo9tr3m/live",
     videoId: "",
     embedUrl:
       DEFAULT_EMBED_URL,
     rtmpUrl: "rtmp://a.rtmp.youtube.com/live2",
     streamKey: "",
-    backupUrl: "https://www.youtube.com/@KavanahPL35/live",
+    backupUrl: "https://www.youtube.com/@user-me3lo9tr3m/live",
   },
   totals: {
     raised: 0,
