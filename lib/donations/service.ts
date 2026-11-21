@@ -300,20 +300,37 @@ function createdAtOf(donation: Donation): Date {
 export async function reconcilePending(
   sinceDays = 14,
   limit = 100,
-): Promise<{ checked: number; updated: number }> {
+): Promise<{ checked: number; updated: number; expired: number }> {
   const since = new Date(Date.now() - sinceDays * 86_400_000);
   const pending = await pendingWompi(since, limit);
   let updated = 0;
+  let expired = 0;
 
   for (const donation of pending) {
     const transaction = await findTransactionByReference(donation.reference, createdAtOf(donation));
-    if (!transaction) continue;
+
+    if (!transaction) {
+      // Sin transacción en Wompi no hay cobro posible: el intento se abandonó.
+      // Solo se cierra cuando ya pasó el margen de creación del widget.
+      const age = Date.now() - createdAtOf(donation).getTime();
+      if (age > ABANDONED_AFTER_MS) {
+        await transitionDonation(donation.reference, {
+          status: "voided",
+          statusMessage: "Sin transacción en Wompi: intento abandonado.",
+        });
+        expired += 1;
+      }
+      continue;
+    }
+
     const result = await applyTransaction(transaction);
     if (result && result.status !== "pending") updated += 1;
   }
 
-  return { checked: pending.length, updated };
+  return { checked: pending.length, updated, expired };
 }
+
+const ABANDONED_AFTER_MS = 6 * 3_600_000;
 
 export async function progress(): Promise<{ raisedCop: number; donations: number }> {
   return approvedTotal();

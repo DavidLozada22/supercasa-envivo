@@ -45,3 +45,10 @@ test('hay respaldo diario por si el webhook no entrega el evento', () => {
     'vercel.json debe programar la conciliación diaria',
   );
 });
+
+test('los intentos abandonados no quedan pendientes para siempre', () => {
+  const service = readFileSync('lib/donations/service.ts', 'utf8');
+  assert.ok(service.includes('ABANDONED_AFTER_MS'), 'Falta el margen para cerrar intentos');
+  assert.ok(service.includes('intento abandonado'), 'El cierre debe quedar explicado');
+  assert.ok(service.includes('expired += 1'), 'La conciliación debe contar los vencidos');
+});
