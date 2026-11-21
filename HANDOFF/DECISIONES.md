@@ -428,3 +428,16 @@ las separa por sitio.
 
 El SQL crea las tablas si no existen y la migracion quedo en
 `supabase/migrations/20261121000000_live_metrics.sql`.
+
+## 47. Boton para volver al vivo
+
+El reproductor mide cada 2 segundos la diferencia entre `getDuration` y
+`getCurrentTime`. Si el espectador esta mas de 12 segundos atras, o deja el video
+en pausa mas de 12 segundos, aparece el boton flotante "Ir al vivo". Al pulsarlo
+hace `seekTo(duration, true)` y `playVideo`; si el directo no tiene DVR, recarga
+el video con `loadVideoById`. La barra de controles tambien tiene un boton fijo de
+radio para volver al ultimo segundo.
+
+En pruebas, YouTube entrego el vivo cerca de una hora atras al cargar. El boton
+lo dejo en 0 de diferencia, asi que resuelve justo el caso de la gente que queda
+atrasada.

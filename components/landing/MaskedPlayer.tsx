@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Maximize, Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { Maximize, Pause, Play, Radio, Volume2, VolumeX } from "lucide-react";
 import styles from "./masked-player.module.css";
 import CortinaLive from "./CortinaLive";
 
@@ -21,6 +21,9 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
   const [unavailable, setUnavailable] = useState(false);
+  const [behind, setBehind] = useState(false);
+  const pausedSince = useRef(0);
+  const hasPlayed = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -47,8 +50,15 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
             event.target.playVideo();
           },
           onStateChange: (event: any) => {
-            setPlaying(event.data === window.YT.PlayerState.PLAYING);
+            const state = event.data;
+            if (state === window.YT.PlayerState.PLAYING) hasPlayed.current = true;
+            setPlaying(state === window.YT.PlayerState.PLAYING);
             setMuted(Boolean(event.target.isMuted?.()));
+            if (state === window.YT.PlayerState.PAUSED) {
+              if (!pausedSince.current) pausedSince.current = Date.now();
+            } else {
+              pausedSince.current = 0;
+            }
           },
           onError: () => setUnavailable(true),
         },
@@ -80,6 +90,42 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
       }
     };
   }, [videoId]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      const player = playerRef.current;
+      if (!player?.getDuration || !hasPlayed.current) return;
+      if (pausedSince.current && Date.now() - pausedSince.current > 12_000) {
+        setBehind(true);
+        return;
+      }
+      const duration = Number(player.getDuration?.() ?? 0);
+      const current = Number(player.getCurrentTime?.() ?? 0);
+      const gap = Number.isFinite(duration) && Number.isFinite(current) ? duration - current : 0;
+      stageRef.current?.setAttribute("data-live-gap", String(Math.max(0, Math.round(gap))));
+      if (Number.isFinite(duration) && duration > 0) {
+        setBehind(gap > 12);
+      } else {
+        setBehind(false);
+      }
+    }, 2_000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const goLive = () => {
+    const player = playerRef.current;
+    if (!player) return;
+    const end = Number(player.getDuration?.() ?? 0);
+    try {
+      if (end > 0) player.seekTo(end, true);
+      else player.loadVideoById?.(videoId);
+      player.playVideo?.();
+      pausedSince.current = 0;
+      setBehind(false);
+    } catch {
+      // Si el reproductor no responde, se conserva la posición.
+    }
+  };
 
   const togglePlay = () => {
     const player = playerRef.current;
@@ -131,6 +177,19 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
         Súper Navidad
       </div>
 
+      {behind ? (
+        <button
+          type="button"
+          className={styles.goLive}
+          onClick={goLive}
+          aria-label="Ir al momento en vivo de la transmisión"
+          title="Saltar al último segundo del directo"
+        >
+          <Radio className="h-3.5 w-3.5" strokeWidth={2} />
+          Ir al vivo
+        </button>
+      ) : null}
+
       {!playing ? (
         <button type="button" className={styles.centerPlay} onClick={togglePlay} aria-label="Reproducir">
           <Play className="h-7 w-7" strokeWidth={2} fill="currentColor" />
@@ -165,6 +224,16 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
         </button>
 
         <span className={styles.titleText}>{title}</span>
+
+        <button
+          type="button"
+          className={styles.control}
+          onClick={goLive}
+          aria-label="Ir al momento en vivo"
+          title="Ir al momento en vivo"
+        >
+          <Radio className="h-5 w-5" strokeWidth={2} />
+        </button>
 
         <button
           type="button"

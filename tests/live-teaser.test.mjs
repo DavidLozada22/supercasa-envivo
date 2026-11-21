@@ -24,3 +24,16 @@ test('existe una vista previa del home para el panel', () => {
   assert.ok(home.includes('forceLive'));
   assert.ok(home.includes('preview'));
 });
+
+test('el reproductor permite volver al momento en vivo', () => {
+  const player = readFileSync('components/landing/MaskedPlayer.tsx', 'utf8');
+  assert.ok(player.includes('goLive'));
+  assert.ok(player.includes('Ir al vivo'));
+  assert.ok(player.includes('Ir al momento en vivo'));
+  assert.ok(player.includes('seekTo'));
+  assert.ok(player.includes('pausedSince'));
+  assert.ok(player.includes('loadVideoById'));
+
+  const css = readFileSync('components/landing/masked-player.module.css', 'utf8');
+  assert.ok(css.includes('.goLive'));
+});

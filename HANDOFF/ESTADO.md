@@ -16,6 +16,14 @@ Actualizado: 20 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, boton ir al vivo
+
+- El reproductor de `/envivo` tiene un boton flotante "Ir al vivo" cuando el
+  espectador esta mas de 12 segundos atras o pausado. Salta al ultimo segundo y
+  reanuda la reproduccion.
+- La barra de la mascara tiene un boton fijo de radio con el mismo salto.
+- En pruebas, el vivo cargo una hora atras y el boton lo dejo en el borde en vivo.
+
 ### 20 de noviembre, metricas en vivo
 
 - Streaming abre en "Metricas en vivo": personas en la pagina ahora, unicos del

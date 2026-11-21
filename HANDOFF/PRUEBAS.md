@@ -208,6 +208,15 @@ aquí y en `ESTADO.md`.
 - Probar un link que no sea de YouTube. Debe responder "Pega un link de YouTube o
   el ID de 11 caracteres." y no guardar nada.
 
+## Ir al vivo en el reproductor
+
+- Abrir `/envivo` y dejar que cargue. Si arranca atrasado, debe salir "Ir al vivo"
+  arriba a la derecha.
+- Pulsarlo. Debe saltar al ultimo segundo del directo y el boton debe desaparecer.
+- Poner pausa y esperar 15 segundos. El boton debe volver a salir.
+- En la barra de controles, el boton de radio debe hacer el mismo salto.
+- Probar en celular. El boton debe medir al menos 40 pixeles de alto.
+
 ## Metricas en vivo
 
 - Abrir Streaming. Debe entrar en "Metricas en vivo" y mostrar el recaudo y los
