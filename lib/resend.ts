@@ -17,7 +17,7 @@ export async function sendReminderEmail(input: {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { ok: false, error: "Falta RESEND_API_KEY" };
 
-  const from = process.env.RESEND_FROM || "La Supercasa <hola@supercasa.svgvisual.com>";
+  const from = process.env.RESEND_FROM || "La Supercasa <no-responder@supercasa.svgvisual.com>";
   const name = input.name?.trim();
   const subject =
     input.kind === "confirmation"
@@ -80,7 +80,7 @@ export async function sendDonationThanks(input: {
   const key = process.env.RESEND_API_KEY;
   if (!key) return { ok: false, error: "Falta RESEND_API_KEY" };
 
-  const from = process.env.RESEND_FROM || "La Supercasa <hola@supercasa.svgvisual.com>";
+  const from = process.env.RESEND_FROM || "La Supercasa <no-responder@supercasa.svgvisual.com>";
   const name = input.name?.trim();
   const amount = new Intl.NumberFormat("es-CO", {
     style: "currency",
@@ -127,8 +127,9 @@ export async function sendDonationThanks(input: {
           <a href="https://wa.me/?text=${share}" style="display:inline-block;margin:0 6px 8px 0;padding:13px 22px;border-radius:999px;background:#0f2354;color:#ffffff;font-weight:800;text-decoration:none">Compartir La Supercasa</a>
         </p>
         <p style="margin:0 0 10px;font-size:13px;line-height:1.6;color:#64748b">
-          Si necesitas certificado de donación, responde a este correo con tu nombre y el valor del aporte.
-          También puedes escribir a <a href="mailto:hola@supercasa.svgvisual.com" style="color:#0f2354;font-weight:700">hola@supercasa.svgvisual.com</a>.
+          Si necesitas certificado de donación, escríbenos al
+          <a href="https://wa.me/573175658064?text=Hola%2C%20necesito%20certificado%20de%20donaci%C3%B3n%20de%20La%20Supercasa" style="color:#0f2354;font-weight:700">WhatsApp +57 317 565 8064</a>
+          con tu nombre y el valor del aporte.
         </p>
         <p style="margin:0;font-size:12px;line-height:1.5;color:#94a3b8">
           Evento de Familia Kavanah a beneficio de la Fundación Segundos de Vida.
@@ -168,7 +169,7 @@ export type ResendHealth = {
 let healthCache: { at: number; value: ResendHealth } | null = null;
 
 function fromAddress(): string {
-  return process.env.RESEND_FROM || "La Supercasa <hola@supercasa.svgvisual.com>";
+  return process.env.RESEND_FROM || "La Supercasa <no-responder@supercasa.svgvisual.com>";
 }
 
 function fromEmail(): string {

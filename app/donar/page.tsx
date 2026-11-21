@@ -2,7 +2,6 @@ import {
   ArrowRight,
   CreditCard,
   Landmark,
-  Mail,
   MessageCircle,
 } from "lucide-react";
 import CopyHandler from "@/components/landing/CopyHandler";
@@ -16,7 +15,7 @@ import HelpWidget from "@/components/public/HelpWidget";
 import { getConfig } from "@/lib/config";
 import { progress } from "@/lib/donations/service";
 import { paymentsAvailable } from "@/lib/donations/wompi";
-import { mailtoLink, RECEIPT_MESSAGE, whatsappLink } from "@/lib/contact";
+import { RECEIPT_MESSAGE, whatsappLink } from "@/lib/contact";
 import { getLiveStatus, snapshot } from "@/lib/streaming/service";
 
 export const dynamic = "force-dynamic";
@@ -251,16 +250,6 @@ export default async function DonatePage({
                   >
                     <MessageCircle size={18} strokeWidth={2} aria-hidden="true" />
                     Enviar por WhatsApp
-                  </a>
-                  <a
-                    className="btn btn--white"
-                    href={mailtoLink(
-                      "Comprobante de transferencia La Supercasa",
-                      RECEIPT_MESSAGE,
-                    )}
-                  >
-                    <Mail size={18} strokeWidth={2} aria-hidden="true" />
-                    Enviar por correo
                   </a>
                 </div>
               </div>

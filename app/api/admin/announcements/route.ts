@@ -126,7 +126,7 @@ export async function POST(request: Request) {
   }
 
   const from =
-    process.env.RESEND_FROM || "La Supercasa <hola@supercasa.svgvisual.com>";
+    process.env.RESEND_FROM || "La Supercasa <no-responder@supercasa.svgvisual.com>";
 
   let sent = 0;
   let failed = 0;

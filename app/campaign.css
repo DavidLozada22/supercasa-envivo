@@ -442,6 +442,13 @@ header.site-header a.site-btn:hover { color: #334155; }
 .hero-live__cta { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 54px; margin-top: .3rem; padding: .6rem 1.5rem; border: 3px solid var(--ink); border-radius: 999px; background: #ffd400; color: var(--ink); font-size: 1rem; font-weight: 800; text-decoration: none; box-shadow: 0 5px 0 var(--ink); transition: transform .12s ease, box-shadow .12s ease; }
 .hero-live__cta:hover { transform: translateY(-2px); box-shadow: 0 7px 0 var(--ink); }
 .hero-live__note { margin: 0; font-size: .72rem; font-weight: 700; color: #c3d0ea; }
+
+/* Minivisor del home con la señal real, igual que en /donar */
+.frames .hero-live.hero-live--video { padding: 0; background: #000; gap: 0; }
+.hero-live--video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.hero-live--video .hero-live__badge { position: absolute; top: 10px; left: 10px; z-index: 2; }
+.hero-live__cta--float { position: absolute; left: 50%; bottom: 10px; z-index: 2; transform: translateX(-50%); margin: 0; min-height: 44px; padding: .4rem 1rem; font-size: .85rem; }
+.hero-live__cta--float:hover { transform: translateX(-50%) translateY(-2px); }
 @media (max-width: 560px) {
   .hero-live__logo-card img { height: 20px; }
   .hero-live__kavanah { height: 22px; }

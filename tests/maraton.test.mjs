@@ -84,3 +84,26 @@ test('el volumen activa el sonido de inmediato y deja ajustarlo', () => {
   assert.ok(player.includes('if (!finePointer) setVolumeOpen(true)'), 'En celular debe abrir el deslizador');
   assert.ok(!player.includes('setVolumeOpen((open) => !open)'), 'No debe quedarse esperando el nivel');
 });
+
+test('el minivisor del home muestra la señal real como el de donar', () => {
+  const hero = readFileSync('components/campaign/HeroLiveOverlay.tsx', 'utf8');
+  assert.ok(hero.includes('/api/live/current'), 'Debe consultar el mismo estado del live');
+  assert.ok(hero.includes('youtube-nocookie.com/embed'), 'Debe incrustar la transmisión');
+  assert.ok(hero.includes('hero-live--video'), 'Debe tener el modo video');
+});
+
+test('no queda ningún enlace al correo sin recepción', () => {
+  const files = [
+    'lib/contact.ts',
+    'lib/resend.ts',
+    'app/donar/page.tsx',
+    'app/api/admin/announcements/route.ts',
+  ];
+  for (const file of files) {
+    const source = readFileSync(file, 'utf8');
+    assert.ok(!source.includes('hola@supercasa.svgvisual.com'), `${file} todavía menciona el correo`);
+  }
+  const donar = readFileSync('app/donar/page.tsx', 'utf8');
+  assert.ok(!donar.includes('Enviar por correo'), 'El botón de correo debe desaparecer');
+  assert.ok(donar.includes('Enviar por WhatsApp'));
+});
