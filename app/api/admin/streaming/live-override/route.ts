@@ -32,13 +32,20 @@ export async function POST(request: Request) {
   }
 
   const session = await getSession();
-  const override = await writeLiveOverride(videoId, session?.username ?? "");
-  forgetLiveOverride();
-
-  return NextResponse.json(
-    { ok: true, override },
-    { headers: { "Cache-Control": "no-store" } },
-  );
+  try {
+    const override = await writeLiveOverride(videoId, session?.username ?? "");
+    forgetLiveOverride();
+    return NextResponse.json(
+      { ok: true, override },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  } catch (error) {
+    console.error("[supercasa] guardar link manual", error);
+    return NextResponse.json(
+      { error: "No se pudo guardar el link. Intenta otra vez." },
+      { status: 500 },
+    );
+  }
 }
 
 export async function DELETE() {
@@ -51,11 +58,18 @@ export async function DELETE() {
   }
 
   const session = await getSession();
-  await clearLiveOverride(session?.username ?? "");
-  forgetLiveOverride();
-
-  return NextResponse.json(
-    { ok: true, override: null },
-    { headers: { "Cache-Control": "no-store" } },
-  );
+  try {
+    await clearLiveOverride(session?.username ?? "");
+    forgetLiveOverride();
+    return NextResponse.json(
+      { ok: true, override: null },
+      { headers: { "Cache-Control": "no-store" } },
+    );
+  } catch (error) {
+    console.error("[supercasa] volver a automático", error);
+    return NextResponse.json(
+      { error: "No se pudo volver a automático. Intenta otra vez." },
+      { status: 500 },
+    );
+  }
 }

@@ -253,7 +253,7 @@ export default function ConnectionPanel({
           <div className="flex justify-between gap-3">
             <dt className="text-slate-500">Canal</dt>
             <dd className="flex items-center gap-1 font-semibold text-[#0F2354]">
-              Kavanah PL35
+              Canal del directo
               <a
                 href={youtube.channelUrl}
                 target="_blank"
