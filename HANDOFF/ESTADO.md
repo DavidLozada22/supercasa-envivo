@@ -34,6 +34,10 @@ Actualizado: 21 de noviembre de 2026.
   0 a 100, botón de silencio y porcentaje. El nivel se aplica con
   `player.setVolume`. En iPhone el sistema puede priorizar los botones del
   teléfono.
+- En escritorio se comporta como YouTube: el deslizador aparece al pasar el
+  cursor, a la derecha del botón, y el clic silencia o activa el sonido. En
+  celular se abre con un toque, arriba del botón, con su propio botón de
+  silencio.
 - 77 pruebas pasan.
 
 ### 21 de noviembre, primeros dos pagos reales confirmados
