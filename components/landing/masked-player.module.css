@@ -360,3 +360,14 @@
     width: 104px;
   }
 }
+
+/* En escritorio el volumen se despliega hacia la derecha del botón,
+   como en YouTube. En celular se queda arriba porque no hay espacio. */
+@media (min-width: 641px) {
+  .volumePanel {
+    bottom: auto;
+    top: 50%;
+    left: calc(100% + 10px);
+    transform: translateY(-50%);
+  }
+}
