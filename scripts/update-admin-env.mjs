@@ -17,6 +17,7 @@ if (!file) {
 }
 
 const user = JSON.parse(readFileSync(file, "utf8"));
+const replace = process.argv.includes("--replace");
 
 async function api(path, init = {}) {
   const separator = path.includes("?") ? "&" : "?";
@@ -56,12 +57,16 @@ for (const env of envs) {
   const exists = users.some(
     (item) => String(item?.username ?? "").toLowerCase() === user.username.toLowerCase(),
   );
-  if (exists) {
+  if (exists && !replace) {
     console.log(`Ya existe en ${env.target.join(",")}. No se tocó.`);
     continue;
   }
 
-  const next = [...users, user];
+  const next = exists
+    ? users.map((item) =>
+        String(item?.username ?? "").toLowerCase() === user.username.toLowerCase() ? user : item,
+      )
+    : [...users, user];
   await api(`/v9/projects/${project}/env/${env.id}`, {
     method: "PATCH",
     body: JSON.stringify({ value: JSON.stringify(next) }),

@@ -212,7 +212,7 @@ aquí y en `ESTADO.md`.
 
 - Entrar a `/admin/login` con `sebascapi` y la clave de la boveda
   `SUPERCASA/PANEL sebascapi`. Debe abrir `/admin` con rol admin.
-- La clave es temporal. Cambiarla despues del primer ingreso.
+- Rotar la clave despues del evento.
 
 ## Ir al vivo en el reproductor
 

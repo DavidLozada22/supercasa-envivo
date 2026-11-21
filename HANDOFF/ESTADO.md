@@ -19,7 +19,7 @@ Actualizado: 20 de noviembre de 2026.
 ### 20 de noviembre, acceso de sebascapi
 
 - Nuevo usuario `sebascapi` con rol admin en `ADMIN_USERS`, en produccion y preview.
-- La clave temporal quedo en la boveda, entrada `SUPERCASA/PANEL sebascapi`.
+- La clave definida por Nelson quedo en la boveda, entrada `SUPERCASA/PANEL sebascapi`.
 - Login verificado en produccion con respuesta 200 y rol admin.
 - Sigue vigente la regla: solo Lio edita el programa.
 
