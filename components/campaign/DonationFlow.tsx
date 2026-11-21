@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { feeFor } from "@/lib/donations/pricing";
 import { PIECES as CATALOG_PIECES } from "@/lib/donations/pieces";
@@ -83,6 +83,13 @@ export default function DonationFlow({
   const amount = piece.price > 0 ? piece.price : Math.floor(Number(custom) || 0);
   const { fee, total } = feeFor(Math.max(0, amount));
   const pct = goal > 0 ? Math.min(100, (raised / goal) * 100) : 0;
+
+  // Deja el widget listo antes del clic: el navegador no lo trata como ventana
+  // emergente y el botón abre al instante.
+  useEffect(() => {
+    if (!available) return;
+    void loadWidget().catch(() => undefined);
+  }, [available]);
 
   const next = () => {
     setError("");
@@ -173,7 +180,16 @@ export default function DonationFlow({
       }
 
       await loadWidget();
-      const widget = new window.WidgetCheckout!({
+      const Widget = window.WidgetCheckout;
+      if (!Widget) {
+        setError(
+          "Tu navegador no cargó la pasarela de Wompi. Desactiva el bloqueador de anuncios o usa la transferencia.",
+        );
+        setLoading(false);
+        return;
+      }
+
+      const widget = new Widget({
         currency: checkout.currency,
         amountInCents: checkout.amountInCents,
         reference: checkout.reference,
@@ -189,7 +205,19 @@ export default function DonationFlow({
         },
       });
 
+      // Si la pasarela no alcanza a dibujarse, el botón no puede quedarse
+      // "Abriendo el pago" para siempre.
+      const watchdog = window.setTimeout(() => {
+        const frame = document.querySelector('iframe[src*="checkout.wompi.co"]');
+        if (frame) return;
+        setError(
+          "La pasarela de Wompi no abrió. Revisa si tu navegador la está bloqueando o usa la transferencia.",
+        );
+        setLoading(false);
+      }, 12_000);
+
       widget.open((result) => {
+        window.clearTimeout(watchdog);
         const transaction = result?.transaction;
         if (transaction?.id) {
           router.push(`/donar/gracias?ref=${checkout.reference}&id=${transaction.id}`);
@@ -483,7 +511,7 @@ export default function DonationFlow({
             </p>
             <p className="summary__pay" {...A}>
               Pagarás de forma segura con <strong {...A}>Wompi</strong>{" "}
-              <small {...A}>Tarjetas, PSE, Nequi, Daviplata y efectivo</small>
+              <small {...A}>Tarjeta débito o crédito y transferencia Bancolombia</small>
             </p>
           </div>
 

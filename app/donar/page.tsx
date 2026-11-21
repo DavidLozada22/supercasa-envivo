@@ -91,7 +91,7 @@ export default async function DonatePage({
                   <strong>Pagar en línea</strong>
                   <small>
                     {payments
-                      ? "Tarjeta, PSE o Nequi con Wompi. Es lo más rápido."
+                      ? "Tarjeta o transferencia Bancolombia con Wompi. Es lo más rápido."
                       : "Wompi está en activación. Mientras tanto, usa Bre-B o transferencia."}
                   </small>
                 </span>
@@ -122,7 +122,7 @@ export default async function DonatePage({
                 <span className="donate-path-label__num">1</span>
                 <div>
                   <strong>Pago en línea</strong>
-                  <small>Tarjeta, PSE o Nequi. Lo procesa Wompi.</small>
+                  <small>Tarjeta o transferencia Bancolombia. Lo procesa Wompi.</small>
                 </div>
                 <a href="#transferencia">¿No tienes tarjeta? Transfiere aquí</a>
               </div>
@@ -204,10 +204,10 @@ export default async function DonatePage({
 
                 {payments ? (
                   <article className="card transfer-card">
-                    <span className="transfer-card__tag">Tarjetas / PSE</span>
+                    <span className="transfer-card__tag">Tarjetas / Bancolombia</span>
                     <h3>Pago en línea</h3>
                     <p>Usa el formulario de esta misma página. Lo procesa Wompi.</p>
-                    <strong className="transfer-card__value">Tarjeta, PSE o Nequi</strong>
+                    <strong className="transfer-card__value">Tarjeta o transferencia</strong>
                     <small>Pago seguro</small>
                     <a className="btn btn--white" href="#pago-en-linea">
                       Ir al formulario

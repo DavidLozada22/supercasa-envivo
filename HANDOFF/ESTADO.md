@@ -24,6 +24,19 @@ Actualizado: 21 de noviembre de 2026.
 
 ## Hecho
 
+### 21 de noviembre, piezas del formulario rechazadas por el servidor
+
+- El formulario ofrecía seis piezas, pero el catálogo del servidor solo tenía
+  cuatro. Al elegir "Pintura de una pared" o "Material de instalación", el
+  `POST /api/donations` respondía 400 "Elige una pieza" y el botón "Ir a pagar"
+  parecía no hacer nada. El widget nunca se abría porque el aporte no se creaba.
+- Se agregaron `pintura` ($50.000) y `material` ($20.000) al catálogo del
+  servidor, con los mismos montos del formulario.
+- Nueva prueba que compara las dos listas de piezas para que no vuelvan a
+  separarse.
+- Se borró el aporte manual duplicado de $52.500 (Marcela Villamarin): el mismo
+  pago ya está aprobado por Wompi. Recaudo: $1.119.000 en catorce aportes.
+
 ### 21 de noviembre, webhook de Wompi y pagos pendientes
 
 - Causa del fallo: el comercio de producción tenía `events_url` en `null`. Wompi
