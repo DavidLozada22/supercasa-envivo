@@ -371,3 +371,15 @@
     transform: translateY(-50%);
   }
 }
+
+@media (min-width: 641px) {
+  /* Puente invisible para que el cursor pase del botón al panel sin cerrarlo. */
+  .volumePanel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -14px;
+    width: 14px;
+  }
+}

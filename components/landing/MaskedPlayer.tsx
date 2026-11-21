@@ -22,6 +22,7 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   const [muted, setMuted] = useState(true);
   const [volume, setVolume] = useState(100);
   const [volumeOpen, setVolumeOpen] = useState(false);
+  const [finePointer, setFinePointer] = useState(false);
   const volumeRef = useRef<HTMLDivElement>(null);
   const [unavailable, setUnavailable] = useState(false);
   const [behind, setBehind] = useState(false);
@@ -194,6 +195,16 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
     }
   };
 
+  // En escritorio el volumen se comporta como en YouTube: el botón silencia y
+  // el deslizador aparece al pasar el cursor. En celular se abre con un toque.
+  useEffect(() => {
+    const query = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const apply = () => setFinePointer(query.matches);
+    apply();
+    query.addEventListener("change", apply);
+    return () => query.removeEventListener("change", apply);
+  }, []);
+
   // Cierra el panel de volumen al tocar fuera.
   useEffect(() => {
     if (!volumeOpen) return;
@@ -324,23 +335,64 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
           )}
         </button>
 
-        <div className={styles.volumeWrap} ref={volumeRef}>
+        <div
+          className={styles.volumeWrap}
+          ref={volumeRef}
+          onPointerEnter={() => {
+            if (finePointer) setVolumeOpen(true);
+          }}
+          onPointerLeave={() => {
+            if (finePointer) setVolumeOpen(false);
+          }}
+          onFocus={() => {
+            if (finePointer) setVolumeOpen(true);
+          }}
+          onBlur={(event) => {
+            if (!finePointer) return;
+            if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
+            setVolumeOpen(false);
+          }}
+        >
+          <button
+            type="button"
+            className={`${styles.control}${volumeOpen ? ` ${styles.controlActive}` : ""}`}
+            onClick={() => {
+              if (finePointer) toggleMute();
+              else setVolumeOpen((open) => !open);
+            }}
+            aria-label={
+              finePointer ? (muted ? "Activar sonido" : "Silenciar") : "Volumen"
+            }
+            aria-expanded={volumeOpen}
+            aria-controls="live-volume"
+          >
+            {muted || volume === 0 ? (
+              <VolumeX className="h-5 w-5" strokeWidth={2} />
+            ) : volume < 50 ? (
+              <Volume1 className="h-5 w-5" strokeWidth={2} />
+            ) : (
+              <Volume2 className="h-5 w-5" strokeWidth={2} />
+            )}
+          </button>
+
           {volumeOpen ? (
             <div className={styles.volumePanel} role="group" aria-label="Volumen" id="live-volume">
-              <button
-                type="button"
-                className={styles.volumeMute}
-                onClick={toggleMute}
-                aria-label={muted ? "Activar sonido" : "Silenciar"}
-              >
-                {muted || volume === 0 ? (
-                  <VolumeX className="h-4 w-4" strokeWidth={2} />
-                ) : volume < 50 ? (
-                  <Volume1 className="h-4 w-4" strokeWidth={2} />
-                ) : (
-                  <Volume2 className="h-4 w-4" strokeWidth={2} />
-                )}
-              </button>
+              {finePointer ? null : (
+                <button
+                  type="button"
+                  className={styles.volumeMute}
+                  onClick={toggleMute}
+                  aria-label={muted ? "Activar sonido" : "Silenciar"}
+                >
+                  {muted || volume === 0 ? (
+                    <VolumeX className="h-4 w-4" strokeWidth={2} />
+                  ) : volume < 50 ? (
+                    <Volume1 className="h-4 w-4" strokeWidth={2} />
+                  ) : (
+                    <Volume2 className="h-4 w-4" strokeWidth={2} />
+                  )}
+                </button>
+              )}
               <input
                 type="range"
                 min={0}
@@ -354,23 +406,6 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
               <span className={styles.volumeValue}>{muted ? 0 : volume}%</span>
             </div>
           ) : null}
-
-          <button
-            type="button"
-            className={`${styles.control}${volumeOpen ? ` ${styles.controlActive}` : ""}`}
-            onClick={() => setVolumeOpen((open) => !open)}
-            aria-label="Volumen"
-            aria-expanded={volumeOpen}
-            aria-controls="live-volume"
-          >
-            {muted || volume === 0 ? (
-              <VolumeX className="h-5 w-5" strokeWidth={2} />
-            ) : volume < 50 ? (
-              <Volume1 className="h-5 w-5" strokeWidth={2} />
-            ) : (
-              <Volume2 className="h-5 w-5" strokeWidth={2} />
-            )}
-          </button>
         </div>
 
         <span className={styles.titleText}>{title}</span>
