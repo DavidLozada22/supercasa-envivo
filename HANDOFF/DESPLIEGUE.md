@@ -88,6 +88,14 @@ en Wompi, se marca `voided` con el mensaje "Sin transacción en Wompi: intento
 abandonado". Nunca se cerró un pago real: si existe transacción, aunque sea
 PENDING, se aplica su estado.
 
+### Métodos de pago habilitados
+
+`GET /v1/merchants` devuelve `accepted_payment_methods`. Hoy son solo
+`BANCOLOMBIA_TRANSFER` y `CARD`. El `PATCH` del comercio acepta `events_url`
+pero ignora `accepted_payment_methods`, así que Nequi, PSE, Daviplata o Bre-B se
+piden en el panel de Wompi o a soporte. Si el comercio los habilita, el widget
+los muestra sin tocar el código.
+
 El redirect del widget vuelve a `/donar/gracias?ref=...`.
 
 ## Protección de despliegues

@@ -43,3 +43,15 @@
   transform: translateY(3px);
   box-shadow: 0 1px 0 #1d2b4f;
 }
+
+/* Widget de Wompi (Waybox)
+   En ventanas bajas el modal crece más que la pantalla y el iframe queda
+   recortado: la rueda se pierde dentro del iframe y no se llega al botón de
+   pagar. Al limitar la altura, el propio iframe hace scroll. */
+.waybox-modal {
+  top: 12px !important;
+  max-height: calc(100dvh - 24px) !important;
+}
+.waybox-modal iframe {
+  max-height: calc(100dvh - 24px) !important;
+}

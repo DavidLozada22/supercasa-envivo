@@ -24,6 +24,29 @@ Actualizado: 21 de noviembre de 2026.
 
 ## Hecho
 
+### 21 de noviembre, primeros dos pagos reales confirmados
+
+- Pago con tarjeta de Nelson, $50.000, referencia `SC-1795246260304-a0facf`,
+  aprobado a las 07:33 UTC. El webhook llegó a las 07:33:49 con
+  `signature_valid = true`. Es la primera entrega real de Wompi y confirma que
+  la URL de eventos quedó bien configurada.
+- El pago de Jose Colorado ya estaba conciliado y sigue aprobado.
+- Se restauró el aporte manual de $52.500 de Marcela Villamarín tal como lo tenía
+  Lina, con una nota: confirmar si fue Wompi, Bre-B o transferencia. Queda
+  provisional y puede duplicar el pago de Wompi hasta que ella confirme.
+- Recaudo: $1.169.500 en quince aportes aprobados.
+
+### 21 de noviembre, métodos de pago de Wompi y scroll del modal
+
+- El comercio solo tiene habilitados `CARD` y `BANCOLOMBIA_TRANSFER`
+  (`accepted_payment_methods`). El widget soporta Nequi, PSE, Daviplata y Bre-B,
+  pero la API ignora los cambios en ese campo: hay que solicitarlos en el panel
+  de Wompi o con soporte, y varios requieren aprobación de Wompi.
+- El modal de Wompi crece más que la ventana y el iframe queda recortado. La
+  rueda se pierde dentro del iframe, así que no se llegaba al botón de pagar.
+  Se limitó la altura de `.waybox-modal` y de su iframe a `100dvh - 24px` para
+  que el propio iframe haga scroll.
+
 ### 21 de noviembre, piezas del formulario rechazadas por el servidor
 
 - El formulario ofrecía seis piezas, pero el catálogo del servidor solo tenía
@@ -34,6 +57,12 @@ Actualizado: 21 de noviembre de 2026.
   servidor, con los mismos montos del formulario.
 - Nueva prueba que compara las dos listas de piezas para que no vuelvan a
   separarse.
+- El widget de Wompi ahora se precarga al abrir `/donar`. Si la pasarela no
+  aparece en doce segundos, el botón deja de decir "Abriendo el pago" y muestra
+  un aviso con la salida por transferencia.
+- Los textos de pago dicen lo que Wompi ofrece hoy: tarjeta débito o crédito y
+  transferencia Bancolombia. Se quitaron PSE, Nequi y Daviplata de `/donar`
+  porque el comercio no las muestra en el widget.
 - Se borró el aporte manual duplicado de $52.500 (Marcela Villamarin): el mismo
   pago ya está aprobado por Wompi. Recaudo: $1.119.000 en catorce aportes.
 
