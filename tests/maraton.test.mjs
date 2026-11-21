@@ -77,3 +77,10 @@ test('la máscara del live tiene control de volumen', () => {
   assert.ok(css.includes('.volumePanel'), 'Falta el estilo del panel');
   assert.ok(css.includes('.volumeRange'), 'Falta el estilo del deslizador');
 });
+
+test('el volumen activa el sonido de inmediato y deja ajustarlo', () => {
+  const player = readFileSync('components/landing/MaskedPlayer.tsx', 'utf8');
+  assert.ok(player.includes('toggleMute();'), 'El botón debe silenciar o activar');
+  assert.ok(player.includes('if (!finePointer) setVolumeOpen(true)'), 'En celular debe abrir el deslizador');
+  assert.ok(!player.includes('setVolumeOpen((open) => !open)'), 'No debe quedarse esperando el nivel');
+});

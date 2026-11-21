@@ -134,7 +134,7 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     question: "Ya transferí, ¿qué hago?",
     keywords: ["comprobante", "transferi", "transferí", "pague", "pagué", "envie", "envío", "soporte"],
     answer:
-      "Abre WhatsApp y envía la foto del comprobante con tu nombre y el valor. También puedes escribir a hola@supercasa.svgvisual.com. Con eso registramos tu pieza y te confirmamos.",
+      "Abre WhatsApp y envía la foto del comprobante con tu nombre y el valor. Con eso registramos tu pieza y te confirmamos.",
     actions: [
       {
         type: "whatsapp",
@@ -224,12 +224,13 @@ export const CHAT_ENTRIES: ChatEntry[] = [
     question: "¿Dan certificado de donación?",
     keywords: ["certificado", "recibo", "tributario", "deduccion", "deducción", "factura"],
     answer:
-      "Sí. La Fundación Segundos de Vida emite certificado de donación. Si lo necesitas, escribe a hola@supercasa.svgvisual.com con tu nombre y el valor del aporte.",
+      "Sí. La Fundación Segundos de Vida emite certificado de donación. Si lo necesitas, escríbenos por WhatsApp con tu nombre y el valor del aporte.",
     actions: [
       {
-        type: "link",
-        label: "Escribir por correo",
-        href: "mailto:hola@supercasa.svgvisual.com?subject=Certificado%20de%20donaci%C3%B3n%20La%20Supercasa",
+        type: "whatsapp",
+        label: "Pedir por WhatsApp",
+        message:
+          "Hola, necesito certificado de donación de La Supercasa. Mi nombre es ... y aporté ...",
       },
     ],
   },

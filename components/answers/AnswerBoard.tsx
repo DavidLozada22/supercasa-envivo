@@ -29,6 +29,7 @@ const ANSWER_BADGES: Record<AnswerCategory, string> = {
 
 const SHARE_BADGES: Record<ShareCategory, string> = {
   invitacion: "bg-[#E6009E] text-white",
+  promocion: "bg-[#FF6B35] text-white",
   envivo: "bg-[#B5F43D] text-[#0B1A3D]",
   donacion: "bg-[#FFD400] text-[#0B1A3D]",
   cierre: "bg-[#00A8E8] text-white",
@@ -46,6 +47,7 @@ const ANSWER_LABELS: Record<AnswerCategory, string> = {
 
 const SHARE_LABELS: Record<ShareCategory, string> = {
   invitacion: "Invitación",
+  promocion: "Promoción",
   envivo: "En vivo",
   donacion: "Donación",
   cierre: "Cierre",

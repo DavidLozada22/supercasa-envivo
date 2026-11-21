@@ -357,12 +357,13 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
             type="button"
             className={`${styles.control}${volumeOpen ? ` ${styles.controlActive}` : ""}`}
             onClick={() => {
-              if (finePointer) toggleMute();
-              else setVolumeOpen((open) => !open);
+              // El toque activa o desactiva el sonido de una vez: nunca deja
+              // el video esperando a que se elija un nivel. En celular además
+              // abre el deslizador para ajustarlo sin pausar nada.
+              toggleMute();
+              if (!finePointer) setVolumeOpen(true);
             }}
-            aria-label={
-              finePointer ? (muted ? "Activar sonido" : "Silenciar") : "Volumen"
-            }
+            aria-label={muted ? "Activar sonido" : "Silenciar"}
             aria-expanded={volumeOpen}
             aria-controls="live-volume"
           >
@@ -377,22 +378,6 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
 
           {volumeOpen ? (
             <div className={styles.volumePanel} role="group" aria-label="Volumen" id="live-volume">
-              {finePointer ? null : (
-                <button
-                  type="button"
-                  className={styles.volumeMute}
-                  onClick={toggleMute}
-                  aria-label={muted ? "Activar sonido" : "Silenciar"}
-                >
-                  {muted || volume === 0 ? (
-                    <VolumeX className="h-4 w-4" strokeWidth={2} />
-                  ) : volume < 50 ? (
-                    <Volume1 className="h-4 w-4" strokeWidth={2} />
-                  ) : (
-                    <Volume2 className="h-4 w-4" strokeWidth={2} />
-                  )}
-                </button>
-              )}
               <input
                 type="range"
                 min={0}

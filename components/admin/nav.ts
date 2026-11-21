@@ -6,6 +6,7 @@ import {
   HandCoins,
   LayoutDashboard,
   Map,
+  MessageCircle,
   Palette,
   Radio,
   Send,
@@ -16,6 +17,7 @@ import type { PanelRole } from "@/lib/users";
 const ALL: PanelRole[] = ["admin", "editor"];
 const CONTENT: PanelRole[] = ["admin", "editor", "marketing"];
 const FINANCE: PanelRole[] = ["admin", "finance"];
+const EVERYONE: PanelRole[] = ["admin", "editor", "marketing", "finance"];
 
 export type AdminLink = {
   href: string;
@@ -65,7 +67,14 @@ export const ADMIN_GROUPS: AdminGroup[] = [
         label: "Programa",
         icon: CalendarDays,
         description: "Los 12 bloques y el minuto a minuto de la escaleta.",
-        roles: CONTENT,
+        roles: EVERYONE,
+      },
+      {
+        href: "/respuestas",
+        label: "Respuestas WhatsApp",
+        icon: MessageCircle,
+        description: "Respuestas rápidas y mensajes listos para compartir.",
+        roles: EVERYONE,
       },
       {
         href: "/admin/recordatorios",

@@ -12,6 +12,7 @@ export type QuickAnswer = {
 
 export type ShareCategory =
   | "invitacion"
+  | "promocion"
   | "envivo"
   | "donacion"
   | "cierre"
@@ -29,8 +30,9 @@ export type ShareMessage = {
 const LIVE = "https://supercasa.svgvisual.com/envivo";
 const DONATE = "https://supercasa.svgvisual.com/donar";
 const HOME = "https://supercasa.svgvisual.com";
-const EMAIL = "hola@supercasa.svgvisual.com";
 const WHATSAPP = "+57 317 565 8064";
+const WA = (text: string) =>
+  `https://wa.me/573175658064?text=${encodeURIComponent(text)}`;
 
 export const ANSWER_CATEGORIES: Array<{ id: "all" | AnswerCategory; label: string }> = [
   { id: "all", label: "Todas" },
@@ -44,6 +46,7 @@ export const ANSWER_CATEGORIES: Array<{ id: "all" | AnswerCategory; label: strin
 export const SHARE_CATEGORIES: Array<{ id: "all" | ShareCategory; label: string }> = [
   { id: "all", label: "Todos" },
   { id: "invitacion", label: "Invitación" },
+  { id: "promocion", label: "Promoción" },
   { id: "envivo", label: "En vivo" },
   { id: "donacion", label: "Donación" },
   { id: "cierre", label: "Cierre" },
@@ -90,7 +93,7 @@ export const QUICK_ANSWERS: QuickAnswer[] = [
     category: "donar",
     question: "¿Cómo dono?",
     answer: `Hola. Puedes donar de tres formas:
-1. Tarjeta, PSE o Nequi en ${DONATE}
+1. Tarjeta débito o crédito, o transferencia Bancolombia, en ${DONATE}
 2. Llave Bre-B: @lasupercasa
 3. Bancolombia: cuenta de ahorros 186-000090-54, Fundación Segundos de Vida, NIT 900.649.809-2.
 
@@ -147,8 +150,8 @@ Si transfieres, envía el comprobante al WhatsApp ${WHATSAPP} con tu nombre y el
     id: "certificado",
     category: "donar",
     question: "¿Dan certificado de donación?",
-    answer: `Hola. Sí. La Fundación Segundos de Vida emite certificado de donación. Escribe a ${EMAIL} con tu nombre y el valor del aporte.`,
-    links: [{ label: "Escribir por correo", href: `mailto:${EMAIL}?subject=Certificado%20de%20donaci%C3%B3n%20La%20Supercasa` }],
+    answer: `Hola. Sí. La Fundación Segundos de Vida emite certificado de donación. Escríbenos al WhatsApp ${WHATSAPP} con tu nombre y el valor del aporte.`,
+    links: [{ label: "Pedir por WhatsApp", href: WA("Hola, necesito certificado de donación de La Supercasa. Mi nombre es ... y aporté ...") }],
   },
   {
     id: "internacional",
@@ -197,15 +200,15 @@ Si transfieres, envía el comprobante al WhatsApp ${WHATSAPP} con tu nombre y el
     id: "empresa",
     category: "otros",
     question: "¿Puedo donar como empresa?",
-    answer: `Hola. Sí. Tu empresa puede donar, aportar materiales o hacer una alianza. Escríbenos a ${EMAIL} y armamos la forma de ayudar.`,
-    links: [{ label: "Escribir al equipo", href: `mailto:${EMAIL}?subject=Alianza%20empresarial%20La%20Supercasa` }],
+    answer: `Hola. Sí. Tu empresa puede donar, aportar materiales o hacer una alianza. Escríbenos al WhatsApp ${WHATSAPP} y armamos la forma de ayudar.`,
+    links: [{ label: "Hablar por WhatsApp", href: WA("Hola, quiero sumar mi empresa a La Supercasa. Mi nombre es ... y la empresa es ...") }],
   },
   {
     id: "especie",
     category: "otros",
     question: "¿Puedo donar en especie?",
-    answer: `Hola. Sí. Recibimos materiales para la casa, muebles o insumos para los niños. Escríbenos a ${EMAIL} y coordinamos la entrega.`,
-    links: [{ label: "Escribir al equipo", href: `mailto:${EMAIL}?subject=Donaci%C3%B3n%20en%20especie%20La%20Supercasa` }],
+    answer: `Hola. Sí. Recibimos materiales para la casa, muebles o insumos para los niños. Escríbenos al WhatsApp ${WHATSAPP} y coordinamos la entrega.`,
+    links: [{ label: "Coordinar por WhatsApp", href: WA("Hola, quiero donar en especie para La Supercasa. Tengo ...") }],
   },
   {
     id: "humano",
@@ -331,7 +334,7 @@ Si puedes, suma tu pieza: ${DONATE}`,
     when: "Para responder dudas de donación",
     message: `Para donar a La Supercasa tienes tres caminos:
 
-1. Tarjeta, PSE o Nequi: ${DONATE}
+1. Tarjeta débito o crédito, o transferencia Bancolombia: ${DONATE}
 2. Bre-B: @lasupercasa
 3. Bancolombia: cuenta de ahorros 186-000090-54, Fundación Segundos de Vida.
 
@@ -363,7 +366,7 @@ Mira el cierre en vivo: ${LIVE}`,
     when: "Para contactos de empresa",
     message: `Tu empresa puede poner una pieza en La Supercasa. Donación, materiales o alianza.
 
-Escríbenos a ${EMAIL} y armamos la forma de ayudar.`,
+Escríbenos al WhatsApp ${WHATSAPP} y armamos la forma de ayudar.`,
   },
   {
     id: "especie",
@@ -372,7 +375,7 @@ Escríbenos a ${EMAIL} y armamos la forma de ayudar.`,
     when: "Para empresas o personas con materiales",
     message: `También puedes donar en especie: materiales para la casa, muebles o insumos para los niños.
 
-Escríbenos a ${EMAIL} y coordinamos la entrega.`,
+Escríbenos al WhatsApp ${WHATSAPP} y coordinamos la entrega.`,
   },
   {
     id: "gracias",
@@ -383,4 +386,68 @@ Escríbenos a ${EMAIL} y coordinamos la entrega.`,
 
 La campaña sigue hasta el 30 de noviembre. Puedes donar, invitar a tu empresa o aportar en especie: ${DONATE}`,
   },
-];
+  {
+    id: "promo-estamos",
+    category: "promocion",
+    title: "Ya estamos en vivo",
+    when: "Cuando abre la señal, para grupos y estados",
+    message: `Ya estamos en vivo en La Supercasa.
+
+Entra aquí: ${LIVE}
+
+Dona desde $20.000 y pon una pieza real en la casa de los Súper Calvitos: ${DONATE}`,
+  },
+  {
+    id: "promo-seguimos",
+    category: "promocion",
+    title: "Seguimos en vivo",
+    when: "Para reactivar la conversación a mitad del evento",
+    message: `Seguimos en vivo en la maratón de 48 horas por La Supercasa.
+
+Entra cuando puedas: ${LIVE}
+
+Si ya lo viste, comparte este link con alguien más.`,
+  },
+  {
+    id: "promo-donar-aqui",
+    category: "promocion",
+    title: "Puedes donar aquí",
+    when: "Cuando preguntan cómo aportar",
+    message: `Puedes donar aquí en dos minutos: ${DONATE}
+
+Tarjeta débito o crédito, o transferencia Bancolombia. También sirve el QR que aparece en la transmisión.`,
+  },
+  {
+    id: "promo-cuentas",
+    category: "promocion",
+    title: "Cuentas para donar",
+    when: "Para quien prefiere transferir",
+    message: `Para donar por transferencia:
+
+Bre-B: @lasupercasa
+Bancolombia: cuenta de ahorros 186-000090-54, Fundación Segundos de Vida, NIT 900.649.809-2
+
+Envía tu comprobante al WhatsApp ${WHATSAPP} con tu nombre y el valor.`,
+  },
+  {
+    id: "promo-programa",
+    category: "promocion",
+    title: "Mira el programa",
+    when: "Para quien quiere saber qué viene",
+    message: `Si quieres saber qué viene en la maratón, aquí está el programa completo:
+${HOME}/programa
+
+Y aquí la transmisión: ${LIVE}`,
+  },
+  {
+    id: "promo-comparte",
+    category: "promocion",
+    title: "Comparte el live",
+    when: "Para multiplicar la difusión",
+    message: `Ayúdanos a que llegue a más gente. Comparte este link:
+
+${LIVE}
+
+Cada persona que entra puede poner una pieza en la casa de los Súper Calvitos.`,
+  },
+]

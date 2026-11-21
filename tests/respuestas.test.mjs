@@ -41,3 +41,13 @@ test('la página de respuestas no se indexa', () => {
   const attribution = read('components/analytics/Attribution.tsx');
   assert.ok(attribution.includes('/respuestas'));
 });
+
+test('las respuestas no envían a un correo sin recepción y traen promoción', () => {
+  const presets = readFileSync('lib/answers/presets.ts', 'utf8');
+  assert.ok(!presets.includes('hola@supercasa.svgvisual.com'), 'No debe invitar a un correo que no recibe');
+  assert.ok(presets.includes('wa.me/573175658064'), 'Debe ofrecer WhatsApp');
+  assert.ok(presets.includes('category: "promocion"'), 'Falta la categoría de promoción');
+  assert.ok(presets.includes('Ya estamos en vivo'), 'Falta el mensaje de ya estamos en vivo');
+  assert.ok(presets.includes('Cuentas para donar'), 'Falta el mensaje de cuentas');
+  assert.ok(presets.includes('Comparte el live'), 'Falta el mensaje para compartir');
+});

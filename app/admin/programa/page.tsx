@@ -17,7 +17,7 @@ export default async function ProgramPage() {
   if (!session) redirect("/admin/login");
 
   const role = await currentRole();
-  if (!role || !["admin", "editor", "marketing"].includes(role)) {
+  if (!role) {
     redirect("/programa");
   }
 
