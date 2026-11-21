@@ -404,3 +404,10 @@ regenera el ZIP.
 
 Las descargas usan `canvas.toBlob` y object URLs en vez de data URLs en base64.
 Eso evita los archivos gigantes en memoria y los bloqueos de Safari en celulares.
+
+## 45. El cronometro cuenta lo que llevamos
+
+La pildora del live paso de cuenta regresiva a cronometro ascendente. Durante la
+maraton dice "Llevamos HH:MM:SS" con el punto EN VIVO. Antes del arranque muestra
+"Empieza pronto" y al cerrar, "48 h completas". Se actualiza cada segundo y mide
+desde el inicio del evento, no desde que carga la pagina.

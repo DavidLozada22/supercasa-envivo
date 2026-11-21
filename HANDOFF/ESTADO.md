@@ -21,8 +21,8 @@ Actualizado: 20 de noviembre de 2026.
 - Historias, posts y carruseles se descargan en JPG por defecto. Un carrusel de 5
   slides pasa de mas de 20 MB a 1.1 MB. Las capas transparentes siguen en PNG.
 - Los PNG de OBS bajaron 75 por ciento: el ZIP completo paso de 44 MB a 11.2 MB.
-- El cronometro del live ahora es una pildora de 161x27 con "Faltan HH:MM:SS",
-  sin barra ni numero gigante.
+- El cronometro del live es una pildora de 161x27 con "Llevamos HH:MM:SS", sin
+  barra ni numero gigante. Cuenta el tiempo en vivo desde el inicio del evento.
 - Queda el selector JPG liviano o PNG en el Estudio para piezas sin transparencia.
 
 ### 20 de noviembre, link manual del directo

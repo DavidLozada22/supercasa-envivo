@@ -47,3 +47,12 @@ test('la demostración administrativa está protegida y no inicia pagos', () => 
   assert.ok(!component.includes('/api/donations'));
   for (const status of ['Aprobado', 'Pendiente', 'Rechazado']) assert.ok(component.includes(status));
 });
+
+
+test('el cronometro del live muestra lo que llevamos', () => {
+  const pill = readFileSync('components/landing/LiveHoursPill.tsx', 'utf8');
+  assert.ok(pill.includes('Llevamos'));
+  assert.ok(pill.includes('clock(elapsed)'));
+  assert.ok(pill.includes('setInterval(tick, 1000)'));
+  assert.ok(!pill.includes('Faltan'));
+});

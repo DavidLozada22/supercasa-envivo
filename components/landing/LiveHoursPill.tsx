@@ -19,7 +19,7 @@ function spoken(ms: number): string {
   const total = Math.max(0, Math.floor(ms / 1000));
   const hours = Math.floor(total / 3600);
   const minutes = Math.floor((total % 3600) / 60);
-  return `Faltan ${hours} horas y ${minutes} minutos`;
+  return `Llevamos ${hours} horas y ${minutes} minutos en vivo`;
 }
 
 export default function LiveHoursPill({ compact = false }: { compact?: boolean }) {
@@ -38,22 +38,24 @@ export default function LiveHoursPill({ compact = false }: { compact?: boolean }
   const before = !initial && now < start;
   const after = !initial && now >= end;
 
-  const tag = initial ? "48 H" : before ? "FALTA POCO" : after ? "GRACIAS" : "EN VIVO";
-  const diff = initial ? end - start : after ? 0 : before ? start - now : end - now;
-  const value = after ? `${EVENT_HOURS} h completas` : clock(diff);
+  const tag = initial ? "48 H" : before ? "PRONTO" : after ? "GRACIAS" : "EN VIVO";
+  const elapsed = initial ? 0 : Math.max(0, Math.min(end - start, now - start));
+  const value = after ? `${EVENT_HOURS} h completas` : before ? "Empieza pronto" : clock(elapsed);
 
   return (
     <div
       className={`live-hours-pill${compact ? " is-compact" : ""}`}
       role="timer"
-      aria-label={after ? "La maratón terminó" : spoken(diff)}
+      aria-label={
+        after ? "La maratón terminó" : before ? "La maratón empieza pronto" : spoken(elapsed)
+      }
     >
       <span className={`live-hours-pill__tag${!initial && !before && !after ? " is-live" : ""}`}>
         <i aria-hidden="true" />
         {tag}
       </span>
       <span className="live-hours-pill__time">
-        {after ? null : <b>Faltan</b>}
+        {before || after ? null : <b>Llevamos</b>}
         {value}
       </span>
     </div>

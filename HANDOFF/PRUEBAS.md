@@ -208,6 +208,12 @@ aquí y en `ESTADO.md`.
 - Probar un link que no sea de YouTube. Debe responder "Pega un link de YouTube o
   el ID de 11 caracteres." y no guardar nada.
 
+## Cronometro del live
+
+- Abrir `/envivo`. La pildora debe decir "EN VIVO Llevamos HH:MM:SS" y avanzar cada
+  segundo. No debe decir "Faltan".
+- Recargar la pagina. El tiempo debe seguir desde el inicio del evento, no desde cero.
+
 ## Descargas de marketing
 
 - En el Estudio, abrir una historia y descargar. Debe bajar un JPG de 200 a 400 KB.
