@@ -67,3 +67,13 @@ test('la pantalla completa funciona en iPhone sin la API del navegador', () => {
   assert.ok(css.includes('.stageFull'), 'Falta el estilo de la capa fija');
   assert.ok(css.includes('100dvh'), 'La capa debe medir la ventana real');
 });
+
+test('la máscara del live tiene control de volumen', () => {
+  const player = readFileSync('components/landing/MaskedPlayer.tsx', 'utf8');
+  const css = readFileSync('components/landing/masked-player.module.css', 'utf8');
+  assert.ok(player.includes('Nivel de volumen'), 'Falta el control accesible');
+  assert.ok(player.includes('setVolume'), 'Debe cambiar el volumen del reproductor');
+  assert.ok(player.includes('type="range"'), 'Debe ser un deslizador');
+  assert.ok(css.includes('.volumePanel'), 'Falta el estilo del panel');
+  assert.ok(css.includes('.volumeRange'), 'Falta el estilo del deslizador');
+});

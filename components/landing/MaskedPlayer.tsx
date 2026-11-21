@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Maximize, Minimize, Pause, Play, Radio, Volume2, VolumeX } from "lucide-react";
+import { Maximize, Minimize, Pause, Play, Radio, Volume1, Volume2, VolumeX } from "lucide-react";
 import styles from "./masked-player.module.css";
 import CortinaLive from "./CortinaLive";
 
@@ -20,6 +20,9 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
   const playerRef = useRef<any>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [volume, setVolume] = useState(100);
+  const [volumeOpen, setVolumeOpen] = useState(false);
+  const volumeRef = useRef<HTMLDivElement>(null);
   const [unavailable, setUnavailable] = useState(false);
   const [behind, setBehind] = useState(false);
   const [fauxFull, setFauxFull] = useState(false);
@@ -165,14 +168,49 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
     const player = playerRef.current;
     if (!player) return;
     if (player.isMuted()) {
+      const next = volume || 100;
       player.unMute();
-      player.setVolume(100);
+      player.setVolume?.(next);
+      setVolume(next);
       setMuted(false);
     } else {
       player.mute();
       setMuted(true);
     }
   };
+
+  const changeVolume = (next: number) => {
+    const player = playerRef.current;
+    const value = Math.max(0, Math.min(100, Math.round(next)));
+    setVolume(value);
+    if (!player) return;
+    player.setVolume?.(value);
+    if (value === 0) {
+      player.mute();
+      setMuted(true);
+    } else {
+      if (player.isMuted?.()) player.unMute();
+      setMuted(false);
+    }
+  };
+
+  // Cierra el panel de volumen al tocar fuera.
+  useEffect(() => {
+    if (!volumeOpen) return;
+    const onDown = (event: PointerEvent) => {
+      if (volumeRef.current?.contains(event.target as Node)) return;
+      setVolumeOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setVolumeOpen(false);
+    };
+    document.addEventListener("pointerdown", onDown);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [volumeOpen]);
 
   // iPhone no tiene la API de pantalla completa para un div ni para el iframe
   // de YouTube. En ese caso se usa una capa fija que ocupa toda la pantalla.
@@ -286,18 +324,54 @@ function MaskedPlayer({ videoId, title }: { videoId: string; title: string }) {
           )}
         </button>
 
-        <button
-          type="button"
-          className={styles.control}
-          onClick={toggleMute}
-          aria-label={muted ? "Activar sonido" : "Silenciar"}
-        >
-          {muted ? (
-            <VolumeX className="h-5 w-5" strokeWidth={2} />
-          ) : (
-            <Volume2 className="h-5 w-5" strokeWidth={2} />
-          )}
-        </button>
+        <div className={styles.volumeWrap} ref={volumeRef}>
+          {volumeOpen ? (
+            <div className={styles.volumePanel} role="group" aria-label="Volumen" id="live-volume">
+              <button
+                type="button"
+                className={styles.volumeMute}
+                onClick={toggleMute}
+                aria-label={muted ? "Activar sonido" : "Silenciar"}
+              >
+                {muted || volume === 0 ? (
+                  <VolumeX className="h-4 w-4" strokeWidth={2} />
+                ) : volume < 50 ? (
+                  <Volume1 className="h-4 w-4" strokeWidth={2} />
+                ) : (
+                  <Volume2 className="h-4 w-4" strokeWidth={2} />
+                )}
+              </button>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={5}
+                value={muted ? 0 : volume}
+                onChange={(event) => changeVolume(Number(event.target.value))}
+                className={styles.volumeRange}
+                aria-label="Nivel de volumen"
+              />
+              <span className={styles.volumeValue}>{muted ? 0 : volume}%</span>
+            </div>
+          ) : null}
+
+          <button
+            type="button"
+            className={`${styles.control}${volumeOpen ? ` ${styles.controlActive}` : ""}`}
+            onClick={() => setVolumeOpen((open) => !open)}
+            aria-label="Volumen"
+            aria-expanded={volumeOpen}
+            aria-controls="live-volume"
+          >
+            {muted || volume === 0 ? (
+              <VolumeX className="h-5 w-5" strokeWidth={2} />
+            ) : volume < 50 ? (
+              <Volume1 className="h-5 w-5" strokeWidth={2} />
+            ) : (
+              <Volume2 className="h-5 w-5" strokeWidth={2} />
+            )}
+          </button>
+        </div>
 
         <span className={styles.titleText}>{title}</span>
 
