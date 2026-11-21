@@ -127,9 +127,9 @@ el código.
 
 ## Usuarios y roles del panel
 
-`ADMIN_USERS` tiene ocho entradas:
+`ADMIN_USERS` tiene nueve entradas:
 
-- salvaje, vikingo, sebas, flor y lio: admin.
+- salvaje, vikingo, sebas, sebascapi, flor y lio: admin.
 - lina: finance.
 - ana y sandeivid: marketing.
 

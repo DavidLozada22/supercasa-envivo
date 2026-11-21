@@ -208,6 +208,12 @@ aquí y en `ESTADO.md`.
 - Probar un link que no sea de YouTube. Debe responder "Pega un link de YouTube o
   el ID de 11 caracteres." y no guardar nada.
 
+## Acceso de sebascapi
+
+- Entrar a `/admin/login` con `sebascapi` y la clave de la boveda
+  `SUPERCASA/PANEL sebascapi`. Debe abrir `/admin` con rol admin.
+- La clave es temporal. Cambiarla despues del primer ingreso.
+
 ## Ir al vivo en el reproductor
 
 - Abrir `/envivo` y dejar que cargue. Si arranca atrasado, debe salir "Ir al vivo"

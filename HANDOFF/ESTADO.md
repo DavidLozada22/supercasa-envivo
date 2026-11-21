@@ -16,6 +16,13 @@ Actualizado: 20 de noviembre de 2026.
 
 ## Hecho
 
+### 20 de noviembre, acceso de sebascapi
+
+- Nuevo usuario `sebascapi` con rol admin en `ADMIN_USERS`, en produccion y preview.
+- La clave temporal quedo en la boveda, entrada `SUPERCASA/PANEL sebascapi`.
+- Login verificado en produccion con respuesta 200 y rol admin.
+- Sigue vigente la regla: solo Lio edita el programa.
+
 ### 20 de noviembre, boton ir al vivo
 
 - El reproductor de `/envivo` tiene un boton flotante "Ir al vivo" cuando el
