@@ -55,6 +55,21 @@ El campo "Monto recaudado" del panel es la base manual (aportes fuera de línea)
 La API suma las donaciones aprobadas de Postgres. Si no hay base, solo cuenta la
 base manual.
 
+## 8b. La confirmación del pago no depende solo del webhook
+
+Wompi no reintenta eventos. Si la URL de eventos está vacía o responde error, el
+pago se cobra y la donación queda pendiente para siempre. Por eso hay tres
+capas:
+
+1. Webhook firmado en `/api/wompi/webhook` (camino principal).
+2. Consulta por referencia en `/api/donations/<ref>` cuando el aporte sigue
+   pendiente. La página de gracias se corrige sola.
+3. Cron diario `/api/cron/reconcile` que barre los pendientes de catorce días.
+
+La conciliación solo aplica el estado que Wompi ya reporta, así que repetirla no
+infla el recaudo. El webhook sigue siendo la vía rápida; las otras dos son la red
+de seguridad.
+
 ## 9. Verificación de dominio de Meta, no pixel
 
 El meta tag entregado es `facebook-domain-verification`, que se inyecta en el

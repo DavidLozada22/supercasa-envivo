@@ -16,6 +16,22 @@
 6. Confirmar que el recaudo de `/api/live` sube solo cuando el pago se aprueba.
 7. Escanear el QR del live con otro celular y llegar a `/donar`.
 
+## Wompi en producción
+
+1. `GET https://production.wompi.co/v1/merchants` con la llave privada de
+   producción debe devolver `events_url` igual a
+   `https://supercasa.svgvisual.com/api/wompi/webhook`. Si vuelve `null`, Wompi
+   no entrega eventos y todo pago queda pendiente.
+2. Un evento firmado con `WOMPI_EVENTS_SECRET` debe responder 200 en el webhook.
+   Si responde 401, el secreto de Vercel no coincide con el de la bóveda.
+3. Tras un pago real de prueba, `payment_events` debe tener una fila con
+   `signature_valid = true` y la donación debe pasar a `approved`.
+4. Si el webhook no llega, `/api/donations/<ref>` consulta Wompi por referencia y
+   actualiza la página de gracias. El cron diario `/api/cron/reconcile` hace el
+   barrido de los pendientes de los últimos catorce días.
+5. `npx tsc --noEmit` y `node --test tests/*.test.mjs` deben pasar antes de
+   desplegar.
+
 ## Flujo del panel
 
 Usuarios en `HANDOFF/PANEL-ACCESOS.md`.
