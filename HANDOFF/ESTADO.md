@@ -24,6 +24,24 @@ Actualizado: 21 de noviembre de 2026.
 
 ## Hecho
 
+### 21 de noviembre, volumen directo, accesos para todos y respuestas nuevas
+
+- En celular, el botón de sonido ya no espera a que se elija un nivel: activa o
+  desactiva el audio de una vez y abre el deslizador para ajustarlo sin pausar.
+  En escritorio sigue como YouTube: el deslizador aparece al pasar el cursor y
+  el clic silencia.
+- Programa y Respuestas WhatsApp quedan visibles en el panel para los cuatro
+  roles. `/admin/programa` ya no expulsa a finanzas: entra en modo lectura.
+- Las respuestas rápidas y el chatbot dejan de invitar a
+  `hola@supercasa.svgvisual.com`, que no recibe correos. Certificados, empresas
+  y donación en especie ahora abren WhatsApp con mensaje listo.
+- Nueva categoría "Promoción" con seis mensajes: ya estamos en vivo, seguimos en
+  vivo, puedes donar aquí, cuentas para donar, mira el programa y comparte el
+  live.
+- Los textos de donación dicen lo que Wompi ofrece hoy: tarjeta y transferencia
+  Bancolombia.
+- 80 pruebas pasan.
+
 ### 21 de noviembre, pantalla completa en iPhone y volumen del live
 
 - iPhone Safari no tiene `requestFullscreen` para un div ni para el iframe de
