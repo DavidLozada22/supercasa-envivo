@@ -70,7 +70,12 @@ export function parseOrder(body: unknown): ParsedOrder {
   const donor = (input.donor ?? {}) as Record<string, unknown>;
 
   const piece = findPiece(String(input.pieceId ?? ""));
-  if (!piece) throw new DonationError("Elige una pieza.");
+  if (!piece) {
+    // Si el formulario ofrece una pieza que el servidor no conoce, es un error
+    // nuestro, no del donante. Se registra para no perder el rastro.
+    console.warn("[supercasa] pieza desconocida", String(input.pieceId ?? "").slice(0, 40));
+    throw new DonationError("Elige una pieza.");
+  }
 
   const email = clean(donor.email, 254)?.toLowerCase() ?? "";
   if (!EMAIL.test(email)) throw new DonationError("Revisa tu correo.");

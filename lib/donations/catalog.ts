@@ -27,6 +27,18 @@ export const PIECES: Piece[] = [
     amount: 1_000_000,
   },
   {
+    id: "pintura",
+    label: "Pintura de una pared",
+    description: "Color y calidez en una pared de la casa.",
+    amount: 50_000,
+  },
+  {
+    id: "material",
+    label: "Material de instalación",
+    description: "Tuberías, cables y materiales para dejar la casa lista.",
+    amount: 20_000,
+  },
+  {
     id: "libre",
     label: "Otro monto",
     description: "Aporta el valor que quieras.",
@@ -40,3 +52,6 @@ export const MAX_AMOUNT = 50_000_000;
 export function findPiece(id: string): Piece | undefined {
   return PIECES.find((piece) => piece.id === id);
 }
+
+/** Las dos listas de piezas deben coincidir: el formulario y el servidor. */
+export const PIECE_IDS = PIECES.map((piece) => piece.id);

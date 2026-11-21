@@ -52,3 +52,34 @@ test('los intentos abandonados no quedan pendientes para siempre', () => {
   assert.ok(service.includes('intento abandonado'), 'El cierre debe quedar explicado');
   assert.ok(service.includes('expired += 1'), 'La conciliación debe contar los vencidos');
 });
+
+test('el catálogo del formulario y el del servidor coinciden', () => {
+  const ui = readFileSync('lib/donations/pieces.ts', 'utf8');
+  const server = readFileSync('lib/donations/catalog.ts', 'utf8');
+
+  const parse = (source, priceKey) =>
+    [...source.matchAll(/id:\s*"([^"]+)"[\s\S]*?price:\s*([\d_]+)/g)].map((m) => m[1]);
+  const parseAmount = (source) =>
+    Object.fromEntries(
+      [...source.matchAll(/id:\s*"([^"]+)"[\s\S]*?amount:\s*([\d_]+)/g)].map((m) => [
+        m[1],
+        Number(m[2].replaceAll('_', '')),
+      ]),
+    );
+  const parsePrice = (source) =>
+    Object.fromEntries(
+      [...source.matchAll(/id:\s*"([^"]+)"[\s\S]*?price:\s*([\d_]+)/g)].map((m) => [
+        m[1],
+        Number(m[2].replaceAll('_', '')),
+      ]),
+    );
+
+  const uiIds = parse(ui, 'price');
+  const serverAmounts = parseAmount(server);
+  const uiPrices = parsePrice(ui);
+
+  for (const id of uiIds) {
+    assert.ok(serverAmounts[id] !== undefined, `La pieza ${id} existe en el formulario pero no en el servidor`);
+    assert.equal(serverAmounts[id], uiPrices[id], `El monto de ${id} no coincide`);
+  }
+});
