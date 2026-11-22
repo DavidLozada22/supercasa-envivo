@@ -107,3 +107,8 @@ test('no queda ningún enlace al correo sin recepción', () => {
   assert.ok(!donar.includes('Enviar por correo'), 'El botón de correo debe desaparecer');
   assert.ok(donar.includes('Enviar por WhatsApp'));
 });
+
+test('el directo no se cierra por reloj si sigue al aire', () => {
+  const service = readFileSync('lib/streaming/service.ts', 'utf8');
+  assert.ok(service.includes('status.live ? "live" : liveState()'), 'El estado debe seguir al directo real');
+});

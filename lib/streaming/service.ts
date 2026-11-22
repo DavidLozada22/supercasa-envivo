@@ -99,7 +99,9 @@ export async function getLiveStatus(fallbackId: string, force = false): Promise<
 }
 
 export function snapshot(status: LiveStatus): LiveSnapshot {
-  const state = liveState();
+  // Si el directo sigue al aire, no se cierra por reloj: el evento puede
+  // alargarse más allá de la hora prevista en YouTube.
+  const state = status.live ? "live" : liveState();
   return liveSnapshot(status, state);
 }
 
