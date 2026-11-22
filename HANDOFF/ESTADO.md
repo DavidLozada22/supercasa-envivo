@@ -39,6 +39,18 @@ Actualizado: 21 de noviembre de 2026.
   configuración) sigue en Blob y ese almacenamiento está suspendido. Hay que
   reactivarlo en Vercel o migrarlo a Postgres.
 
+### 22 de noviembre, el directo no se cierra por reloj
+
+- El evento estaba previsto hasta las 6:00 p. m. del 22, pero YouTube siguió al
+  aire. `snapshot()` ahora marca `live` mientras el directo exista y no por la
+  hora: `/envivo`, el home, `/donar` y la píldora del header siguen mostrando la
+  señal hasta que ellos terminen.
+- El header consulta `/api/live/current` cada minuto, así que la píldora "En
+  vivo" no se apaga a las 6:00 p. m.
+- Para cerrar de verdad hay que pulsar "Volver a automático" en el panel o
+  esperar a que la detección deje de encontrar el directo.
+
+
 ### 21 de noviembre, cambio de canal de YouTube
 
 - YouTube cortó la transmisión del canal @KavanahPL35 por políticas. El equipo
