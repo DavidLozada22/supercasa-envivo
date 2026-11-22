@@ -31,12 +31,35 @@ export default function SiteHeader({
 }) {
   const pathname = usePathname();
   const [now, setNow] = useState<number | null>(null);
+  const [serverLive, setServerLive] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setNow(Date.now());
     const timer = window.setInterval(() => setNow(Date.now()), 30000);
     return () => window.clearInterval(timer);
+  }, []);
+
+  // La píldora sigue al directo real: si el evento se alarga en YouTube, no se
+  // apaga por la hora prevista.
+  useEffect(() => {
+    let alive = true;
+    const load = async () => {
+      try {
+        const response = await fetch("/api/live/current", { cache: "no-store" });
+        if (!response.ok) return;
+        const body = (await response.json()) as { state?: string; live?: boolean };
+        if (alive) setServerLive(body.state === "live" || body.live === true);
+      } catch {
+        // Se queda con el cálculo por horario.
+      }
+    };
+    void load();
+    const id = window.setInterval(load, 60000);
+    return () => {
+      alive = false;
+      window.clearInterval(id);
+    };
   }, []);
 
   useEffect(() => {
@@ -56,7 +79,8 @@ export default function SiteHeader({
     };
   }, [open]);
 
-  const live = forceLive || PREVIEW || (now !== null && now >= START && now <= END);
+  const live =
+    forceLive || PREVIEW || serverLive || (now !== null && now >= START && now <= END);
   const before = now !== null && now < START;
   const after = now !== null && now > END;
 
