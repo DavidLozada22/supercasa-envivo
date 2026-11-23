@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight, CalendarClock, Heart, Instagram, Music2, Youtube } from "lucide-react";
 import { KAVANAH, THANKS, daysLeftLabel } from "@/lib/thanks";
+import SongButton from "@/components/public/SongButton";
 
 const CONFETTI = [
   { left: 8, delay: 0, duration: 7.5, color: "#ffd400", tilt: -12 },
@@ -96,6 +97,7 @@ export default function ThanksScene({ variant = "full" }: { variant?: "full" | "
 
         <div className="thanks-scene__kavanah">
           <span className="thanks-scene__kavanah-label">{KAVANAH.label}</span>
+          {variant !== "mini" ? <SongButton compact autoPlay={variant === "full"} /> : null}
           <span className="thanks-scene__socials">
             <a
               href={KAVANAH.instagram}

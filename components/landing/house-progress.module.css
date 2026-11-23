@@ -7,52 +7,101 @@
   margin: 2rem auto 0;
 }
 
+.compare {
+  margin: 0;
+}
+
 .frame {
   position: relative;
   overflow: hidden;
-  border: 4px solid var(--azul-marino, #0f2354);
+  border: 4px solid #0f2354;
   border-radius: 24px;
   background: #e4f5fe;
   box-shadow: 0 14px 0 rgba(15, 35, 84, 0.12);
+  touch-action: pan-y;
 }
 
-.frame img {
+.after {
   display: block;
   width: 100%;
   height: auto;
-  animation: houseFade 0.55s ease;
 }
 
-@keyframes houseFade {
-  from {
-    opacity: 0.35;
-    transform: scale(1.015);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .frame img {
-    animation: none;
-  }
-}
-
-.badge {
+.before {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 5px 12px;
-  border: 2px solid #0f2354;
-  border-radius: 999px;
+  inset: 0;
+}
+
+.before img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  margin-left: -2px;
+  background: #0f2354;
+  pointer-events: none;
+}
+
+.handle {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-top: -24px;
+  margin-left: -24px;
+  border: 3px solid #0f2354;
+  border-radius: 50%;
   background: #ffd400;
   color: #0f2354;
-  font-size: 0.72rem;
+  font-size: 18px;
   font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  cursor: ew-resize;
+  touch-action: none;
+  box-shadow: 0 4px 0 rgba(15, 35, 84, 0.25);
+  user-select: none;
+}
+
+.handle:focus-visible {
+  outline: 3px solid #4aa3ff;
+  outline-offset: 3px;
+}
+
+.tag {
+  position: absolute;
+  top: 10px;
+  padding: 2px 10px;
+  border: 2px solid #0f2354;
+  border-radius: 999px;
+  background: #fff;
+  color: #0f2354;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.tagBefore {
+  left: 10px;
+}
+
+.tagAfter {
+  right: 10px;
+  background: #ffd400;
+}
+
+.range {
+  width: 100%;
+  min-height: 32px;
+  margin: 1rem 0 0;
+  accent-color: #e6009e;
 }
 
 .stats {
@@ -72,17 +121,11 @@
 }
 
 .amount {
-  margin: 0.35rem 0 0;
+  margin: 0.25rem 0 0.9rem;
   font-size: clamp(1.9rem, 4vw, 2.7rem);
   font-weight: 800;
   line-height: 1.05;
   color: #e6009e;
-}
-
-.goal {
-  margin: 0.2rem 0 1rem;
-  font-weight: 600;
-  color: #475569;
 }
 
 .track {
@@ -114,5 +157,12 @@
 
   .frame {
     border-width: 3px;
+  }
+
+  .handle {
+    width: 44px;
+    height: 44px;
+    margin-top: -22px;
+    margin-left: -22px;
   }
 }

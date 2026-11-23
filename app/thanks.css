@@ -123,10 +123,6 @@
   padding: clamp(14px, 3vw, 24px);
 }
 
-.thanks-scene--compact .thanks-scene__kavanah {
-  display: none;
-}
-
 /* Piezas compartidas. */
 
 .thanks-scene__logos {

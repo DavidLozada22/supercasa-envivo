@@ -395,3 +395,15 @@ aquí y en `ESTADO.md`.
 - En 390 px la escena se apila, el texto no se corta y los dos botones son
   tocables.
 - El botón "Activar sonido" del video promocional no aparece encima del cierre.
+
+## Canción y recaudo
+
+- En `/envivo`, la canción de Machare suena al entrar o el botón dice
+  "Escuchar la canción" si el navegador bloquea el autoplay. El botón pausa y
+  reanuda.
+- En el home, la sección "Gracias, Machare" muestra a los Súper Calvitos, el
+  botón de la canción y el CTA a `/donar`. En 390 px la imagen va arriba.
+- La barra del home muestra "Quedan X días" y el monto recaudado, sin
+  porcentaje, meta ni "faltan".
+- En `/envivo` y `/donar`, el comparador de la casa responde al dedo, al ratón
+  y a las flechas del teclado.

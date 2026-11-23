@@ -1,6 +1,6 @@
 # Estado
 
-Actualizado: 22 de noviembre de 2026.
+Actualizado: 23 de noviembre de 2026.
 
 ## Resumen actual
 
@@ -23,6 +23,23 @@ Actualizado: 22 de noviembre de 2026.
   para no contarlo dos veces.
 
 ## Hecho
+
+### 23 de noviembre, canción oficial y recaudo visible
+
+- La canción `Súper Calvitos`, de Machare, quedó en
+  `public/audio/supercalvitos-machare.mp3` (2 min 36 s, 160 kbps).
+- La pantalla de gracias reproduce la canción con un botón para pausarla. En
+  `/envivo` intenta sonar al entrar; si el navegador bloquea el autoplay, el
+  botón queda en "Escuchar la canción". En `/donar` solo suena si la persona la
+  activa.
+- Nueva sección en el home, "Gracias, Machare", con el fondo de los Súper
+  Calvitos sacado de `cortinas/gracias.png` (recorte en
+  `public/img/gracias-calvitos.jpg`), el botón de la canción y un CTA a
+  `/donar`.
+- La barra de la campaña muestra solo lo recaudado. Se quitaron el porcentaje,
+  la meta, los ticks y el texto de "faltan". En `/envivo` y `/donar` el bloque
+  de la casa ahora es el mismo comparador de antes y después del home, en vez
+  de cambiar la ilustración cada 5% recaudado.
 
 ### 21 de noviembre, link manual del directo en Postgres
 

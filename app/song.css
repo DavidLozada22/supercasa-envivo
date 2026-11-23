@@ -1,0 +1,172 @@
+/* Reproductor de la canción oficial y sección de la homepage. */
+
+.song-button {
+  display: inline-flex;
+}
+
+.song-button__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    transform 0.16s ease;
+}
+
+.song-button__btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.song-button__btn:active {
+  transform: translateY(1px);
+}
+
+.song-button--compact .song-button__btn {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 0.72rem;
+  gap: 6px;
+}
+
+.official-song {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(48px, 8vw, 96px);
+  background: #0b1a3d;
+  color: #fff;
+}
+
+.official-song__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: url("/img/gracias-calvitos.jpg");
+  background-size: cover;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
+.official-song__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, #0b1a3d 0%, #0b1a3d 42%, #0b1a3dd9 58%, #0b1a3d66 78%, #0b1a3d00 100%),
+    linear-gradient(0deg, #0b1a3dcc 0%, transparent 34%);
+}
+
+.official-song__grid {
+  display: grid;
+}
+
+.official-song__copy {
+  max-width: 560px;
+}
+
+.official-song__eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffd400;
+}
+
+.official-song h2 {
+  margin: 0 0 14px;
+  font-family: "Baloo 2", ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.02;
+  color: #fff;
+}
+
+.official-song__lead {
+  margin: 0 0 20px;
+  max-width: 44ch;
+  font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.official-song__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.official-song .song-button__btn {
+  border-color: #ffd400;
+  background: #ffd400;
+  color: #0b1a3d;
+  min-height: 50px;
+  font-size: 1rem;
+}
+
+.official-song .song-button__btn:hover {
+  background: #ffe45c;
+}
+
+.official-song__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 50px;
+  padding: 0 20px;
+  border: 2px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.16s ease;
+}
+
+.official-song__cta:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.official-song__meta {
+  margin: 14px 0 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+@media (max-width: 720px) {
+  .official-song {
+    padding-top: 246px;
+  }
+
+  .official-song__bg {
+    inset: 0 0 auto 0;
+    height: 252px;
+    background-size: cover;
+    background-position: 62% center;
+  }
+
+  .official-song__shade {
+    background: linear-gradient(
+      180deg,
+      rgba(11, 26, 61, 0) 0%,
+      rgba(11, 26, 61, 0) 30%,
+      rgba(11, 26, 61, 0.82) 62%,
+      #0b1a3d 100%
+    );
+  }
+}
