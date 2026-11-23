@@ -49,6 +49,12 @@ Actualizado: 21 de noviembre de 2026.
 - El hero del home muestra el mismo video con el botón "Ver completa".
 - El link manual sigue en `Ep8Dnm1Aty0`. Con el reloj ya pasado, el estado es
   `after` y el video queda como repetición.
+- YouTube reporta `Ep8Dnm1Aty0` como `UNPLAYABLE`: "La grabación de esta
+  transmisión en vivo no está disponible" (86.384 s, 24 h). El único video
+  reproducible del canal es `ZNqxKcLxxXI` (17.311 s, 4 h 49 min).
+- Si YouTube publica la grabación larga o el equipo sube el corte desde OBS, se
+  cambia el link manual en el panel. El panel ya guarda en Postgres.
+
 
 ### 22 de noviembre, el directo no se cierra por reloj
 
