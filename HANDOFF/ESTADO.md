@@ -47,9 +47,9 @@ Actualizado: 22 de noviembre de 2026.
 - La escena es HTML y CSS, no una imagen: fondo azul marino, esquina magenta,
   confeti suave, casa al 100% y sello "Gracias". Tiene versiones `full`,
   `compact` y `mini`, y se apila en celular.
-- Copy: "Gracias, lo hicimos juntos", el agradecimiento por las 48 horas y
-  "Quedan 9 días" contra el 30 de noviembre. Sin cifras de recaudo ni de
-  donaciones.
+- Copy: "Gracias, lo hicimos juntos", el agradecimiento por las 48 horas y el
+  contador de días que faltan para el 30 de noviembre. Sin cifras de recaudo ni
+  de donaciones.
 - CTA principal "Donar ahora" a `/donar`. CTA secundario "Conoce Kavanah" al
   Instagram de Kavanah, más la franja con Instagram, TikTok y YouTube.
 - El estado `after` ya no incrusta `Ep8Dnm1Aty0` porque YouTube lo reporta
