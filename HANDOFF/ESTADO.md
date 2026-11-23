@@ -1,6 +1,6 @@
 # Estado
 
-Actualizado: 21 de noviembre de 2026.
+Actualizado: 22 de noviembre de 2026.
 
 ## Resumen actual
 
@@ -39,21 +39,27 @@ Actualizado: 21 de noviembre de 2026.
   configuración) sigue en Blob y ese almacenamiento está suspendido. Hay que
   reactivarlo en Vercel o migrarlo a Postgres.
 
-### 22 de noviembre, repetición de la última transmisión
+### 22 de noviembre, pantalla de cierre de la maratón
 
-- Cuando el directo termina, el sitio no muestra la cortina de "gracias" ni un
-  placeholder de despedida. Deja el último video de YouTube reproducible con
-  controles y la etiqueta "Última transmisión".
-- `/envivo` y `/donar` incrustan el último ID con controles y autoplay apagado,
-  para que la gente le dé play y vea la transmisión completa.
-- El hero del home muestra el mismo video con el botón "Ver completa".
-- El link manual sigue en `Ep8Dnm1Aty0`. Con el reloj ya pasado, el estado es
-  `after` y el video queda como repetición.
-- YouTube reporta `Ep8Dnm1Aty0` como `UNPLAYABLE`: "La grabación de esta
-  transmisión en vivo no está disponible" (86.384 s, 24 h). El único video
-  reproducible del canal es `ZNqxKcLxxXI` (17.311 s, 4 h 49 min).
-- Si YouTube publica la grabación larga o el equipo sube el corte desde OBS, se
-  cambia el link manual en el panel. El panel ya guarda en Postgres.
+- Al terminar el directo, `/envivo`, el minivisor del home y el panel de
+  `/donar` muestran una pantalla de gracias en vez de un reproductor de
+  repetición.
+- La escena es HTML y CSS, no una imagen: fondo azul marino, esquina magenta,
+  confeti suave, casa al 100% y sello "Gracias". Tiene versiones `full`,
+  `compact` y `mini`, y se apila en celular.
+- Copy: "Gracias, lo hicimos juntos", el agradecimiento por las 48 horas y
+  "Quedan 9 días" contra el 30 de noviembre. Sin cifras de recaudo ni de
+  donaciones.
+- CTA principal "Donar ahora" a `/donar`. CTA secundario "Conoce Kavanah" al
+  Instagram de Kavanah, más la franja con Instagram, TikTok y YouTube.
+- El estado `after` ya no incrusta `Ep8Dnm1Aty0` porque YouTube lo reporta
+  `UNPLAYABLE`. Si se quiere repetición, el único video reproducible del canal
+  es `ZNqxKcLxxXI` (4 h 49 min), y se puede fijar de nuevo en el panel.
+- El video promocional del hero se oculta cuando aparece el cierre para que su
+  botón de sonido no quede encima.
+- Archivos: `lib/thanks.ts`, `components/landing/ThanksScene.tsx`,
+  `app/thanks.css`, y el estado `after` de `LiveStream`, `DonationLive` y
+  `HeroLiveOverlay`.
 
 
 ### 22 de noviembre, el directo no se cierra por reloj

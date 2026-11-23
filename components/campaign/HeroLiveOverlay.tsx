@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Play } from "lucide-react";
+import ThanksScene from "@/components/landing/ThanksScene";
 
 const START = new Date("2026-11-20T18:00:00-05:00").getTime();
 const END = new Date("2026-11-22T18:00:00-05:00").getTime();
@@ -60,30 +61,11 @@ export default function HeroLiveOverlay({ forceLive }: { forceLive?: boolean }) 
   const after = snap?.state === "after";
   const videoId = snap?.videoId ?? null;
 
-  // Sin directo, el hero deja la última transmisión reproducible.
-  if (after && videoId) {
-    const replay = new URLSearchParams({
-      autoplay: "0",
-      controls: "1",
-      modestbranding: "1",
-      rel: "0",
-      playsinline: "1",
-    });
+  // Terminado el directo, el hero muestra el cierre y la campaña.
+  if (after) {
     return (
-      <div className="hero-live hero-live--video hero-live--replay">
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?${replay.toString()}`}
-          title="Última transmisión de La Supercasa"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowFullScreen
-        />
-        <span className="hero-live__badge hero-live__badge--replay">
-          Última transmisión
-        </span>
-        <Link href="/envivo" className="hero-live__cta hero-live__cta--float">
-          <Play className="h-4 w-4" strokeWidth={2} fill="currentColor" />
-          Ver completa
-        </Link>
+      <div className="hero-live hero-live--after">
+        <ThanksScene variant="mini" />
       </div>
     );
   }

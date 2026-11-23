@@ -11,12 +11,13 @@ import {
   X,
 } from "lucide-react";
 import type { LiveSnapshot } from "@/lib/youtube/live";
+import ThanksScene from "@/components/landing/ThanksScene";
 
-function embedUrl(videoId: string, full = false, replay = false): string {
+function embedUrl(videoId: string, full = false): string {
   const params = new URLSearchParams({
-    autoplay: replay ? "0" : "1",
+    autoplay: "1",
     mute: full ? "0" : "1",
-    controls: full || replay ? "1" : "0",
+    controls: full ? "1" : "0",
     modestbranding: "1",
     rel: "0",
     playsinline: "1",
@@ -89,32 +90,34 @@ export default function DonationLive({
     };
   }, [open]);
 
+  if (snap.state === "after") {
+    return (
+      <section className="donation-live donation-live--after" ref={sectionRef} aria-label="La transmisión terminó">
+        <ThanksScene variant="compact" />
+      </section>
+    );
+  }
+
   const isLive = snap.state === "live";
-  const isAfter = snap.state === "after";
   const canPlay = Boolean(snap.videoId);
   const title =
     snap.state === "before"
       ? "La maratón empieza el viernes 20"
-      : isAfter
-        ? "La última transmisión"
-        : "48 horas por La Supercasa";
-  const kicker =
-    snap.state === "before" ? "Ya viene" : isAfter ? "Para ver completa" : "Está pasando ahora";
+      : "48 horas por La Supercasa";
+  const kicker = snap.state === "before" ? "Ya viene" : "Está pasando ahora";
   const text =
     snap.state === "before"
       ? "A las 6:00 p. m., hora de Bogotá, arrancan 48 horas por la casa de los Súper Calvitos. Guarda este enlace y acompáñanos."
-      : isAfter
-        ? "Dale play y mira la última transmisión completa. La campaña sigue abierta hasta el 30 de noviembre."
-        : "La casa se está construyendo en vivo. Dona sin perderte ningún bloque.";
+      : "La casa se está construyendo en vivo. Dona sin perderte ningún bloque.";
 
   return (
     <>
       <section className="donation-live" ref={sectionRef} aria-label="Transmisión en vivo">
         <div className="donation-live__frame">
-          {(isLive || isAfter) && canPlay ? (
+          {isLive && canPlay ? (
             <>
               <iframe
-                src={embedUrl(snap.videoId, false, isAfter)}
+                src={embedUrl(snap.videoId)}
                 title="Transmisión en vivo de La Supercasa"
                 allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                 allowFullScreen
@@ -125,21 +128,13 @@ export default function DonationLive({
                 onClick={() => setOpen(true)}
                 aria-label="Abrir la transmisión en pantalla completa"
               />
-              {isLive ? (
-                <>
-                  <span className="donation-live__badge">
-                    <i aria-hidden="true" />
-                    En vivo
-                  </span>
-                  <span className="donation-live__play" aria-hidden="true">
-                    <Play className="h-5 w-5" strokeWidth={2} fill="currentColor" />
-                  </span>
-                </>
-              ) : (
-                <span className="donation-live__badge donation-live__badge--replay">
-                  Última transmisión
-                </span>
-              )}
+              <span className="donation-live__badge">
+                <i aria-hidden="true" />
+                En vivo
+              </span>
+              <span className="donation-live__play" aria-hidden="true">
+                <Play className="h-5 w-5" strokeWidth={2} fill="currentColor" />
+              </span>
             </>
           ) : (
             <div className="donation-live__standby">
@@ -172,7 +167,7 @@ export default function DonationLive({
           <h2 className="donation-live__title">{title}</h2>
           <p className="donation-live__text">{text}</p>
           <div className="donation-live__actions">
-            {(isLive || isAfter) && canPlay ? (
+            {isLive && canPlay ? (
               <button
                 type="button"
                 className="btn btn--primary"
@@ -190,9 +185,7 @@ export default function DonationLive({
           <p className="donation-live__note">
             {isLive
               ? "Puedes seguir donando mientras ves la transmisión."
-              : isAfter
-                ? "El video queda disponible para verlo cuando quieras."
-                : "La página de la transmisión te muestra el estado y las cortinas del evento."}
+              : "La página de la transmisión te muestra el estado y las cortinas del evento."}
           </p>
         </div>
       </section>

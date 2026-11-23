@@ -1,0 +1,531 @@
+/* Pantalla de cierre de la maratón: gracias y campaña abierta. */
+
+.thanks-scene {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 26% 14%, #24427f 0%, rgba(11, 26, 61, 0) 58%),
+    #0b1a3d;
+  color: #fff;
+  text-align: left;
+}
+
+.thanks-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 0;
+  width: 40%;
+  background: linear-gradient(155deg, #e6009e 0%, #8d1bb5 58%, #4a1a80 100%);
+  clip-path: polygon(24% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.thanks-scene__glow {
+  position: absolute;
+  z-index: 0;
+  right: -8%;
+  bottom: -26%;
+  width: 54%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 212, 0, 0.22) 0%, rgba(255, 212, 0, 0) 68%);
+  pointer-events: none;
+}
+
+.thanks-scene__inner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+}
+
+.thanks-scene__confetti {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.thanks-scene__confetti span {
+  position: absolute;
+  top: -26px;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0;
+  animation-name: thanksFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes thanksFall {
+  0% {
+    transform: translateY(-10%) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(620%) rotate(430deg);
+    opacity: 0;
+  }
+}
+
+/* Escritorio: mensaje a la izquierda, casa a la derecha. */
+
+.thanks-scene--full {
+  aspect-ratio: 16 / 9;
+}
+
+.thanks-scene--full .thanks-scene__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  grid-template-areas:
+    "copy art"
+    "kavanah kavanah";
+  gap: 10px clamp(16px, 2.6vw, 34px);
+  padding: clamp(20px, 3.2vw, 40px);
+}
+
+.thanks-scene--full .thanks-scene__copy {
+  grid-area: copy;
+  align-self: center;
+}
+
+.thanks-scene--full .thanks-scene__art {
+  grid-area: art;
+}
+
+.thanks-scene--full .thanks-scene__kavanah {
+  grid-area: kavanah;
+}
+
+/* Versión compacta: hero del home y panel de /donar. */
+
+.thanks-scene--compact {
+  height: 100%;
+  min-height: 300px;
+}
+
+.thanks-scene--compact::after {
+  width: 34%;
+  clip-path: polygon(42% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.thanks-scene--compact .thanks-scene__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.4fr);
+  align-items: center;
+  gap: clamp(8px, 1.6vw, 16px);
+  padding: clamp(14px, 3vw, 24px);
+}
+
+.thanks-scene--compact .thanks-scene__kavanah {
+  display: none;
+}
+
+/* Piezas compartidas. */
+
+.thanks-scene__logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(10px, 1.6vw, 16px);
+}
+
+.thanks-scene__logo-card {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.thanks-scene__logo-card img {
+  display: block;
+  height: 26px;
+  width: auto;
+}
+
+.thanks-scene__cross {
+  font-weight: 800;
+  opacity: 0.75;
+}
+
+.thanks-scene__kavanah-logo {
+  display: block;
+  height: 30px;
+  width: auto;
+}
+
+.thanks-scene__eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffd400;
+}
+
+.thanks-scene__title {
+  margin: 0 0 12px;
+  font-family: "Fredoka", "Baloo 2", ui-rounded, system-ui, sans-serif;
+  font-size: clamp(2rem, 4.2vw, 3.3rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.thanks-scene__title span {
+  display: block;
+  color: #ffd400;
+}
+
+.thanks-scene__body {
+  margin: 0 0 12px;
+  max-width: 36ch;
+  font-size: clamp(0.86rem, 1.1vw, 1.02rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.thanks-scene__days {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 clamp(12px, 2vw, 18px);
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 212, 0, 0.55);
+  border-radius: 999px;
+  background: rgba(255, 212, 0, 0.12);
+  color: #ffd400;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.thanks-scene__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.thanks-scene__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 22px;
+  border: 2px solid #071127;
+  border-radius: 999px;
+  background: #ffd400;
+  color: #071127;
+  font-size: 0.98rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 5px 0 rgba(7, 17, 39, 0.62);
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.14s ease,
+    background 0.14s ease;
+}
+
+.thanks-scene__cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 rgba(7, 17, 39, 0.62);
+  background: #ffe45c;
+}
+
+.thanks-scene__cta--ghost {
+  border-color: rgba(255, 255, 255, 0.42);
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+}
+
+.thanks-scene__cta--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.thanks-scene__note {
+  margin: 12px 0 0;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.thanks-scene__art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.thanks-scene__art img {
+  display: block;
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 30px rgba(4, 10, 26, 0.5));
+}
+
+.thanks-scene__seal {
+  position: absolute;
+  top: 2%;
+  right: 4%;
+  padding: 7px 14px;
+  border: 3px solid #ffd400;
+  border-radius: 12px;
+  background: rgba(11, 26, 61, 0.78);
+  color: #ffd400;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+
+.thanks-scene__kavanah {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.thanks-scene__kavanah-label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.thanks-scene__socials {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.thanks-scene__socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 50%;
+  color: #fff;
+  transition:
+    background 0.14s ease,
+    transform 0.14s ease;
+}
+
+.thanks-scene__socials a:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+/* Ajustes de la versión compacta. */
+
+.thanks-scene--compact .thanks-scene__logo-card img {
+  height: 20px;
+}
+
+.thanks-scene--compact .thanks-scene__kavanah-logo {
+  height: 24px;
+}
+
+.thanks-scene--compact .thanks-scene__logos {
+  margin-bottom: 8px;
+}
+
+.thanks-scene--compact .thanks-scene__title {
+  font-size: clamp(1.4rem, 3.4vw, 2rem);
+  margin-bottom: 8px;
+}
+
+.thanks-scene--compact .thanks-scene__body {
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+}
+
+.thanks-scene--compact .thanks-scene__days {
+  margin-bottom: 12px;
+  padding: 6px 11px;
+  font-size: 0.66rem;
+}
+
+.thanks-scene--compact .thanks-scene__cta {
+  min-height: 44px;
+  padding: 0 16px;
+  font-size: 0.86rem;
+  box-shadow: 0 4px 0 rgba(7, 17, 39, 0.62);
+}
+
+.thanks-scene--compact .thanks-scene__note {
+  display: none;
+}
+
+.thanks-scene--compact .thanks-scene__seal {
+  top: 0;
+  right: 0;
+  padding: 4px 8px;
+  border-width: 2px;
+  border-radius: 8px;
+  font-size: 0.56rem;
+}
+
+/* Ajustes por ancho. */
+
+@media (max-width: 780px) {
+  .thanks-scene--full {
+    aspect-ratio: auto;
+    min-height: 460px;
+  }
+
+  .thanks-scene--full .thanks-scene__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "copy"
+      "art"
+      "kavanah";
+    gap: 6px;
+  }
+
+  .thanks-scene--full::after {
+    width: 46%;
+    clip-path: polygon(52% 0, 100% 0, 100% 100%, 18% 100%);
+  }
+
+  .thanks-scene--full .thanks-scene__art {
+    max-height: 170px;
+    overflow: hidden;
+  }
+
+  .thanks-scene--full .thanks-scene__art img {
+    max-height: 170px;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .thanks-scene--full .thanks-scene__seal {
+    top: auto;
+    bottom: 8%;
+  }
+}
+
+@media (max-width: 560px) {
+  .thanks-scene--compact .thanks-scene__inner {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px;
+  }
+
+  .thanks-scene--compact .thanks-scene__art {
+    display: none;
+  }
+
+  .thanks-scene--compact .thanks-scene__actions {
+    gap: 8px;
+  }
+
+  .thanks-scene--full .thanks-scene__inner {
+    padding: 18px 16px;
+  }
+
+  .thanks-scene__title {
+    font-size: 1.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thanks-scene__confetti {
+    display: none;
+  }
+}
+
+/* Versión mínima: el minivisor del home, que mide unos 300 px de alto. */
+
+.thanks-scene--mini {
+  height: 100%;
+  min-height: 0;
+}
+
+.thanks-scene--mini::after {
+  width: 30%;
+  clip-path: polygon(52% 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.thanks-scene--mini .thanks-scene__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(88px, 0.85fr);
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  padding: 14px 16px;
+}
+
+.thanks-scene--mini .thanks-scene__logos,
+.thanks-scene--mini .thanks-scene__eyebrow,
+.thanks-scene--mini .thanks-scene__body,
+.thanks-scene--mini .thanks-scene__note,
+.thanks-scene--mini .thanks-scene__kavanah,
+.thanks-scene--mini .thanks-scene__cta--ghost {
+  display: none;
+}
+
+.thanks-scene--mini .thanks-scene__title {
+  margin: 0 0 8px;
+  font-size: 1.28rem;
+  line-height: 1.05;
+}
+
+.thanks-scene--mini .thanks-scene__days {
+  gap: 5px;
+  margin-bottom: 10px;
+  padding: 5px 9px;
+  font-size: 0.6rem;
+}
+
+.thanks-scene--mini .thanks-scene__cta {
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 0.8rem;
+  box-shadow: 0 3px 0 rgba(7, 17, 39, 0.62);
+}
+
+.thanks-scene--mini .thanks-scene__seal {
+  display: none;
+}
+
+.thanks-scene--mini .thanks-scene__art {
+  align-self: stretch;
+}
+
+.thanks-scene--mini .thanks-scene__art img {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  border-radius: 12px;
+  object-fit: contain;
+  object-position: center;
+}
+
+.thanks-scene__art img {
+  border-radius: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+}
+
+/* El video promocional deja su lugar al cierre cuando el directo terminó. */
+.frames:has(.hero-live--after) .hero-promo {
+  display: none;
+}

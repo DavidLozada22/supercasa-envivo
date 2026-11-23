@@ -979,3 +979,21 @@ input[type="submit"],
 
 .sv-root .donation-live__badge--replay { background: rgba(11, 26, 61, 0.9); }
 .hero-live__badge--replay i { background: #ffd400; }
+
+/* Cierre de la maratón en el panel de /donar y el hero del home */
+.sv-root .donation-live--after {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+}
+.sv-root .donation-live--after .thanks-scene {
+  border-radius: 18px;
+}
+.frames .hero-live.hero-live--after {
+  display: block;
+  padding: 0;
+  background: #0b1a3d;
+}
+.frames .hero-live--after .thanks-scene {
+  border-radius: inherit;
+}

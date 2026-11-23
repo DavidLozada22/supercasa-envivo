@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./landing.css";
 @import "./campaign.css";
+@import "./thanks.css";
 @import "./streaming.css";
 
 /* Fondo de tablero para previsualizar overlays transparentes */

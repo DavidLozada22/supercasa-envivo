@@ -384,3 +384,14 @@ aquí y en `ESTADO.md`.
 - Volver a Inicio. El mapa debe reaparecer.
 - Abrir "Más" en la barra inferior. Debe mostrar todos los módulos agrupados y
   el activo resaltado.
+
+## Pantalla de cierre
+
+- Con el estado `after`, `/envivo`, el home y `/donar` muestran "Gracias, lo
+  hicimos juntos" y no un iframe de YouTube.
+- El contador dice lo mismo que el home ("Quedan 9 días").
+- "Donar ahora" lleva a `/donar` y "Conoce Kavanah" abre el Instagram en otra
+  pestaña.
+- En 390 px la escena se apila, el texto no se corta y los dos botones son
+  tocables.
+- El botón "Activar sonido" del video promocional no aparece encima del cierre.
