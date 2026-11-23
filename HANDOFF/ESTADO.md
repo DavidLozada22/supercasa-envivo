@@ -39,16 +39,24 @@ Actualizado: 21 de noviembre de 2026.
   configuración) sigue en Blob y ese almacenamiento está suspendido. Hay que
   reactivarlo en Vercel o migrarlo a Postgres.
 
+### 22 de noviembre, repetición de la última transmisión
+
+- Cuando el directo termina, el sitio no muestra la cortina de "gracias" ni un
+  placeholder de despedida. Deja el último video de YouTube reproducible con
+  controles y la etiqueta "Última transmisión".
+- `/envivo` y `/donar` incrustan el último ID con controles y autoplay apagado,
+  para que la gente le dé play y vea la transmisión completa.
+- El hero del home muestra el mismo video con el botón "Ver completa".
+- El link manual sigue en `Ep8Dnm1Aty0`. Con el reloj ya pasado, el estado es
+  `after` y el video queda como repetición.
+
 ### 22 de noviembre, el directo no se cierra por reloj
 
 - El evento estaba previsto hasta las 6:00 p. m. del 22, pero YouTube siguió al
-  aire. `snapshot()` ahora marca `live` mientras el directo exista y no por la
-  hora: `/envivo`, el home, `/donar` y la píldora del header siguen mostrando la
-  señal hasta que ellos terminen.
+  aire. `snapshot()` marcaba `live` mientras el directo existiera y no por la
+  hora.
 - El header consulta `/api/live/current` cada minuto, así que la píldora "En
-  vivo" no se apaga a las 6:00 p. m.
-- Para cerrar de verdad hay que pulsar "Volver a automático" en el panel o
-  esperar a que la detección deje de encontrar el directo.
+  vivo" no se apagaba a las 6:00 p. m.
 
 
 ### 21 de noviembre, cambio de canal de YouTube

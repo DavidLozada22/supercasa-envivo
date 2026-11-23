@@ -89,7 +89,7 @@ export default function SiteHeader({
     : before
       ? `Empezamos en vivo en ${remainingLabel(START - (now ?? START))}`
       : after
-        ? "La maratón terminó · la campaña sigue hasta el 30 de noviembre"
+        ? "La última transmisión quedó disponible · la campaña sigue hasta el 30 de noviembre"
         : "La transmisión empieza el viernes 20 de noviembre a las 6:00 p. m., hora de Bogotá";
 
   return (

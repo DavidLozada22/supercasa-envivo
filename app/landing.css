@@ -1479,3 +1479,66 @@
   .landing-root .live-hours-pill__tag { font-size: 0.54rem; }
   .landing-root .live-hours-pill__time { font-size: 0.78rem; }
 }
+
+/* Repetición de la última transmisión cuando el directo ya terminó */
+.landing-root .live-replay {
+  display: grid;
+  gap: 14px;
+}
+.landing-root .live-replay__frame {
+  position: relative;
+}
+.landing-root .live-replay__frame iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 16px;
+  background: #000;
+}
+.landing-root .live-replay__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(7, 17, 39, 0.86);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+.landing-root .live-replay__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 6px;
+}
+.landing-root .live-replay__foot p {
+  margin: 0;
+  max-width: 52ch;
+  color: #0f2354;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.landing-root .live-replay__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: #e6009e;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { LiveSnapshot } from "@/lib/youtube/live";
 import CortinaLive from "./CortinaLive";
@@ -55,15 +56,44 @@ export default function LiveStream({
     );
   }
 
+  // Cuando termina el directo no se despide: se deja el último video
+  // reproducible para que la gente vea la transmisión completa.
   if (snap.state === "after") {
+    if (!snap.videoId) {
+      return (
+        <div className="live-player-wrap">
+          <CortinaLive />
+        </div>
+      );
+    }
+    const params = new URLSearchParams({
+      autoplay: "0",
+      controls: "1",
+      modestbranding: "1",
+      rel: "0",
+      playsinline: "1",
+    });
     return (
-      <StreamPlaceholder
-        title="Gracias por acompañarnos"
-        message="La maratón terminó. La campaña sigue abierta hasta el 30 de noviembre."
-        note="Puedes seguir donando desde esta misma página."
-        cta={{ href: "/donar", label: "Donar ahora" }}
-        extra={<LiveHoursPill />}
-      />
+      <div className="live-player-wrap live-replay">
+        <div className="live-replay__frame">
+          <iframe
+            src={`https://www.youtube.com/embed/${snap.videoId}?${params.toString()}`}
+            title="Última transmisión de La Supercasa"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+          <span className="live-replay__badge">Última transmisión</span>
+        </div>
+        <div className="live-replay__foot">
+          <p>
+            Dale play para ver la última transmisión completa. La campaña sigue abierta hasta el
+            30 de noviembre.
+          </p>
+          <Link href="/donar" className="live-replay__cta">
+            Donar ahora
+          </Link>
+        </div>
+      </div>
     );
   }
 

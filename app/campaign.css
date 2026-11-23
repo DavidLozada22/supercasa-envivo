@@ -976,3 +976,6 @@ input[type="submit"],
   bottom: 0;
   background: linear-gradient(0deg, rgba(7, 17, 39, 0.82), transparent);
 }
+
+.sv-root .donation-live__badge--replay { background: rgba(11, 26, 61, 0.9); }
+.hero-live__badge--replay i { background: #ffd400; }

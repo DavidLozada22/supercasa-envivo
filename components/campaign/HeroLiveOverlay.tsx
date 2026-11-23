@@ -57,9 +57,38 @@ export default function HeroLiveOverlay({ forceLive }: { forceLive?: boolean }) 
 
   const byClock = forceLive || PREVIEW || (now !== null && now >= START && now <= END);
   const live = snap ? snap.state === "live" : failed ? byClock : false;
-  if (!live) return null;
-
+  const after = snap?.state === "after";
   const videoId = snap?.videoId ?? null;
+
+  // Sin directo, el hero deja la última transmisión reproducible.
+  if (after && videoId) {
+    const replay = new URLSearchParams({
+      autoplay: "0",
+      controls: "1",
+      modestbranding: "1",
+      rel: "0",
+      playsinline: "1",
+    });
+    return (
+      <div className="hero-live hero-live--video hero-live--replay">
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?${replay.toString()}`}
+          title="Última transmisión de La Supercasa"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowFullScreen
+        />
+        <span className="hero-live__badge hero-live__badge--replay">
+          Última transmisión
+        </span>
+        <Link href="/envivo" className="hero-live__cta hero-live__cta--float">
+          <Play className="h-4 w-4" strokeWidth={2} fill="currentColor" />
+          Ver completa
+        </Link>
+      </div>
+    );
+  }
+
+  if (!live) return null;
 
   if (videoId) {
     const params = new URLSearchParams({

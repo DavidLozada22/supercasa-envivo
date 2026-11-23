@@ -285,7 +285,7 @@ export function liveSnapshot(status: LiveStatus, state: LiveSnapshot["state"]): 
   return {
     state,
     videoId: status.videoId,
-    live: status.live,
+    live: state === "live",
     source: status.source,
     checkedAt: status.checkedAt,
     changedAt: status.changedAt,

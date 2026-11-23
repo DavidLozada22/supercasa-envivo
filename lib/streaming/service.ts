@@ -99,9 +99,9 @@ export async function getLiveStatus(fallbackId: string, force = false): Promise<
 }
 
 export function snapshot(status: LiveStatus): LiveSnapshot {
-  // Si el directo sigue al aire, no se cierra por reloj: el evento puede
-  // alargarse más allá de la hora prevista en YouTube.
-  const state = status.live ? "live" : liveState();
+  // Un link manual se usa como repetición cuando el reloj ya pasó: así el
+  // último video queda disponible sin inventar un directo que no existe.
+  const state = status.source === "manual" ? liveState() : status.live ? "live" : liveState();
   return liveSnapshot(status, state);
 }
 
