@@ -40,6 +40,9 @@ Actualizado: 23 de noviembre de 2026.
   la meta, los ticks y el texto de "faltan". En `/envivo` y `/donar` el bloque
   de la casa ahora es el mismo comparador de antes y después del home, en vez
   de cambiar la ilustración cada 5% recaudado.
+- Verificado en producción: el audio responde 200, `/envivo` arranca con la
+  canción, `/donar` la deja manual, y la barra del home ya no muestra
+  porcentaje, meta ni faltante.
 
 ### 21 de noviembre, link manual del directo en Postgres
 
