@@ -361,7 +361,7 @@ aquí y en `ESTADO.md`.
   `autoplay=1`. El primer play interno de Drive puede pedir un segundo toque; no
   se puede evitar sin sacar el video de Drive.
 - Manual: confirmar que no aparece el enlace "Abrir el video en Drive" y que la
-  máscara tapa el botón superior derecho del visor de Drive.
+  badge lima tapa el botón superior derecho del visor de Drive.
 - Manual: abrir el clip de la tuna y probar el player propio: play, retroceso y
   adelanto de 10 segundos, barra de avance, volumen, tiempo y pantalla completa.
 - Manual: en la tuna, espacio o k para pausar, flechas para mover 10 segundos, m
@@ -374,7 +374,7 @@ aquí y en `ESTADO.md`.
 - Manual: abrir el home y `/envivo` después del evento. La franja "Revive las 48
   horas" y el botón "Ver los capítulos" deben llevar al archivo.
 - Manual: abrir `/sitemap.xml` y confirmar `/capitulos` y los 15 slugs.
-- Manual en iPhone Safari: confirmar que el iframe de Drive carga, que la máscara
+- Manual en iPhone Safari: confirmar que el iframe de Drive carga, que el badge lima
   tapa el botón y que el clip de la tuna usa el modo nativo de pantalla completa.
 
 ## Verificación en producción

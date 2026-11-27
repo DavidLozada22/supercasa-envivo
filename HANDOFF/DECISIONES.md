@@ -466,7 +466,7 @@ servicio de video.
 El visor de Drive es un iframe cerrado: no expone play, pausa ni búsqueda. Por eso
 el player propio solo se usa para el clip local de la tuna. Los demás capítulos
 usan el iframe con `autoplay=1`, sin el enlace "Abrir el video en Drive" y con una
-máscara en la esquina superior derecha que tapa el botón de Drive. El primer clic
+badge lima en la esquina superior derecha que tapa el botón de Drive. El primer clic
 puede seguir necesitando el play interno de Drive; no se puede evitar sin alojar
 el MP4 fuera de Drive.
 
@@ -506,5 +506,5 @@ Para que el ID del archivo no quede en el HTML inicial, la lista pública usa
 `/api/chapters/embed/<slug>`. El `embedUrl` del JSON-LD apunta a la página del
 capítulo, no a Drive.
 
-Los capítulos de Drive se cargan con `autoplay=1` y una máscara sobre el botón de
+Los capítulos de Drive se cargan con `autoplay=1` y un badge lima sobre el botón de
 Drive. El clip local de la tuna usa el `<video>` con controles propios.

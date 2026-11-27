@@ -30,7 +30,7 @@ Actualizado: 27 de noviembre de 2026.
   cuatro entrevistas de Hilos Invisibles, dos de Eres Único, no el único, Machare
   cantando Pásame la botella y Mi cura, seis momentos y dos cápsulas.
 - Los videos se quedan en Google Drive. El sitio guarda solo el ID, arma el
-  iframe con `autoplay=1`, tapa el botón de Drive con una máscara y no muestra el
+  iframe con `autoplay=1`, tapa el botón de Drive con un badge lima y no muestra el
   enlace para abrir o descargar el archivo.
 - El catálogo vive en la tabla `chapters` de Postgres
   (`supabase/migrations/20261127000000_chapters.sql`). Se siembra sola con los 15
@@ -52,7 +52,7 @@ Actualizado: 27 de noviembre de 2026.
   capítulos de Drive el iframe conserva sus propios controles. No se pueden
   reemplazar sin sacar el video de Drive.
 - Verificado en local: `/capitulos` 200 con 15 capítulos, detalle 200, home con
-  la franja, `/envivo` con el botón y el iframe de Drive con la máscara. 96
+  la franja, `/envivo` con el botón y el iframe de Drive con el badge lima. 96
   pruebas pasan y `npm run build` compila.
 - Pendiente: subir las otras entrevistas que falten, escribir las descripciones
   de Chapa, Lidia, Magda y Machare, probar el iframe en iPhone Safari real y
@@ -603,7 +603,7 @@ Actualizado: 27 de noviembre de 2026.
 
 - Cargar en `/admin/capitulos` las entrevistas que faltan.
 - Completar las descripciones de Chapa, Lidia, Magda y Machare.
-- Probar el iframe de Drive y la máscara en iPhone Safari real, y confirmar si
+- Probar el iframe de Drive y el badge lima en iPhone Safari real, y confirmar si
   `autoplay=1` evita el segundo toque.
 - Borrar el store vacío `supercasa-videos` con
   `vercel blob delete-store store_VD3qWtORVrTR0vbm`.
