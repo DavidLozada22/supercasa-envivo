@@ -269,7 +269,19 @@ export default function ChapterPlayer({
             allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
             allowFullScreen
           />
-          <span className="chapter-player__mask" aria-hidden="true" />
+          <span className="chapter-player__mask" aria-hidden="true">
+            <img
+              className="chapter-player__mask-fsv"
+              src="/img/logo-fsv-official.png"
+              alt=""
+            />
+            <span className="chapter-player__mask-cross">×</span>
+            <img
+              className="chapter-player__mask-kavanah"
+              src="/img/kavanah-horizontal-gold.png"
+              alt=""
+            />
+          </span>
         </>
       ) : null}
 

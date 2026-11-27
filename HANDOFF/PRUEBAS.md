@@ -361,7 +361,7 @@ aquí y en `ESTADO.md`.
   `autoplay=1&rm=minimal`. El primer play interno de Drive puede pedir un segundo
   toque; no se puede evitar sin sacar el video de Drive.
 - Manual: confirmar que no aparece el enlace "Abrir el video en Drive" y que el
-  badge lima tapa el botón superior derecho del visor de Drive.
+  tarjeta de logos tapa el botón superior derecho del visor de Drive.
 - Manual: abrir Tuna, presentación 2 y confirmar que carga desde Drive como los
   demás. Si Drive no genera la vista previa de `S02-21`, quitar ese capítulo o
   dejar solo la presentación de 3:48.

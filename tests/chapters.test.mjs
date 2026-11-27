@@ -125,6 +125,8 @@ test('la página pública no ofrece salida ni enlace al archivo de Drive', () =>
   assert.ok(player.includes('is-faux-fullscreen'));
   assert.ok(player.includes('chapter-player__exit'));
   assert.ok(player.includes('chapter-player__mask'));
+  assert.ok(player.includes('logo-fsv-official.png'));
+  assert.ok(player.includes('kavanah-horizontal-gold.png'));
   assert.ok(player.includes('videoUrl'));
   assert.ok(player.includes('/api/chapters/embed/'));
 
