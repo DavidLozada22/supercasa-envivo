@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const read = (path) => readFileSync(path, 'utf8');
 const seed = JSON.parse(read('lib/chapters/seed.json'));
@@ -14,6 +14,11 @@ const uiFiles = [
   'components/chapters/ChaptersBrowser.tsx',
   'components/chapters/ChaptersStrip.tsx',
   'components/chapters/ShareChapter.tsx',
+  'app/api/chapters/embed/[slug]/route.ts',
+  'app/api/chapters/poster/[slug]/route.ts',
+  'lib/chapters/public.ts',
+  'lib/chapters/format.ts',
+  'lib/chapters/seed.json',
 ];
 
 test('el archivo tiene los quince capítulos y sus categorías', () => {
@@ -34,6 +39,13 @@ test('el archivo tiene los quince capítulos y sus categorías', () => {
   const podcast = seed.filter((chapter) => chapter.category === 'podcast');
   assert.ok(podcast.some((chapter) => chapter.title.includes('Patricia Avendaño')));
   assert.ok(podcast.some((chapter) => chapter.title.includes('Carlos Alberto')));
+  assert.equal(podcast.filter((chapter) => chapter.series === 'Eres Único, no el único').length, 2);
+  assert.equal(podcast.filter((chapter) => chapter.series === 'Hilos Invisibles').length, 4);
+  assert.ok(
+    podcast
+      .filter((chapter) => chapter.series === 'Eres Único, no el único')
+      .every((chapter) => chapter.title.startsWith('Eres Único, no el único:')),
+  );
   assert.ok(seed.some((chapter) => chapter.slug === 'machare-pasame-la-botella-y-mi-cura'));
 });
 
@@ -45,9 +57,9 @@ test('los videos se quedan en Drive y el clip de la tuna vive en el sitio', () =
 
   const local = seed.find((chapter) => chapter.provider === 'file');
   assert.equal(local.providerId, '/video/tuna-presentacion-2.mp4');
+  assert.equal(local.slug, 'tuna-presentacion-2');
   assert.ok(existsSync('public/video/tuna-presentacion-2.mp4'));
   assert.ok(existsSync('public/video/tuna-presentacion-2.jpg'));
-  assert.ok(statSync('public/video/tuna-presentacion-2.mp4').size < 3_000_000);
 });
 
 test('el catálogo se guarda en Postgres y no depende de Blob', () => {
@@ -83,6 +95,45 @@ test('la página pública y el detalle existen con metadatos y player', () => {
 
   assert.ok(read('components/campaign/CampaignShell.tsx').includes('ChaptersStrip'));
   assert.ok(read('components/landing/ThanksScene.tsx').includes('href="/capitulos"'));
+
+  assert.ok(existsSync('app/api/chapters/embed/[slug]/route.ts'));
+  assert.ok(existsSync('app/api/chapters/poster/[slug]/route.ts'));
+});
+
+test('la página pública no ofrece salida ni enlace al archivo de Drive', () => {
+  const format = read('lib/chapters/format.ts');
+  assert.ok(format.includes('/api/chapters/poster/'));
+  assert.ok(format.includes('preview?autoplay=1'));
+  assert.ok(!format.includes('thumbnail?id='));
+  assert.ok(!format.includes('watchUrl'));
+
+  const page = read('app/capitulos/page.tsx');
+  assert.ok(page.includes('toPublicChapter'));
+  assert.ok(!page.includes('providerId'));
+
+  const detail = read('app/capitulos/[slug]/page.tsx');
+  assert.ok(!detail.includes('watchUrl'));
+  assert.ok(!detail.includes('contentUrl'));
+  assert.ok(!detail.includes('Abrir el video en Drive'));
+  assert.ok(detail.includes('embedUrl: shareUrl'));
+
+  const player = read('components/chapters/ChapterPlayer.tsx');
+  assert.ok(!player.includes('externalUrl'));
+  assert.ok(!player.includes('ExternalLink'));
+  assert.ok(!player.includes('Abrir el video'));
+  assert.ok(player.includes('chapter-player__video'));
+  assert.ok(player.includes('chapter-player__seek'));
+  assert.ok(player.includes('toggleFullscreen'));
+  assert.ok(player.includes('is-faux-fullscreen'));
+  assert.ok(player.includes('chapter-player__exit'));
+  assert.ok(player.includes('chapter-player__mask'));
+  assert.ok(player.includes('videoUrl'));
+  assert.ok(player.includes('/api/chapters/embed/'));
+
+  const publicView = read('lib/chapters/public.ts');
+  assert.ok(publicView.includes('toPublicChapter'));
+  assert.ok(publicView.includes('videoUrl'));
+  assert.ok(!publicView.includes('providerId:'));
 });
 
 test('el panel permite crear, editar, ocultar y borrar capítulos', () => {

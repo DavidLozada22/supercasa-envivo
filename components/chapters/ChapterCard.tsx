@@ -1,25 +1,23 @@
 import Link from "next/link";
 import { Play } from "lucide-react";
-import type { Chapter } from "@/lib/chapters/types";
+import type { PublicChapter } from "@/lib/chapters/types";
 import { CHAPTER_CATEGORY_LABELS } from "@/lib/chapters/types";
-import { formatDuration, posterFor } from "@/lib/chapters/format";
+import { formatDuration } from "@/lib/chapters/format";
 
 export default function ChapterCard({
   chapter,
   featured = false,
 }: {
-  chapter: Chapter;
+  chapter: PublicChapter;
   featured?: boolean;
 }) {
-  const poster = posterFor(chapter);
-
   return (
     <Link
       href={`/capitulos/${chapter.slug}`}
       className={`chapter-card${featured ? " chapter-card--featured" : ""}`}
     >
       <span className="chapter-card__media">
-        {poster ? <img src={poster} alt="" loading="lazy" /> : null}
+        {chapter.posterUrl ? <img src={chapter.posterUrl} alt="" loading="lazy" /> : null}
         <span className="chapter-card__shade" aria-hidden="true" />
         <span className="chapter-card__play" aria-hidden="true">
           <Play className="h-4 w-4" strokeWidth={2.4} fill="currentColor" />

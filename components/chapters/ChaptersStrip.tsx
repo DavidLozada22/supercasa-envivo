@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { readChapters } from "@/lib/chapters/store";
-import type { Chapter } from "@/lib/chapters/types";
+import { toPublicChapter } from "@/lib/chapters/public";
+import type { Chapter, PublicChapter } from "@/lib/chapters/types";
 import ChapterCard from "@/components/chapters/ChapterCard";
 
 export default async function ChaptersStrip() {
@@ -12,7 +13,10 @@ export default async function ChaptersStrip() {
     return null;
   }
 
-  const featured = chapters.filter((chapter) => chapter.featured).slice(0, 3);
+  const featured: PublicChapter[] = chapters
+    .filter((chapter) => chapter.featured)
+    .slice(0, 3)
+    .map(toPublicChapter);
   if (featured.length === 0) return null;
 
   return (
@@ -20,7 +24,7 @@ export default async function ChaptersStrip() {
       <div className="chapters-strip__inner">
         <div className="chapters-strip__head">
           <div>
-            <p className="chapters-strip__eyebrow">Hilos Invisibles</p>
+            <p className="chapters-strip__eyebrow">Podcast y archivo</p>
             <h2 id="chapters-strip-title">Revive las 48 horas</h2>
             <p className="chapters-strip__lead">
               Las entrevistas, la música de Machare y los momentos que quedaron de la maratón.

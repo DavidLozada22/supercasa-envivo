@@ -457,39 +457,54 @@ reanuda primero y hace el salto 900 ms despues, cuando la duracion ya se
 actualizo. A los 2 segundos verifica y repite el salto si sigue atras. Durante
 esa ventana el boton no reaparece. En pruebas dejo 0 segundos de diferencia.
 
-## 48. El archivo de capítulos vive en Drive, el catálogo en Postgres
+## 48. Los videos se quedan en Drive y el sitio no paga hosting
 
-No se paga hosting de video. Los archivos se quedan en la carpeta de Drive del
-equipo y el sitio guarda solo el ID del archivo. El player se carga al hacer clic
-y usa el visor de Drive, así que el video se reproduce dentro de la página sin
-moverlo a otro servicio.
+Los archivos viven en la carpeta `VIDEOS HILOS INVISIBLES` de Drive. El sitio
+guarda el ID y arma el iframe de Drive. No se suben a Vercel Blob ni a otro
+servicio de video.
 
-Drive no es un CDN y no genera vista previa de todos los archivos. Si más
-adelante se quiere un player propio, se codifica el video y se mueve a Cloudflare
-R2 en su capa gratuita. El catálogo no cambia: solo se ajusta el proveedor y el
-ID.
+El visor de Drive es un iframe cerrado: no expone play, pausa ni búsqueda. Por eso
+el player propio solo se usa para el clip local de la tuna. Los demás capítulos
+usan el iframe con `autoplay=1`, sin el enlace "Abrir el video en Drive" y con una
+máscara en la esquina superior derecha que tapa el botón de Drive. El primer clic
+puede seguir necesitando el play interno de Drive; no se puede evitar sin alojar
+el MP4 fuera de Drive.
 
-El catálogo no usa Vercel Blob, que sigue suspendido en el team de David. La
-tabla `chapters` se crea con una migración y también en tiempo de ejecución. Si la
-tabla está vacía, se siembra con los 15 capítulos iniciales.
+Si más adelante se quieren controles propios para todos, hay que mover los MP4 a
+Cloudflare R2, al hosting de `svgvisual.com` o a otro almacenamiento directo. El
+catálogo ya soporta `provider = file`.
 
-## 49. El clip de la tuna se queda en el sitio
+## 49. El clip de la tuna es la única excepción local
 
-El archivo `S02-21` es un MP4 válido de 13 segundos, pero Drive no genera su
-vista previa y el embed no reproduce. Se reencodeó a 720p, pesa 738 KB y se sirve
-desde `public/video/tuna-presentacion-2.mp4`. Es la única excepción al esquema de
-Drive y no justifica contratar nada.
+`S02-21` no lo previsualiza Drive. Se reencodeó a 720p y quedó en
+`public/video/tuna-presentacion-2.mp4` con su JPG. Es el único capítulo con
+controles propios porque el archivo vive en el sitio.
 
 ## 50. Los capítulos se indexan
 
 El archivo es contenido público de la Fundación, así que `/capitulos` y cada
-detalle entran al sitemap, tienen canonical, Open Graph con la miniatura de Drive
+detalle entran al sitemap, tienen canonical, Open Graph con la miniatura del proxy
 y `VideoObject` con duración y fecha. La página no reemplaza al podcast: lo
 ordena y lo deja compartible por capítulo.
 
 ## 51. Un solo proveedor por capítulo
 
 Cada capítulo guarda `provider` (`drive` o `file`) y `providerId`. Las páginas no
-arman URLs a mano: `embedUrl`, `watchUrl` y `posterFor` resuelven el proveedor.
-Agregar R2, Vimeo o un archivo propio más adelante es un valor nuevo en esa
-columna, no una reescritura del catálogo.
+arman URLs a mano: `embedUrl`, `posterFor` y las rutas `/api/chapters/*` resuelven
+el proveedor. Agregar R2, Vimeo o un archivo propio más adelante es un valor
+nuevo en esa columna, no una reescritura del catálogo.
+
+## 52. El player no ofrece salida a Drive
+
+La página pública no muestra el enlace "Abrir el video en Drive" ni el
+`contentUrl` del `VideoObject`. El visitante reproduce dentro del sitio y no
+recibe un botón para ir a descargar el archivo.
+
+Para que el ID del archivo no quede en el HTML inicial, la lista pública usa
+`PublicChapter`, que no incluye `providerId`. La miniatura se sirve por
+`/api/chapters/poster/<slug>` y la URL de reproducción se pide al hacer clic en
+`/api/chapters/embed/<slug>`. El `embedUrl` del JSON-LD apunta a la página del
+capítulo, no a Drive.
+
+Los capítulos de Drive se cargan con `autoplay=1` y una máscara sobre el botón de
+Drive. El clip local de la tuna usa el `<video>` con controles propios.

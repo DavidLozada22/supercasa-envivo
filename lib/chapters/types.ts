@@ -58,3 +58,22 @@ export type ChapterInput = {
   status?: unknown;
   sortOrder?: unknown;
 };
+
+// Vista pública: no lleva providerId para no exponer el archivo de Drive en el HTML.
+export type PublicChapter = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  category: ChapterCategory;
+  series: string;
+  episode: number | null;
+  provider: ChapterProvider;
+  videoUrl: string;
+  durationSeconds: number;
+  posterUrl: string;
+  publishedAt: string;
+  featured: boolean;
+  sortOrder: number;
+};

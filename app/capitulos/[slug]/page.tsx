@@ -8,13 +8,12 @@ import ChapterPlayer from "@/components/chapters/ChapterPlayer";
 import ChapterCard from "@/components/chapters/ChapterCard";
 import ShareChapter from "@/components/chapters/ShareChapter";
 import { readChapter, readChapters } from "@/lib/chapters/store";
+import { toPublicChapter } from "@/lib/chapters/public";
 import {
-  embedUrl,
   formatChapterDate,
   formatDuration,
   isoDuration,
   posterFor,
-  watchUrl,
 } from "@/lib/chapters/format";
 import { CHAPTER_CATEGORY_LABELS } from "@/lib/chapters/types";
 
@@ -30,9 +29,12 @@ function absolute(url: string): string {
   return url.startsWith("http") ? url : `${BASE}${url.startsWith("/") ? "" : "/"}${url}`;
 }
 
-function fallbackDescription(category: string): string {
+function fallbackDescription(category: string, series: string): string {
+  if (series) {
+    return `Una conversación de ${series}, grabada durante la maratón de 48 horas por La Supercasa.`;
+  }
   if (category === "podcast") {
-    return "Una conversación del podcast Hilos Invisibles, grabada durante la maratón de 48 horas por La Supercasa.";
+    return "Una conversación de podcast grabada durante la maratón de 48 horas por La Supercasa.";
   }
   return "Un video del archivo de la maratón de 48 horas por La Supercasa.";
 }
@@ -48,7 +50,7 @@ export async function generateMetadata({
     return { title: "Capítulo no encontrado" };
   }
 
-  const description = chapter.description || fallbackDescription(chapter.category);
+  const description = chapter.description || fallbackDescription(chapter.category, chapter.series);
   const poster = absolute(posterFor(chapter));
 
   return {
@@ -81,13 +83,11 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
     (item) => item.id !== chapter.id && item.category === chapter.category,
   );
   const rest = all.filter((item) => item.id !== chapter.id && item.category !== chapter.category);
-  const related = [...sameCategory, ...rest].slice(0, 3);
+  const related = [...sameCategory, ...rest].slice(0, 3).map(toPublicChapter);
 
   const poster = posterFor(chapter);
-  const description = chapter.description || fallbackDescription(chapter.category);
+  const description = chapter.description || fallbackDescription(chapter.category, chapter.series);
   const shareUrl = `${BASE}/capitulos/${chapter.slug}`;
-  const externalLabel =
-    chapter.provider === "drive" ? "Abrir el video en Drive" : "Abrir el video";
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -97,8 +97,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
     thumbnailUrl: [absolute(poster)],
     uploadDate: `${chapter.publishedAt}T12:00:00-05:00`,
     duration: isoDuration(chapter.durationSeconds),
-    embedUrl: absolute(embedUrl(chapter)),
-    contentUrl: absolute(watchUrl(chapter)),
+    embedUrl: shareUrl,
     inLanguage: "es-CO",
     publisher: {
       "@type": "Organization",
@@ -129,13 +128,12 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
           <div className="chapter-detail__grid">
             <div className="chapter-detail__main">
               <ChapterPlayer
+                slug={chapter.slug}
                 provider={chapter.provider}
-                src={embedUrl(chapter)}
+                videoUrl={chapter.provider === "file" ? chapter.providerId : ""}
                 poster={poster}
                 title={chapter.title}
-                externalUrl={watchUrl(chapter)}
-                externalLabel={externalLabel}
-                durationLabel={formatDuration(chapter.durationSeconds)}
+                durationSeconds={chapter.durationSeconds}
               />
 
               <p className="chapter-detail__category">

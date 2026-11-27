@@ -207,9 +207,14 @@ versión completa de 88 creatives está en la carpeta local
 - El catálogo usa la tabla `chapters` de Postgres. La migración es
   `supabase/migrations/20261127000000_chapters.sql` y la tabla también se crea en
   runtime. No requiere variables nuevas.
-- Los videos viven en la carpeta de Drive `VIDEOS HILOS INVISIBLES`. La carpeta y
+- Los videos viven en la carpeta `VIDEOS HILOS INVISIBLES` de Drive. La carpeta y
   cada archivo deben seguir compartidos como "cualquier persona con el enlace".
-  Si se cambian los permisos, los embeds dejan de cargar.
-- `public/video/tuna-presentacion-2.mp4` es la única excepción, porque Drive no
-  previsualiza el original.
-- El catálogo no escribe en Blob.
+  Si se cambian los permisos, los capítulos dejan de cargar.
+- El sitio guarda el ID, no la URL de descarga. El iframe se arma en
+  `/api/chapters/embed/<slug>` y las miniaturas en
+  `/api/chapters/poster/<slug>`.
+- El clip de la tuna vive en `public/video/tuna-presentacion-2.mp4` porque Drive
+  no lo previsualiza. Es la única excepción local.
+- No hay store de video en uso. El store de prueba `supercasa-videos` quedó
+  vacío; se puede borrar en una terminal con
+  `vercel blob delete-store store_VD3qWtORVrTR0vbm`.

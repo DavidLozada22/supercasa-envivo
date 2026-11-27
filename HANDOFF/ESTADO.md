@@ -27,27 +27,39 @@ Actualizado: 27 de noviembre de 2026.
 ### 27 de noviembre, archivo de capítulos
 
 - Nueva ruta pública `/capitulos` con los 15 videos del archivo de la maratón:
-  seis entrevistas de Hilos Invisibles, Machare cantando Pásame la botella y Mi
-  cura, seis momentos y dos cápsulas.
-- Los videos se quedan en Google Drive y se incrustan con el player de Drive. No
-  se paga hosting de video ni se depende de Blob.
+  cuatro entrevistas de Hilos Invisibles, dos de Eres Único, no el único, Machare
+  cantando Pásame la botella y Mi cura, seis momentos y dos cápsulas.
+- Los videos se quedan en Google Drive. El sitio guarda solo el ID, arma el
+  iframe con `autoplay=1`, tapa el botón de Drive con una máscara y no muestra el
+  enlace para abrir o descargar el archivo.
 - El catálogo vive en la tabla `chapters` de Postgres
   (`supabase/migrations/20261127000000_chapters.sql`). Se siembra sola con los 15
   capítulos cuando la tabla está vacía.
 - Admin `/admin/capitulos` para admin, editor y marketing: crear, editar,
   publicar, ocultar, destacar, ordenar y borrar. Las miniaturas salen del
-  thumbnail público de Drive.
-- Destacados en el home y en el archivo: Hilos Invisibles con Carlos Alberto,
-  Recorrido por las habitaciones y Machare canciones.
-- `S02-21` (tuna, 13 s) no lo previsualiza Drive. Se reencodeó a 720p y quedó en
-  `public/video/tuna-presentacion-2.mp4` (738 KB), con su miniatura.
+  thumbnail de Drive vía `/api/chapters/poster/<slug>`.
+- Destacados en el home y en el archivo: Eres Único, no el único con Carlos
+  Alberto, Recorrido por las habitaciones y Machare canciones.
+- El clip de la tuna de 13 segundos es la única excepción local. Quedó en
+  `public/video/tuna-presentacion-2.mp4` y usa el player propio con controles.
 - Enlaces en el header, menú móvil, home y en la pantalla de cierre de `/envivo`.
   Sitemap, metadatos y `VideoObject` por capítulo. Indexado en Google.
+- Patricia Avendaño y Carlos Alberto son de Eres Único, no el único, no de
+  Hilos Invisibles. Sus slugs pasan a `eres-unico-paty` y
+  `eres-unico-carlos-alberto`; los links viejos redirigen.
+- El player propio tiene play, barra de avance, retroceso y adelanto de 10
+  segundos, volumen y pantalla completa, pero solo aplica al clip local. En los
+  capítulos de Drive el iframe conserva sus propios controles. No se pueden
+  reemplazar sin sacar el video de Drive.
 - Verificado en local: `/capitulos` 200 con 15 capítulos, detalle 200, home con
-  la franja, `/envivo` con el botón, y la API con rol admin crea, publica,
-  destaca y borra. 95 pruebas pasan y `npm run build` compila.
-- Pendiente: subir las otras entrevistas que faltan, escribir las descripciones
-  de Chapa, Lidia, Magda y Machare, y probar los embeds en iPhone Safari real.
+  la franja, `/envivo` con el botón y el iframe de Drive con la máscara. 96
+  pruebas pasan y `npm run build` compila.
+- Pendiente: subir las otras entrevistas que falten, escribir las descripciones
+  de Chapa, Lidia, Magda y Machare, probar el iframe en iPhone Safari real y
+  confirmar si el `autoplay=1` evita el segundo toque en cada navegador.
+- Limpieza: se creó el store de prueba `supercasa-videos` en el team Pro de SVG y
+  se vació. No tiene archivos ni se usa. Para borrarlo, ejecutar en una terminal:
+  `vercel blob delete-store store_VD3qWtORVrTR0vbm`.
 
 ### 23 de noviembre, canción oficial y recaudo visible
 
@@ -591,7 +603,10 @@ Actualizado: 27 de noviembre de 2026.
 
 - Cargar en `/admin/capitulos` las entrevistas que faltan.
 - Completar las descripciones de Chapa, Lidia, Magda y Machare.
-- Probar los embeds de Drive en iPhone Safari real.
+- Probar el iframe de Drive y la máscara en iPhone Safari real, y confirmar si
+  `autoplay=1` evita el segundo toque.
+- Borrar el store vacío `supercasa-videos` con
+  `vercel blob delete-store store_VD3qWtORVrTR0vbm`.
 - Confirmar con Machare y la tuna la autorización para publicar sus videos.
 
 ### Para el evento

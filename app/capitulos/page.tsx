@@ -5,6 +5,7 @@ import SiteHeader from "@/components/public/SiteHeader";
 import SiteFooter from "@/components/public/SiteFooter";
 import ChaptersBrowser from "@/components/chapters/ChaptersBrowser";
 import { readChapters } from "@/lib/chapters/store";
+import { toPublicChapter } from "@/lib/chapters/public";
 import type { Chapter } from "@/lib/chapters/types";
 
 export const dynamic = "force-dynamic";
@@ -46,7 +47,11 @@ export default async function ChaptersPage() {
     chapters = [];
   }
 
-  const totalSeconds = chapters.reduce((total, chapter) => total + chapter.durationSeconds, 0);
+  const publicChapters = chapters.map(toPublicChapter);
+  const totalSeconds = publicChapters.reduce(
+    (total, chapter) => total + chapter.durationSeconds,
+    0,
+  );
 
   return (
     <>
@@ -55,15 +60,16 @@ export default async function ChaptersPage() {
       <main className="chapters-root">
         <section className="chapters-hero" aria-labelledby="chapters-title">
           <div className="chapters-hero__inner">
-            <p className="chapters-hero__eyebrow">Hilos Invisibles</p>
+            <p className="chapters-hero__eyebrow">Podcast y archivo</p>
             <h1 id="chapters-title">Los capítulos de las 48 horas</h1>
             <p className="chapters-hero__lead">
-              Las entrevistas del podcast, la música de Machare y los momentos que quedaron de la
-              maratón por La Supercasa. Todo queda aquí para volver a verlo cuando quieras.
+              Las entrevistas de Hilos Invisibles y Eres Único, no el único, la música de Machare y
+              los momentos que quedaron de la maratón por La Supercasa. Todo queda aquí para volver
+              a verlo cuando quieras.
             </p>
 
             <div className="chapters-hero__meta">
-              <span>{chapters.length} capítulos</span>
+              <span>{publicChapters.length} capítulos</span>
               <span>{totalLabel(totalSeconds)}</span>
             </div>
 
@@ -79,8 +85,8 @@ export default async function ChaptersPage() {
           </div>
         </section>
 
-        {chapters.length > 0 ? (
-          <ChaptersBrowser chapters={chapters} />
+        {publicChapters.length > 0 ? (
+          <ChaptersBrowser chapters={publicChapters} />
         ) : (
           <section className="chapters-empty-wrap">
             <h2>Estamos organizando el archivo</h2>

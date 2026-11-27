@@ -48,24 +48,19 @@ export function formatChapterDate(value: string): string {
   }).format(date);
 }
 
-export function posterFor(chapter: Pick<Chapter, "provider" | "providerId" | "posterUrl">): string {
+export function posterFor(
+  chapter: Pick<Chapter, "slug" | "provider" | "providerId" | "posterUrl">,
+): string {
   if (chapter.posterUrl) return chapter.posterUrl;
   if (chapter.provider === "drive") {
-    return `https://drive.google.com/thumbnail?id=${encodeURIComponent(chapter.providerId)}&sz=w1280`;
+    return `/api/chapters/poster/${chapter.slug}`;
   }
   return "";
 }
 
 export function embedUrl(chapter: Pick<Chapter, "provider" | "providerId">): string {
   if (chapter.provider === "drive") {
-    return `https://drive.google.com/file/d/${chapter.providerId}/preview`;
-  }
-  return chapter.providerId;
-}
-
-export function watchUrl(chapter: Pick<Chapter, "provider" | "providerId">): string {
-  if (chapter.provider === "drive") {
-    return `https://drive.google.com/file/d/${chapter.providerId}/view`;
+    return `https://drive.google.com/file/d/${chapter.providerId}/preview?autoplay=1`;
   }
   return chapter.providerId;
 }

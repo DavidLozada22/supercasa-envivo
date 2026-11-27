@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Search } from "lucide-react";
-import type { Chapter, ChapterCategory } from "@/lib/chapters/types";
+import type { ChapterCategory, PublicChapter } from "@/lib/chapters/types";
 import {
   CHAPTER_CATEGORIES,
   CHAPTER_CATEGORY_LABELS,
@@ -11,7 +11,7 @@ import ChapterCard from "./ChapterCard";
 
 type Filter = "all" | ChapterCategory;
 
-export default function ChaptersBrowser({ chapters }: { chapters: Chapter[] }) {
+export default function ChaptersBrowser({ chapters }: { chapters: PublicChapter[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
 

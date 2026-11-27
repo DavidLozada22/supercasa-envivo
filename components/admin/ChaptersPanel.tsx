@@ -316,7 +316,7 @@ export default function ChaptersPanel() {
                 </p>
                 <p className="mt-1 text-[11px] text-slate-400">
                   {chapter.status === "published" ? "Publicado" : "Oculto"} · orden{" "}
-                  {chapter.sortOrder} · {chapter.provider === "drive" ? "Drive" : "Archivo"}
+                  {chapter.sortOrder} · {chapter.provider === "drive" ? "Drive" : "MP4"}
                   {chapter.featured ? " · destacado" : ""}
                 </p>
               </div>
@@ -404,7 +404,7 @@ export default function ChaptersPanel() {
             <form onSubmit={submit} className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <label className={label} htmlFor="chapter-video">
-                  Link del video o ID de Drive
+                  Link del video
                 </label>
                 <input
                   id="chapter-video"
@@ -415,7 +415,8 @@ export default function ChaptersPanel() {
                   required
                 />
                 <p className="mt-1 text-[11px] text-slate-400">
-                  Abre el video en Drive y pega el link del archivo. La miniatura se toma de Drive.
+                  Pega el link del archivo de Drive o una URL pública de MP4. La miniatura sale
+                  del thumbnail de Drive si no pones una.
                 </p>
               </div>
 
@@ -546,7 +547,7 @@ export default function ChaptersPanel() {
 
               <div className="sm:col-span-2">
                 <label className={label} htmlFor="chapter-poster">
-                  Miniatura propia (opcional)
+                  Miniatura (URL del JPG)
                 </label>
                 <input
                   id="chapter-poster"

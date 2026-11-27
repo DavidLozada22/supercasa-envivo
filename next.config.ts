@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
       { source: "/plan", destination: "/programa", permanent: false },
       { source: "/cronograma", destination: "/programa", permanent: false },
       { source: "/respuestas-rapidas", destination: "/respuestas", permanent: false },
+      {
+        source: "/capitulos/hilos-invisibles-paty",
+        destination: "/capitulos/eres-unico-paty",
+        permanent: true,
+      },
+      {
+        source: "/capitulos/hilos-invisibles-carlos-alberto",
+        destination: "/capitulos/eres-unico-carlos-alberto",
+        permanent: true,
+      },
     ];
   },
   async headers() {
