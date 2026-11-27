@@ -60,7 +60,7 @@ export function posterFor(
 
 export function embedUrl(chapter: Pick<Chapter, "provider" | "providerId">): string {
   if (chapter.provider === "drive") {
-    return `https://drive.google.com/file/d/${chapter.providerId}/preview?autoplay=1`;
+    return `https://drive.google.com/file/d/${chapter.providerId}/preview?autoplay=1&rm=minimal`;
   }
   return chapter.providerId;
 }

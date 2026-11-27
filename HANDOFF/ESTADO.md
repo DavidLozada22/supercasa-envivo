@@ -40,17 +40,17 @@ Actualizado: 27 de noviembre de 2026.
   thumbnail de Drive vía `/api/chapters/poster/<slug>`.
 - Destacados en el home y en el archivo: Eres Único, no el único con Carlos
   Alberto, Recorrido por las habitaciones y Machare canciones.
-- El clip de la tuna de 13 segundos es la única excepción local. Quedó en
-  `public/video/tuna-presentacion-2.mp4` y usa el player propio con controles.
+- Los 15 capítulos salen de Drive. No hay videos en el repositorio ni en
+  Vercel Blob.
 - Enlaces en el header, menú móvil, home y en la pantalla de cierre de `/envivo`.
   Sitemap, metadatos y `VideoObject` por capítulo. Indexado en Google.
 - Patricia Avendaño y Carlos Alberto son de Eres Único, no el único, no de
   Hilos Invisibles. Sus slugs pasan a `eres-unico-paty` y
   `eres-unico-carlos-alberto`; los links viejos redirigen.
-- El player propio tiene play, barra de avance, retroceso y adelanto de 10
-  segundos, volumen y pantalla completa, pero solo aplica al clip local. En los
-  capítulos de Drive el iframe conserva sus propios controles. No se pueden
-  reemplazar sin sacar el video de Drive.
+- El player propio con play, barra de avance, retroceso y adelanto de 10
+  segundos, volumen y pantalla completa queda en el código para un futuro
+  archivo directo. Los 15 capítulos actuales usan el iframe de Drive con sus
+  propios controles. No se pueden reemplazar sin sacar el video de Drive.
 - Verificado en local: `/capitulos` 200 con 15 capítulos, detalle 200, home con
   la franja, `/envivo` con el botón y el iframe de Drive con el badge lima. 96
   pruebas pasan y `npm run build` compila.

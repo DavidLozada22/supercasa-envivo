@@ -353,19 +353,18 @@ aquí y en `ESTADO.md`.
 ## Capítulos y archivo
 
 - `node --test tests/chapters.test.mjs` cubre la semilla de 15 capítulos, las
-  categorías, los tres destacados, los 14 capítulos de Drive, el clip local de la
-  tuna, las rutas, el sitemap, el header y el panel.
+  categorías, los tres destacados, los 15 capítulos de Drive, las rutas, el
+  sitemap, el header y el panel.
 - Manual en local: abrir `/capitulos`, probar los cuatro filtros y el buscador.
   Cada tarjeta debe abrir su detalle.
-- Manual: en un detalle de Drive, pulsar reproducir. El iframe debe cargar con
-  `autoplay=1`. El primer play interno de Drive puede pedir un segundo toque; no
-  se puede evitar sin sacar el video de Drive.
-- Manual: confirmar que no aparece el enlace "Abrir el video en Drive" y que la
+- Manual: en un detalle, pulsar reproducir. El iframe debe cargar con
+  `autoplay=1&rm=minimal`. El primer play interno de Drive puede pedir un segundo
+  toque; no se puede evitar sin sacar el video de Drive.
+- Manual: confirmar que no aparece el enlace "Abrir el video en Drive" y que el
   badge lima tapa el botón superior derecho del visor de Drive.
-- Manual: abrir el clip de la tuna y probar el player propio: play, retroceso y
-  adelanto de 10 segundos, barra de avance, volumen, tiempo y pantalla completa.
-- Manual: en la tuna, espacio o k para pausar, flechas para mover 10 segundos, m
-  para silenciar y f para pantalla completa.
+- Manual: abrir Tuna, presentación 2 y confirmar que carga desde Drive como los
+  demás. Si Drive no genera la vista previa de `S02-21`, quitar ese capítulo o
+  dejar solo la presentación de 3:48.
 - Manual: abrir `/admin/capitulos` con admin, marketing y editor. Crear un
   capítulo oculto con un link de Drive, publicarlo, destacarlo, reordenarlo y
   borrarlo.
@@ -374,8 +373,8 @@ aquí y en `ESTADO.md`.
 - Manual: abrir el home y `/envivo` después del evento. La franja "Revive las 48
   horas" y el botón "Ver los capítulos" deben llevar al archivo.
 - Manual: abrir `/sitemap.xml` y confirmar `/capitulos` y los 15 slugs.
-- Manual en iPhone Safari: confirmar que el iframe de Drive carga, que el badge lima
-  tapa el botón y que el clip de la tuna usa el modo nativo de pantalla completa.
+- Manual en iPhone Safari: confirmar que el iframe de Drive carga y que el badge
+  lima tapa el botón.
 
 ## Verificación en producción
 

@@ -49,17 +49,15 @@ test('el archivo tiene los quince capítulos y sus categorías', () => {
   assert.ok(seed.some((chapter) => chapter.slug === 'machare-pasame-la-botella-y-mi-cura'));
 });
 
-test('los videos se quedan en Drive y el clip de la tuna vive en el sitio', () => {
+test('los quince capítulos salen de Drive y no hay videos locales', () => {
   const drive = seed.filter((chapter) => chapter.provider === 'drive');
-  assert.equal(drive.length, 14);
+  assert.equal(drive.length, 15);
   assert.ok(drive.every((chapter) => /^[\w-]{20,}$/.test(chapter.providerId)));
   assert.ok(drive.some((chapter) => chapter.providerId === '1fr3V9uTyKi_7K1vShAGzzB8TMHxniEA8'));
-
-  const local = seed.find((chapter) => chapter.provider === 'file');
-  assert.equal(local.providerId, '/video/tuna-presentacion-2.mp4');
-  assert.equal(local.slug, 'tuna-presentacion-2');
-  assert.ok(existsSync('public/video/tuna-presentacion-2.mp4'));
-  assert.ok(existsSync('public/video/tuna-presentacion-2.jpg'));
+  assert.ok(drive.some((chapter) => chapter.providerId === '1r3OdgQIwkpwSBybOO2EOX-mB4bfXtN1w'));
+  assert.ok(!seed.some((chapter) => chapter.provider === 'file'));
+  assert.ok(!existsSync('public/video/tuna-presentacion-2.mp4'));
+  assert.ok(!existsSync('public/video/tuna-presentacion-2.jpg'));
 });
 
 test('el catálogo se guarda en Postgres y no depende de Blob', () => {
