@@ -27,6 +27,8 @@ type FormState = {
   category: ChapterCategory;
   series: string;
   episode: string;
+  instagram: string;
+  website: string;
   video: string;
   duration: string;
   posterUrl: string;
@@ -54,6 +56,8 @@ function emptyForm(sortOrder: number): FormState {
     category: "podcast",
     series: "Hilos Invisibles",
     episode: "",
+    instagram: "",
+    website: "",
     video: "",
     duration: "",
     posterUrl: "",
@@ -73,6 +77,8 @@ function formFrom(chapter: Chapter): FormState {
     category: chapter.category,
     series: chapter.series,
     episode: chapter.episode === null ? "" : String(chapter.episode),
+    instagram: chapter.instagram,
+    website: chapter.website,
     video:
       chapter.provider === "drive"
         ? `https://drive.google.com/file/d/${chapter.providerId}/view`
@@ -176,6 +182,8 @@ export default function ChaptersPanel() {
           category: form.category,
           series: form.series,
           episode: form.episode === "" ? null : Number(form.episode),
+          instagram: form.instagram,
+          website: form.website,
           video: form.video,
           duration: form.duration,
           posterUrl: form.posterUrl,
@@ -542,6 +550,32 @@ export default function ChaptersPanel() {
                   value={form.description}
                   onChange={(event) => update("description", event.target.value)}
                   placeholder="De qué trata el capítulo"
+                />
+              </div>
+
+              <div>
+                <label className={label} htmlFor="chapter-instagram">
+                  Instagram
+                </label>
+                <input
+                  id="chapter-instagram"
+                  className={input}
+                  value={form.instagram}
+                  onChange={(event) => update("instagram", event.target.value)}
+                  placeholder="https://www.instagram.com/..."
+                />
+              </div>
+
+              <div>
+                <label className={label} htmlFor="chapter-website">
+                  Sitio web
+                </label>
+                <input
+                  id="chapter-website"
+                  className={input}
+                  value={form.website}
+                  onChange={(event) => update("website", event.target.value)}
+                  placeholder="https://..."
                 />
               </div>
 

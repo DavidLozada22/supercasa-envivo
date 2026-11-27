@@ -18,14 +18,16 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "https://www.instagram.com/segundosdevidafundacion/",
+    "website": "https://segundosdevida.com"
   },
   {
     "id": "ch-chapa",
     "slug": "hilos-invisibles-chapa",
-    "title": "Hilos Invisibles: Chapa",
-    "subtitle": "Una voz de la maratón",
-    "description": "",
+    "title": "Hilos Invisibles: Diego Chaparro",
+    "subtitle": "Chapa, una voz de la maratón",
+    "description": "Diego Chaparro, Chapa, una de las voces de Hilos Invisibles, conversa durante la maratón de 48 horas por La Supercasa.",
     "category": "podcast",
     "series": "Hilos Invisibles",
     "episode": null,
@@ -39,14 +41,16 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-lidia",
     "slug": "hilos-invisibles-lidia",
-    "title": "Hilos Invisibles: Lidia",
+    "title": "Hilos Invisibles: Lidia Paipa",
     "subtitle": "Una voz de la maratón",
-    "description": "",
+    "description": "Lidia Paipa, una de las voces de Hilos Invisibles, conversa durante la maratón de 48 horas por La Supercasa.",
     "category": "podcast",
     "series": "Hilos Invisibles",
     "episode": null,
@@ -60,14 +64,16 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-magda",
     "slug": "hilos-invisibles-magda",
-    "title": "Hilos Invisibles: Magda",
+    "title": "Hilos Invisibles: Magda Mateus",
     "subtitle": "Una voz de la maratón",
-    "description": "",
+    "description": "Magda Mateus, una de las voces de Hilos Invisibles, conversa durante la maratón de 48 horas por La Supercasa.",
     "category": "podcast",
     "series": "Hilos Invisibles",
     "episode": null,
@@ -81,14 +87,16 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-machare-entrevista",
     "slug": "hilos-invisibles-machare",
     "title": "Hilos Invisibles: Machare",
     "subtitle": "El artista que le puso música a las 48 horas",
-    "description": "",
+    "description": "Machare, el artista que le puso música a la maratón, conversa en Hilos Invisibles.",
     "category": "podcast",
     "series": "Hilos Invisibles",
     "episode": null,
@@ -102,7 +110,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-carlos-alberto",
@@ -123,7 +133,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "https://www.instagram.com/segundosdevidafundacion/",
+    "website": "https://segundosdevida.com"
   },
   {
     "id": "ch-machare-canciones",
@@ -144,7 +156,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-habitaciones",
@@ -165,7 +179,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-como-donar",
@@ -186,7 +202,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-viaje-al-mar",
@@ -207,7 +225,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-bloque-02",
@@ -228,7 +248,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-tuna-1",
@@ -249,7 +271,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-vaki",
@@ -270,7 +294,9 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   },
   {
     "id": "ch-super-heroes",
@@ -291,6 +317,8 @@
     "status": "published",
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
+    "updatedBy": "semilla",
+    "instagram": "",
+    "website": ""
   }
 ]

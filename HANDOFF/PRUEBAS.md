@@ -365,6 +365,11 @@ aquí y en `ESTADO.md`.
 - Manual: abrir Tuna, presentación 2 y confirmar que carga desde Drive como los
   demás. Si Drive no genera la vista previa de `S02-21`, quitar ese capítulo o
   dejar solo la presentación de 3:48.
+- Manual: abrir Patricia y Carlos y confirmar los botones de Instagram y Sitio
+  web de la Fundación. Abrir Lidia, Diego y Magda y confirmar el nombre completo;
+  los botones de Instagram aparecerán cuando se carguen sus handles.
+- Manual: en `/admin/capitulos`, editar un capítulo, cargar Instagram y sitio web,
+  guardar y confirmar los botones en el detalle.
 - Manual: abrir `/admin/capitulos` con admin, marketing y editor. Crear un
   capítulo oculto con un link de Drive, publicarlo, destacarlo, reordenarlo y
   borrarlo.

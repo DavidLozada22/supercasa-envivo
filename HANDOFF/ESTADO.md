@@ -47,6 +47,10 @@ Actualizado: 27 de noviembre de 2026.
 - Patricia Avendaño y Carlos Alberto son de Eres Único, no el único, no de
   Hilos Invisibles. Sus slugs pasan a `eres-unico-paty` y
   `eres-unico-carlos-alberto`; los links viejos redirigen.
+- Lidia Paipa, Diego Chaparro (Chapa) y Magda Mateus quedan con su nombre
+  completo. El detalle muestra botones de Instagram y sitio web. Patricia y
+  Carlos apuntan al Instagram y al sitio de la Fundación. Faltan los handles de
+  Lidia, Diego y Magda para activar sus botones.
 - El player propio con play, barra de avance, retroceso y adelanto de 10
   segundos, volumen y pantalla completa queda en el código para un futuro
   archivo directo. Los 14 capítulos actuales usan el iframe de Drive con sus
@@ -54,9 +58,10 @@ Actualizado: 27 de noviembre de 2026.
 - Verificado en local: `/capitulos` 200 con 14 capítulos, detalle 200, home con
   la franja, `/envivo` con el botón y el iframe de Drive con la tarjeta de logos. 96
   pruebas pasan y `npm run build` compila.
-- Pendiente: subir las otras entrevistas que falten, escribir las descripciones
-  de Chapa, Lidia, Magda y Machare, probar el iframe en iPhone Safari real y
-  confirmar si el `autoplay=1` evita el segundo toque en cada navegador.
+- Pendiente: subir las otras entrevistas que falten, agregar los Instagram de
+  Lidia, Diego y Magda, revisar las descripciones, probar el iframe en iPhone
+  Safari real y confirmar si el `autoplay=1` evita el segundo toque en cada
+  navegador.
 - Limpieza: se creó el store de prueba `supercasa-videos` en el team Pro de SVG y
   se vació. No tiene archivos ni se usa. Para borrarlo, ejecutar en una terminal:
   `vercel blob delete-store store_VD3qWtORVrTR0vbm`.
@@ -602,7 +607,8 @@ Actualizado: 27 de noviembre de 2026.
 ### Capítulos
 
 - Cargar en `/admin/capitulos` las entrevistas que faltan.
-- Completar las descripciones de Chapa, Lidia, Magda y Machare.
+- Agregar los Instagram de Lidia Paipa, Diego Chaparro y Magda Mateus.
+- Revisar las descripciones de los capítulos.
 - Probar el iframe de Drive y la tarjeta de logos en iPhone Safari real, y confirmar si
   `autoplay=1` evita el segundo toque.
 - Borrar el store vacío `supercasa-videos` con

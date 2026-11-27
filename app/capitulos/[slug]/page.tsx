@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CalendarDays, Clock, Heart } from "lucide-react";
+import { CalendarDays, Clock, Globe, Heart, Instagram } from "lucide-react";
 import SiteHeader from "@/components/public/SiteHeader";
 import SiteFooter from "@/components/public/SiteFooter";
 import ChapterPlayer from "@/components/chapters/ChapterPlayer";
@@ -159,6 +159,33 @@ export default async function ChapterPage({ params }: { params: Promise<{ slug: 
               </div>
 
               <p className="chapter-detail__description">{description}</p>
+
+              {chapter.instagram || chapter.website ? (
+                <div className="chapter-detail__links">
+                  {chapter.instagram ? (
+                    <a
+                      className="chapter-btn chapter-btn--soft"
+                      href={chapter.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Instagram className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+                      Instagram
+                    </a>
+                  ) : null}
+                  {chapter.website ? (
+                    <a
+                      className="chapter-btn chapter-btn--soft"
+                      href={chapter.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Globe className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+                      Sitio web
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
 
               <div className="chapter-detail__actions">
                 <ShareChapter title={chapter.title} url={shareUrl} />

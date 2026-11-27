@@ -512,3 +512,10 @@ capítulo, no a Drive.
 
 Los 14 capítulos de Drive se cargan con `autoplay=1&rm=minimal` y una tarjeta de logos
 sobre el botón de Drive.
+
+## 53. Los links sociales viven en el capítulo
+
+Cada capítulo guarda `instagram` y `website` en Postgres. El detalle muestra
+botones de Instagram y sitio web cuando existen. Patricia y Carlos usan el
+Instagram y el sitio de la Fundación. Lidia, Diego y Magda quedan con los campos
+vacíos hasta que se carguen sus handles oficiales. El panel permite editarlos.

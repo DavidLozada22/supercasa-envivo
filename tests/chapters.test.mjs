@@ -39,6 +39,9 @@ test('el archivo tiene los catorce capítulos y sus categorías', () => {
   const podcast = seed.filter((chapter) => chapter.category === 'podcast');
   assert.ok(podcast.some((chapter) => chapter.title.includes('Patricia Avendaño')));
   assert.ok(podcast.some((chapter) => chapter.title.includes('Carlos Alberto')));
+  assert.ok(podcast.some((chapter) => chapter.title === 'Hilos Invisibles: Lidia Paipa'));
+  assert.ok(podcast.some((chapter) => chapter.title === 'Hilos Invisibles: Diego Chaparro'));
+  assert.ok(podcast.some((chapter) => chapter.title === 'Hilos Invisibles: Magda Mateus'));
   assert.equal(podcast.filter((chapter) => chapter.series === 'Eres Único, no el único').length, 2);
   assert.equal(podcast.filter((chapter) => chapter.series === 'Hilos Invisibles').length, 4);
   assert.ok(
@@ -46,6 +49,13 @@ test('el archivo tiene los catorce capítulos y sus categorías', () => {
       .filter((chapter) => chapter.series === 'Eres Único, no el único')
       .every((chapter) => chapter.title.startsWith('Eres Único, no el único:')),
   );
+  const fundacionIg = 'https://www.instagram.com/segundosdevidafundacion/';
+  const fundacionWeb = 'https://segundosdevida.com';
+  for (const id of ['ch-paty', 'ch-carlos-alberto']) {
+    const chapter = seed.find((item) => item.id === id);
+    assert.equal(chapter.instagram, fundacionIg);
+    assert.equal(chapter.website, fundacionWeb);
+  }
   assert.ok(seed.some((chapter) => chapter.slug === 'machare-pasame-la-botella-y-mi-cura'));
 });
 
@@ -83,6 +93,10 @@ test('la página pública y el detalle existen con metadatos y player', () => {
   assert.ok(detail.includes('VideoObject'));
   assert.ok(detail.includes('ChapterPlayer'));
   assert.ok(detail.includes('notFound'));
+  assert.ok(detail.includes('chapter.instagram'));
+  assert.ok(detail.includes('chapter.website'));
+  assert.ok(detail.includes('Instagram'));
+  assert.ok(detail.includes('Sitio web'));
 
   assert.ok(read('app/sitemap.ts').includes('/capitulos'));
   assert.ok(!read('app/robots.ts').includes('/capitulos'));
@@ -145,6 +159,8 @@ test('el panel permite crear, editar, ocultar y borrar capítulos', () => {
   assert.ok(panel.includes('Ocultar'));
   assert.ok(panel.includes('Borrar'));
   assert.ok(panel.includes('Drive'));
+  assert.ok(panel.includes('Instagram'));
+  assert.ok(panel.includes('Sitio web'));
 
   const nav = read('components/admin/nav.ts');
   assert.ok(nav.includes('/admin/capitulos'));

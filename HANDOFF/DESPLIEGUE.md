@@ -215,6 +215,8 @@ versión completa de 88 creatives está en la carpeta local
   `/api/chapters/poster/<slug>`.
 - Los 14 capítulos, incluida la tuna, se referencian desde Drive. No hay videos
   de capítulos en `public/video`; esa carpeta solo tiene el promo de la campaña.
+- La tabla `chapters` tiene `instagram` y `website`. La migración y el `ensure` de
+  runtime agregan las columnas si faltan. No requieren variables nuevas.
 - No hay store de video en uso. El store de prueba `supercasa-videos` quedó
   vacío; se puede borrar en una terminal con
   `vercel blob delete-store store_VD3qWtORVrTR0vbm`.

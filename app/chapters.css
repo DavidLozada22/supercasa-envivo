@@ -791,6 +791,13 @@
   margin-top: 26px;
 }
 
+.chapter-detail__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
 .chapter-share {
   display: flex;
   flex-wrap: wrap;

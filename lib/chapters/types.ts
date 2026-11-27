@@ -28,6 +28,8 @@ export type Chapter = {
   category: ChapterCategory;
   series: string;
   episode: number | null;
+  instagram: string;
+  website: string;
   provider: ChapterProvider;
   providerId: string;
   durationSeconds: number;
@@ -50,6 +52,8 @@ export type ChapterInput = {
   category?: unknown;
   series?: unknown;
   episode?: unknown;
+  instagram?: unknown;
+  website?: unknown;
   video?: unknown;
   duration?: unknown;
   posterUrl?: unknown;
@@ -69,6 +73,8 @@ export type PublicChapter = {
   category: ChapterCategory;
   series: string;
   episode: number | null;
+  instagram: string;
+  website: string;
   provider: ChapterProvider;
   videoUrl: string;
   durationSeconds: number;

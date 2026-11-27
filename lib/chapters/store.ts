@@ -62,6 +62,8 @@ function asChapter(row: Record<string, unknown>): Chapter {
       row.episode === null || row.episode === undefined || row.episode === ""
         ? null
         : Number(row.episode),
+    instagram: String(row.instagram ?? ""),
+    website: String(row.website ?? ""),
     provider: row.provider === "file" ? "file" : "drive",
     providerId: String(row.provider_id ?? ""),
     durationSeconds: Number(row.duration_seconds ?? 0),
@@ -80,11 +82,13 @@ async function upsertChapter(sql: Sql, chapter: Chapter): Promise<void> {
   await sql`
     insert into chapters (
       id, slug, title, subtitle, description, category, series, episode,
+      instagram, website,
       provider, provider_id, duration_seconds, poster_url, published_at,
       featured, sort_order, status, created_at, updated_at, updated_by
     ) values (
       ${chapter.id}, ${chapter.slug}, ${chapter.title}, ${chapter.subtitle},
       ${chapter.description}, ${chapter.category}, ${chapter.series}, ${chapter.episode},
+      ${chapter.instagram}, ${chapter.website},
       ${chapter.provider}, ${chapter.providerId}, ${chapter.durationSeconds},
       ${chapter.posterUrl}, ${chapter.publishedAt}, ${chapter.featured},
       ${chapter.sortOrder}, ${chapter.status}, ${chapter.createdAt},
@@ -98,6 +102,8 @@ async function upsertChapter(sql: Sql, chapter: Chapter): Promise<void> {
       category = excluded.category,
       series = excluded.series,
       episode = excluded.episode,
+      instagram = excluded.instagram,
+      website = excluded.website,
       provider = excluded.provider,
       provider_id = excluded.provider_id,
       duration_seconds = excluded.duration_seconds,
@@ -123,6 +129,8 @@ async function ensure(sql: Sql): Promise<void> {
           category text not null default 'momentos',
           series text not null default '',
           episode integer,
+          instagram text not null default '',
+          website text not null default '',
           provider text not null default 'drive',
           provider_id text not null,
           duration_seconds integer not null default 0,
@@ -136,6 +144,8 @@ async function ensure(sql: Sql): Promise<void> {
           updated_by text not null default ''
         )`;
       await sql`create index if not exists chapters_status_order_idx on chapters (status, sort_order)`;
+      await sql`alter table chapters add column if not exists instagram text not null default ''`;
+      await sql`alter table chapters add column if not exists website text not null default ''`;
 
       const rows = await sql`select count(*)::int as count from chapters`;
       if (Number(rows[0]?.count ?? 0) === 0) {
@@ -178,7 +188,13 @@ export async function readAllChapters(): Promise<Chapter[]> {
   const sql = db();
   if (!sql) return sortChapters(await readLocal());
   await ensure(sql);
-  const rows = await sql`select * from chapters order by sort_order asc, published_at desc, title asc`;
+  const rows = await sql`
+    select
+      id, slug, title, subtitle, description, category, series, episode,
+      instagram, website, provider, provider_id, duration_seconds, poster_url,
+      published_at, featured, sort_order, status, created_at, updated_at, updated_by
+    from chapters
+    order by sort_order asc, published_at desc, title asc`;
   return sortChapters(rows.map(asChapter));
 }
 
@@ -265,6 +281,8 @@ export async function saveChapter(input: ChapterInput, username: string): Promis
     category: categoryOf(input.category, existing?.category ?? "momentos"),
     series: String(input.series ?? existing?.series ?? "").trim(),
     episode: Number.isFinite(parsedEpisode as number) ? (parsedEpisode as number) : null,
+    instagram: String(input.instagram ?? existing?.instagram ?? "").trim(),
+    website: String(input.website ?? existing?.website ?? "").trim(),
     provider: parsedVideo.provider,
     providerId: parsedVideo.providerId,
     durationSeconds: input.duration

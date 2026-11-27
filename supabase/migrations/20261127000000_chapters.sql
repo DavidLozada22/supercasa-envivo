@@ -11,6 +11,8 @@ create table if not exists chapters (
   category text not null default 'momentos',
   series text not null default '',
   episode integer,
+  instagram text not null default '',
+  website text not null default '',
   provider text not null default 'drive',
   provider_id text not null,
   duration_seconds integer not null default 0,
@@ -25,3 +27,6 @@ create table if not exists chapters (
 );
 
 create index if not exists chapters_status_order_idx on chapters (status, sort_order);
+
+alter table chapters add column if not exists instagram text not null default '';
+alter table chapters add column if not exists website text not null default '';

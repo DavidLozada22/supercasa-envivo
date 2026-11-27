@@ -11,6 +11,8 @@ export function toPublicChapter(chapter: Chapter): PublicChapter {
     category: chapter.category,
     series: chapter.series,
     episode: chapter.episode,
+    instagram: chapter.instagram,
+    website: chapter.website,
     provider: chapter.provider,
     videoUrl: chapter.provider === "file" ? chapter.providerId : "",
     durationSeconds: chapter.durationSeconds,
