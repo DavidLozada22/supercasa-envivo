@@ -352,8 +352,8 @@ aquí y en `ESTADO.md`.
 
 ## Capítulos y archivo
 
-- `node --test tests/chapters.test.mjs` cubre la semilla de 15 capítulos, las
-  categorías, los tres destacados, los 15 capítulos de Drive, las rutas, el
+- `node --test tests/chapters.test.mjs` cubre la semilla de 14 capítulos, las
+  categorías, los tres destacados, los 14 capítulos de Drive, las rutas, el
   sitemap, el header y el panel.
 - Manual en local: abrir `/capitulos`, probar los cuatro filtros y el buscador.
   Cada tarjeta debe abrir su detalle.
@@ -372,7 +372,7 @@ aquí y en `ESTADO.md`.
   link de la carpeta. Abre el video y pega el link del archivo."
 - Manual: abrir el home y `/envivo` después del evento. La franja "Revive las 48
   horas" y el botón "Ver los capítulos" deben llevar al archivo.
-- Manual: abrir `/sitemap.xml` y confirmar `/capitulos` y los 15 slugs.
+- Manual: abrir `/sitemap.xml` y confirmar `/capitulos` y los 14 slugs.
 - Manual en iPhone Safari: confirmar que el iframe de Drive carga y que el badge
   lima tapa el botón.
 

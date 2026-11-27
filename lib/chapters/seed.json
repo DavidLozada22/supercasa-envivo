@@ -292,26 +292,5 @@
     "createdAt": "2026-11-27T00:00:00.000Z",
     "updatedAt": "2026-11-27T00:00:00.000Z",
     "updatedBy": "semilla"
-  },
-  {
-    "id": "ch-tuna-2",
-    "slug": "tuna-presentacion-2",
-    "title": "Tuna, presentación 2",
-    "subtitle": "Segunda presentación",
-    "description": "Segunda presentación de la tuna durante la maratón.",
-    "category": "capsulas",
-    "series": "",
-    "episode": null,
-    "provider": "drive",
-    "providerId": "1r3OdgQIwkpwSBybOO2EOX-mB4bfXtN1w",
-    "durationSeconds": 13,
-    "posterUrl": "",
-    "publishedAt": "2026-11-21",
-    "featured": false,
-    "sortOrder": 15,
-    "status": "published",
-    "createdAt": "2026-11-27T00:00:00.000Z",
-    "updatedAt": "2026-11-27T00:00:00.000Z",
-    "updatedBy": "semilla"
   }
 ]

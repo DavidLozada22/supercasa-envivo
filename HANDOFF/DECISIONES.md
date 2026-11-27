@@ -464,7 +464,7 @@ guarda el ID y arma el iframe de Drive. No se suben a Vercel Blob ni a otro
 servicio de video.
 
 El visor de Drive es un iframe cerrado: no expone play, pausa ni búsqueda. El
-player propio queda en el código para un archivo directo futuro. Los 15 capítulos
+player propio queda en el código para un archivo directo futuro. Los 14 capítulos
 usan el iframe con `autoplay=1&rm=minimal`, sin el enlace "Abrir el video en
 Drive" y con un badge lima en la esquina superior derecha que tapa el botón de
 Drive. El primer clic puede seguir necesitando el play interno de Drive; no se
@@ -476,7 +476,7 @@ catálogo ya soporta `provider = file`.
 
 ## 49. No hay videos en el repositorio
 
-Los 15 capítulos salen de Drive. El repositorio solo guarda el catálogo. Los
+Los 14 capítulos salen de Drive. El repositorio solo guarda el catálogo. Los
 videos del promo que ya existían en `public/video` son piezas de la campaña, no
 capítulos.
 
@@ -510,5 +510,5 @@ Para que el ID del archivo no quede en el HTML inicial, la lista pública usa
 `/api/chapters/embed/<slug>`. El `embedUrl` del JSON-LD apunta a la página del
 capítulo, no a Drive.
 
-Los 15 capítulos de Drive se cargan con `autoplay=1&rm=minimal` y un badge lima
+Los 14 capítulos de Drive se cargan con `autoplay=1&rm=minimal` y un badge lima
 sobre el botón de Drive.

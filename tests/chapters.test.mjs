@@ -21,16 +21,16 @@ const uiFiles = [
   'lib/chapters/seed.json',
 ];
 
-test('el archivo tiene los quince capítulos y sus categorías', () => {
-  assert.equal(seed.length, 15);
-  assert.equal(new Set(seed.map((chapter) => chapter.id)).size, 15);
-  assert.equal(new Set(seed.map((chapter) => chapter.slug)).size, 15);
+test('el archivo tiene los catorce capítulos y sus categorías', () => {
+  assert.equal(seed.length, 14);
+  assert.equal(new Set(seed.map((chapter) => chapter.id)).size, 14);
+  assert.equal(new Set(seed.map((chapter) => chapter.slug)).size, 14);
 
   const count = (category) => seed.filter((chapter) => chapter.category === category).length;
   assert.equal(count('podcast'), 6);
   assert.equal(count('musica'), 1);
   assert.equal(count('momentos'), 6);
-  assert.equal(count('capsulas'), 2);
+  assert.equal(count('capsulas'), 1);
 
   assert.equal(seed.filter((chapter) => chapter.featured).length, 3);
   assert.ok(seed.every((chapter) => chapter.title && chapter.providerId));
@@ -49,12 +49,12 @@ test('el archivo tiene los quince capítulos y sus categorías', () => {
   assert.ok(seed.some((chapter) => chapter.slug === 'machare-pasame-la-botella-y-mi-cura'));
 });
 
-test('los quince capítulos salen de Drive y no hay videos locales', () => {
+test('los catorce capítulos salen de Drive y no hay videos locales', () => {
   const drive = seed.filter((chapter) => chapter.provider === 'drive');
-  assert.equal(drive.length, 15);
+  assert.equal(drive.length, 14);
   assert.ok(drive.every((chapter) => /^[\w-]{20,}$/.test(chapter.providerId)));
   assert.ok(drive.some((chapter) => chapter.providerId === '1fr3V9uTyKi_7K1vShAGzzB8TMHxniEA8'));
-  assert.ok(drive.some((chapter) => chapter.providerId === '1r3OdgQIwkpwSBybOO2EOX-mB4bfXtN1w'));
+  assert.ok(drive.some((chapter) => chapter.providerId === '1QJFFk0Z2AkKv9ny3FTGoIqb4lxboCVSm'));
   assert.ok(!seed.some((chapter) => chapter.provider === 'file'));
   assert.ok(!existsSync('public/video/tuna-presentacion-2.mp4'));
   assert.ok(!existsSync('public/video/tuna-presentacion-2.jpg'));

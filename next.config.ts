@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         destination: "/capitulos/eres-unico-carlos-alberto",
         permanent: true,
       },
+      {
+        source: "/capitulos/tuna-presentacion-2",
+        destination: "/capitulos/presentacion-de-la-tuna",
+        permanent: true,
+      },
     ];
   },
   async headers() {

@@ -26,21 +26,21 @@ Actualizado: 27 de noviembre de 2026.
 
 ### 27 de noviembre, archivo de capítulos
 
-- Nueva ruta pública `/capitulos` con los 15 videos del archivo de la maratón:
+- Nueva ruta pública `/capitulos` con los 14 videos del archivo de la maratón:
   cuatro entrevistas de Hilos Invisibles, dos de Eres Único, no el único, Machare
-  cantando Pásame la botella y Mi cura, seis momentos y dos cápsulas.
+  cantando Pásame la botella y Mi cura, seis momentos y una cápsula.
 - Los videos se quedan en Google Drive. El sitio guarda solo el ID, arma el
-  iframe con `autoplay=1`, tapa el botón de Drive con un badge lima y no muestra el
-  enlace para abrir o descargar el archivo.
+  iframe con `autoplay=1&rm=minimal`, tapa el botón de Drive con un badge lima y
+  no muestra el enlace para abrir o descargar el archivo.
 - El catálogo vive en la tabla `chapters` de Postgres
-  (`supabase/migrations/20261127000000_chapters.sql`). Se siembra sola con los 15
+  (`supabase/migrations/20261127000000_chapters.sql`). Se siembra sola con los 14
   capítulos cuando la tabla está vacía.
 - Admin `/admin/capitulos` para admin, editor y marketing: crear, editar,
   publicar, ocultar, destacar, ordenar y borrar. Las miniaturas salen del
   thumbnail de Drive vía `/api/chapters/poster/<slug>`.
 - Destacados en el home y en el archivo: Eres Único, no el único con Carlos
   Alberto, Recorrido por las habitaciones y Machare canciones.
-- Los 15 capítulos salen de Drive. No hay videos en el repositorio ni en
+- Los 14 capítulos salen de Drive. No hay videos en el repositorio ni en
   Vercel Blob.
 - Enlaces en el header, menú móvil, home y en la pantalla de cierre de `/envivo`.
   Sitemap, metadatos y `VideoObject` por capítulo. Indexado en Google.
@@ -49,9 +49,9 @@ Actualizado: 27 de noviembre de 2026.
   `eres-unico-carlos-alberto`; los links viejos redirigen.
 - El player propio con play, barra de avance, retroceso y adelanto de 10
   segundos, volumen y pantalla completa queda en el código para un futuro
-  archivo directo. Los 15 capítulos actuales usan el iframe de Drive con sus
+  archivo directo. Los 14 capítulos actuales usan el iframe de Drive con sus
   propios controles. No se pueden reemplazar sin sacar el video de Drive.
-- Verificado en local: `/capitulos` 200 con 15 capítulos, detalle 200, home con
+- Verificado en local: `/capitulos` 200 con 14 capítulos, detalle 200, home con
   la franja, `/envivo` con el botón y el iframe de Drive con el badge lima. 96
   pruebas pasan y `npm run build` compila.
 - Pendiente: subir las otras entrevistas que falten, escribir las descripciones

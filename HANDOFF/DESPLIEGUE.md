@@ -213,7 +213,7 @@ versión completa de 88 creatives está en la carpeta local
 - El sitio guarda el ID, no la URL de descarga. El iframe se arma en
   `/api/chapters/embed/<slug>` con `?autoplay=1&rm=minimal` y las miniaturas en
   `/api/chapters/poster/<slug>`.
-- Los 15 capítulos, incluida la tuna, se referencian desde Drive. No hay videos
+- Los 14 capítulos, incluida la tuna, se referencian desde Drive. No hay videos
   de capítulos en `public/video`; esa carpeta solo tiene el promo de la campaña.
 - No hay store de video en uso. El store de prueba `supercasa-videos` quedó
   vacío; se puede borrar en una terminal con
