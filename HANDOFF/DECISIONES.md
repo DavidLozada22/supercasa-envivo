@@ -517,5 +517,5 @@ sobre el botón de Drive.
 
 Cada capítulo guarda `instagram` y `website` en Postgres. El detalle muestra
 botones de Instagram y sitio web cuando existen. Patricia y Carlos usan el
-Instagram y el sitio de la Fundación. Lidia, Diego y Magda quedan con los campos
-vacíos hasta que se carguen sus handles oficiales. El panel permite editarlos.
+Instagram y el sitio de la Fundación. Lidia, Diego y Magda tienen sus Instagram
+cargados. El panel permite editarlos.

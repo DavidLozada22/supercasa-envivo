@@ -366,8 +366,8 @@ aquí y en `ESTADO.md`.
   demás. Si Drive no genera la vista previa de `S02-21`, quitar ese capítulo o
   dejar solo la presentación de 3:48.
 - Manual: abrir Patricia y Carlos y confirmar los botones de Instagram y Sitio
-  web de la Fundación. Abrir Lidia, Diego y Magda y confirmar el nombre completo;
-  los botones de Instagram aparecerán cuando se carguen sus handles.
+  web de la Fundación. Abrir Lidia, Diego y Magda y confirmar el nombre completo
+  y el botón de Instagram con su handle.
 - Manual: en `/admin/capitulos`, editar un capítulo, cargar Instagram y sitio web,
   guardar y confirmar los botones en el detalle.
 - Manual: abrir `/admin/capitulos` con admin, marketing y editor. Crear un

@@ -56,6 +56,18 @@ test('el archivo tiene los catorce capítulos y sus categorías', () => {
     assert.equal(chapter.instagram, fundacionIg);
     assert.equal(chapter.website, fundacionWeb);
   }
+  assert.equal(
+    seed.find((chapter) => chapter.id === 'ch-lidia').instagram,
+    'https://www.instagram.com/lidiapaipacoach/',
+  );
+  assert.equal(
+    seed.find((chapter) => chapter.id === 'ch-chapa').instagram,
+    'https://www.instagram.com/chapa.diego3/',
+  );
+  assert.equal(
+    seed.find((chapter) => chapter.id === 'ch-magda').instagram,
+    'https://www.instagram.com/magdamateuscoach/',
+  );
   assert.ok(seed.some((chapter) => chapter.slug === 'machare-pasame-la-botella-y-mi-cura'));
 });
 
