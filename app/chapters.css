@@ -542,10 +542,25 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 12px;
+  height: 72px;
+  padding: 0 14px;
   border-radius: 0 0 0 12px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.chapter-player__mask::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 240px;
+  height: 92px;
+  background: transparent;
   pointer-events: auto;
 }
 
@@ -943,8 +958,14 @@
 
   .chapter-player__mask {
     gap: 4px;
-    padding: 7px 8px;
+    height: 56px;
+    padding: 0 8px;
     border-radius: 0 0 0 9px;
+  }
+
+  .chapter-player__mask::before {
+    width: 180px;
+    height: 74px;
   }
 
   .chapter-player__mask-fsv {

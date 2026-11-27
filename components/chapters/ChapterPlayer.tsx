@@ -274,12 +274,14 @@ export default function ChapterPlayer({
               className="chapter-player__mask-fsv"
               src="/img/logo-fsv-official.png"
               alt=""
+              draggable={false}
             />
             <span className="chapter-player__mask-cross">×</span>
             <img
               className="chapter-player__mask-kavanah"
               src="/img/kavanah-horizontal-gold.png"
               alt=""
+              draggable={false}
             />
           </span>
         </>
