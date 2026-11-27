@@ -4,6 +4,7 @@
 @import "./thanks.css";
 @import "./song.css";
 @import "./streaming.css";
+@import "./chapters.css";
 
 /* Fondo de tablero para previsualizar overlays transparentes */
 .scene-preview--overlay {

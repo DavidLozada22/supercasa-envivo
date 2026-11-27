@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, CalendarClock, Heart, Instagram, Music2, Youtube } from "lucide-react";
+import { ArrowUpRight, CalendarClock, Heart, Instagram, Music2, Play, Youtube } from "lucide-react";
 import { KAVANAH, THANKS, daysLeftLabel } from "@/lib/thanks";
 import SongButton from "@/components/public/SongButton";
 
@@ -85,6 +85,12 @@ export default function ThanksScene({ variant = "full" }: { variant?: "full" | "
               <ArrowUpRight className="h-[18px] w-[18px]" strokeWidth={2} aria-hidden="true" />
               {THANKS.secondary}
             </a>
+            {variant !== "mini" ? (
+              <Link href="/capitulos" className="thanks-scene__cta thanks-scene__cta--ghost">
+                <Play className="h-[18px] w-[18px]" strokeWidth={2} aria-hidden="true" />
+                {THANKS.chapters}
+              </Link>
+            ) : null}
           </div>
 
           <p className="thanks-scene__note">{THANKS.note}</p>

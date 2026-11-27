@@ -350,6 +350,26 @@ aquí y en `ESTADO.md`.
 - En celular, abrir el editor de una cortina. El preview debe quedar dentro del
   ancho de la pantalla y el formulario debe poder desplazarse.
 
+## Capítulos y archivo
+
+- `node --test tests/chapters.test.mjs` cubre la semilla de 15 capítulos, las
+  categorías, los tres destacados, los IDs de Drive, el clip local de la tuna, las
+  rutas, el sitemap, el header y el panel.
+- Manual en local: abrir `/capitulos`, probar los cuatro filtros y el buscador.
+  Cada tarjeta debe abrir su detalle.
+- Manual: en un detalle, pulsar reproducir. El iframe de Drive debe cargar y el
+  video debe sonar. Probar "Abrir el video en Drive" y los botones de compartir.
+- Manual: abrir `/admin/capitulos` con admin, marketing y editor. Crear un
+  capítulo oculto con un link de Drive, publicarlo, destacarlo, reordenarlo y
+  borrarlo.
+- Manual: pegar el link de la carpeta en el formulario. Debe responder "Ese es el
+  link de la carpeta. Abre el video y pega el link del archivo."
+- Manual: abrir el home y `/envivo` después del evento. La franja "Revive las 48
+  horas" y el botón "Ver los capítulos" deben llevar al archivo.
+- Manual: abrir `/sitemap.xml` y confirmar `/capitulos` y los 15 slugs.
+- Manual en iPhone Safari: reproducir un capítulo de Drive y confirmar que el
+  iframe no se bloquea.
+
 ## Verificación en producción
 
 - Login de lina: rol finance y redirección a `/admin/recaudo`.

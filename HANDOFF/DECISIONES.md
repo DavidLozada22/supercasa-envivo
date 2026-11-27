@@ -456,3 +456,40 @@ asi que buscar ese valor dejaba al espectador donde mismo. Ahora el boton
 reanuda primero y hace el salto 900 ms despues, cuando la duracion ya se
 actualizo. A los 2 segundos verifica y repite el salto si sigue atras. Durante
 esa ventana el boton no reaparece. En pruebas dejo 0 segundos de diferencia.
+
+## 48. El archivo de capítulos vive en Drive, el catálogo en Postgres
+
+No se paga hosting de video. Los archivos se quedan en la carpeta de Drive del
+equipo y el sitio guarda solo el ID del archivo. El player se carga al hacer clic
+y usa el visor de Drive, así que el video se reproduce dentro de la página sin
+moverlo a otro servicio.
+
+Drive no es un CDN y no genera vista previa de todos los archivos. Si más
+adelante se quiere un player propio, se codifica el video y se mueve a Cloudflare
+R2 en su capa gratuita. El catálogo no cambia: solo se ajusta el proveedor y el
+ID.
+
+El catálogo no usa Vercel Blob, que sigue suspendido en el team de David. La
+tabla `chapters` se crea con una migración y también en tiempo de ejecución. Si la
+tabla está vacía, se siembra con los 15 capítulos iniciales.
+
+## 49. El clip de la tuna se queda en el sitio
+
+El archivo `S02-21` es un MP4 válido de 13 segundos, pero Drive no genera su
+vista previa y el embed no reproduce. Se reencodeó a 720p, pesa 738 KB y se sirve
+desde `public/video/tuna-presentacion-2.mp4`. Es la única excepción al esquema de
+Drive y no justifica contratar nada.
+
+## 50. Los capítulos se indexan
+
+El archivo es contenido público de la Fundación, así que `/capitulos` y cada
+detalle entran al sitemap, tienen canonical, Open Graph con la miniatura de Drive
+y `VideoObject` con duración y fecha. La página no reemplaza al podcast: lo
+ordena y lo deja compartible por capítulo.
+
+## 51. Un solo proveedor por capítulo
+
+Cada capítulo guarda `provider` (`drive` o `file`) y `providerId`. Las páginas no
+arman URLs a mano: `embedUrl`, `watchUrl` y `posterFor` resuelven el proveedor.
+Agregar R2, Vimeo o un archivo propio más adelante es un valor nuevo en esa
+columna, no una reescritura del catálogo.

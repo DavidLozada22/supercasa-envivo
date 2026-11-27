@@ -1,11 +1,11 @@
 # Estado
 
-Actualizado: 23 de noviembre de 2026.
+Actualizado: 27 de noviembre de 2026.
 
 ## Resumen actual
 
 - Producción: `https://supercasa.svgvisual.com`, desplegada por GitHub Actions.
-- Panel: `/admin` con Estudio, Streaming, Programa, Recaudo, Campañas y avisos.
+- Panel: `/admin` con Estudio, Capítulos, Streaming, Programa, Recaudo, Campañas y avisos.
 - Donaciones: el webhook de Wompi quedó configurado el 21 de noviembre. Antes
   `events_url` estaba en `null` y los eventos salían "Sin URL" en el Debugger.
 - Diagnóstico de los diez registros de Wompi:
@@ -23,6 +23,31 @@ Actualizado: 23 de noviembre de 2026.
   para no contarlo dos veces.
 
 ## Hecho
+
+### 27 de noviembre, archivo de capítulos
+
+- Nueva ruta pública `/capitulos` con los 15 videos del archivo de la maratón:
+  seis entrevistas de Hilos Invisibles, Machare cantando Pásame la botella y Mi
+  cura, seis momentos y dos cápsulas.
+- Los videos se quedan en Google Drive y se incrustan con el player de Drive. No
+  se paga hosting de video ni se depende de Blob.
+- El catálogo vive en la tabla `chapters` de Postgres
+  (`supabase/migrations/20261127000000_chapters.sql`). Se siembra sola con los 15
+  capítulos cuando la tabla está vacía.
+- Admin `/admin/capitulos` para admin, editor y marketing: crear, editar,
+  publicar, ocultar, destacar, ordenar y borrar. Las miniaturas salen del
+  thumbnail público de Drive.
+- Destacados en el home y en el archivo: Hilos Invisibles con Carlos Alberto,
+  Recorrido por las habitaciones y Machare canciones.
+- `S02-21` (tuna, 13 s) no lo previsualiza Drive. Se reencodeó a 720p y quedó en
+  `public/video/tuna-presentacion-2.mp4` (738 KB), con su miniatura.
+- Enlaces en el header, menú móvil, home y en la pantalla de cierre de `/envivo`.
+  Sitemap, metadatos y `VideoObject` por capítulo. Indexado en Google.
+- Verificado en local: `/capitulos` 200 con 15 capítulos, detalle 200, home con
+  la franja, `/envivo` con el botón, y la API con rol admin crea, publica,
+  destaca y borra. 95 pruebas pasan y `npm run build` compila.
+- Pendiente: subir las otras entrevistas que faltan, escribir las descripciones
+  de Chapa, Lidia, Magda y Machare, y probar los embeds en iPhone Safari real.
 
 ### 23 de noviembre, canción oficial y recaudo visible
 
@@ -561,6 +586,13 @@ Actualizado: 23 de noviembre de 2026.
 - Handoff actualizado con decisiones y flujo.
 
 ## Pendiente
+
+### Capítulos
+
+- Cargar en `/admin/capitulos` las entrevistas que faltan.
+- Completar las descripciones de Chapa, Lidia, Magda y Machare.
+- Probar los embeds de Drive en iPhone Safari real.
+- Confirmar con Machare y la tuna la autorización para publicar sus videos.
 
 ### Para el evento
 

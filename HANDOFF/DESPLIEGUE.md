@@ -199,3 +199,17 @@ versión completa de 88 creatives está en la carpeta local
   `/cortinas/<id>.png`, `/pantalla/<id>` y `/audio/<archivo>.mp3`.
 - Las tres pistas nuevas están en `public/audio` y se sirven desde el dominio.
 - `npm run obs:assets` regenera `assets/obs` y su manifiesto.
+
+## Capítulos
+
+- `/capitulos` y `/capitulos/[slug]` son públicas e indexables. Entran en
+  `/sitemap.xml` y no están bloqueadas en `robots.txt`.
+- El catálogo usa la tabla `chapters` de Postgres. La migración es
+  `supabase/migrations/20261127000000_chapters.sql` y la tabla también se crea en
+  runtime. No requiere variables nuevas.
+- Los videos viven en la carpeta de Drive `VIDEOS HILOS INVISIBLES`. La carpeta y
+  cada archivo deben seguir compartidos como "cualquier persona con el enlace".
+  Si se cambian los permisos, los embeds dejan de cargar.
+- `public/video/tuna-presentacion-2.mp4` es la única excepción, porque Drive no
+  previsualiza el original.
+- El catálogo no escribe en Blob.

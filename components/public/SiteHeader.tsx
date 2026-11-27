@@ -9,7 +9,7 @@ const START = new Date("2026-11-20T18:00:00-05:00").getTime();
 const END = new Date("2026-11-22T18:00:00-05:00").getTime();
 const PREVIEW = process.env.NEXT_PUBLIC_HEADER_LIVE === "1";
 
-export type SiteSection = "campaign" | "live" | "donate" | "legal";
+export type SiteSection = "campaign" | "live" | "donate" | "legal" | "chapters";
 
 function remainingLabel(ms: number): string {
   const minutes = Math.max(0, Math.ceil(ms / 60000));
@@ -128,6 +128,13 @@ export default function SiteHeader({
             >
               Maratón 48 horas
             </Link>
+            <Link
+              href="/capitulos"
+              className="site-btn"
+              aria-current={current === "chapters" ? "page" : undefined}
+            >
+              Capítulos
+            </Link>
             <Link href="/envivo#avisame" className="site-btn">
               Avísame
             </Link>
@@ -196,6 +203,13 @@ export default function SiteHeader({
               <span>
                 Maratón 48 horas
                 <small>{live ? "Estamos en vivo ahora" : "Viernes 20, 6:00 p. m., hora Bogotá"}</small>
+              </span>
+              <ChevronRight className="h-5 w-5" strokeWidth={2} />
+            </Link>
+            <Link href="/capitulos" className="site-menu__link">
+              <span>
+                Capítulos
+                <small>Hilos Invisibles, música y momentos del archivo</small>
               </span>
               <ChevronRight className="h-5 w-5" strokeWidth={2} />
             </Link>

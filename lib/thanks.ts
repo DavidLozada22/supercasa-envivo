@@ -34,5 +34,6 @@ export const THANKS = {
   note: "La transmisión terminó. La campaña sigue abierta.",
   primary: "Donar ahora",
   secondary: "Conoce Kavanah",
+  chapters: "Ver los capítulos",
   houseAlt: "La Supercasa terminada, con sus cuatro pisos y la terraza",
 };
